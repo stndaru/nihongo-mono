@@ -1,6 +1,6 @@
+import { Chip, ChipGroup } from '@/components/ui/chip'
 import type { ClassGroup } from '@/lib/conjugation'
 import type { JlptLevel } from '@/lib/data/types'
-import { cn } from '@/lib/utils'
 
 export interface VerbListFilters {
   levels: JlptLevel[]
@@ -8,44 +8,6 @@ export interface VerbListFilters {
   ending?: 'ru' | 'other'
   trans?: 'vt' | 'vi'
   common?: boolean
-}
-
-function Chip({
-  active,
-  onClick,
-  children,
-  title,
-}: {
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-  title?: string
-}) {
-  return (
-    <button
-      type="button"
-      title={title}
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        'h-7 rounded-md border px-2 text-xs transition-colors duration-100',
-        active
-          ? 'border-primary/50 bg-primary/10 font-medium text-primary'
-          : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-      )}
-    >
-      {children}
-    </button>
-  )
-}
-
-function ChipGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-1">
-      <span className="mr-0.5 text-xs text-muted-foreground">{label}</span>
-      {children}
-    </div>
-  )
 }
 
 export function VerbFilters({
