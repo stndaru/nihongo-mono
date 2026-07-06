@@ -13,7 +13,14 @@ import {
 import { useProgress } from '@/lib/progress/context'
 import { mergeProgress, parseImported, type ProgressData } from '@/lib/progress/store'
 import { downloadProgress, readFileText } from '@/lib/progress/transfer'
-import { getTheme, setTheme, type Theme } from '@/lib/theme'
+import {
+  getFontPref,
+  getTheme,
+  setFontPref,
+  setTheme,
+  type FontChoice,
+  type Theme,
+} from '@/lib/theme'
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
@@ -30,6 +37,14 @@ function SettingsPage() {
   const pickTheme = (t: Theme) => {
     setTheme(t)
     setThemeState(t)
+  }
+
+  const [fontJa, setFontJa] = useState<FontChoice>(() => getFontPref('ja'))
+  const [fontText, setFontText] = useState<FontChoice>(() => getFontPref('text'))
+  const pickFont = (kind: 'ja' | 'text', choice: FontChoice) => {
+    setFontPref(kind, choice)
+    if (kind === 'ja') setFontJa(choice)
+    else setFontText(choice)
   }
 
   const onFile = async (file: File | undefined) => {
@@ -65,6 +80,33 @@ function SettingsPage() {
             </Chip>
           ))}
         </ChipGroup>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-sm font-medium">Typography</h2>
+        <div className="space-y-2">
+          <ChipGroup label="Japanese characters">
+            {(['serif', 'sans'] as const).map((c) => (
+              <Chip key={c} active={fontJa === c} onClick={() => pickFont('ja', c)}>
+                {c === 'serif' ? 'Serif (明朝)' : 'Sans-serif (ゴシック)'}
+              </Chip>
+            ))}
+          </ChipGroup>
+          <ChipGroup label="Text content">
+            {(['serif', 'sans'] as const).map((c) => (
+              <Chip key={c} active={fontText === c} onClick={() => pickFont('text', c)}>
+                {c === 'serif' ? 'Serif' : 'Sans-serif'}
+              </Chip>
+            ))}
+          </ChipGroup>
+        </div>
+        <p className="text-lg">
+          <span lang="ja">食べる・たべる</span>
+          <span className="text-muted-foreground">
+            {' '}
+            — The quick brown fox jumps over the lazy dog
+          </span>
+        </p>
       </section>
 
       <section className="space-y-2">

@@ -78,10 +78,25 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: ui-sans-serif, system-ui, sans-serif, "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", "BIZ UDPGothic", Meiryo, "Noto Sans JP", sans-serif;
-  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho",
-    "Noto Serif JP", Georgia, ui-serif, serif;
+}
+
+/*
+ * Typography preferences (Settings → Typography).
+ * Latin stacks carry no generic family so Japanese glyphs in mixed text fall
+ * through to the Japanese stack; the Japanese stacks end with the generic.
+ * Defaults are serif/serif; data attributes are set pre-paint in index.html.
+ */
+:root {
+  --font-latin: Georgia, "Times New Roman", ui-serif;
+  --font-ja: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho",
+    "Noto Serif JP", serif;
+}
+:root[data-font-text="sans"] {
+  --font-latin: ui-sans-serif, system-ui, "Segoe UI", Arial;
+}
+:root[data-font-ja="sans"] {
+  --font-ja: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic",
+    Meiryo, "Noto Sans JP", sans-serif;
 }
 
 @layer base {
@@ -95,7 +110,11 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-serif);
+    /* Latin choice first; Japanese glyphs fall through to the JA choice */
+    font-family: var(--font-latin), var(--font-ja);
+  }
+  [lang="ja"] {
+    font-family: var(--font-ja);
   }
   /* furigana: keep rows compact but readable */
   ruby rt {
