@@ -1,16 +1,107 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { BookOpen, Flame, ListChecks, Target } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useProgress } from '@/lib/progress/context'
+import { streakAtRisk, streakBroken } from '@/lib/progress/streak'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({
   component: Dashboard,
 })
 
-function Dashboard() {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  sub,
+  highlight,
+}: {
+  icon: typeof Flame
+  label: string
+  value: string
+  sub?: string
+  highlight?: boolean
+}) {
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <p className="mt-2 text-muted-foreground">
-        Streak, accuracy, and study stats will live here.
-      </p>
+    <div className="rounded-lg border p-4">
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <Icon className="size-3.5" />
+        {label}
+      </div>
+      <div className={cn('mt-1.5 text-2xl font-semibold', highlight && 'text-primary')}>
+        {value}
+      </div>
+      {sub && <div className="mt-0.5 text-xs text-muted-foreground">{sub}</div>}
+    </div>
+  )
+}
+
+function Dashboard() {
+  const { progress } = useProgress()
+
+  const totalAnswers = progress.sessions.reduce((a, s) => a + s.total, 0)
+  const totalCorrect = progress.sessions.reduce((a, s) => a + s.correct, 0)
+  const accuracy = totalAnswers > 0 ? Math.round((totalCorrect / totalAnswers) * 100) : null
+  const verbsSeen = Object.keys(progress.verbs).length
+  const broken = streakBroken(progress.streak)
+  const shownStreak = broken ? 0 : progress.streak.current
+  const atRisk = !broken && streakAtRisk(progress.streak)
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-semibold">
+          <span lang="ja" className="text-primary">
+            日本語
+          </span>{' '}
+          mono
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          A fast little verb dictionary and conjugation trainer. No login — your
+          progress lives in this browser.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+        <StatCard
+          icon={Flame}
+          label="Day streak"
+          value={String(shownStreak)}
+          sub={
+            atRisk
+              ? 'at risk — study today!'
+              : progress.streak.best > 0
+                ? `best: ${progress.streak.best}`
+                : 'do a quiz to start one'
+          }
+          highlight={shownStreak > 0 && !atRisk}
+        />
+        <StatCard
+          icon={Target}
+          label="Accuracy"
+          value={accuracy === null ? '—' : `${accuracy}%`}
+          sub={totalAnswers > 0 ? `${totalCorrect}/${totalAnswers} answers` : undefined}
+        />
+        <StatCard
+          icon={BookOpen}
+          label="Verbs practiced"
+          value={String(verbsSeen)}
+        />
+        <StatCard
+          icon={ListChecks}
+          label="Sessions"
+          value={String(progress.sessions.length)}
+        />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button size="lg" asChild>
+          <Link to="/quiz">Start a quiz</Link>
+        </Button>
+        <Button size="lg" variant="outline" asChild>
+          <Link to="/verbs">Browse verbs</Link>
+        </Button>
+      </div>
     </div>
   )
 }

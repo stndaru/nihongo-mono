@@ -1,5 +1,6 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { Header } from '@/components/layout/Header'
+import { ProgressProvider } from '@/lib/progress/context'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -7,6 +8,14 @@ export const Route = createRootRoute({
 })
 
 function RootLayout() {
+  return (
+    <ProgressProvider>
+      <RootShell />
+    </ProgressProvider>
+  )
+}
+
+function RootShell() {
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />

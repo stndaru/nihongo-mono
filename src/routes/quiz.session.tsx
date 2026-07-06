@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { toHiragana } from 'wanakana'
 import { AnswerFeedback } from '@/components/quiz/AnswerFeedback'
@@ -9,6 +9,7 @@ import { Furigana } from '@/components/verbs/Furigana'
 import { FORM_LABELS, type ConjugatedForm } from '@/lib/conjugation'
 import { loadVerbLevels } from '@/lib/data/loader'
 import type { VerbEntry } from '@/lib/data/types'
+import { useProgress } from '@/lib/progress/context'
 import { parseConfig, sanitizeSearch } from '@/lib/quiz/config'
 import { generateSession, type Question } from '@/lib/quiz/engine'
 
@@ -65,22 +66,45 @@ function QuizSessionPage() {
   const config = useMemo(() => parseConfig(search), [JSON.stringify(search)])
   const [verbs, setVerbs] = useState<VerbEntry[] | null>(null)
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
+  const { progress, recordSession } = useProgress()
+
+  // latest progress without re-generating the session when it changes
+  const progressRef = useRef(progress)
+  progressRef.current = progress
+  const seenCount = useCallback(
+    (verbId: string) => progressRef.current.verbs[verbId]?.seen ?? 0,
+    [],
+  )
 
   useEffect(() => {
     let alive = true
     loadVerbLevels(config.levels).then((list) => {
       if (!alive) return
       setVerbs(list)
-      dispatch({ type: 'init', questions: generateSession(config, list) })
+      dispatch({ type: 'init', questions: generateSession(config, list, seenCount) })
     })
     return () => {
       alive = false
     }
-  }, [config])
+  }, [config, seenCount])
 
   const retry = useCallback(() => {
-    if (verbs) dispatch({ type: 'init', questions: generateSession(config, verbs) })
-  }, [verbs, config])
+    if (verbs) dispatch({ type: 'init', questions: generateSession(config, verbs, seenCount) })
+  }, [verbs, config, seenCount])
+
+  // commit results exactly once per finished session
+  const recordedFor = useRef<Question[] | null>(null)
+  useEffect(() => {
+    if (state.phase !== 'done' || recordedFor.current === state.questions) return
+    recordedFor.current = state.questions
+    recordSession({
+      answers: state.results.map((r) => ({
+        verbId: r.question.verb.id,
+        correct: r.correct,
+      })),
+      forms: state.results.map((r) => r.question.form),
+    })
+  }, [state, recordSession])
 
   const onNext = useCallback(() => dispatch({ type: 'next' }), [])
 

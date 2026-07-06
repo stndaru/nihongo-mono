@@ -8,7 +8,7 @@
   },
   "overrides": [
     {
-      "files": ["src/routes/**", "src/components/ui/**"],
+      "files": ["src/routes/**", "src/components/ui/**", "src/lib/progress/context.tsx"],
       "rules": {
         "react/only-export-components": "off"
       }
