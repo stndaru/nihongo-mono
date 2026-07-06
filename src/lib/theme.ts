@@ -4,7 +4,8 @@ const STORAGE_KEY = 'nihongo-mono:theme'
 
 export function getTheme(): Theme {
   const t = localStorage.getItem(STORAGE_KEY)
-  return t === 'light' || t === 'dark' ? t : 'system'
+  // default is light — 'system' is opt-in via settings
+  return t === 'dark' || t === 'system' ? t : 'light'
 }
 
 export function applyTheme(theme: Theme): void {

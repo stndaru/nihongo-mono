@@ -35,19 +35,18 @@ export function ConjugationTable({ verb }: { verb: VerbEntry }) {
                         className="cursor-pointer border-b border-border/60 hover:bg-muted/50"
                         onClick={() => setOpen(isOpen ? null : form)}
                       >
-                        <td className="w-40 py-1.5 pr-2 sm:w-52">
-                          <div className="font-medium">{FORM_LABELS[form].label}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {FORM_LABELS[form].hint}
-                          </div>
+                        <td className="w-36 py-2 pr-3 font-medium sm:w-48">
+                          {FORM_LABELS[form].label}
                         </td>
-                        <td lang="ja" className="py-1.5 pr-2 text-base">
+                        {/* fixed-width kanji column keeps the kana column aligned
+                            so the eye scans straight down each script */}
+                        <td lang="ja" className="w-[11em] py-2 pr-4 text-base">
                           {c.kanji}
-                          {c.kanji !== c.kana && (
-                            <span className="ml-2 text-sm text-muted-foreground">{c.kana}</span>
-                          )}
                         </td>
-                        <td className="w-8 py-1.5 text-right">
+                        <td lang="ja" className="py-2 pr-2 text-base text-muted-foreground">
+                          {c.kanji !== c.kana ? c.kana : ''}
+                        </td>
+                        <td className="w-8 py-2 text-right">
                           <ChevronDown
                             className={cn(
                               'ml-auto size-4 text-muted-foreground transition-transform duration-150',
@@ -58,7 +57,7 @@ export function ConjugationTable({ verb }: { verb: VerbEntry }) {
                       </tr>
                       {isOpen && (
                         <tr className="border-b border-border/60">
-                          <td colSpan={3} className="py-2">
+                          <td colSpan={4} className="py-2">
                             <RuleCheatsheet form={form} verbClass={verb.class} />
                           </td>
                         </tr>

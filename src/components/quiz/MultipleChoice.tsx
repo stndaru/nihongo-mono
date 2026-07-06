@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+import { Furigana } from '@/components/verbs/Furigana'
 import type { ConjugatedForm } from '@/lib/conjugation'
+import { pairFurigana } from '@/lib/data/furigana'
 
 export function MultipleChoice({
   choices,
@@ -30,12 +32,7 @@ export function MultipleChoice({
           <span className="flex size-6 shrink-0 items-center justify-center rounded border text-xs text-muted-foreground">
             {i + 1}
           </span>
-          <span lang="ja" className="text-lg">
-            {choice.kanji}
-            {choice.kanji !== choice.kana && (
-              <span className="ml-2 text-sm text-muted-foreground">{choice.kana}</span>
-            )}
-          </span>
+          <Furigana segments={pairFurigana(choice.kanji, choice.kana)} className="text-lg" />
         </button>
       ))}
     </div>

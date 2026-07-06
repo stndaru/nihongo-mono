@@ -47,10 +47,10 @@ export function VerbFilters({
       </ChipGroup>
       <ChipGroup label="Type">
         <Chip active={filters.group === 'godan'} onClick={() => toggle('group', 'godan')}>
-          godan
+          Godan
         </Chip>
         <Chip active={filters.group === 'ichidan'} onClick={() => toggle('group', 'ichidan')}>
-          ichidan
+          Ichidan
         </Chip>
         <Chip active={filters.group === 'suru'} onClick={() => toggle('group', 'suru')}>
           する
@@ -64,7 +64,7 @@ export function VerbFilters({
           〜る
         </Chip>
         <Chip active={filters.ending === 'other'} onClick={() => toggle('ending', 'other')}>
-          other
+          Other
         </Chip>
       </ChipGroup>
       <ChipGroup label="Trans.">
@@ -87,7 +87,7 @@ export function VerbFilters({
         active={filters.common === true}
         onClick={() => onChange({ ...filters, common: filters.common ? undefined : true })}
       >
-        common only
+        Common only
       </Chip>
     </div>
   )

@@ -13,10 +13,11 @@
       // Theme FOUC guard: must run before first paint.
       ;(function () {
         try {
+          // default is light; only stored 'dark' or explicit 'system' follows the OS
           var t = localStorage.getItem('nihongo-mono:theme')
           var dark =
             t === 'dark' ||
-            ((t === null || t === 'system') &&
+            (t === 'system' &&
               window.matchMedia('(prefers-color-scheme: dark)').matches)
           if (dark) document.documentElement.classList.add('dark')
         } catch (e) {}

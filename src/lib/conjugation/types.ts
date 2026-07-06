@@ -101,39 +101,160 @@ export interface FormLabel {
   ja: string
   /** Short hint of the meaning, e.g. "don't / won't" */
   hint: string
+  /** A sentence on when/why the form is used. */
+  usage: string
 }
 
 export const FORM_LABELS: Record<ConjugationForm, FormLabel> = {
-  'non-past': { label: 'Non-past', ja: '辞書形', hint: 'do / will do' },
-  'non-past-polite': { label: 'Non-past polite', ja: 'ます形', hint: 'do (polite)' },
-  negative: { label: 'Negative', ja: 'ない形', hint: "don't / won't" },
-  'negative-polite': { label: 'Negative polite', ja: 'ません', hint: "don't (polite)" },
-  past: { label: 'Past', ja: 'た形', hint: 'did' },
-  'past-polite': { label: 'Past polite', ja: 'ました', hint: 'did (polite)' },
-  'past-negative': { label: 'Past negative', ja: 'なかった', hint: "didn't" },
+  'non-past': {
+    label: 'Non-past',
+    ja: '辞書形',
+    hint: 'do / will do',
+    usage:
+      'The plain present/future tense — "I eat", "I will eat". Also the form found in dictionaries and used before nouns (食べる人).',
+  },
+  'non-past-polite': {
+    label: 'Non-past polite',
+    ja: 'ます形',
+    hint: 'do (polite)',
+    usage:
+      'The standard polite present/future, used with strangers, colleagues, and in most everyday adult conversation.',
+  },
+  negative: {
+    label: 'Negative',
+    ja: 'ない形',
+    hint: "don't / won't",
+    usage:
+      'Plain "don\'t / won\'t" for casual speech. Also the base for many patterns such as 〜ないで and 〜なければならない.',
+  },
+  'negative-polite': {
+    label: 'Negative polite',
+    ja: 'ません',
+    hint: "don't (polite)",
+    usage: 'Polite "don\'t / won\'t" — the ます-form counterpart of ない.',
+  },
+  past: {
+    label: 'Past',
+    ja: 'た形',
+    hint: 'did',
+    usage:
+      'Plain past — "ate", "went". Casual speech, and the base for たら conditionals and 〜たことがある (have done before).',
+  },
+  'past-polite': {
+    label: 'Past polite',
+    ja: 'ました',
+    hint: 'did (polite)',
+    usage: 'Polite past for everyday adult conversation.',
+  },
+  'past-negative': {
+    label: 'Past negative',
+    ja: 'なかった',
+    hint: "didn't",
+    usage: 'Plain "didn\'t". Conjugates like an い-adjective in the past (〜なかった).',
+  },
   'past-negative-polite': {
     label: 'Past negative polite',
     ja: 'ませんでした',
     hint: "didn't (polite)",
+    usage: 'Polite "didn\'t" — ません plus でした.',
   },
-  te: { label: 'Te form', ja: 'て形', hint: 'doing / and…' },
-  'te-negative': { label: 'Negative te', ja: 'なくて', hint: 'not doing, so…' },
-  stem: { label: 'Stem', ja: '連用形', hint: 'masu stem' },
-  potential: { label: 'Potential', ja: '可能形', hint: 'can do' },
-  passive: { label: 'Passive', ja: '受身形', hint: 'is done (to me)' },
-  causative: { label: 'Causative', ja: '使役形', hint: 'make / let do' },
+  te: {
+    label: 'Te form',
+    ja: 'て形',
+    hint: 'doing / and…',
+    usage:
+      'The connector form: linking actions (食べて行く), requests (〜てください), ongoing states (〜ている), and permission (〜てもいい). Probably the most useful form to master.',
+  },
+  'te-negative': {
+    label: 'Negative te',
+    ja: 'なくて',
+    hint: 'not doing, so…',
+    usage:
+      '"Not doing X, (so)…" — states a cause or contrast. For "without doing" or negative requests, use 〜ないで instead.',
+  },
+  stem: {
+    label: 'Stem',
+    ja: '連用形',
+    hint: 'masu stem',
+    usage:
+      'The base that ます attaches to. Also combines with other verbs (食べに行く, 書き始める) and stands alone in formal writing.',
+  },
+  potential: {
+    label: 'Potential',
+    ja: '可能形',
+    hint: 'can do',
+    usage:
+      'Expresses ability or possibility — "can eat", "can go". The object usually takes が rather than を (寿司が食べられる).',
+  },
+  passive: {
+    label: 'Passive',
+    ja: '受身形',
+    hint: 'is done (to me)',
+    usage:
+      '"Was done (to someone)" — often with a nuance of being affected (雨に降られた). The same shape is also used as respectful language.',
+  },
+  causative: {
+    label: 'Causative',
+    ja: '使役形',
+    hint: 'make / let do',
+    usage:
+      '"Make or let someone do" — 食べさせる can mean forcing or permitting; context and particles (に/を) decide.',
+  },
   'causative-passive': {
     label: 'Causative-passive',
     ja: '使役受身形',
     hint: 'is made to do',
+    usage:
+      '"Was made to do" — being forced against one\'s will: 野菜を食べさせられた "I was made to eat vegetables".',
   },
-  volitional: { label: 'Volitional', ja: '意向形', hint: "let's / shall" },
-  'volitional-polite': { label: 'Volitional polite', ja: 'ましょう', hint: "let's (polite)" },
-  imperative: { label: 'Imperative', ja: '命令形', hint: 'do it!' },
-  prohibitive: { label: 'Prohibitive', ja: '禁止形', hint: "don't do it!" },
-  'conditional-ba': { label: 'Conditional ば', ja: 'ば形', hint: 'if one does' },
-  'conditional-tara': { label: 'Conditional たら', ja: 'たら形', hint: 'if/when one does' },
-  tai: { label: 'Desire', ja: 'たい形', hint: 'want to do' },
+  volitional: {
+    label: 'Volitional',
+    ja: '意向形',
+    hint: "let's / shall",
+    usage:
+      '"Let\'s…" in casual speech (行こう), or intention when paired with と思う (行こうと思う "I think I\'ll go").',
+  },
+  'volitional-polite': {
+    label: 'Volitional polite',
+    ja: 'ましょう',
+    hint: "let's (polite)",
+    usage: 'The polite "let\'s…" — 行きましょう. Also offers help: 手伝いましょうか.',
+  },
+  imperative: {
+    label: 'Imperative',
+    ja: '命令形',
+    hint: 'do it!',
+    usage:
+      'For giving commands. Generally too abrupt for most situations other than telling off children or husbands but can be softened by adding "please" (kudasai).',
+  },
+  prohibitive: {
+    label: 'Prohibitive',
+    ja: '禁止形',
+    hint: "don't do it!",
+    usage:
+      'A blunt "don\'t do that!" — 行くな. Strong language, mostly heard in fiction, from angry speakers, or on warning signs.',
+  },
+  'conditional-ba': {
+    label: 'Conditional ば',
+    ja: 'ば形',
+    hint: 'if one does',
+    usage:
+      '"If X, then Y" — a neutral, logical condition: 食べれば "if (you) eat". Common in proverbs and general truths.',
+  },
+  'conditional-tara': {
+    label: 'Conditional たら',
+    ja: 'たら形',
+    hint: 'if/when one does',
+    usage:
+      'The most conversational "if/when": 食べたら "if/when (you) eat". Also sequences events — "after doing X".',
+  },
+  tai: {
+    label: 'Desire',
+    ja: 'たい形',
+    hint: 'want to do',
+    usage:
+      '"Want to do" — 食べたい. Conjugates like an い-adjective; for someone else\'s desires use 〜たがる.',
+  },
 }
 
 /** Display grouping used by the detail page's conjugation table and quiz setup. */

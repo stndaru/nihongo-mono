@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
+import { Link } from '@tanstack/react-router'
 import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Furigana } from '@/components/verbs/Furigana'
 import { RuleCheatsheet } from '@/components/verbs/RuleCheatsheet'
 import { FORM_LABELS } from '@/lib/conjugation'
 import { enter } from '@/lib/animate'
+import { pairFurigana } from '@/lib/data/furigana'
 import type { Question } from '@/lib/quiz/engine'
 import { cn } from '@/lib/utils'
 
@@ -57,16 +60,23 @@ export function AnswerFeedback({
 
       <div className="rounded-md border p-3">
         <div className="text-xs text-muted-foreground">
-          {FORM_LABELS[question.form].label} of {question.verb.kanji}
+          {FORM_LABELS[question.form].label} of{' '}
+          <Link
+            to="/verbs/$verbId"
+            params={{ verbId: question.verb.id }}
+            target="_blank"
+            rel="noopener"
+            lang="ja"
+            className="text-primary underline-offset-2 hover:underline"
+            title="Open verb detail in a new tab"
+          >
+            {question.verb.kanji}
+          </Link>
         </div>
-        <div lang="ja" className="mt-1 text-2xl">
-          {question.answer.kanji}
-          {question.answer.kanji !== question.answer.kana && (
-            <span className="ml-3 text-base text-muted-foreground">
-              {question.answer.kana}
-            </span>
-          )}
-        </div>
+        <Furigana
+          segments={pairFurigana(question.answer.kanji, question.answer.kana)}
+          className="mt-2 block text-3xl leading-normal"
+        />
         <div className="mt-1 text-sm text-muted-foreground">
           {question.verb.gloss.join('; ')}
         </div>

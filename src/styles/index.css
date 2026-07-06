@@ -80,6 +80,8 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Hiragino Kaku Gothic ProN",
     "Hiragino Sans", "BIZ UDPGothic", Meiryo, "Noto Sans JP", sans-serif;
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho",
+    "Noto Serif JP", Georgia, ui-serif, serif;
 }
 
 @layer base {
@@ -104,5 +106,13 @@
   ::selection {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
+  }
+  /* Tailwind v4 resets buttons to cursor: default — clickable things should
+     read as clickable */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label:has(> input[type="checkbox"], > input[type="file"]),
+  summary {
+    cursor: pointer;
   }
 }

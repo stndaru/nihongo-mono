@@ -61,7 +61,7 @@ function SettingsPage() {
         <ChipGroup label="">
           {(['system', 'light', 'dark'] as const).map((t) => (
             <Chip key={t} active={theme === t} onClick={() => pickTheme(t)}>
-              {t}
+              {t[0].toUpperCase() + t.slice(1)}
             </Chip>
           ))}
         </ChipGroup>

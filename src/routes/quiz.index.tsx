@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import {
+  CONJUGATION_FORMS,
   FORM_GROUPS,
   FORM_LABELS,
   type ClassGroup,
@@ -11,6 +12,7 @@ import {
 } from '@/lib/conjugation'
 import {
   ALL_GROUPS,
+  DEFAULT_FORMS,
   loadLastConfig,
   QUIZ_LENGTHS,
   saveLastConfig,
@@ -25,8 +27,8 @@ export const Route = createFileRoute('/quiz/')({
 })
 
 const GROUP_LABELS: Record<ClassGroup, string> = {
-  godan: 'godan',
-  ichidan: 'ichidan',
+  godan: 'Godan',
+  ichidan: 'Ichidan',
   suru: 'する',
   kuru: '来る',
 }
@@ -87,7 +89,26 @@ function QuizSetupPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">Conjugations</h2>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <h2 className="text-sm font-medium">Conjugations</h2>
+          <div className="flex gap-1">
+            <Chip
+              active={config.forms.length === CONJUGATION_FORMS.length}
+              onClick={() => setForms([...CONJUGATION_FORMS])}
+            >
+              Select all
+            </Chip>
+            <Chip
+              active={
+                config.forms.length === DEFAULT_FORMS.length &&
+                DEFAULT_FORMS.every((f) => config.forms.includes(f))
+              }
+              onClick={() => setForms([...DEFAULT_FORMS])}
+            >
+              Basic only
+            </Chip>
+          </div>
+        </div>
         <div className="space-y-3">
           {FORM_GROUPS.map((group) => {
             const allSelected = group.forms.every((f) => config.forms.includes(f))

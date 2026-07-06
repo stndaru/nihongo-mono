@@ -20,8 +20,8 @@ export function LevelBadge({ level, className }: { level: JlptLevel; className?:
 }
 
 const GROUP_LABELS: Record<ReturnType<typeof classGroup>, string> = {
-  godan: 'godan',
-  ichidan: 'ichidan',
+  godan: 'Godan',
+  ichidan: 'Ichidan',
   suru: 'する',
   kuru: '来る',
 }
