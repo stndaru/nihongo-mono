@@ -1,0 +1,42 @@
+{
+  "name": "nihongo-mono",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc -b",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "data:download": "bun scripts/download.ts",
+    "data:build": "bun scripts/build-verbs.ts && bun scripts/build-kanji.ts"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.170.17",
+    "animejs": "^4.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.23.0",
+    "radix-ui": "^1.6.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwind-merge": "^3.6.0",
+    "wanakana": "^5.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.2",
+    "@tanstack/router-plugin": "^1.168.19",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "fflate": "^0.8.3",
+    "oxlint": "^1.71.0",
+    "tailwindcss": "^4.3.2",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vitest": "^4.1.10"
+  }
+}
