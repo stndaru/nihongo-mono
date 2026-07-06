@@ -1,0 +1,14 @@
+{
+  "generated": "2026-07-06",
+  "sources": {
+    "elzup/jlpt-word-list": "master"
+  },
+  "verbCounts": {
+    "n5": 133,
+    "n4": 254,
+    "n3": 765,
+    "n2": 495,
+    "n1": 1100
+  },
+  "kanjiCount": 1139
+}

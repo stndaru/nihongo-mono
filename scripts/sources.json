@@ -1,0 +1,24 @@
+{
+  "github": [
+    {
+      "repo": "scriptin/jmdict-simplified",
+      "assets": [
+        { "pattern": "^jmdict-examples-eng-.*\\.json\\.zip$", "out": "jmdict.json", "zip": true },
+        { "pattern": "^kanjidic2-en-.*\\.json\\.zip$", "out": "kanjidic2.json", "zip": true }
+      ]
+    },
+    {
+      "repo": "Doublevil/JmdictFurigana",
+      "assets": [
+        { "pattern": "^JmdictFurigana\\.json$", "out": "furigana.json", "zip": false }
+      ]
+    }
+  ],
+  "raw": [
+    { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n1.csv", "out": "jlpt-n1.csv" },
+    { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n2.csv", "out": "jlpt-n2.csv" },
+    { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n3.csv", "out": "jlpt-n3.csv" },
+    { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n4.csv", "out": "jlpt-n4.csv" },
+    { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n5.csv", "out": "jlpt-n5.csv" }
+  ]
+}

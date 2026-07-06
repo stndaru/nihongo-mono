@@ -1,0 +1,4799 @@
+[
+  {
+    "id": "1198180",
+    "kanji": "会う",
+    "kana": "あう",
+    "romaji": "au",
+    "furigana": [
+      {
+        "t": "会",
+        "r": "あ"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to meet",
+      "to have an accident"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "前に彼にあったのを覚えている。",
+        "en": "I remember seeing him before."
+      },
+      {
+        "ja": "駅へ行く途中でにわか雨に遭った。",
+        "en": "I was caught in a shower on my way to the station."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "会"
+    ]
+  },
+  {
+    "id": "1586270",
+    "kanji": "開く",
+    "kana": "あく",
+    "romaji": "aku",
+    "furigana": [
+      {
+        "t": "開",
+        "r": "あ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to open (e.g. doors)",
+      "to open (e.g. business, etc.)",
+      "to be empty"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "放課後は空いてますか？",
+        "en": "Are you free after school?"
+      },
+      {
+        "ja": "ぐいと押すとドアは開いた。",
+        "en": "The door yielded to a strong push."
+      },
+      {
+        "ja": "１塁があいていたので打者を歩かせた。",
+        "en": "With first base open, he walked the batter."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "both",
+    "kanjiChars": [
+      "開"
+    ]
+  },
+  {
+    "id": "1202450",
+    "kanji": "開ける",
+    "kana": "あける",
+    "romaji": "akeru",
+    "furigana": [
+      {
+        "t": "開",
+        "r": "あ"
+      },
+      {
+        "t": "ける"
+      }
+    ],
+    "gloss": [
+      "to open (a door, etc.)",
+      "to open (for business, etc.)",
+      "to empty"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "財布の中身をこの袋に空けなさい。",
+        "en": "Empty the purse into this bag."
+      },
+      {
+        "ja": "３人の少年達はその建物の扉を開けました。",
+        "en": "The three boys opened the doors of the building."
+      },
+      {
+        "ja": "次の土曜日の午後は空けておいてください。",
+        "en": "Please leave next Saturday afternoon free."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "both",
+    "kanjiChars": [
+      "開"
+    ]
+  },
+  {
+    "id": "1352320",
+    "kanji": "上げる",
+    "kana": "あげる",
+    "romaji": "ageru",
+    "furigana": [
+      {
+        "t": "上",
+        "r": "あ"
+      },
+      {
+        "t": "げる"
+      }
+    ],
+    "gloss": [
+      "to raise",
+      "to move something (to a higher place)",
+      "to increase (price, quality, status, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は立派な成績を上げた。",
+        "en": "He got wonderful results."
+      },
+      {
+        "ja": "解き方を教えてあげるよ。",
+        "en": "I will show you how to solve it."
+      },
+      {
+        "ja": "その店は値段を全部上げた。",
+        "en": "The store raised all the prices."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "both",
+    "kanjiChars": [
+      "上"
+    ]
+  },
+  {
+    "id": "1542160",
+    "kanji": "遊ぶ",
+    "kana": "あそぶ",
+    "romaji": "asobu",
+    "furigana": [
+      {
+        "t": "遊",
+        "r": "あそ"
+      },
+      {
+        "t": "ぶ"
+      }
+    ],
+    "gloss": [
+      "to play (games, sports)",
+      "to mess about (with alcohol, gambling, philandery, etc.)",
+      "to be idle"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その機械は今遊んでいる。",
+        "en": "The machine is lying idle."
+      },
+      {
+        "ja": "２人の子供が通りで遊んでいた。",
+        "en": "There were two children playing on the street."
+      }
+    ],
+    "class": "v5b",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "遊"
+    ]
+  },
+  {
+    "id": "1547450",
+    "kanji": "浴びる",
+    "kana": "あびる",
+    "romaji": "abiru",
+    "furigana": [
+      {
+        "t": "浴",
+        "r": "あ"
+      },
+      {
+        "t": "びる"
+      }
+    ],
+    "gloss": [
+      "to dash over oneself (e.g. water)",
+      "to suffer (e.g. an attack)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "屋根は日を浴びて輝いている。",
+        "en": "The roof is shining in the sun."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "浴"
+    ]
+  },
+  {
+    "id": "1390930",
+    "kanji": "洗う",
+    "kana": "あらう",
+    "romaji": "arau",
+    "furigana": [
+      {
+        "t": "洗",
+        "r": "あら"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to wash",
+      "to inquire into",
+      "to purify (one's heart)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "そのバッグを洗うときは洗濯機に入れないでください。",
+        "en": "When you wash the bag, please do not put it in the washing machine."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "洗"
+    ]
+  },
+  {
+    "id": "1296400",
+    "kanji": "ある",
+    "kana": "ある",
+    "romaji": "aru",
+    "furigana": [
+      {
+        "t": "ある"
+      }
+    ],
+    "gloss": [
+      "to be",
+      "to have",
+      "to be located"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "悪いけどほかに用事があるの。",
+        "en": "I'm sorry, I have another engagement."
+      },
+      {
+        "ja": "失礼だが、上記の記事にある３つの誤りを指摘しておきたい。",
+        "en": "Excuse me; allow me to point out three errors in the above article."
+      }
+    ],
+    "class": "v5r-i",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1514320",
+    "kanji": "歩く",
+    "kana": "あるく",
+    "romaji": "aruku",
+    "furigana": [
+      {
+        "t": "歩",
+        "r": "ある"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to walk"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "歩いて行きますか？それともバスで行きますか？",
+        "en": "Will you go on foot or by bus?"
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "歩"
+    ]
+  },
+  {
+    "id": "1587040",
+    "kanji": "言う",
+    "kana": "いう",
+    "romaji": "iu",
+    "furigana": [
+      {
+        "t": "言",
+        "r": "い"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to say",
+      "to name",
+      "to go (e.g. \"the alarm went ping\")"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この動物は日本語で何と言いますか。",
+        "en": "What do you call this animal in Japanese?"
+      },
+      {
+        "ja": "「みんなひと休みしようぜ」とジョンは言った。",
+        "en": "John said, \"Hey guys, let's take a break.\""
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "both",
+    "kanjiChars": [
+      "言"
+    ]
+  },
+  {
+    "id": "1578850",
+    "kanji": "行く",
+    "kana": "いく",
+    "romaji": "iku",
+    "furigana": [
+      {
+        "t": "行",
+        "r": "い"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to go",
+      "to move through",
+      "to go (well, badly, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "お母さん、泳ぎに行ってもいい？",
+        "en": "Can I go swimming, Mother?"
+      },
+      {
+        "ja": "探検家が山中の道なき道を行った。",
+        "en": "The explorer pushed his way through the trackless mountain region."
+      },
+      {
+        "ja": "その音はだんだん小さくなっていった。",
+        "en": "The sound grew fainter and fainter."
+      }
+    ],
+    "class": "v5k-s",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "行"
+    ]
+  },
+  {
+    "id": "1156800",
+    "kanji": "意味する",
+    "kana": "いみする",
+    "romaji": "imisuru",
+    "furigana": [
+      {
+        "t": "意",
+        "r": "い"
+      },
+      {
+        "t": "味",
+        "r": "み"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "meaning"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その語にはいくつかの意味がある。",
+        "en": "The word has several meanings."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "意",
+      "味"
+    ]
+  },
+  {
+    "id": "1577980",
+    "kanji": "いる",
+    "kana": "いる",
+    "romaji": "iru",
+    "furigana": [
+      {
+        "t": "いる"
+      }
+    ],
+    "gloss": [
+      "to be (of animate objects)",
+      "to stay",
+      "to be ...-ing"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "すっかり食べ終わってはいない。",
+        "en": "I haven't quite finished eating."
+      },
+      {
+        "ja": "民主主義に対する信頼をなくした者もいる。",
+        "en": "Some have lost faith in democracy."
+      },
+      {
+        "ja": "映画に行くのと家にいるの、どっちがいい？",
+        "en": "Which would you rather do, go to the cinema or stay at home?"
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1546640",
+    "kanji": "いる",
+    "kana": "いる",
+    "romaji": "iru",
+    "furigana": [
+      {
+        "t": "いる"
+      }
+    ],
+    "gloss": [
+      "to be needed"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "今のところお金はいらない。",
+        "en": "I don't need money at present."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1465610",
+    "kanji": "入れる",
+    "kana": "いれる",
+    "romaji": "ireru",
+    "furigana": [
+      {
+        "t": "入",
+        "r": "い"
+      },
+      {
+        "t": "れる"
+      }
+    ],
+    "gloss": [
+      "to put in",
+      "to admit",
+      "to accept"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "留学生も入れるのかしら。",
+        "en": "Can foreign students be in the club?"
+      },
+      {
+        "ja": "それは引き出しに入れておきました。",
+        "en": "I put it in the drawer."
+      },
+      {
+        "ja": "ずいぶん暑いですね。クーラーをいれましょうか。",
+        "en": "It's very warm. Shall I turn on the air conditioner?"
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "入"
+    ]
+  },
+  {
+    "id": "1588120",
+    "kanji": "歌う",
+    "kana": "うたう",
+    "romaji": "utau",
+    "furigana": [
+      {
+        "t": "歌",
+        "r": "うた"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to sing",
+      "to sing of (love, beauty, etc.) in a poem"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ジョンはステージで何を歌いましたか。",
+        "en": "What did John sing on the stage?"
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "both",
+    "kanjiChars": [
+      "歌"
+    ]
+  },
+  {
+    "id": "1378690",
+    "kanji": "生まれる",
+    "kana": "うまれる",
+    "romaji": "umareru",
+    "furigana": [
+      {
+        "t": "生",
+        "r": "う"
+      },
+      {
+        "t": "まれる"
+      }
+    ],
+    "gloss": [
+      "to be born"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたは何座生まれですか。",
+        "en": "What sign were you born under?"
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "生"
+    ]
+  },
+  {
+    "id": "1473950",
+    "kanji": "売る",
+    "kana": "うる",
+    "romaji": "uru",
+    "furigana": [
+      {
+        "t": "売",
+        "r": "う"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to sell",
+      "to betray",
+      "to make (oneself) known"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ガソリンはリットル単位で売られる。",
+        "en": "Gasoline is sold by the liter."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "売"
+    ]
+  },
+  {
+    "id": "1223640",
+    "kanji": "起きる",
+    "kana": "おきる",
+    "romaji": "okiru",
+    "furigana": [
+      {
+        "t": "起",
+        "r": "お"
+      },
+      {
+        "t": "きる"
+      }
+    ],
+    "gloss": [
+      "to get up",
+      "to wake up",
+      "to occur (usu. of unfavourable incidents)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "６時ごろ起きた。",
+        "en": "I got up at about six."
+      },
+      {
+        "ja": "お子さんはまだ起きているのですか。",
+        "en": "Is the kid still up?"
+      },
+      {
+        "ja": "「事故が起きれば、すぐにわかるよ」と彼は言う。",
+        "en": "\"If there is an accident,\" he says, \"they will know right away.\""
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "起"
+    ]
+  },
+  {
+    "id": "1421850",
+    "kanji": "置く",
+    "kana": "おく",
+    "romaji": "oku",
+    "furigana": [
+      {
+        "t": "置",
+        "r": "お"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to put",
+      "to leave (behind)",
+      "to establish (an organization, a facility, a position, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "宿題をやりかけにしておいた。",
+        "en": "The boy left his homework half-finished."
+      },
+      {
+        "ja": "それをテーブルの上に置きなさい。",
+        "en": "Lay it on the table."
+      },
+      {
+        "ja": "あいにく私はカメラを家においてきた。",
+        "en": "As it happens, I have left the camera at home."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "置"
+    ]
+  },
+  {
+    "id": "1236900",
+    "kanji": "教える",
+    "kana": "おしえる",
+    "romaji": "oshieru",
+    "furigana": [
+      {
+        "t": "教",
+        "r": "おし"
+      },
+      {
+        "t": "える"
+      }
+    ],
+    "gloss": [
+      "to teach",
+      "to tell",
+      "to preach"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "地下鉄へ行く道を教えていただけませんか。",
+        "en": "Could you tell me how to get to the subway station?"
+      },
+      {
+        "ja": "ジョーンズ先生が私たちに英会話を教えてくれます。",
+        "en": "Mr Jones teaches us English conversation."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "教"
+    ]
+  },
+  {
+    "id": "1180470",
+    "kanji": "押す",
+    "kana": "おす",
+    "romaji": "osu",
+    "furigana": [
+      {
+        "t": "押",
+        "r": "お"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to push",
+      "to press (down)",
+      "to stamp (e.g. one's name)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "シャッターを押してくれますか。",
+        "en": "Could you press this button?"
+      },
+      {
+        "ja": "その箱には製造者の証印が押してある。",
+        "en": "The box bears the stamp of the manufacturer."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "both",
+    "kanjiChars": [
+      "押"
+    ]
+  },
+  {
+    "id": "1002430",
+    "kanji": "お茶する",
+    "kana": "おちゃする",
+    "romaji": "ochasuru",
+    "furigana": [
+      {
+        "t": "お"
+      },
+      {
+        "t": "茶",
+        "r": "ちゃ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "tea break"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "３時はお茶にしよう。",
+        "en": "Let's have tea at 3:00."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "茶"
+    ]
+  },
+  {
+    "id": "1206050",
+    "kanji": "覚える",
+    "kana": "おぼえる",
+    "romaji": "oboeru",
+    "furigana": [
+      {
+        "t": "覚",
+        "r": "おぼ"
+      },
+      {
+        "t": "える"
+      }
+    ],
+    "gloss": [
+      "to memorize",
+      "to learn",
+      "to feel"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "日本語は外人にとって覚えにくい。",
+        "en": "It is hard for foreigners to learn Japanese."
+      },
+      {
+        "ja": "その音楽には本当に感動をおぼえた。",
+        "en": "That music really gets me."
+      },
+      {
+        "ja": "あなたが知っている事を全部彼に話す事を覚えておいてください。",
+        "en": "You must remember to tell him all that you know."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "覚"
+    ]
+  },
+  {
+    "id": "1174340",
+    "kanji": "泳ぐ",
+    "kana": "およぐ",
+    "romaji": "oyogu",
+    "furigana": [
+      {
+        "t": "泳",
+        "r": "およ"
+      },
+      {
+        "t": "ぐ"
+      }
+    ],
+    "gloss": [
+      "to swim",
+      "to struggle through (a crowd)",
+      "to make one's way through the world"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この湖で泳ぐのは危険だと思うんだ。",
+        "en": "I think it is dangerous to swim in the lake."
+      }
+    ],
+    "class": "v5g",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "泳"
+    ]
+  },
+  {
+    "id": "1589500",
+    "kanji": "降りる",
+    "kana": "おりる",
+    "romaji": "oriru",
+    "furigana": [
+      {
+        "t": "降",
+        "r": "お"
+      },
+      {
+        "t": "りる"
+      }
+    ],
+    "gloss": [
+      "to descend (e.g. a mountain)",
+      "to alight (e.g. from bus)",
+      "to step down"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "今朝は露が降りた。",
+        "en": "The dew fell this morning."
+      },
+      {
+        "ja": "ここで降りましょう。",
+        "en": "Let's get off here."
+      },
+      {
+        "ja": "あのプロのスキーヤーは離れ業をしながら山をおりるのが好きだった。",
+        "en": "The professional skier liked to \"hot-dog\" down the mountain."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "降"
+    ]
+  },
+  {
+    "id": "1589600",
+    "kanji": "終わる",
+    "kana": "おわる",
+    "romaji": "owaru",
+    "furigana": [
+      {
+        "t": "終",
+        "r": "お"
+      },
+      {
+        "t": "わる"
+      }
+    ],
+    "gloss": [
+      "to end",
+      "to finish",
+      "to finish doing"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "野球の試合は引き分けに終わった。",
+        "en": "The baseball game ended in a draw."
+      },
+      {
+        "ja": "彼は食べ終わるとすぐに、再び歩き始めた。",
+        "en": "As soon as he finished eating, he began to walk again."
+      },
+      {
+        "ja": "彼は彼らの激論を終わらせようとしたが無駄だった。",
+        "en": "He tried in vain to put an end to their heated discussion."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "both",
+    "kanjiChars": [
+      "終"
+    ]
+  },
+  {
+    "id": "1589730",
+    "kanji": "買い物する",
+    "kana": "かいものする",
+    "romaji": "kaimonosuru",
+    "furigana": [
+      {
+        "t": "買",
+        "r": "か"
+      },
+      {
+        "t": "い"
+      },
+      {
+        "t": "物",
+        "r": "もの"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "shopping"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "１日おきに買い物に行く。",
+        "en": "I go shopping every other day."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "買",
+      "物"
+    ]
+  },
+  {
+    "id": "1473740",
+    "kanji": "買う",
+    "kana": "かう",
+    "romaji": "kau",
+    "furigana": [
+      {
+        "t": "買",
+        "r": "か"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to buy",
+      "to value (highly)",
+      "to incur (someone's anger, displeasure, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "車を買うために貯金をしている。",
+        "en": "I'm saving money for a car."
+      },
+      {
+        "ja": "彼が絶えず侮辱したので私の怒りをかった。",
+        "en": "His constant insults aroused my anger."
+      },
+      {
+        "ja": "彼のスキーヤーとしての優秀性は十分に買っています。",
+        "en": "We fully appreciate his excellence as a skier."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "買"
+    ]
+  },
+  {
+    "id": "1512130",
+    "kanji": "返す",
+    "kana": "かえす",
+    "romaji": "kaesu",
+    "furigana": [
+      {
+        "t": "返",
+        "r": "かえ"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to return (something)",
+      "to turn over",
+      "to pay back"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "お金は明日返すよ。",
+        "en": "I'll give you back the money tomorrow."
+      },
+      {
+        "ja": "お前は恩を仇で返したな。",
+        "en": "You bit the hand that fed you."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "返"
+    ]
+  },
+  {
+    "id": "1221270",
+    "kanji": "帰る",
+    "kana": "かえる",
+    "romaji": "kaeru",
+    "furigana": [
+      {
+        "t": "帰",
+        "r": "かえ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to return",
+      "to leave (of a guest, customer, etc.)",
+      "to get home"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "恋人よ、我に帰れ。",
+        "en": "Lover, come back to me."
+      },
+      {
+        "ja": "１１時を過ぎると、お客たちは三々五々帰り始めた。",
+        "en": "After 11 o'clock the guests began to leave by twos and threes."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "帰"
+    ]
+  },
+  {
+    "id": "1207590",
+    "kanji": "かかる",
+    "kana": "かかる",
+    "romaji": "kakaru",
+    "furigana": [
+      {
+        "t": "かかる"
+      }
+    ],
+    "gloss": [
+      "to take (a resource, e.g. time or money)",
+      "to hang",
+      "to come into view"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "間違えてかかっています。",
+        "en": "You have the wrong number."
+      },
+      {
+        "ja": "壁に地図がかかっています。",
+        "en": "There is a map on the wall."
+      },
+      {
+        "ja": "彼がよると馬が彼を蹴りかかった。",
+        "en": "The horse kicked at him when he approached it."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1343950",
+    "kanji": "書く",
+    "kana": "かく",
+    "romaji": "kaku",
+    "furigana": [
+      {
+        "t": "書",
+        "r": "か"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to write",
+      "to draw"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ここにあなたの名前をかいてくれませんか。",
+        "en": "Would you please write your name here?"
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "書"
+    ]
+  },
+  {
+    "id": "1207610",
+    "kanji": "かける",
+    "kana": "かける",
+    "romaji": "kakeru",
+    "furigana": [
+      {
+        "t": "かける"
+      }
+    ],
+    "gloss": [
+      "to hang up (e.g. a coat, a picture on the wall)",
+      "to put on (e.g. a blanket)",
+      "to put on (glasses, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "４掛ける２は８だ。",
+        "en": "Four multiplied by two is eight."
+      },
+      {
+        "ja": "どうぞおかけ下さい。",
+        "en": "Please have a seat."
+      },
+      {
+        "ja": "１０円で電話がかけられますか。",
+        "en": "Can I make a phone call for ten yen?"
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1411160",
+    "kanji": "貸す",
+    "kana": "かす",
+    "romaji": "kasu",
+    "furigana": [
+      {
+        "t": "貸",
+        "r": "か"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to lend",
+      "to rent out",
+      "to hand (over)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "夏の間彼らは家を人に貸した。",
+        "en": "They rented their house for the summer."
+      },
+      {
+        "ja": "鞄が必要です。貸してください。",
+        "en": "I need a bag. Will you lend me one?"
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "貸"
+    ]
+  },
+  {
+    "id": "1484330",
+    "kanji": "かぶる",
+    "kana": "かぶる",
+    "romaji": "kaburu",
+    "furigana": [
+      {
+        "t": "かぶる"
+      }
+    ],
+    "gloss": [
+      "to put on (one's head)",
+      "to be covered with (dust, snow, etc.)",
+      "to bear (e.g. someone's debts, faults, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その機械はほこりをかぶっていた。",
+        "en": "The machine was coated with dust."
+      },
+      {
+        "ja": "避難民は食料や水、薬などその他いろいろ不足を被るものだ。",
+        "en": "Refugees will suffer lack of food, water, medicine and all that."
+      },
+      {
+        "ja": "「白い帽子をかぶっている男の人は誰ですか」と私は彼女に言った。",
+        "en": "I asked her who the man wearing the white hat was."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "both",
+    "kanjiChars": []
+  },
+  {
+    "id": "1323560",
+    "kanji": "借りる",
+    "kana": "かりる",
+    "romaji": "kariru",
+    "furigana": [
+      {
+        "t": "借",
+        "r": "か"
+      },
+      {
+        "t": "りる"
+      }
+    ],
+    "gloss": [
+      "to borrow",
+      "to rent",
+      "to make use of (another's help, wisdom, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この本をお借りしてもよろしいですか。",
+        "en": "May I borrow this book?"
+      },
+      {
+        "ja": "２部屋あるアパートを借りたいのですが。",
+        "en": "I want to rent an apartment with two rooms."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "借"
+    ]
+  },
+  {
+    "id": "1350040",
+    "kanji": "消える",
+    "kana": "きえる",
+    "romaji": "kieru",
+    "furigana": [
+      {
+        "t": "消",
+        "r": "き"
+      },
+      {
+        "t": "える"
+      }
+    ],
+    "gloss": [
+      "to disappear",
+      "to go out (of a fire, light, etc.)",
+      "to fade (of a feeling, impression, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "突然、明かりが消えた。",
+        "en": "All at once the lights went out."
+      },
+      {
+        "ja": "流行は古くなって消えていく。",
+        "en": "Fashions grow old and die."
+      },
+      {
+        "ja": "その音楽の音はしだいに消えていった。",
+        "en": "The music faded away."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "消"
+    ]
+  },
+  {
+    "id": "1591110",
+    "kanji": "聞く",
+    "kana": "きく",
+    "romaji": "kiku",
+    "furigana": [
+      {
+        "t": "聞",
+        "r": "き"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to hear",
+      "to listen (e.g. to music)",
+      "to ask"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "音楽が好きで、毎日聴いています。",
+        "en": "I like music, and I listen to it every day."
+      },
+      {
+        "ja": "一番のチャンネルで英語が、７番のチャンネルでは日本語がお聞きになれます。",
+        "en": "You can hear English on Channel 1, and Japanese on Channel 7."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "聞"
+    ]
+  },
+  {
+    "id": "1384830",
+    "kanji": "切る",
+    "kana": "きる",
+    "romaji": "kiru",
+    "furigana": [
+      {
+        "t": "切",
+        "r": "き"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to cut",
+      "to sever (connections, ties)",
+      "to turn off (e.g. the light)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "２．大根は拍子木に切る。",
+        "en": "2. Cut the daikon into long sticks."
+      },
+      {
+        "ja": "トランプをよく切ってください。",
+        "en": "Please shuffle the cards carefully."
+      },
+      {
+        "ja": "エアコンを切ってもかまいませんか。",
+        "en": "Do you mind if I turn off the AC?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "切"
+    ]
+  },
+  {
+    "id": "1423000",
+    "kanji": "着る",
+    "kana": "きる",
+    "romaji": "kiru",
+    "furigana": [
+      {
+        "t": "着",
+        "r": "き"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to wear (from the shoulders down)",
+      "to take (the blame, responsibility)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その男は反逆者の汚名をきせられた。",
+        "en": "The man was branded as a traitor."
+      },
+      {
+        "ja": "「あの赤い服を着るのはよしなさい」「なぜいけないの」",
+        "en": "\"You had better not wear the red dress.\" \"Why not?\""
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "着"
+    ]
+  },
+  {
+    "id": "1457560",
+    "kanji": "曇る",
+    "kana": "くもる",
+    "romaji": "kumoru",
+    "furigana": [
+      {
+        "t": "曇",
+        "r": "くも"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to get cloudy",
+      "to cloud up",
+      "to be gloomy"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "蒸気でメガネが曇ってしまった。",
+        "en": "The steam has fogged my glasses."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "曇"
+    ]
+  },
+  {
+    "id": "1547720",
+    "kanji": "来る",
+    "kana": "くる",
+    "romaji": "kuru",
+    "furigana": [
+      {
+        "t": "来",
+        "r": "く"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to come (spatially or temporally)",
+      "to come back",
+      "to come to be"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "１０時までに来ます。",
+        "en": "I'll come by 10."
+      },
+      {
+        "ja": "私の父は私に、ぜひそこを見てくるようにといった。",
+        "en": "My father insisted that I should go to see the place."
+      }
+    ],
+    "class": "vk",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "来"
+    ]
+  },
+  {
+    "id": "1350110",
+    "kanji": "消す",
+    "kana": "けす",
+    "romaji": "kesu",
+    "furigana": [
+      {
+        "t": "消",
+        "r": "け"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to erase",
+      "to turn off (a light, TV, heater, etc.)",
+      "to extinguish (a fire, candle, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "寝る前に電気を消してください。",
+        "en": "Turn off the light before you go to bed."
+      },
+      {
+        "ja": "私はお前を消せと命令されている。",
+        "en": "I have orders to waste you."
+      },
+      {
+        "ja": "消防士たちはすばやく火事を消した。",
+        "en": "The firemen quickly extinguished the blaze."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "消"
+    ]
+  },
+  {
+    "id": "1254790",
+    "kanji": "結婚する",
+    "kana": "けっこんする",
+    "romaji": "kekkonsuru",
+    "furigana": [
+      {
+        "t": "結",
+        "r": "けっ"
+      },
+      {
+        "t": "婚",
+        "r": "こん"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "marriage"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "結婚の申し込みが殺到した。",
+        "en": "Marriage proposals flooded in."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "結",
+      "婚"
+    ]
+  },
+  {
+    "id": "1449540",
+    "kanji": "答える",
+    "kana": "こたえる",
+    "romaji": "kotaeru",
+    "furigana": [
+      {
+        "t": "答",
+        "r": "こた"
+      },
+      {
+        "t": "える"
+      }
+    ],
+    "gloss": [
+      "to answer"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "「はい、ありません」とジョーダンさんは答えた。",
+        "en": "\"No, I don't,\" said Mr Jordan."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "答"
+    ]
+  },
+  {
+    "id": "1050590",
+    "kanji": "コピーする",
+    "kana": "コピーする",
+    "romaji": "kopiisuru",
+    "furigana": [
+      {
+        "t": "コピー"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "copy"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "完成した本のコピーを１部送っていただくという条件で、私どものソフトウエアを収録することを許可します。",
+        "en": "You have our permission to include our software on condition that you send us a copy of the final product."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1289590",
+    "kanji": "困る",
+    "kana": "こまる",
+    "romaji": "komaru",
+    "furigana": [
+      {
+        "t": "困",
+        "r": "こま"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to be troubled",
+      "to be bothered",
+      "to be badly off"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "騒音でこまっている。",
+        "en": "The noise bothers me."
+      },
+      {
+        "ja": "僕はしばしばお金に困る。",
+        "en": "I am often in difficulties."
+      },
+      {
+        "ja": "困ったら私に助けを求めなさい。",
+        "en": "Turn to me for help if you are in difficulty."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "困"
+    ]
+  },
+  {
+    "id": "1297210",
+    "kanji": "咲く",
+    "kana": "さく",
+    "romaji": "saku",
+    "furigana": [
+      {
+        "t": "咲",
+        "r": "さ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to bloom",
+      "to rise up (of breaking waves)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これらの花は春に咲く。",
+        "en": "These flowers bloom in spring."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "咲"
+    ]
+  },
+  {
+    "id": "1297960",
+    "kanji": "作文する",
+    "kana": "さくぶんする",
+    "romaji": "sakubunsuru",
+    "furigana": [
+      {
+        "t": "作",
+        "r": "さく"
+      },
+      {
+        "t": "文",
+        "r": "ぶん"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "writing (an essay, prose, etc.)",
+      "formal writing with little real meaning"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "「友情」という題で作文を書きなさい。",
+        "en": "Write an essay on \"Friendship\"."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "作",
+      "文"
+    ]
+  },
+  {
+    "id": "1291330",
+    "kanji": "差す",
+    "kana": "さす",
+    "romaji": "sasu",
+    "furigana": [
+      {
+        "t": "差",
+        "r": "さ"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to shine",
+      "to be visible",
+      "to be tinged with"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は雨の中を傘もささずに歩きつづけた。",
+        "en": "He went on walking in the rain without an umbrella."
+      },
+      {
+        "ja": "ほお紅や口紅を差すだけで表情や笑顔がどんどん変わってくるんです。",
+        "en": "Expressions and smiles change like that just from applying rouge and lipstick."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "both",
+    "kanjiChars": [
+      "差"
+    ]
+  },
+  {
+    "id": "1303620",
+    "kanji": "散歩する",
+    "kana": "さんぽする",
+    "romaji": "sanposuru",
+    "furigana": [
+      {
+        "t": "散",
+        "r": "さん"
+      },
+      {
+        "t": "歩",
+        "r": "ぽ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "walk"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "公園を散歩しましょう。",
+        "en": "Let's take a walk in the park."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "散",
+      "歩"
+    ]
+  },
+  {
+    "id": "1304970",
+    "kanji": "仕事する",
+    "kana": "しごとする",
+    "romaji": "shigotosuru",
+    "furigana": [
+      {
+        "t": "仕",
+        "r": "し"
+      },
+      {
+        "t": "事",
+        "r": "ごと"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "work"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "「あなたは仕事が気に入っていると思います」「いやそれどころか、嫌いです」",
+        "en": "\"I think you like your job.\" \"On the contrary, I hate it.\""
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "仕",
+      "事"
+    ]
+  },
+  {
+    "id": "1320760",
+    "kanji": "質問する",
+    "kana": "しつもんする",
+    "romaji": "shitsumonsuru",
+    "furigana": [
+      {
+        "t": "質",
+        "r": "しつ"
+      },
+      {
+        "t": "問",
+        "r": "もん"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "question"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その事故について彼に質問した。",
+        "en": "I asked him about the accident."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "both",
+    "kanjiChars": [
+      "質",
+      "問"
+    ]
+  },
+  {
+    "id": "1310730",
+    "kanji": "死ぬ",
+    "kana": "しぬ",
+    "romaji": "shinu",
+    "furigana": [
+      {
+        "t": "死",
+        "r": "し"
+      },
+      {
+        "t": "ぬ"
+      }
+    ],
+    "gloss": [
+      "to die",
+      "to lose spirit",
+      "to cease"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その少年は死んだものとしてあきらめられた。",
+        "en": "The boy was given up for dead."
+      }
+    ],
+    "class": "v5n",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "死"
+    ]
+  },
+  {
+    "id": "1436560",
+    "kanji": "閉まる",
+    "kana": "しまる",
+    "romaji": "shimaru",
+    "furigana": [
+      {
+        "t": "閉",
+        "r": "し"
+      },
+      {
+        "t": "まる"
+      }
+    ],
+    "gloss": [
+      "to be shut",
+      "to be firm (of a body, face, etc.)",
+      "to be locked"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あいにく店は閉まっていた。",
+        "en": "Unfortunately, the store was closed."
+      },
+      {
+        "ja": "ドアが閉まっていたので、入ることが出来なかった。",
+        "en": "The door was locked, so I couldn't get in."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "閉"
+    ]
+  },
+  {
+    "id": "1508590",
+    "kanji": "閉める",
+    "kana": "しめる",
+    "romaji": "shimeru",
+    "furigana": [
+      {
+        "t": "閉",
+        "r": "し"
+      },
+      {
+        "t": "める"
+      }
+    ],
+    "gloss": [
+      "to close"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "どうかドアを閉めてくれませんか。",
+        "en": "Will you please shut the door?"
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "閉"
+    ]
+  },
+  {
+    "id": "1436570",
+    "kanji": "締める",
+    "kana": "しめる",
+    "romaji": "shimeru",
+    "furigana": [
+      {
+        "t": "締",
+        "r": "し"
+      },
+      {
+        "t": "める"
+      }
+    ],
+    "gloss": [
+      "to tie",
+      "to wear (necktie, belt)",
+      "to total"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "離陸の際は、シートベルトを締めなくてはならない。",
+        "en": "You must fasten your seat belts during take-off."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "both",
+    "kanjiChars": [
+      "締"
+    ]
+  },
+  {
+    "id": "1330290",
+    "kanji": "授業する",
+    "kana": "じゅぎょうする",
+    "romaji": "jugyousuru",
+    "furigana": [
+      {
+        "t": "授",
+        "r": "じゅ"
+      },
+      {
+        "t": "業",
+        "r": "ぎょう"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "lesson"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "それは授業の終わりだった。",
+        "en": "That was the end of the class."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "授",
+      "業"
+    ]
+  },
+  {
+    "id": "1420470",
+    "kanji": "知る",
+    "kana": "しる",
+    "romaji": "shiru",
+    "furigana": [
+      {
+        "t": "知",
+        "r": "し"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to know",
+      "to sense",
+      "to understand"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたは１９９０年から彼女を知っているのですか？",
+        "en": "Have you known her since 1990?"
+      },
+      {
+        "ja": "私は自分が感じたことを言えるのが必要であることを知った。",
+        "en": "I find it necessary to be able to say what I feel."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "知"
+    ]
+  },
+  {
+    "id": "1228260",
+    "kanji": "吸う",
+    "kana": "すう",
+    "romaji": "suu",
+    "furigana": [
+      {
+        "t": "吸",
+        "r": "す"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to breathe in",
+      "to suck",
+      "to absorb"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この紙はインクを吸わない。",
+        "en": "This paper does not absorb ink."
+      },
+      {
+        "ja": "教室でどうどうとタバコをすう高校生たちとそれを注意できない教師たちは罰を受けることになります。",
+        "en": "High school students who flagrantly smoke in class and the teachers who can't caution them will be punished."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "吸"
+    ]
+  },
+  {
+    "id": "1334040",
+    "kanji": "住む",
+    "kana": "すむ",
+    "romaji": "sumu",
+    "furigana": [
+      {
+        "t": "住",
+        "r": "す"
+      },
+      {
+        "t": "む"
+      }
+    ],
+    "gloss": [
+      "to live (of humans)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたはどのくらいの間、神戸に住んでいますか。",
+        "en": "How long have you lived in Kobe?"
+      }
+    ],
+    "class": "v5m",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "住"
+    ]
+  },
+  {
+    "id": "1157170",
+    "kanji": "する",
+    "kana": "する",
+    "romaji": "suru",
+    "furigana": [
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to do",
+      "to cause to become",
+      "to serve as"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は三日したら出発する。",
+        "en": "He is leaving in three days."
+      },
+      {
+        "ja": "結構です。それにしましょう。",
+        "en": "All right. I'll take it."
+      },
+      {
+        "ja": "頭痛を言い訳にして、彼は早く帰った。",
+        "en": "He used a headache as an excuse for leaving early."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "both",
+    "kanjiChars": []
+  },
+  {
+    "id": "1291800",
+    "kanji": "座る",
+    "kana": "すわる",
+    "romaji": "suwaru",
+    "furigana": [
+      {
+        "t": "座",
+        "r": "すわ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to sit (down)",
+      "to assume (a position)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "数人の学生がベンチに座り、昼食を食べていた。",
+        "en": "Some students were sitting on the bench and having lunch."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "座"
+    ]
+  },
+  {
+    "id": "1390980",
+    "kanji": "洗濯する",
+    "kana": "せんたくする",
+    "romaji": "sentakusuru",
+    "furigana": [
+      {
+        "t": "洗",
+        "r": "せん"
+      },
+      {
+        "t": "濯",
+        "r": "たく"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "washing"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この綿のシャツは洗濯がよく効く。",
+        "en": "This cotton shirt washes well."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "洗",
+      "濯"
+    ]
+  },
+  {
+    "id": "1399790",
+    "kanji": "掃除する",
+    "kana": "そうじする",
+    "romaji": "soujisuru",
+    "furigana": [
+      {
+        "t": "掃",
+        "r": "そう"
+      },
+      {
+        "t": "除",
+        "r": "じ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "cleaning"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたの部屋を掃除しましたか。",
+        "en": "Did you clean your room?"
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "掃",
+      "除"
+    ]
+  },
+  {
+    "id": "1338180",
+    "kanji": "出す",
+    "kana": "だす",
+    "romaji": "dasu",
+    "furigana": [
+      {
+        "t": "出",
+        "r": "だ"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to take out",
+      "to put out",
+      "to submit (e.g. thesis)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "いつから痛みだしましたか。",
+        "en": "How long have you had this pain?"
+      },
+      {
+        "ja": "この件では名前を出したくない。",
+        "en": "I want to remain anonymous in this."
+      },
+      {
+        "ja": "政府は次のような声明を出した。",
+        "en": "The government issued the following statement."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "出"
+    ]
+  },
+  {
+    "id": "1597040",
+    "kanji": "立つ",
+    "kana": "たつ",
+    "romaji": "tatsu",
+    "furigana": [
+      {
+        "t": "立",
+        "r": "た"
+      },
+      {
+        "t": "つ"
+      }
+    ],
+    "gloss": [
+      "to stand (up)",
+      "to stand (in a position; of a person, tree, building, etc.)",
+      "to be (in difficulties, the lead, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "市は月曜ごとに立つ。",
+        "en": "The market is held every Monday."
+      },
+      {
+        "ja": "次々に立って出ていった。",
+        "en": "One after another they stood up and went out."
+      },
+      {
+        "ja": "煙突から煙が立っていた。",
+        "en": "Smoke was rising from the chimney."
+      }
+    ],
+    "class": "v5t",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "立"
+    ]
+  },
+  {
+    "id": "1548370",
+    "kanji": "頼む",
+    "kana": "たのむ",
+    "romaji": "tanomu",
+    "furigana": [
+      {
+        "t": "頼",
+        "r": "たの"
+      },
+      {
+        "t": "む"
+      }
+    ],
+    "gloss": [
+      "to request",
+      "to call",
+      "to entrust to"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "田中さんのことを頼むよ。",
+        "en": "Take care of Mr. Tanaka for me!"
+      },
+      {
+        "ja": "あなたに頼んでもよろしいですか。",
+        "en": "May I request a favour of you?"
+      },
+      {
+        "ja": "私が頼んだものがまだ届いていません。",
+        "en": "I'm still waiting for my order."
+      }
+    ],
+    "class": "v5m",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "頼"
+    ]
+  },
+  {
+    "id": "1358280",
+    "kanji": "食べる",
+    "kana": "たべる",
+    "romaji": "taberu",
+    "furigana": [
+      {
+        "t": "食",
+        "r": "た"
+      },
+      {
+        "t": "べる"
+      }
+    ],
+    "gloss": [
+      "to eat",
+      "to live on (e.g. a salary)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "もっと果物を食べるべきです。",
+        "en": "You should eat more fruit."
+      },
+      {
+        "ja": "僕は脚本家で食べていく決心をした。",
+        "en": "I am determined to make a living as a playwright."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "食"
+    ]
+  },
+  {
+    "id": "1158880",
+    "kanji": "違う",
+    "kana": "ちがう",
+    "romaji": "chigau",
+    "furigana": [
+      {
+        "t": "違",
+        "r": "ちが"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to differ (from)",
+      "to be wrong",
+      "to become abnormal"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "君は違う方にいきますよ。",
+        "en": "You're going the wrong way."
+      },
+      {
+        "ja": "その点では私は君と意見が違う。",
+        "en": "I differ from you on that point."
+      },
+      {
+        "ja": "そんなばかなことを言うなんて彼は気でも違ったのか。",
+        "en": "Is he mad that he should say such a foolish thing?"
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "違"
+    ]
+  },
+  {
+    "id": "1305990",
+    "kanji": "使う",
+    "kana": "つかう",
+    "romaji": "tsukau",
+    "furigana": [
+      {
+        "t": "使",
+        "r": "つか"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to use (a tool, method, etc.)",
+      "to use (a person, animal, puppet, etc.)",
+      "to use (time, money, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "お湯を全部使わないで。",
+        "en": "Don't use all the hot water."
+      },
+      {
+        "ja": "「あなたの辞書を使ってもいいですか」「はい、どうぞ」",
+        "en": "\"Can I use your dictionary?\" \"Yes, here you are.\""
+      },
+      {
+        "ja": "アジア諸国などから出稼ぎにきた外国人をメイドとして使うのが常識のようになっている。",
+        "en": "It has become common practise to employ foreigners working abroad from Asian countries as maids."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "使"
+    ]
+  },
+  {
+    "id": "1483740",
+    "kanji": "疲れる",
+    "kana": "つかれる",
+    "romaji": "tsukareru",
+    "furigana": [
+      {
+        "t": "疲",
+        "r": "つか"
+      },
+      {
+        "t": "れる"
+      }
+    ],
+    "gloss": [
+      "to get tired",
+      "to become worn out (of a well-used object)",
+      "to starve"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "そのとき、彼らは、ブラックベリーの林の周りをつかれて、のどがかわくまで競争して遊んでいました。",
+        "en": "Then they played \"ring-a-ring-a-rosy\" until they were tired and thirsty."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "疲"
+    ]
+  },
+  {
+    "id": "1422970",
+    "kanji": "着く",
+    "kana": "つく",
+    "romaji": "tsuku",
+    "furigana": [
+      {
+        "t": "着",
+        "r": "つ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to arrive at",
+      "to sit on"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "各自席につきなさい。",
+        "en": "Go to your respective seats."
+      },
+      {
+        "ja": "あなたがロンドンに着く頃には晩秋となっているだろう。",
+        "en": "It will be late autumn when you get to London."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "着"
+    ]
+  },
+  {
+    "id": "1597890",
+    "kanji": "作る",
+    "kana": "つくる",
+    "romaji": "tsukuru",
+    "furigana": [
+      {
+        "t": "作",
+        "r": "つく"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to make",
+      "to prepare (food)",
+      "to raise"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "例外は作るべきではないと思います。",
+        "en": "I insist that exceptions not be made."
+      },
+      {
+        "ja": "どこへ行っても、彼は必ず友達を作る。",
+        "en": "Wherever he may go, he is sure to make friends."
+      },
+      {
+        "ja": "たまごを割らずにオムレツは作れない。",
+        "en": "You can't make an omelet without breaking eggs."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "作"
+    ]
+  },
+  {
+    "id": "1433680",
+    "kanji": "漬ける",
+    "kana": "つける",
+    "romaji": "tsukeru",
+    "furigana": [
+      {
+        "t": "漬",
+        "r": "つ"
+      },
+      {
+        "t": "ける"
+      }
+    ],
+    "gloss": [
+      "to soak (in)",
+      "to pickle"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼はスプーンをスープの中につけた。",
+        "en": "He dipped his spoon into the soup."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "漬"
+    ]
+  },
+  {
+    "id": "1240825",
+    "kanji": "勤める",
+    "kana": "つとめる",
+    "romaji": "tsutomeru",
+    "furigana": [
+      {
+        "t": "勤",
+        "r": "つと"
+      },
+      {
+        "t": "める"
+      }
+    ],
+    "gloss": [
+      "to work (for)",
+      "to serve (as)",
+      "to conduct a religious service"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "私の父は外務省に勤めている。",
+        "en": "My father serves in the Foreign Ministry."
+      },
+      {
+        "ja": "彼女は結婚式で花嫁の付き添い役をつとめた。",
+        "en": "She was a bridesmaid at the wedding."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "勤"
+    ]
+  },
+  {
+    "id": "1598550",
+    "kanji": "出かける",
+    "kana": "でかける",
+    "romaji": "dekakeru",
+    "furigana": [
+      {
+        "t": "出",
+        "r": "で"
+      },
+      {
+        "t": "かける"
+      }
+    ],
+    "gloss": [
+      "to go out (e.g. on an excursion or outing)",
+      "to be about to leave"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "１０分前に出かけました。",
+        "en": "She left home ten minutes ago."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "出"
+    ]
+  },
+  {
+    "id": "1340450",
+    "kanji": "できる",
+    "kana": "できる",
+    "romaji": "dekiru",
+    "furigana": [
+      {
+        "t": "できる"
+      }
+    ],
+    "gloss": [
+      "to be able to do",
+      "to be good at",
+      "to come into existence"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "トイレお借りできますか。",
+        "en": "May I use your toilet?"
+      },
+      {
+        "ja": "オレンジは暖かい国で出来る。",
+        "en": "Oranges grow in warm countries."
+      },
+      {
+        "ja": "あの二人はどうもできているらしい。",
+        "en": "They seem to be in love with each other."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1079760",
+    "kanji": "テストする",
+    "kana": "テストする",
+    "romaji": "tesutosuru",
+    "furigana": [
+      {
+        "t": "テスト"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "test (of ability, knowledge, etc.)",
+      "test (of performance, quality, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "私は数学のテストの結果に満足しています。",
+        "en": "I am satisfied with the result of my math test."
+      },
+      {
+        "ja": "新しいエンジンは必要なテストをすべて受けなければならない。",
+        "en": "The new engine must undergo all the necessary tests."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1338240",
+    "kanji": "出る",
+    "kana": "でる",
+    "romaji": "deru",
+    "furigana": [
+      {
+        "t": "出",
+        "r": "で"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to leave",
+      "to leave (on a journey)",
+      "to move forward"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "私の家におばけが出たのは本当だ。",
+        "en": "It's true that a ghost appeared at my house."
+      },
+      {
+        "ja": "電話には出なかったからメールしておきました。",
+        "en": "He didn't answer the phone, so I left him an email."
+      },
+      {
+        "ja": "アメリカの学生の中には苦労して働きながら大学を出る者が多い。",
+        "en": "Many American students work their way through university."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "出"
+    ]
+  },
+  {
+    "id": "1443840",
+    "kanji": "電話する",
+    "kana": "でんわする",
+    "romaji": "denwasuru",
+    "furigana": [
+      {
+        "t": "電",
+        "r": "でん"
+      },
+      {
+        "t": "話",
+        "r": "わ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "telephone call"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "電話は繰り返し鳴っていた。",
+        "en": "The telephone rang repeatedly."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "both",
+    "kanjiChars": [
+      "電",
+      "話"
+    ]
+  },
+  {
+    "id": "1189130",
+    "kanji": "どうぞする",
+    "kana": "どうぞする",
+    "romaji": "douzosuru",
+    "furigana": [
+      {
+        "t": "どうぞ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to give"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "vs",
+    "transitivity": null,
+    "kanjiChars": []
+  },
+  {
+    "id": "1429700",
+    "kanji": "飛ぶ",
+    "kana": "とぶ",
+    "romaji": "tobu",
+    "furigana": [
+      {
+        "t": "飛",
+        "r": "と"
+      },
+      {
+        "t": "ぶ"
+      }
+    ],
+    "gloss": [
+      "to fly",
+      "to jump",
+      "to spatter"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ヒューズが飛んだ。",
+        "en": "A fuse has blown."
+      },
+      {
+        "ja": "飛行機は山の上を飛んだ。",
+        "en": "The plane flew over the mountain."
+      },
+      {
+        "ja": "君はどのくらい高く跳べますか。",
+        "en": "How high can you jump?"
+      }
+    ],
+    "class": "v5b",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "飛"
+    ]
+  },
+  {
+    "id": "1310620",
+    "kanji": "止まる",
+    "kana": "とまる",
+    "romaji": "tomaru",
+    "furigana": [
+      {
+        "t": "止",
+        "r": "と"
+      },
+      {
+        "t": "まる"
+      }
+    ],
+    "gloss": [
+      "to stop (moving)",
+      "to stop (doing, working, being supplied)",
+      "to alight"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あの木の枝に数羽の鳥がとまっている。",
+        "en": "Some birds are sitting on the branch of that tree."
+      },
+      {
+        "ja": "そして、電車はキーッという音を立てて止まった。",
+        "en": "Then, the train screeched to a halt."
+      },
+      {
+        "ja": "十分な情報を受け取ることができなかったという理由も一部にはあって、ハーパーの描写は不完全なものにとどまっている。",
+        "en": "Partly because he could not receive enough information, Harper's description remains imperfect."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "止"
+    ]
+  },
+  {
+    "id": "1326980",
+    "kanji": "取る",
+    "kana": "とる",
+    "romaji": "toru",
+    "furigana": [
+      {
+        "t": "取",
+        "r": "と"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to take",
+      "to pass",
+      "to get"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は数学で満点を取った。",
+        "en": "He got full marks in mathematics."
+      },
+      {
+        "ja": "肉から脂身を取りなさい。",
+        "en": "Trim the fat off the meat."
+      },
+      {
+        "ja": "塩をとっていただけますか。",
+        "en": "Could you pass me the salt, please?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "取"
+    ]
+  },
+  {
+    "id": "1298790",
+    "kanji": "撮る",
+    "kana": "とる",
+    "romaji": "toru",
+    "furigana": [
+      {
+        "t": "撮",
+        "r": "と"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to take (a photograph)",
+      "to record (audio or video)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これは私の妹を撮った写真です。",
+        "en": "This is a picture of my sister."
+      },
+      {
+        "ja": "この番組、ビデオに録っておいて。",
+        "en": "Will you record this program on video for me?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "撮"
+    ]
+  },
+  {
+    "id": "1532870",
+    "kanji": "鳴く",
+    "kana": "なく",
+    "romaji": "naku",
+    "furigana": [
+      {
+        "t": "鳴",
+        "r": "な"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to make sound (of an animal)",
+      "to make a meld call (e.g. pung, kong)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "羊は何て鳴くの？",
+        "en": "What sound does a sheep make?"
+      },
+      {
+        "ja": "カエルが鳴いたら帰ろう。",
+        "en": "Let's return when the frog croaks."
+      },
+      {
+        "ja": "あのかわいい鳥は来る日も来る日も鳴いてばかりいた。",
+        "en": "That pretty bird did nothing but sing day after day."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "鳴"
+    ]
+  },
+  {
+    "id": "1529530",
+    "kanji": "なくす",
+    "kana": "なくす",
+    "romaji": "nakusu",
+    "furigana": [
+      {
+        "t": "なくす"
+      }
+    ],
+    "gloss": [
+      "to lose (something)",
+      "to get rid of"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼女は新しい時計をなくした。",
+        "en": "She lost her new watch."
+      },
+      {
+        "ja": "その国の財政の赤字をなくすには、もっと、たくさんの外国の援助を注ぎ込まなければならなかった。",
+        "en": "To get the nation's economy out of the red, more foreign aid had to be pumped in."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1333070",
+    "kanji": "習う",
+    "kana": "ならう",
+    "romaji": "narau",
+    "furigana": [
+      {
+        "t": "習",
+        "r": "なら"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to take lessons in"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "車の運転を習っています。",
+        "en": "I've been learning to drive."
+      }
+    ],
+    "class": "v5u",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "習"
+    ]
+  },
+  {
+    "id": "1508380",
+    "kanji": "並ぶ",
+    "kana": "ならぶ",
+    "romaji": "narabu",
+    "furigana": [
+      {
+        "t": "並",
+        "r": "なら"
+      },
+      {
+        "t": "ぶ"
+      }
+    ],
+    "gloss": [
+      "to line up",
+      "to rival"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は古今に並ぶ者のない偉大な政治家である。",
+        "en": "He is the greatest statesman that ever lived."
+      },
+      {
+        "ja": "列に並んで長い間待たされた後、身分証明として正式な出生証明書が必要だといわれた。",
+        "en": "After a long wait in line, she was told she should get a certified copy of her birth certificate as identification."
+      }
+    ],
+    "class": "v5b",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "並"
+    ]
+  },
+  {
+    "id": "1508390",
+    "kanji": "並べる",
+    "kana": "ならべる",
+    "romaji": "naraberu",
+    "furigana": [
+      {
+        "t": "並",
+        "r": "なら"
+      },
+      {
+        "t": "べる"
+      }
+    ],
+    "gloss": [
+      "to line up",
+      "to enumerate",
+      "to be equal (to)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "メイドはテーブルにナイフとフォークを並べた。",
+        "en": "The maid arranged the knives and forks on the table."
+      },
+      {
+        "ja": "屁理屈ばかり並べて、お前の言ってること全然筋が通ってないよ。",
+        "en": "All you do is string together a bunch of farfetched ideas. I can't understand a word of it."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "並"
+    ]
+  },
+  {
+    "id": "1375610",
+    "kanji": "なる",
+    "kana": "なる",
+    "romaji": "naru",
+    "furigana": [
+      {
+        "t": "なる"
+      }
+    ],
+    "gloss": [
+      "to become",
+      "to result in",
+      "to consist of"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "１チームは９人の選手から成る。",
+        "en": "Nine players make up a team."
+      },
+      {
+        "ja": "１週間してそのニュースは本当になった。",
+        "en": "The news turned out true in a week."
+      },
+      {
+        "ja": "あなたがいなくなるととても寂しくなります。",
+        "en": "When you go, I'll miss you very much."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1416400",
+    "kanji": "脱ぐ",
+    "kana": "ぬぐ",
+    "romaji": "nugu",
+    "furigana": [
+      {
+        "t": "脱",
+        "r": "ぬ"
+      },
+      {
+        "t": "ぐ"
+      }
+    ],
+    "gloss": [
+      "to take off (clothes, shoes, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ここで靴を脱がなければなりませんか。",
+        "en": "Do I have to take off my shoes here?"
+      }
+    ],
+    "class": "v5g",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "脱"
+    ]
+  },
+  {
+    "id": "1360010",
+    "kanji": "寝る",
+    "kana": "ねる",
+    "romaji": "neru",
+    "furigana": [
+      {
+        "t": "寝",
+        "r": "ね"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to sleep (lying down)",
+      "to go to bed",
+      "to lie down"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "赤ん坊は１日中寝ていた。",
+        "en": "The baby was sleeping all day long."
+      },
+      {
+        "ja": "寝る前に歯を磨きなさい。",
+        "en": "Brush your teeth before going to bed."
+      },
+      {
+        "ja": "少年は春の日差しを浴びて仰向けに寝ていた。",
+        "en": "The boy lay on his back, basking in the spring sunshine."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "寝"
+    ]
+  },
+  {
+    "id": "1093450",
+    "kanji": "ノートする",
+    "kana": "ノートする",
+    "romaji": "nootosuru",
+    "furigana": [
+      {
+        "t": "ノート"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "note"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ジェレミは彼の会計士の一次試験のためノートを熱心に勉強していたよ。",
+        "en": "I left Jeremy poring over his notes for his first accountancy exam tomorrow."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1352570",
+    "kanji": "上る",
+    "kana": "のぼる",
+    "romaji": "noboru",
+    "furigana": [
+      {
+        "t": "上",
+        "r": "のぼ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to ascend",
+      "to ascend (as a natural process, e.g. the Sun)",
+      "to go to (the capital)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたは、上れませんよ。",
+        "en": "You cannot climb!"
+      },
+      {
+        "ja": "彼らは川を舟をこいで上った。",
+        "en": "They rowed up the river."
+      },
+      {
+        "ja": "損失は１００万ドル以上にのぼる。",
+        "en": "The loss adds up to more than one million dollars."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "上"
+    ]
+  },
+  {
+    "id": "1169870",
+    "kanji": "飲む",
+    "kana": "のむ",
+    "romaji": "nomu",
+    "furigana": [
+      {
+        "t": "飲",
+        "r": "の"
+      },
+      {
+        "t": "む"
+      }
+    ],
+    "gloss": [
+      "to drink",
+      "to smoke (tobacco)",
+      "to swallow up"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この薬を飲まなければ行けませんか。",
+        "en": "Must I take this medicine?"
+      }
+    ],
+    "class": "v5m",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "飲"
+    ]
+  },
+  {
+    "id": "1355120",
+    "kanji": "乗る",
+    "kana": "のる",
+    "romaji": "noru",
+    "furigana": [
+      {
+        "t": "乗",
+        "r": "の"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to get on (train, plane, bus, ship, etc.)",
+      "to get on (e.g. a footstool)",
+      "to reach"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "そんなに沢山パンに乗るんか？",
+        "en": "You really put that much in the sandwich?"
+      },
+      {
+        "ja": "１１時の列車に乗るつもりです。",
+        "en": "I'm catching the 11:00 train."
+      },
+      {
+        "ja": "「騙された」と言ってしまえばそれまでですが、「うまい話」に乗った当人であることは間違いありません。",
+        "en": "If you say \"I was tricked,\" well that's certainly so but there's no mistaking that you were the one who signed up on a \"sweet deal\"."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "乗"
+    ]
+  },
+  {
+    "id": "1465590",
+    "kanji": "入る",
+    "kana": "はいる",
+    "romaji": "hairu",
+    "furigana": [
+      {
+        "t": "入",
+        "r": "はい"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to enter",
+      "to join (a club, company, etc.)",
+      "to be contained (in)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "梅雨に入った。",
+        "en": "The rainy season has set in."
+      },
+      {
+        "ja": "目に砂が入りました。",
+        "en": "I got some sand in my eye."
+      },
+      {
+        "ja": "この球場は５万人入る。",
+        "en": "This stadium will hold 50,000 people."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "入"
+    ]
+  },
+  {
+    "id": "1399760",
+    "kanji": "掃く",
+    "kana": "はく",
+    "romaji": "haku",
+    "furigana": [
+      {
+        "t": "掃",
+        "r": "は"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to sweep",
+      "to gather silkworms"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "お前は床を掃きさえすればよい。",
+        "en": "You have only to sweep the floor."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "掃"
+    ]
+  },
+  {
+    "id": "1307500",
+    "kanji": "始まる",
+    "kana": "はじまる",
+    "romaji": "hajimaru",
+    "furigana": [
+      {
+        "t": "始",
+        "r": "はじ"
+      },
+      {
+        "t": "まる"
+      }
+    ],
+    "gloss": [
+      "to begin",
+      "to happen (again)",
+      "to date (from)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その試合は何時に始まりますか。",
+        "en": "What time does the game start?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "始"
+    ]
+  },
+  {
+    "id": "1402540",
+    "kanji": "走る",
+    "kana": "はしる",
+    "romaji": "hashiru",
+    "furigana": [
+      {
+        "t": "走",
+        "r": "はし"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to run",
+      "to run (of a vehicle)",
+      "to rush (to)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "震えが背筋を走った。",
+        "en": "A shiver ran down my spine."
+      },
+      {
+        "ja": "あの走ってる少年をごらんなさい。",
+        "en": "Look at that boy running."
+      },
+      {
+        "ja": "この車は以前ほど快調に走らない。",
+        "en": "This car is running less smoothly than it used to."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "走"
+    ]
+  },
+  {
+    "id": "1451150",
+    "kanji": "働く",
+    "kana": "はたらく",
+    "romaji": "hataraku",
+    "furigana": [
+      {
+        "t": "働",
+        "r": "はたら"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to work",
+      "to function",
+      "to commit (e.g. a crime)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼は５時間以上もぶっ続けで働いた。",
+        "en": "He worked more than five hours on end."
+      },
+      {
+        "ja": "スイッチは時間通りに働かなかった。",
+        "en": "The switch didn't work on time."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "働"
+    ]
+  },
+  {
+    "id": "1562350",
+    "kanji": "話す",
+    "kana": "はなす",
+    "romaji": "hanasu",
+    "furigana": [
+      {
+        "t": "話",
+        "r": "はな"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to talk",
+      "to tell",
+      "to speak (a language)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "英語はカナダで話されている。",
+        "en": "English is spoken in Canada."
+      },
+      {
+        "ja": "ジョンはお客さんと電話で話した。",
+        "en": "John talked with his customer on the phone."
+      },
+      {
+        "ja": "あなたの趣味について話してください。",
+        "en": "Please tell me about your hobbies."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "話"
+    ]
+  },
+  {
+    "id": "1427900",
+    "kanji": "張る",
+    "kana": "はる",
+    "romaji": "haru",
+    "furigana": [
+      {
+        "t": "張",
+        "r": "は"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to stick",
+      "to stretch",
+      "to form (e.g. ice on a pond)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたの願書に最近の写真を貼りなさい。",
+        "en": "Attach a recent photograph to your application form."
+      },
+      {
+        "ja": "クモがクモの巣を張るところを見たことがありますか。",
+        "en": "Have you ever seen a spider spinning its web?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "both",
+    "kanjiChars": [
+      "張"
+    ]
+  },
+  {
+    "id": "1376470",
+    "kanji": "晴れる",
+    "kana": "はれる",
+    "romaji": "hareru",
+    "furigana": [
+      {
+        "t": "晴",
+        "r": "は"
+      },
+      {
+        "t": "れる"
+      }
+    ],
+    "gloss": [
+      "to clear up",
+      "to refresh (e.g. spirits)",
+      "to be cleared (e.g. of a suspicion)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "明日は晴れるだろう。",
+        "en": "It will be fine tomorrow."
+      },
+      {
+        "ja": "彼の憂うつは彼女がキスをすると晴れた。",
+        "en": "His depression came to an end when she kissed him."
+      },
+      {
+        "ja": "指輪を盗んだというトムの自白で女中の容疑は晴れた。",
+        "en": "Tom's acknowledgement that he stole the ring cleared the maid of suspicion."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "晴"
+    ]
+  },
+  {
+    "id": "1169250",
+    "kanji": "引く",
+    "kana": "ひく",
+    "romaji": "hiku",
+    "furigana": [
+      {
+        "t": "引",
+        "r": "ひ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to pull",
+      "to draw (attention, sympathy, etc.)",
+      "to draw back (e.g. one's hand)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "カーテンがゆっくり引かれた。",
+        "en": "The curtains were drawn slowly."
+      },
+      {
+        "ja": "ＡからＢまで線をひきなさい。",
+        "en": "Draw a line from A to B."
+      },
+      {
+        "ja": "１０から２を引くと、８残る。",
+        "en": "Two from ten leaves eight."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "both",
+    "kanjiChars": [
+      "引"
+    ]
+  },
+  {
+    "id": "1419370",
+    "kanji": "弾く",
+    "kana": "ひく",
+    "romaji": "hiku",
+    "furigana": [
+      {
+        "t": "弾",
+        "r": "ひ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to play (a stringed or keyboard instrument)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "誰かがピアノを弾いている。",
+        "en": "Somebody is playing the piano."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "弾"
+    ]
+  },
+  {
+    "id": "1577280",
+    "kanji": "暇する",
+    "kana": "ひまする",
+    "romaji": "himasuru",
+    "furigana": [
+      {
+        "t": "暇",
+        "r": "ひま"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to be free"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "暇"
+    ]
+  },
+  {
+    "id": "1115150",
+    "kanji": "プールする",
+    "kana": "プールする",
+    "romaji": "puurusuru",
+    "furigana": [
+      {
+        "t": "プール"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "pooling (money, resources, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1370760",
+    "kanji": "吹く",
+    "kana": "ふく",
+    "romaji": "fuku",
+    "furigana": [
+      {
+        "t": "吹",
+        "r": "ふ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to blow (of the wind)",
+      "to blow (one's breath)",
+      "to play (a wind instrument)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "木が芽をふいている。",
+        "en": "The trees are shooting out buds."
+      },
+      {
+        "ja": "あの日は強い風が吹いていました。",
+        "en": "There was a strong wind that day."
+      },
+      {
+        "ja": "ローズはしゃぼん玉を吹いていた。",
+        "en": "Rose was blowing bubbles."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "both",
+    "kanjiChars": [
+      "吹"
+    ]
+  },
+  {
+    "id": "1282790",
+    "kanji": "降る",
+    "kana": "ふる",
+    "romaji": "furu",
+    "furigana": [
+      {
+        "t": "降",
+        "r": "ふ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to fall (of rain, snow, ash, etc.)",
+      "to form (of frost)",
+      "to beam down (of sunlight or moonlight)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "シカゴのあたりでは雨が降っていました。",
+        "en": "It was raining around Chicago."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "降"
+    ]
+  },
+  {
+    "id": "1512670",
+    "kanji": "勉強する",
+    "kana": "べんきょうする",
+    "romaji": "benkyousuru",
+    "furigana": [
+      {
+        "t": "勉",
+        "r": "べん"
+      },
+      {
+        "t": "強",
+        "r": "きょう"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "study",
+      "diligence",
+      "discount"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "学校ではどんな科目を勉強しますか。",
+        "en": "What subjects do you study at school?"
+      }
+    ],
+    "class": "vs",
+    "transitivity": "both",
+    "kanjiChars": [
+      "勉",
+      "強"
+    ]
+  },
+  {
+    "id": "1519170",
+    "kanji": "ぼうしする",
+    "kana": "ぼうしする",
+    "romaji": "boushisuru",
+    "furigana": [
+      {
+        "t": "ぼうし"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "cap (move)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1125150",
+    "kanji": "ポストする",
+    "kana": "ポストする",
+    "romaji": "posutosuru",
+    "furigana": [
+      {
+        "t": "ポスト"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "post (on a blog, social media, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": []
+  },
+  {
+    "id": "1239730",
+    "kanji": "曲がる",
+    "kana": "まがる",
+    "romaji": "magaru",
+    "furigana": [
+      {
+        "t": "曲",
+        "r": "ま"
+      },
+      {
+        "t": "がる"
+      }
+    ],
+    "gloss": [
+      "to bend",
+      "to turn",
+      "to be awry"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ネクタイが曲がってるよ。",
+        "en": "Your tie is crooked."
+      },
+      {
+        "ja": "風に吹かれて木が曲がった。",
+        "en": "The tree bent in the wind."
+      },
+      {
+        "ja": "黒塗りのリムジンがキーというタイヤの音と共に角を曲がった。",
+        "en": "A black limo rounded the corner with a squeal of tires."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "曲"
+    ]
+  },
+  {
+    "id": "1410590",
+    "kanji": "待つ",
+    "kana": "まつ",
+    "romaji": "matsu",
+    "furigana": [
+      {
+        "t": "待",
+        "r": "ま"
+      },
+      {
+        "t": "つ"
+      }
+    ],
+    "gloss": [
+      "to wait",
+      "to await",
+      "to depend on"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "しばらく電話を切らずにお待ちください。",
+        "en": "Please hold the line a moment."
+      }
+    ],
+    "class": "v5t",
+    "transitivity": "both",
+    "kanjiChars": [
+      "待"
+    ]
+  },
+  {
+    "id": "1523940",
+    "kanji": "磨く",
+    "kana": "みがく",
+    "romaji": "migaku",
+    "furigana": [
+      {
+        "t": "磨",
+        "r": "みが"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to polish",
+      "to refine (a skill, etc.)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "弟は銀の食器類を磨いた。",
+        "en": "My brother polished the silver."
+      },
+      {
+        "ja": "学生は読書の技能を磨くべきだ。",
+        "en": "Students should develop their reading skills."
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "磨"
+    ]
+  },
+  {
+    "id": "1259210",
+    "kanji": "見せる",
+    "kana": "みせる",
+    "romaji": "miseru",
+    "furigana": [
+      {
+        "t": "見",
+        "r": "み"
+      },
+      {
+        "t": "せる"
+      }
+    ],
+    "gloss": [
+      "to show",
+      "to make (something or someone) look ...",
+      "to make (something) worth watching"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "取り繕うように、笑ってみせる。",
+        "en": "She smiled to smooth things over."
+      },
+      {
+        "ja": "どんな手を使ってでも勝ちとってみせる。",
+        "en": "I'll win no matter what it takes."
+      },
+      {
+        "ja": "彼女は背を高く見せるためにハイヒールをはいている。",
+        "en": "She wears high heels to make herself look taller."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "見"
+    ]
+  },
+  {
+    "id": "1259290",
+    "kanji": "見る",
+    "kana": "みる",
+    "romaji": "miru",
+    "furigana": [
+      {
+        "t": "見",
+        "r": "み"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to see",
+      "to examine",
+      "to look after"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "映画を観に行かない？",
+        "en": "Would you like to take in a movie?"
+      },
+      {
+        "ja": "１０ページの５行目をみなさい。",
+        "en": "Let's begin with the fifth line on page 10."
+      },
+      {
+        "ja": "私も親の面倒とか見られないですね。",
+        "en": "I can't look after my parents and such either."
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "見"
+    ]
+  },
+  {
+    "id": "1315720",
+    "kanji": "持つ",
+    "kana": "もつ",
+    "romaji": "motsu",
+    "furigana": [
+      {
+        "t": "持",
+        "r": "も"
+      },
+      {
+        "t": "つ"
+      }
+    ],
+    "gloss": [
+      "to hold (in one's hand)",
+      "to possess",
+      "to maintain"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "コートを持ちましょうか。",
+        "en": "Shall I carry your coat?"
+      },
+      {
+        "ja": "私たちは数回会合を持った。",
+        "en": "We've had several meetings."
+      },
+      {
+        "ja": "ＡＢＣ海外旅行障害保険を持っています。",
+        "en": "I'm a holder of ABC Travel Insurance."
+      }
+    ],
+    "class": "v5t",
+    "transitivity": "both",
+    "kanjiChars": [
+      "持"
+    ]
+  },
+  {
+    "id": "1227560",
+    "kanji": "休む",
+    "kana": "やすむ",
+    "romaji": "yasumu",
+    "furigana": [
+      {
+        "t": "休",
+        "r": "やす"
+      },
+      {
+        "t": "む"
+      }
+    ],
+    "gloss": [
+      "to be absent",
+      "to rest",
+      "to go to bed"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼はよく会合を休む。",
+        "en": "He often absents himself from meetings."
+      },
+      {
+        "ja": "父はまだ休んでいる。",
+        "en": "Father is still in bed."
+      },
+      {
+        "ja": "彼はしばらくの間休んだ。",
+        "en": "He rested for a while."
+      }
+    ],
+    "class": "v5m",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "休"
+    ]
+  },
+  {
+    "id": "1012980",
+    "kanji": "やる",
+    "kana": "やる",
+    "romaji": "yaru",
+    "furigana": [
+      {
+        "t": "やる"
+      }
+    ],
+    "gloss": [
+      "to do",
+      "to send",
+      "to put"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "５ドルをやる。",
+        "en": "Here's $5."
+      },
+      {
+        "ja": "無関係の人を殺るな！",
+        "en": "Don't kill off bystanders!"
+      },
+      {
+        "ja": "ああ、君がやったんだね。",
+        "en": "Aha, you did it, didn't you?"
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "both",
+    "kanjiChars": []
+  },
+  {
+    "id": "1266440",
+    "kanji": "呼ぶ",
+    "kana": "よぶ",
+    "romaji": "yobu",
+    "furigana": [
+      {
+        "t": "呼",
+        "r": "よ"
+      },
+      {
+        "t": "ぶ"
+      }
+    ],
+    "gloss": [
+      "to call out (to)",
+      "to summon (a doctor, etc.)",
+      "to invite"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この映画は大変な人気を呼んだ。",
+        "en": "This movie has won great popularity."
+      },
+      {
+        "ja": "あなたをケパと呼ぶことにします。",
+        "en": "You will be called Cephas."
+      },
+      {
+        "ja": "あなたが呼べば、彼は来るでしょう。",
+        "en": "He will come if you call him."
+      }
+    ],
+    "class": "v5b",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "呼"
+    ]
+  },
+  {
+    "id": "1456360",
+    "kanji": "読む",
+    "kana": "よむ",
+    "romaji": "yomu",
+    "furigana": [
+      {
+        "t": "読",
+        "r": "よ"
+      },
+      {
+        "t": "む"
+      }
+    ],
+    "gloss": [
+      "to read",
+      "to recite (e.g. a sutra)",
+      "to predict"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ミルトンの作品を読んだことがありますか。",
+        "en": "Have you ever read Milton's works?"
+      },
+      {
+        "ja": "彼女の心の動きを読むことさえできなかった。",
+        "en": "I could not even make a guess at the working of her mind."
+      },
+      {
+        "ja": "私の頭は楽譜を読むようにはよく慣らされて居りますが、どうも暗号を読むには適しません。",
+        "en": "My mind is quite accustomed to reading music, but deciphering secret codes is not its forte."
+      }
+    ],
+    "class": "v5m",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "読"
+    ]
+  },
+  {
+    "id": "1554310",
+    "kanji": "料理する",
+    "kana": "りょうりする",
+    "romaji": "ryourisuru",
+    "furigana": [
+      {
+        "t": "料",
+        "r": "りょう"
+      },
+      {
+        "t": "理",
+        "r": "り"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "cooking",
+      "dealing with (skillfully)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これらのりんごは料理用にもってこいだ。",
+        "en": "These apples are good cookers."
+      },
+      {
+        "ja": "良い所：様々なコンボで自由に敵を料理する楽しさ。",
+        "en": "Good points: The pleasure of disposing of enemies with a variety of combos."
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "料",
+      "理"
+    ]
+  },
+  {
+    "id": "1553170",
+    "kanji": "旅行する",
+    "kana": "りょこうする",
+    "romaji": "ryokousuru",
+    "furigana": [
+      {
+        "t": "旅",
+        "r": "りょ"
+      },
+      {
+        "t": "行",
+        "r": "こう"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "travel"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "いつ旅行においでになりますか。",
+        "en": "When will you go on a journey?"
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "旅",
+      "行"
+    ]
+  },
+  {
+    "id": "1559160",
+    "kanji": "練習する",
+    "kana": "れんしゅうする",
+    "romaji": "renshuusuru",
+    "furigana": [
+      {
+        "t": "練",
+        "r": "れん"
+      },
+      {
+        "t": "習",
+        "r": "しゅう"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "practice"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたはいつピアノの練習をしますか。",
+        "en": "When do you practice the piano?"
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "練",
+      "習"
+    ]
+  },
+  {
+    "id": "1606560",
+    "kanji": "わかる",
+    "kana": "わかる",
+    "romaji": "wakaru",
+    "furigana": [
+      {
+        "t": "わかる"
+      }
+    ],
+    "gloss": [
+      "to understand",
+      "to become clear"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼が有名な人物だというのがわかります。",
+        "en": "I understand that he's something of a famous personality."
+      },
+      {
+        "ja": "「博、君の気持ちは分かるよ」とマイクが言います。",
+        "en": "\"I understand how you feel, Hiroshi,\" says Mike."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": []
+  },
+  {
+    "id": "1519210",
+    "kanji": "忘れる",
+    "kana": "わすれる",
+    "romaji": "wasureru",
+    "furigana": [
+      {
+        "t": "忘",
+        "r": "わす"
+      },
+      {
+        "t": "れる"
+      }
+    ],
+    "gloss": [
+      "to forget"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "忘"
+    ]
+  },
+  {
+    "id": "1444610",
+    "kanji": "渡す",
+    "kana": "わたす",
+    "romaji": "watasu",
+    "furigana": [
+      {
+        "t": "渡",
+        "r": "わた"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to ferry across (e.g. a river)",
+      "to lay across",
+      "to hand over"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "わたしを向こう側へわたしてください。",
+        "en": "Please take me over to the other side."
+      },
+      {
+        "ja": "走者がリレーでバトンを渡さなければなりません。",
+        "en": "A runner must pass the baton in a relay race."
+      },
+      {
+        "ja": "それじゃあこのメモを渡してください。緊急です。",
+        "en": "Then, please give him this note. This is urgent."
+      }
+    ],
+    "class": "v5s",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "渡"
+    ]
+  },
+  {
+    "id": "1444680",
+    "kanji": "渡る",
+    "kana": "わたる",
+    "romaji": "wataru",
+    "furigana": [
+      {
+        "t": "渡",
+        "r": "わた"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to cross over",
+      "to extend"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "橋は安全です。車でわたれます。",
+        "en": "The bridge is safe; you can drive across."
+      },
+      {
+        "ja": "この儀式は幾世代にもわたって伝わってきた。",
+        "en": "This ceremony has been handed down from generation to generation."
+      }
+    ],
+    "class": "v5r",
+    "transitivity": "vi",
+    "kanjiChars": [
+      "渡"
+    ]
+  }
+]
