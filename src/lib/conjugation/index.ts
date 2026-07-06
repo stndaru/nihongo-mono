@@ -6,6 +6,8 @@ export {
   CONJUGATION_FORMS,
   FORM_GROUPS,
   FORM_LABELS,
+  NEGATIVE_FORMS,
+  POLITE_FORMS,
   type ClassGroup,
   type ConjugatableVerb,
   type ConjugatedForm,

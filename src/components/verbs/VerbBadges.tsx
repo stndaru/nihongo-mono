@@ -54,7 +54,7 @@ export function TransBadge({
             : 'intransitive'
       }
     >
-      {trans === 'both' ? 'vt·vi' : trans}
+      {trans === 'both' ? 'VT·VI' : trans.toUpperCase()}
     </Badge>
   )
 }

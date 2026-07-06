@@ -73,14 +73,14 @@ export function VerbFilters({
           onClick={() => toggle('trans', 'vt')}
           title="transitive"
         >
-          vt
+          VT
         </Chip>
         <Chip
           active={filters.trans === 'vi'}
           onClick={() => toggle('trans', 'vi')}
           title="intransitive"
         >
-          vi
+          VI
         </Chip>
       </ChipGroup>
       <Chip

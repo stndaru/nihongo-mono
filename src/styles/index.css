@@ -95,7 +95,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
   }
   /* furigana: keep rows compact but readable */
   ruby rt {

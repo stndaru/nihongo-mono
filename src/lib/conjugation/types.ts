@@ -257,6 +257,24 @@ export const FORM_LABELS: Record<ConjugationForm, FormLabel> = {
   },
 }
 
+/** Forms built on ます (formal register). */
+export const POLITE_FORMS: ReadonlySet<ConjugationForm> = new Set([
+  'non-past-polite',
+  'negative-polite',
+  'past-polite',
+  'past-negative-polite',
+  'volitional-polite',
+])
+
+/** Forms expressing negation (ない/ません family). */
+export const NEGATIVE_FORMS: ReadonlySet<ConjugationForm> = new Set([
+  'negative',
+  'negative-polite',
+  'past-negative',
+  'past-negative-polite',
+  'te-negative',
+])
+
 /** Display grouping used by the detail page's conjugation table and quiz setup. */
 export const FORM_GROUPS: readonly { label: string; forms: readonly ConjugationForm[] }[] = [
   { label: 'Basic', forms: ['non-past', 'non-past-polite', 'negative', 'negative-polite'] },
