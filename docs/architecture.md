@@ -220,8 +220,10 @@ regardless of host compression config.
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —
   one exact-surface scan, first hit wins since rows are common-first).
-  The indexes (~6 MB, shared with the palette's Include Full
-  Dictionary) load on the first smart parse that has misses; matches
+  The indexes (shared with the palette's Include Full Dictionary) load
+  on the first smart parse that has misses — **only the side with
+  misses is fetched** (the vocab index is ~5.5 MB, the verb one
+  ~0.6 MB, and most miss sets are noun-only); matches
   attach as lite entries with `jlpt: 0`, so they render the **Beyond**
   badge and open real detail pages. Truly-unknown words keep the faded
   underline and "no dictionary entry" tooltip.
@@ -377,8 +379,15 @@ regardless of host compression config.
   (kyōiku/jōyō/jinmeiyō), frequency commentary, **KRADFILE component
   cards** (linked when the component has its own KANJIDIC2 entry; the
   char itself is filtered out of its own component list), and **every JLPT
-  word whose `kanjiChars` contain the character** (loads all ten level
-  files — cached; easiest level first, common first; 50-row pages).
+  word whose `kanjiChars` contain the character** — served from a
+  **precomputed per-kanji word index** (`findKanjiWords`, one of 64
+  codepoint shards under `public/data/kanji-words/`, ~6 KB each,
+  pre-sorted easiest level → common → kana, 50-row pages). The page used
+  to fetch all ten JLPT level files (~1.7 MB) just to filter them by
+  character — a network profile flagged it as the heaviest non-opt-in
+  page, so `pack-jlpt.ts` now emits `KanjiWordRow` tuples (id, isVerb,
+  jlpt, kana, joined gloss, furigana) with exactly what the table renders.
+  Keep `KANJI_WORDS_SHARDS = 64` in sync between the script and loader.ts.
 - `KanjiBreakdown` cards on verb/vocab detail pages are links to
   `/kanji/$char` and resolve their characters via `findKanjiChars` — a
   word detail page now costs ~127 KB of kanji data instead of 400 KB, plus

@@ -149,5 +149,20 @@ export type VerbIndexRow = [
   hira?: string,
 ]
 
+/**
+ * One "word using this kanji" row for the kanji detail page, precomputed by
+ * scripts/pack-jlpt.ts into public/data/kanji-words/{n}.json.gz codepoint
+ * shards. Pre-sorted easiest-level-first; carries only what the table shows,
+ * so the page never has to fetch the full JLPT level files.
+ */
+export type KanjiWordRow = [
+  id: string,
+  isVerb: 0 | 1,
+  jlpt: JlptLevel,
+  kana: string,
+  gloss: string,
+  furigana: FuriganaSegment[],
+]
+
 /** One JMnedict proper-name row: [kanji ('' if kana-only), kana, types csv, romanization]. */
 export type NameRow = [kanji: string, kana: string, types: string, gloss: string]

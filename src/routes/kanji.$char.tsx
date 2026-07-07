@@ -6,8 +6,8 @@ import { BackButton } from '@/components/layout/BackButton'
 import { StrokeOrder } from '@/components/kanji/StrokeOrder'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
-import { findKanjiChars, loadVerbLevels, loadVocabLevels } from '@/lib/data/loader'
-import type { KanjiEntry, VerbEntry, VocabEntry, WordLevel } from '@/lib/data/types'
+import { findKanjiChars, findKanjiWords } from '@/lib/data/loader'
+import type { KanjiEntry, KanjiWordRow, WordLevel } from '@/lib/data/types'
 import { rowClickGuard } from '@/lib/row-click'
 
 export const Route = createFileRoute('/kanji/$char')({
@@ -45,42 +45,20 @@ function gradeLabel(grade: number | null): string | null {
   return 'name-use kanji (jinmeiyō)'
 }
 
-interface UsingWord {
-  word: VerbEntry | VocabEntry
-  isVerb: boolean
-}
-
 const WORDS_PAGE = 50
-
-/** Every JLPT word whose written form uses the kanji, easiest level first. */
-function collectWords(verbs: VerbEntry[], vocab: VocabEntry[], char: string): UsingWord[] {
-  const rows: UsingWord[] = []
-  for (const word of verbs) {
-    if (word.kanjiChars.includes(char)) rows.push({ word, isVerb: true })
-  }
-  for (const word of vocab) {
-    if (word.kanjiChars.includes(char)) rows.push({ word, isVerb: false })
-  }
-  return rows.sort(
-    (a, b) =>
-      b.word.jlpt - a.word.jlpt ||
-      Number(b.word.common) - Number(a.word.common) ||
-      a.word.kana.localeCompare(b.word.kana, 'ja'),
-  )
-}
 
 function KanjiDetailPage() {
   const { entry, components } = Route.useLoaderData()
   const navigate = useNavigate()
 
-  const [words, setWords] = useState<UsingWord[] | null>(null)
+  // precomputed at pack time (one small codepoint shard, pre-sorted) — the
+  // page used to fetch all ten JLPT level files just to filter them here
+  const [words, setWords] = useState<KanjiWordRow[] | null>(null)
   useEffect(() => {
     let alive = true
-    Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])]).then(
-      ([verbs, vocab]) => {
-        if (alive) setWords(collectWords(verbs, vocab, entry.char))
-      },
-    )
+    findKanjiWords(entry.char).then((rows) => {
+      if (alive) setWords(rows)
+    })
     return () => {
       alive = false
     }
@@ -218,40 +196,40 @@ function KanjiDetailPage() {
                 </tr>
               </thead>
               <tbody>
-                {words.slice(0, visible).map(({ word, isVerb }) => (
+                {words.slice(0, visible).map(([id, isVerb, jlpt, kana, gloss, furigana]) => (
                   <tr
-                    key={`${isVerb ? 'v' : 'w'}${word.id}`}
+                    key={`${isVerb ? 'v' : 'w'}${id}`}
                     className="group cursor-pointer border-b border-border/60 hover:bg-muted/50"
                     onClick={(e) => {
                       if (rowClickGuard(e)) return
-                      if (isVerb) navigate({ to: '/verbs/$verbId', params: { verbId: word.id } })
-                      else navigate({ to: '/vocab/$wordId', params: { wordId: word.id } })
+                      if (isVerb) navigate({ to: '/verbs/$verbId', params: { verbId: id } })
+                      else navigate({ to: '/vocab/$wordId', params: { wordId: id } })
                     }}
                   >
                     <td className="py-0 pr-2">
                       {isVerb ? (
                         <Link
                           to="/verbs/$verbId"
-                          params={{ verbId: word.id }}
+                          params={{ verbId: id }}
                           className="flex items-center py-1.5 text-base leading-snug"
                         >
-                          <Furigana segments={word.furigana} />
+                          <Furigana segments={furigana} />
                         </Link>
                       ) : (
                         <Link
                           to="/vocab/$wordId"
-                          params={{ wordId: word.id }}
+                          params={{ wordId: id }}
                           className="flex items-center py-1.5 text-base leading-snug"
                         >
-                          <Furigana segments={word.furigana} />
+                          <Furigana segments={furigana} />
                         </Link>
                       )}
                     </td>
                     <td lang="ja" className="hidden py-1.5 pr-2 text-muted-foreground sm:table-cell">
-                      {word.kana}
+                      {kana}
                     </td>
                     <td className="max-w-0 truncate py-1.5 pr-2 text-muted-foreground" style={{ width: '40%' }}>
-                      {word.gloss.join('; ')}
+                      {gloss}
                     </td>
                     <td className="py-1.5 pr-2">
                       <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
@@ -259,7 +237,7 @@ function KanjiDetailPage() {
                       </Badge>
                     </td>
                     <td className="py-1.5">
-                      <LevelBadge level={word.jlpt} />
+                      <LevelBadge level={jlpt} />
                     </td>
                   </tr>
                 ))}

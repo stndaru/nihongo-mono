@@ -2,6 +2,7 @@ import { fetchJsonGz } from './fetch-gz'
 import type {
   JlptLevel,
   KanjiEntry,
+  KanjiWordRow,
   VerbEntry,
   VerbIndexRow,
   VocabEntry,
@@ -128,6 +129,31 @@ export async function loadKanjiExt(): Promise<KanjiEntry[]> {
     Array.from({ length: KANJI_EXT_SHARDS }, (_, n) => loadKanjiShard(n)),
   )
   return shards.flatMap((shard) => Object.values(shard))
+}
+
+// --- "words using this kanji" (precomputed) ----------------------------------
+// The kanji detail page's word table, precomputed by scripts/pack-jlpt.ts so
+// the page fetches one small codepoint shard instead of every JLPT level
+// file (~1.7 MB) just to filter it by character. Keep the shard count in
+// sync with that script.
+const KANJI_WORDS_SHARDS = 64
+
+const kanjiWordsCache = new Map<number, Promise<Record<string, KanjiWordRow[]>>>()
+
+/** JLPT words whose written form uses the kanji, easiest level first. */
+export async function findKanjiWords(char: string): Promise<KanjiWordRow[]> {
+  const n = (char.codePointAt(0) ?? 0) % KANJI_WORDS_SHARDS
+  let shard = kanjiWordsCache.get(n)
+  if (!shard) {
+    shard = fetchJsonGz<Record<string, KanjiWordRow[]>>(`kanji-words/${n}.json.gz`)
+    shard.catch(() => kanjiWordsCache.delete(n)) // don't cache a failed fetch
+    kanjiWordsCache.set(n, shard)
+  }
+  try {
+    return (await shard)[char] ?? []
+  } catch {
+    return []
+  }
 }
 
 // --- stroke order (KanjiVG) --------------------------------------------------

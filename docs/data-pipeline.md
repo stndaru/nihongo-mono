@@ -89,10 +89,13 @@ page only (spec says no proper nouns in vocab).
 - `pack-jlpt.ts` — gzips the pretty `src/data` files into
   `public/data/jlpt/*.json.gz`, which is what the app actually fetches.
   Also splits kanji into `jlpt/kanji-core.json.gz` (JLPT-listed or
-  frequency-ranked) plus 16 codepoint shards under `public/data/kanji-ext/`
-  — keep `KANJI_EXT_SHARDS` in sync with `src/lib/data/loader.ts`. Runs
-  last in `data:build`; **must be re-run after any hand edit to
-  `src/data`** (`bun run data:pack`).
+  frequency-ranked) plus 16 codepoint shards under `public/data/kanji-ext/`,
+  and emits the **per-kanji word index** (`public/data/kanji-words/`,
+  64 codepoint shards of pre-sorted `KanjiWordRow` tuples, ~6 KB each) so
+  the kanji detail page's "Words Using" table never fetches the level
+  files. Keep `KANJI_EXT_SHARDS` and `KANJI_WORDS_SHARDS` in sync with
+  `src/lib/data/loader.ts`. Runs last in `data:build`; **must be re-run
+  after any hand edit to `src/data`** (`bun run data:pack`).
 - `copy-kuromoji.ts` — not part of `data:build`; runs in front of
   `dev`/`build` instead. Copies the kuromoji IPADIC dictionary
   (12 `.dat.gz` files, ~17 MB) + its licence NOTICE from node_modules into

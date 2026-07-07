@@ -195,6 +195,19 @@ feedback on many of these — treat them as requirements, not suggestions.
     the full-dictionary pass already ran; the actual gap was
     spelling-variant resolution, fixed at the candidate level.
 
+28. **Kanji-detail word list precomputed at pack time** (found by a
+    network/perf profile of the production build, not a user report): the
+    "Words Using this kanji" section fetched all ten JLPT level files
+    (~1.7 MB) just to filter them by `kanjiChars` — the heaviest
+    non-opt-in fetch in the app. `pack-jlpt.ts` now emits per-kanji
+    `KanjiWordRow` tuples in 64 codepoint shards (~6 KB each,
+    pre-sorted), and the page fetches exactly one. Same profile also made
+    the parser's Beyond pass fetch only the extended index that actually
+    has misses (vocab ~5.5 MB / verbs ~0.6 MB — noun-only miss sets are
+    the common case and now skip the verb index). Everything else
+    measured healthy: worst main-thread block 195 ms (one-time ext-index
+    parse, opt-in path), parses render in 40–90 ms, initial page ~165 KB.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

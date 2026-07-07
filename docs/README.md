@@ -73,8 +73,9 @@ module graph (that once produced a 230 MB dev page). Extended data is
 searched as **raw tuple rows** and only the top matches are ever turned
 into objects; materializing the whole index froze the tab once already
 (see decisions-and-caveats.md). Kanji follows the same split — a ~127 KB
-core file plus rare-character shards, with KanjiVG stroke paths in their
-own per-codepoint shards fetched one-per-displayed-kanji. Conjugations and
+core file plus rare-character shards, a precomputed per-kanji word index
+(so detail pages never refetch the level files), and KanjiVG stroke paths
+in their own per-codepoint shards fetched one-per-displayed-kanji. Conjugations and
 adjective inflections are never stored — they're computed from the entry's
 class by `src/lib/conjugation/` at render time, and search deconjugates
 queries ("tabeta" finds 食べる) instead of indexing conjugated forms.

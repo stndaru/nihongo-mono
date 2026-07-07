@@ -300,7 +300,12 @@ function ParserPage() {
         const { verbs, words } = collectUnlinkedSurfaces(segments)
         if (verbs.size + words.size === 0) return
         setExtLoading(true)
-        Promise.all([loadVerbExtIndex(), loadVocabExtIndex()])
+        // only fetch the index that actually has misses — the vocab index
+        // alone is ~5.5 MB, the verb one ~0.6 MB
+        Promise.all([
+          verbs.size > 0 ? loadVerbExtIndex() : Promise.resolve([]),
+          words.size > 0 ? loadVocabExtIndex() : Promise.resolve([]),
+        ])
           .then(([verbRows, vocabRows]) => {
             if (!alive) return
             const verbHits = findVerbRowsBySurface(verbRows, verbs)
