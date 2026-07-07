@@ -36,7 +36,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Dashboard: streak, accuracy, recent sessions |
+| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections) |
 | `/verbs` | Verb list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |
 | `/vocab` | Vocabulary list — same level model, 14 part-of-speech filters |
@@ -44,7 +44,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
 | `/kanji` | Kanji table — old-scale JLPT levels N4–N1 + "Beyond", searchable by character, reading, or meaning |
-| `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KRADFILE component cards, every JLPT word using the character |
+| `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/settings` | Theme, font toggles, progress export/import/reset |

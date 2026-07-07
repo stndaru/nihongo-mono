@@ -15,15 +15,18 @@ function StatCard({
   value,
   sub,
   highlight,
+  hash,
 }: {
   icon: typeof Flame
   label: string
   value: string
   sub?: string
   highlight?: boolean
+  /** links the card to /progress; '' targets the top of the page */
+  hash?: string
 }) {
-  return (
-    <div className="rounded-lg border p-4">
+  const inner = (
+    <>
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <Icon className="size-3.5" />
         {label}
@@ -32,7 +35,20 @@ function StatCard({
         {value}
       </div>
       {sub && <div className="mt-0.5 text-xs text-muted-foreground">{sub}</div>}
-    </div>
+    </>
+  )
+  if (hash === undefined) {
+    return <div className="rounded-lg border p-4">{inner}</div>
+  }
+  return (
+    <Link
+      to="/progress"
+      hash={hash || undefined}
+      title="open the progress page"
+      className="block rounded-lg border p-4 transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
+    >
+      {inner}
+    </Link>
   )
 }
 
@@ -81,16 +97,19 @@ function Dashboard() {
           label="Accuracy"
           value={accuracy === null ? '—' : `${accuracy}%`}
           sub={totalAnswers > 0 ? `${totalCorrect}/${totalAnswers} answers` : undefined}
+          hash=""
         />
         <StatCard
           icon={BookOpen}
           label="Words practiced"
           value={String(verbsSeen)}
+          hash="words"
         />
         <StatCard
           icon={ListChecks}
           label="Sessions"
           value={String(progress.sessions.length)}
+          hash="sessions"
         />
       </div>
 

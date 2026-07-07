@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { toHiragana } from 'wanakana'
 import { STATUS_LABELS, StatusBadge } from '@/components/progress/StatusBadge'
 import { Button } from '@/components/ui/button'
@@ -162,6 +162,13 @@ function ProgressPage() {
   const forms = useMemo(() => formBreakdown(progress), [progress])
   const trend = useMemo(() => progress.sessions.slice(-TREND_SESSIONS), [progress.sessions])
 
+  // dashboard cards deep-link to a section — scroll once the data is in
+  const hash = useLocation({ select: (l) => l.hash.replace(/^#/, '') })
+  const ready = filtered !== null
+  useEffect(() => {
+    if (hash && ready) document.getElementById(hash)?.scrollIntoView()
+  }, [hash, ready])
+
   const totals = useMemo(() => {
     const rows = resolved?.rows ?? []
     const seen = rows.reduce((a, r) => a + r.stat.seen, 0)
@@ -218,7 +225,7 @@ function ProgressPage() {
       </div>
 
       {trend.length > 1 && (
-        <section>
+        <section id="sessions" className="scroll-mt-16">
           <h2 className="mb-2 text-lg font-semibold">Recent Sessions</h2>
           <div className="flex h-20 items-end gap-1 rounded-lg border p-3">
             {trend.map((s, i) => {
@@ -269,7 +276,7 @@ function ProgressPage() {
         </section>
       )}
 
-      <section className="space-y-3">
+      <section id="words" className="scroll-mt-16 space-y-3">
         <h2 className="text-lg font-semibold">Words</h2>
         <SearchBox value={q} onChange={setQ} placeholder="Search your practiced words…" />
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

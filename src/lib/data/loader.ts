@@ -130,6 +130,31 @@ export async function loadKanjiExt(): Promise<KanjiEntry[]> {
   return shards.flatMap((shard) => Object.values(shard))
 }
 
+// --- stroke order (KanjiVG) --------------------------------------------------
+// Just the SVG path `d` strings per character, in stroke order, packed into
+// 256 codepoint shards (~11 KB each) by scripts/build-strokes.ts — a page
+// pays one small shard per distinct kanji it shows strokes for, never the
+// whole 2.7 MB dataset. Keep the shard count in sync with that script.
+const STROKE_SHARDS = 256
+
+const strokeShardCache = new Map<number, Promise<Record<string, string[]>>>()
+
+/** Stroke paths for one character; undefined when KanjiVG has no data. */
+export async function findStrokes(char: string): Promise<string[] | undefined> {
+  const n = (char.codePointAt(0) ?? 0) % STROKE_SHARDS
+  let shard = strokeShardCache.get(n)
+  if (!shard) {
+    shard = fetchJsonGz<Record<string, string[]>>(`strokes/${n}.json.gz`)
+    shard.catch(() => strokeShardCache.delete(n)) // don't cache a failed fetch
+    strokeShardCache.set(n, shard)
+  }
+  try {
+    return (await shard)[char]
+  } catch {
+    return undefined
+  }
+}
+
 const verbShardCache = new Map<number, Promise<Record<string, VerbEntry>>>()
 const vocabShardCache = new Map<number, Promise<Record<string, VocabEntry>>>()
 

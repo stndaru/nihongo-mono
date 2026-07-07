@@ -122,6 +122,17 @@ feedback on many of these — treat them as requirements, not suggestions.
     when the tab has in-app history (restores the previous page with its
     filters), a "Back to <section>" fallback link otherwise (direct opens
     and the new-tab links used mid-quiz).
+21. **Stroke order via KanjiVG, as path strings** (owner request, again
+    with an explicit network-efficiency requirement): instead of shipping
+    KanjiVG's SVG files, `build-strokes.ts` keeps only the stroke path
+    `d` strings in 256 codepoint shards (~11 KB each; 6,702 kanji, 2.7 MB
+    total that the browser never fetches wholesale — one shard per
+    displayed kanji). The client renders per-stroke frames itself
+    (`StrokeOrder.tsx`), shown on kanji detail pages and the kanji cards
+    of word detail pages. KanjiVG is CC BY-SA 3.0 → promoted from
+    "further references" to a full entry in the About sources list. The
+    dashboard stat cards became links into `/progress` sections
+    (hash-scrolled after data load) in the same round.
 
 ## Known limitations / accepted trade-offs
 
@@ -157,9 +168,6 @@ feedback on many of these — treat them as requirements, not suggestions.
 
 ## Planned / discussed but not built
 
-- **Stroke-order diagrams** on kanji detail pages: KanjiVG is the planned
-  source (already listed on the About page). The pages themselves exist
-  now (`/kanji`, `/kanji/$char`).
 - **Jreibun example sentences** once their dataset is published.
 
 ## Where the authoritative statements live

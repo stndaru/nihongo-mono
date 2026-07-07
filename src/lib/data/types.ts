@@ -117,6 +117,8 @@ export interface DatasetMeta {
   extended?: { verbs: number; vocab: number }
   /** JMnedict proper-name entries (served from public/data/names). */
   namesCount?: number
+  /** Kanji with KanjiVG stroke-order data (served from public/data/strokes). */
+  strokesCount?: number
 }
 
 /**

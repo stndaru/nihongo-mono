@@ -13,6 +13,12 @@
       "assets": [
         { "pattern": "^JmdictFurigana\\.json$", "out": "furigana.json", "zip": false }
       ]
+    },
+    {
+      "repo": "KanjiVG/kanjivg",
+      "assets": [
+        { "pattern": "^kanjivg-\\d+\\.xml\\.gz$", "out": "kanjivg.xml.gz", "zip": false }
+      ]
     }
   ],
   "raw": [

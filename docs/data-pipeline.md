@@ -10,7 +10,7 @@ scripts.
 
 ```bash
 bun run data:download   # fetch all sources → scripts/.cache/ (gitignored, idempotent, --force to refetch)
-bun run data:build      # build-verbs → build-vocab → build-kanji → build-extended → build-names → pack-jlpt
+bun run data:build      # build-verbs → build-vocab → build-kanji → build-extended → build-names → build-strokes → pack-jlpt
 bun run data:pack       # re-gzip src/data into public/data/jlpt (run after hand-editing src/data)
 ```
 
@@ -33,6 +33,7 @@ date, source versions, counts — surfaced on the About page).
 | `scripts/extra-words.json` | (committed, hand-curated) | Compound words missing from every public JLPT list (小説家, 懐中電灯, 連れて行く…). Format: `["kanji","kana",level]` |
 | `scripts/antonym-overrides.json` | (committed, hand-curated) | Antonym pairs JMdict lacks (~55 pairs: 広い↔狭い…). Format: pairs of `["kanji","kana"]` |
 | kuromoji (npm devDependency, IPADIC) | — | Example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f` as a compact `｜base[reading]` bracket string; see architecture.md). Build scripts must `await initReading()` before building entries |
+| [KanjiVG](https://kanjivg.tagaini.net/) single-XML release | `kanjivg.xml.gz` (~3.5 MB) | Stroke-order diagrams. Only the SVG path `d` strings are kept (stroke order = document order); the client renders the frames itself. **CC BY-SA 3.0** — credited in the About sources list |
 
 **Not available (yet):** Jreibun example sentences — the project's data
 download is officially "in preparation" (its sentences on Jisho.org come
@@ -80,6 +81,11 @@ page only (spec says no proper nouns in vocab).
   from both ends (katakana counts as matching its hiragana reading), output
   in the `｜base[reading]` bracket form. Sentences already containing
   `[ ] ｜` are skipped rather than encoded ambiguously.
+- `build-strokes.ts` — parses the KanjiVG XML into 256 codepoint shards
+  (`public/data/strokes/{n}.json.gz`, `Record<char, pathD[]>`, ~11 KB each,
+  6,702 characters). Variant forms (`…-Kaisho` ids) are skipped. Keep
+  `STROKE_SHARDS` in sync with `src/lib/data/loader.ts`. Also stamps
+  `strokesCount` and the KanjiVG version into `meta.json`.
 - `pack-jlpt.ts` — gzips the pretty `src/data` files into
   `public/data/jlpt/*.json.gz`, which is what the app actually fetches.
   Also splits kanji into `jlpt/kanji-core.json.gz` (JLPT-listed or
@@ -106,5 +112,6 @@ Review logs land in `scripts/.cache/`: `furigana-misses*.txt`,
 All EDRDG files (JMdict, JMnedict, KANJIDIC2, KRADFILE) require attribution
 under the EDRDG licence — that's what `/about` is for; keep it accurate
 when adding sources. Tatoeba examples are CC BY 2.0 FR; JLPT lists CC BY
-(tanos.co.uk). The About page must name the sources, licences, and dataset
-generation date (`meta.json`).
+(tanos.co.uk); KanjiVG stroke data is © Ulrich Apel, **CC BY-SA 3.0**. The
+About page must name the sources, licences, and dataset generation date
+(`meta.json`).

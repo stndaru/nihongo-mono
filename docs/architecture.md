@@ -250,6 +250,11 @@ regardless of host compression config.
   `components/progress/WordPractice.tsx` (status badge + "quizzed N×, P%
   correct · last on date" + link to `/progress`); renders nothing until
   the word has been quizzed.
+- **Dashboard stat cards deep-link here**: Accuracy → page top, Words
+  practiced → `#words`, Sessions → `#sessions` (TanStack `Link hash=`).
+  The sections carry `id` + `scroll-mt-16` (sticky header clearance), and
+  the page scrolls via an effect once the word data has loaded — a plain
+  browser anchor jump would fire before the sections have their content.
 
 ## Kanji pages
 
@@ -272,6 +277,18 @@ regardless of host compression config.
   `/kanji/$char` and resolve their characters via `findKanjiChars` — a
   word detail page now costs ~127 KB of kanji data instead of 400 KB, plus
   at most a 20 KB shard when a word contains a rare character.
+- **Stroke order** (`components/kanji/StrokeOrder.tsx`): a frame strip —
+  frame N draws strokes 1…N, the newest in primary with a dot at its start
+  point; previous strokes are muted. No SVG files or stroke-number text
+  ship to the client: `scripts/build-strokes.ts` reduces the KanjiVG XML
+  release to just the path `d` strings per character (stroke order =
+  document order) in **256 codepoint shards** (~11 KB gz each, 6,702
+  kanji, 2.7 MB total on disk). `findStrokes(char)` in loader.ts fetches
+  one shard per distinct character shown — a kanji page or word page pays
+  ~11 KB, never the whole set. Colors are Tailwind `stroke-*` classes on
+  `currentColor`-free paths, so dark mode needs nothing special. Kanji
+  without KanjiVG coverage simply render no strip/section. KanjiVG is
+  **CC BY-SA 3.0** — it must stay credited in the About sources list.
 
 ## App shell & navigation
 

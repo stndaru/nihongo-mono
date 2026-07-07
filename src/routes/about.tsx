@@ -55,6 +55,13 @@ const SOURCES = [
     licenseHref: 'https://www.edrdg.org/edrdg/licence.html',
     what: 'Kanji component (radical) decomposition.',
   },
+  {
+    name: 'KanjiVG (© Ulrich Apel)',
+    href: 'https://kanjivg.tagaini.net/',
+    license: 'CC BY-SA 3.0',
+    licenseHref: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    what: 'Kanji stroke-order diagrams (the numbered frame strips on kanji pages).',
+  },
 ] as const
 
 const FURTHER_REFERENCES = [
@@ -62,7 +69,6 @@ const FURTHER_REFERENCES = [
   { name: 'KANJIDIC project', href: 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project' },
   { name: 'Tatoeba', href: 'https://tatoeba.org/' },
   { name: 'Jreibun (example sentences — planned; its dataset is not yet published)', href: 'https://www.tufs.ac.jp/ts/personal/SUZUKI_Tomomi/jreibun/index-jreibun.html' },
-  { name: 'KanjiVG (stroke-order data)', href: 'https://kanjivg.tagaini.net/' },
   { name: 'kanji.org', href: 'https://www.kanji.org/' },
 ] as const
 

@@ -3,6 +3,7 @@ import { createFileRoute, Link, notFound, useNavigate } from '@tanstack/react-ro
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { BackButton } from '@/components/layout/BackButton'
+import { StrokeOrder } from '@/components/kanji/StrokeOrder'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { findKanjiChars, loadVerbLevels, loadVocabLevels } from '@/lib/data/loader'
@@ -150,6 +151,8 @@ function KanjiDetailPage() {
           </p>
         )}
       </section>
+
+      <StrokeOrder char={entry.char} heading="Stroke Order" frameClass="size-14" />
 
       {components.length > 0 && (
         <section>

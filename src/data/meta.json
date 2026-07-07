@@ -3,7 +3,8 @@
   "sources": {
     "elzup/jlpt-word-list": "master",
     "edrdg/kradfile": "kradzip",
-    "scriptin/jmdict-simplified": "3.6.2+20260706150322"
+    "scriptin/jmdict-simplified": "3.6.2+20260706150322",
+    "KanjiVG/kanjivg": "r20250816"
   },
   "verbCounts": {
     "n5": 137,
@@ -23,5 +24,6 @@
   "extended": {
     "verbs": 23740,
     "vocab": 204021
-  }
+  },
+  "strokesCount": 6702
 }
