@@ -30,6 +30,9 @@ const LIMIT = 20
 const EXT_LIMIT = 8
 const ALL_LEVELS = [5, 4, 3, 2, 1] as const
 
+/** Dispatch this window event to open the palette (mobile floating button). */
+export const OPEN_PALETTE_EVENT = 'nihongo-mono:open-palette'
+
 /**
  * Quick-access search (Ctrl/Cmd+K): one input over all JLPT verbs and
  * vocabulary, each hit labeled with its type, Enter/click opens the detail
@@ -50,7 +53,7 @@ export function CommandPalette() {
 
   const isMac = useMemo(() => navigator.userAgent.includes('Mac'), [])
 
-  // global shortcut
+  // global shortcut + the mobile floating button's open event
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'k' && (isMac ? e.metaKey : e.ctrlKey)) {
@@ -58,8 +61,13 @@ export function CommandPalette() {
         setOpen((v) => !v)
       }
     }
+    const onOpen = () => setOpen(true)
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener(OPEN_PALETTE_EVENT, onOpen)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener(OPEN_PALETTE_EVENT, onOpen)
+    }
   }, [isMac])
 
   // JLPT tiers load on first open (module-cached afterwards)
