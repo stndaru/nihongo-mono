@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { Check, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ExampleJa } from '@/components/verbs/ExampleSentences'
+import { ExampleJa, ParseSentenceLink } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { PosBadge } from '@/components/vocab/PosBadge'
 import { enter } from '@/lib/animate'
@@ -107,6 +107,8 @@ export function VocabAnswerFeedback({
           <div className="mt-2 border-t border-border/60 pt-3 text-sm">
             <p className="text-lg leading-loose">
               <ExampleJa example={word.examples[0]} />
+              {/* new tab, per the mid-quiz convention — the session must stay put */}
+              <ParseSentenceLink ja={word.examples[0].ja} />
             </p>
             <p className="mt-0.5 text-muted-foreground">{word.examples[0].en}</p>
           </div>

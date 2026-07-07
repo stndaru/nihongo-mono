@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import type { WordSense } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
-import { ExampleJa } from './ExampleSentences'
+import { ExampleJa, ParseSentenceLink } from './ExampleSentences'
 
 /**
  * Numbered dictionary senses; a row expands to show the full gloss list and
@@ -56,6 +56,7 @@ export function MeaningsAccordion({ senses }: { senses: WordSense[] }) {
                     <div key={j} className="text-sm">
                       <p className="text-lg leading-loose">
                         <ExampleJa example={ex} />
+                        <ParseSentenceLink ja={ex.ja} />
                       </p>
                       <p className="mt-0.5 leading-relaxed text-muted-foreground">{ex.en}</p>
                     </div>

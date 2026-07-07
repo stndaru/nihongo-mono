@@ -41,11 +41,12 @@
             (t !== 'light' &&
               window.matchMedia('(prefers-color-scheme: dark)').matches)
           if (dark) document.documentElement.classList.add('dark')
-          // font preferences (default serif/serif) — set pre-paint to avoid font flash
-          if (localStorage.getItem('nihongo-mono:font-text') === 'sans')
-            document.documentElement.dataset.fontText = 'sans'
-          if (localStorage.getItem('nihongo-mono:font-ja') === 'sans')
-            document.documentElement.dataset.fontJa = 'sans'
+          // font preferences (default sans/sans; stored 'serif' is an
+          // explicit pick) — set pre-paint to avoid font flash
+          if (localStorage.getItem('nihongo-mono:font-text') === 'serif')
+            document.documentElement.dataset.fontText = 'serif'
+          if (localStorage.getItem('nihongo-mono:font-ja') === 'serif')
+            document.documentElement.dataset.fontJa = 'serif'
         } catch (e) {}
       })()
     </script>

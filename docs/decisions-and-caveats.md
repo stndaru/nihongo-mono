@@ -6,8 +6,10 @@ feedback on many of these — treat them as requirements, not suggestions.
 ## User-set conventions (do not regress)
 
 - **Bun over npm**, everywhere. (The very first infrastructure correction.)
-- **Serif by default for everything**, with Settings toggles to switch
-  Japanese glyphs and Latin text to sans independently. The color theme
+- **Sans-serif by default for everything** (the owner first asked for serif
+  everywhere, then reversed to sans-default — a stored `'serif'` remains an
+  explicit pick), with Settings toggles to switch Japanese glyphs and Latin
+  text between serif/sans independently. The color theme
   **follows the system by default** (changed from light-default on
   request); stored 'light'/'dark' are explicit user picks.
 - **Title Case** on buttons and short UI labels ("Show More", "Common Only").
@@ -207,6 +209,18 @@ feedback on many of these — treat them as requirements, not suggestions.
     the common case and now skip the verb index). Everything else
     measured healthy: worst main-thread block 195 ms (one-time ext-index
     parse, opt-in path), parses render in 40–90 ms, initial page ~165 KB.
+
+29. **Kanji "Load All Words" reuses the extended indexes** (owner asked
+    for a Beyond expansion of the kanji word list, "lightweight and
+    network efficient"): a precomputed per-kanji ext index was measured
+    first and rejected — ~12 MB committed across shards (478k
+    kanji-word pairs; 学 alone has 4,161 words), duplicating data the
+    app already ships. Instead the button scans the two ext search
+    indexes (~6 MB, disclosed in the tooltip) — the same files the
+    palette, Beyond chips, and parser share, in memory after any of
+    them loads. Same round: every example sentence got a
+    `ParseSentenceLink` icon (opens `/parser?q=` in a new tab), and the
+    default typography flipped serif → sans (see conventions).
 
 ## Known limitations / accepted trade-offs
 

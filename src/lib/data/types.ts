@@ -153,12 +153,14 @@ export type VerbIndexRow = [
  * One "word using this kanji" row for the kanji detail page, precomputed by
  * scripts/pack-jlpt.ts into public/data/kanji-words/{n}.json.gz codepoint
  * shards. Pre-sorted easiest-level-first; carries only what the table shows,
- * so the page never has to fetch the full JLPT level files.
+ * so the page never has to fetch the full JLPT level files. The kanji page's
+ * "Load All Words" builds the same shape from the extended indexes with
+ * `jlpt: 0` (ext-search.ts findWordRowsByKanji).
  */
 export type KanjiWordRow = [
   id: string,
   isVerb: 0 | 1,
-  jlpt: JlptLevel,
+  jlpt: WordLevel,
   kana: string,
   gloss: string,
   furigana: FuriganaSegment[],

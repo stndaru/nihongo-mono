@@ -26,7 +26,8 @@ exported as a file.
 - **Kanji** — a browsable table (JLPT levels + "Beyond", 10,000+ KANJIDIC2
   characters) and detail pages with on/kun readings, KRADFILE radical
   breakdown, KanjiVG stroke-order frames, grade/frequency info, and every
-  JLPT word that uses the character.
+  JLPT word that uses the character — expandable to every full-dictionary
+  word with "Load All Words".
 - **Search everywhere** — a Ctrl/Cmd+K command palette plus per-page search;
   queries match kanji, kana, romaji, English, and **conjugated forms**
   ("tabeta" finds 食べる).
@@ -40,7 +41,8 @@ exported as a file.
   analyzer-grade segmentation, furigana on every word, POS-colored
   underlines, links to full-dictionary entries beyond the JLPT lists
   (marked "Beyond"), and reading-based matching of variant kanji spellings
-  (温かい finds the 暖かい entry).
+  (温かい finds the 暖かい entry). Every example sentence in the app links
+  into the parser (small icon, opens a new tab).
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session

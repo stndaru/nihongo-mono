@@ -86,19 +86,20 @@
  * Typography preferences (Settings → Typography).
  * Latin stacks carry no generic family so Japanese glyphs in mixed text fall
  * through to the Japanese stack; the Japanese stacks end with the generic.
- * Defaults are serif/serif; data attributes are set pre-paint in index.html.
+ * Defaults are sans/sans; data attributes are set pre-paint in index.html
+ * (a stored "serif" is an explicit user pick and keeps working).
  */
 :root {
-  --font-latin: Georgia, "Times New Roman", ui-serif;
-  --font-ja: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho",
-    "Noto Serif JP", serif;
-}
-:root[data-font-text="sans"] {
   --font-latin: ui-sans-serif, system-ui, "Segoe UI", Arial;
-}
-:root[data-font-ja="sans"] {
   --font-ja: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic",
     Meiryo, "Noto Sans JP", sans-serif;
+}
+:root[data-font-text="serif"] {
+  --font-latin: Georgia, "Times New Roman", ui-serif;
+}
+:root[data-font-ja="serif"] {
+  --font-ja: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho",
+    "Noto Serif JP", serif;
 }
 
 @layer base {

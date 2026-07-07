@@ -4,7 +4,13 @@ import { deconjugate } from './deconjugate'
 import { CODE_TO_POS, CODE_TO_TRANS } from './ext-format'
 import { pairFurigana } from './furigana'
 import type { VerbFilterState, VocabFilterState } from './search'
-import type { VerbEntry, VerbIndexRow, VocabEntry, VocabIndexRow } from './types'
+import type {
+  KanjiWordRow,
+  VerbEntry,
+  VerbIndexRow,
+  VocabEntry,
+  VocabIndexRow,
+} from './types'
 
 /**
  * Search over the extended tier's raw index rows. The index holds ~200k
@@ -155,6 +161,38 @@ export function findVerbRowsBySurface(
     if (surfaces.has(row[2]) && !hits.has(row[2])) hits.set(row[2], row)
   }
   return new Map([...hits].map(([surface, row]) => [surface, matVerb(row)]))
+}
+
+/**
+ * Every extended-tier word whose written form uses the kanji — the kanji
+ * detail page's "Load All Words". Returns table-ready KanjiWordRow tuples
+ * (jlpt 0 → Beyond badge), common first then kana order; furigana is
+ * whole-word ruby via pairFurigana, materialized only for actual hits.
+ */
+export function findWordRowsByKanji(
+  verbRows: VerbIndexRow[],
+  vocabRows: VocabIndexRow[],
+  char: string,
+): KanjiWordRow[] {
+  const hits: { row: KanjiWordRow; common: 0 | 1; kana: string }[] = []
+  for (const r of verbRows) {
+    if (r[1].includes(char))
+      hits.push({
+        row: [String(r[0]), 1, 0, r[2], r[3], pairFurigana(r[1], r[2])],
+        common: r[6],
+        kana: r[2],
+      })
+  }
+  for (const r of vocabRows) {
+    if (r[1].includes(char))
+      hits.push({
+        row: [String(r[0]), 0, 0, r[2], r[3], pairFurigana(r[1], r[2])],
+        common: r[5],
+        kana: r[2],
+      })
+  }
+  hits.sort((a, b) => b.common - a.common || a.kana.localeCompare(b.kana, 'ja'))
+  return hits.map((h) => h.row)
 }
 
 export function searchVocabRows(

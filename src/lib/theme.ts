@@ -34,13 +34,14 @@ const FONT_ATTRS: Record<FontKind, 'fontText' | 'fontJa'> = {
 }
 
 export function getFontPref(kind: FontKind): FontChoice {
-  return localStorage.getItem(FONT_KEYS[kind]) === 'sans' ? 'sans' : 'serif'
+  // default is sans — a stored 'serif' is an explicit user pick
+  return localStorage.getItem(FONT_KEYS[kind]) === 'serif' ? 'serif' : 'sans'
 }
 
 export function setFontPref(kind: FontKind, choice: FontChoice): void {
   localStorage.setItem(FONT_KEYS[kind], choice)
   const el = document.documentElement
-  if (choice === 'sans') el.dataset[FONT_ATTRS[kind]] = 'sans'
+  if (choice === 'serif') el.dataset[FONT_ATTRS[kind]] = 'serif'
   else delete el.dataset[FONT_ATTRS[kind]]
 }
 

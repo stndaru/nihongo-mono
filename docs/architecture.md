@@ -388,6 +388,15 @@ regardless of host compression config.
   page, so `pack-jlpt.ts` now emits `KanjiWordRow` tuples (id, isVerb,
   jlpt, kana, joined gloss, furigana) with exactly what the table renders.
   Keep `KANJI_WORDS_SHARDS = 64` in sync between the script and loader.ts.
+  A **"Load All Words" button** extends the table to the Beyond tier: it
+  scans the two extended search indexes (`findWordRowsByKanji` in
+  ext-search.ts, same `KanjiWordRow` shape with `jlpt: 0` and
+  `pairFurigana` ruby) — deliberately **no precomputed ext shards**: a
+  per-kanji ext index measured ~12 MB committed (学 alone has 4,161
+  words), while the indexes are already the shared, cached backing store
+  of every full-dictionary feature. The button discloses the ~6 MB
+  download in its title and disappears once loaded; ext rows sort common
+  → kana and append after the JLPT rows.
 - `KanjiBreakdown` cards on verb/vocab detail pages are links to
   `/kanji/$char` and resolve their characters via `findKanjiChars` — a
   word detail page now costs ~127 KB of kanji data instead of 400 KB, plus
@@ -436,8 +445,9 @@ regardless of host compression config.
 
 ## Typography & theming
 
-- Everything defaults to **serif** (user preference), with independent
-  serif/sans toggles for Japanese glyphs vs Latin text: CSS vars
+- Everything defaults to **sans-serif** (was serif for a while; the owner
+  flipped the default back — stored `'serif'` picks keep working), with
+  independent serif/sans toggles for Japanese glyphs vs Latin text: CSS vars
   `--font-latin` / `--font-ja` switched by `data-font-text` / `data-font-ja`
   attributes on `<html>`, set **pre-paint** by an inline script in
   `index.html` (same script applies the theme; **system is the default**,
@@ -455,6 +465,11 @@ regardless of host compression config.
   0.55em; quiz sessions (`[data-quiz]`) use 0.45em. The `Furigana`
   component is `whitespace-nowrap` (right for words); sentence renderers
   (`ExampleJa`) override with `whitespace-normal` so lines wrap.
+- **Every example sentence carries a `ParseSentenceLink`** (a small
+  ScanText icon after the Japanese line, defined in ExampleSentences.tsx):
+  it opens `/parser?q=<sentence>` in a **new tab** so the page being read
+  stays put — rendered in `ExampleSentences`, the `MeaningsAccordion`
+  per-sense examples, and the vocab-quiz answer feedback.
 - Buttons and labels use **Title Case** (user preference). All clickables
   get `cursor: pointer` (base rule in index.css).
 - **Scrollbars are custom-styled** (index.css): thin rounded pill on a

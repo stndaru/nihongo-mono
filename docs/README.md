@@ -48,7 +48,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
 | `/parser` | Sentence parser: paste kana/kanji text (≤100 chars) for a word-by-word breakdown. Greedy matching by default; confirm-gated "Smart Parsing" opt-in (~17 MB kuromoji) adds furigana, POS-colored underlines, Beyond-tier links, and a reading fallback for variant spellings. Clicking a word opens a summary popup (detail pages open in a new tab); carries an accuracy caveat |
 | `/kanji` | Kanji table — old-scale JLPT levels N4–N1 + "Beyond", searchable by character, reading, or meaning |
-| `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character |
+| `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character — plus a "Load All Words" button that extends the list to the full dictionary (Beyond tier) |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/settings` | Theme, font toggles, progress export/import/reset |

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { createFileRoute, Link, notFound, useNavigate } from '@tanstack/react-router'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -6,7 +6,13 @@ import { BackButton } from '@/components/layout/BackButton'
 import { StrokeOrder } from '@/components/kanji/StrokeOrder'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
-import { findKanjiChars, findKanjiWords } from '@/lib/data/loader'
+import { findWordRowsByKanji } from '@/lib/data/ext-search'
+import {
+  findKanjiChars,
+  findKanjiWords,
+  loadVerbExtIndex,
+  loadVocabExtIndex,
+} from '@/lib/data/loader'
 import type { KanjiEntry, KanjiWordRow, WordLevel } from '@/lib/data/types'
 import { rowClickGuard } from '@/lib/row-click'
 
@@ -47,6 +53,25 @@ function gradeLabel(grade: number | null): string | null {
 
 const WORDS_PAGE = 50
 
+/**
+ * Opt-in expansion to the Beyond tier. First use downloads the extended
+ * search indexes (~6 MB) — the same files every other full-dictionary
+ * feature shares, so they're often already cached.
+ */
+function LoadAllWordsButton({ loading, onClick }: { loading: boolean; onClick: () => void }) {
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={onClick}
+      disabled={loading}
+      title="include every dictionary word beyond the JLPT lists (downloads the ~6 MB full-dictionary index once; shared with the other Beyond features)"
+    >
+      {loading ? 'Loading Full Dictionary…' : 'Load All Words'}
+    </Button>
+  )
+}
+
 function KanjiDetailPage() {
   const { entry, components } = Route.useLoaderData()
   const navigate = useNavigate()
@@ -64,8 +89,40 @@ function KanjiDetailPage() {
     }
   }, [entry.char])
 
+  // opt-in Beyond tier: scans the extended indexes (shared with the other
+  // full-dictionary features and cached after the first use)
+  const [extWords, setExtWords] = useState<KanjiWordRow[] | null>(null)
+  const [extLoading, setExtLoading] = useState(false)
+  const charRef = useRef(entry.char)
+
   const [visible, setVisible] = useState(WORDS_PAGE)
-  useEffect(() => setVisible(WORDS_PAGE), [entry.char])
+  useEffect(() => {
+    charRef.current = entry.char
+    setVisible(WORDS_PAGE)
+    setExtWords(null)
+    setExtLoading(false)
+  }, [entry.char])
+
+  const loadAllWords = () => {
+    const char = entry.char
+    setExtLoading(true)
+    Promise.all([loadVerbExtIndex(), loadVocabExtIndex()])
+      .then(([verbRows, vocabRows]) => {
+        if (charRef.current !== char) return // navigated away mid-load
+        setExtWords(findWordRowsByKanji(verbRows, vocabRows, char))
+      })
+      .catch(() => {
+        if (charRef.current === char) setExtWords([])
+      })
+      .finally(() => {
+        if (charRef.current === char) setExtLoading(false)
+      })
+  }
+
+  const allWords = useMemo(
+    () => (words === null ? null : extWords === null ? words : [...words, ...extWords]),
+    [words, extWords],
+  )
 
   const grade = gradeLabel(entry.grade)
   const linkedComponents = useMemo(
@@ -177,12 +234,17 @@ function KanjiDetailPage() {
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">Words Using {entry.char}</h2>
-        {words === null ? (
+        {allWords === null ? (
           <div className="py-4 text-sm text-muted-foreground">Loading words…</div>
-        ) : words.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No JLPT-listed verbs or vocabulary use this kanji.
-          </p>
+        ) : allWords.length === 0 ? (
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {extWords === null
+                ? 'No JLPT-listed verbs or vocabulary use this kanji.'
+                : 'No dictionary words use this kanji.'}
+            </p>
+            {extWords === null && <LoadAllWordsButton loading={extLoading} onClick={loadAllWords} />}
+          </div>
         ) : (
           <div>
             <table className="w-full border-collapse text-sm">
@@ -196,7 +258,7 @@ function KanjiDetailPage() {
                 </tr>
               </thead>
               <tbody>
-                {words.slice(0, visible).map(([id, isVerb, jlpt, kana, gloss, furigana]) => (
+                {allWords.slice(0, visible).map(([id, isVerb, jlpt, kana, gloss, furigana]) => (
                   <tr
                     key={`${isVerb ? 'v' : 'w'}${id}`}
                     className="group cursor-pointer border-b border-border/60 hover:bg-muted/50"
@@ -243,20 +305,28 @@ function KanjiDetailPage() {
                 ))}
               </tbody>
             </table>
-            <div className="flex items-center justify-between py-3 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-between gap-2 py-3 text-xs text-muted-foreground">
               <span>
-                {Math.min(visible, words.length)} of {words.length} word
-                {words.length === 1 ? '' : 's'}
+                {Math.min(visible, allWords.length)} of {allWords.length} word
+                {allWords.length === 1 ? '' : 's'}
+                {extWords !== null && extWords.length > 0 && (
+                  <> · {extWords.length.toLocaleString()} beyond JLPT</>
+                )}
               </span>
-              {words.length > visible && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setVisible((v) => v + WORDS_PAGE)}
-                >
-                  Show More
-                </Button>
-              )}
+              <span className="flex items-center gap-2">
+                {extWords === null && (
+                  <LoadAllWordsButton loading={extLoading} onClick={loadAllWords} />
+                )}
+                {allWords.length > visible && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setVisible((v) => v + WORDS_PAGE)}
+                  >
+                    Show More
+                  </Button>
+                )}
+              </span>
             </div>
           </div>
         )}
