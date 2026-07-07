@@ -115,17 +115,20 @@ function Dashboard() {
         />
       </div>
 
-      <div className="flex flex-wrap gap-2.5">
-        <Button size="lg" asChild>
+      {/* phones: full-width stacked; sm+: inline row */}
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
+        <Button size="lg" asChild className="w-full sm:w-auto">
           <Link to="/quiz">Start a Quiz</Link>
         </Button>
-        <Button size="lg" variant="outline" asChild>
+        <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
           <Link to="/dictionary">Browse Dictionary</Link>
         </Button>
-        <Button size="lg" variant="outline" asChild>
+        <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
           <Link to="/progress">View Progress</Link>
         </Button>
       </div>
+
+      <hr className="border-border" />
 
       <VerbCheatsheet />
     </div>

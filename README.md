@@ -52,6 +52,9 @@ exported as a file.
   the three verb types (godan/ichidan/する・来る): how to spot each
   (including the 帰る/走る ichidan-lookalike trap list) and how each
   conjugates, with a side-by-side form table.
+- **Resources** — a curated page of external learning sites (dictionaries,
+  grammar guides, JLPT practice) with short descriptions, under the
+  Language menu.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session

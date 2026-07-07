@@ -493,6 +493,10 @@ regardless of host compression config.
   captions (Vocabulary / Practice) that must stay visually distinct from
   the links. A floating terracotta search button (bottom-right, 24px
   insets) opens the palette via `OPEN_PALETTE_EVENT`.
+- **Footer**: attribution line, the About & licences link, and a GitHub
+  icon link to github.com/stndaru/nihongo-mono (inline SVG in
+  `__root.tsx` — lucide-react removed its brand icons, `Github` no
+  longer exists there).
 - **Mobile screen margins are 24px** (`px-6` on header/main/footer below
   `sm`; drawer text also lands at 24px) — a direct owner requirement after
   12px felt cramped.

@@ -45,7 +45,7 @@ feedback on many of these — treat them as requirements, not suggestions.
   lighten the first attempt. Dark mode: `oklch(0.72 0.13 44)`.
 - Branding: tab title **"NihongoMono - Companion"**, open-book favicon in
   the terracotta, OG/Twitter link previews with `public/og.png`.
-- Navigation: **Names lives under the Vocab dropdown** (not top-level);
+- Navigation: **Names lives under the Language dropdown** (not top-level);
   **Settings is an icon button at the far right**; phones use a burger
   side-drawer whose section captions must read as labels, not links, and a
   floating search button bottom-right.
@@ -285,7 +285,10 @@ feedback on many of these — treat them as requirements, not suggestions.
     spacing, titles outweigh content (kanji badge + bold title), the
     dashboard buttons collapsed to Start a Quiz / Browse Dictionary /
     View Progress, and the homepage runs roomier (`space-y-10`) than
-    other pages on purpose.
+    other pages on purpose. On phones the buttons render full-width and
+    stacked; an `<hr>` separates them from the cheatsheet; and the
+    footer gained a GitHub icon link (inline SVG — lucide dropped its
+    brand icons) to github.com/stndaru/nihongo-mono.
 
 ## Known limitations / accepted trade-offs
 
@@ -307,11 +310,11 @@ feedback on many of these — treat them as requirements, not suggestions.
 - Quizzes deliberately exclude the Beyond tier.
 - **Sentence parser accuracy is bounded by design**: the default engine is
   greedy dictionary matching (JLPT words only, honest caveat box on the
-  page); smart mode is kuromoji + heuristic linking, where homographs
-  resolve by frequency (never context) and the reading fallback can in
-  principle link a same-reading homophone. Word-by-word breakdowns of
-  incoherent input stay unreliable in both engines — that's disclosed, not
-  fixable at this scope.
+  page); smart mode is kuromoji + heuristic linking — homographs resolve
+  by kuromoji's reading where available (decision 32) and by frequency
+  otherwise, and the reading fallback can in principle link a same-reading
+  homophone. Word-by-word breakdowns of incoherent input stay unreliable
+  in both engines — that's disclosed, not fixable at this scope.
 - Archaic verb classes (二段/四段, vs-s, vz…) are vocab entries
   (`pos: 'verb'`, badge "Verb (archaic)") — the engine doesn't conjugate
   them.
@@ -325,8 +328,9 @@ feedback on many of these — treat them as requirements, not suggestions.
   reproducible with `bun run data:download && bun run data:build` — which is
   why dropping them was safe. Commit hashes quoted in notes written before
   the rewrite no longer resolve.
-- `performance.memory`-style dev measurements were taken on the dev server;
-  production is lighter but hasn't been profiled separately.
+- The production build was profiled once (decision 28: CDP wire bytes +
+  long-task observer per page/action); re-run that methodology after big
+  data or route changes rather than trusting dev-server numbers.
 
 ## Planned / discussed but not built
 

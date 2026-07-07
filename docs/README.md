@@ -21,9 +21,10 @@ repo root; it predates everything and still governs scope. Core ideas:
 - **Learning features**: verb conjugation tables (computed at runtime, never
   stored), conjugation & vocabulary quizzes, antonym pairs, adjective
   inflections, kanji pages with KanjiVG stroke-order frames, a sentence
-  parser (greedy by default, opt-in kuromoji "Smart Parsing"), and a
-  progress analytics page (per-word encounters/accuracy/status, per-form
-  accuracy, session trend).
+  parser (greedy by default, opt-in kuromoji "Smart Parsing"), a progress
+  analytics page (per-word encounters/accuracy/status, per-form accuracy,
+  session trend), a homepage verb-type cheatsheet, and a curated
+  external-resources page.
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -46,7 +47,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab` | Vocabulary list — same level model, 14 part-of-speech filters |
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
-| `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
+| `/names` | Prefix search over 743k JMnedict proper names (reached via the Language dropdown) |
 | `/parser` | Sentence parser: paste kana/kanji text (≤100 chars) for a word-by-word breakdown. Greedy matching by default; confirm-gated "Smart Parsing" opt-in (~17 MB kuromoji) adds furigana, POS-colored underlines, Beyond-tier links, and a reading fallback for variant spellings. Clicking a word opens a summary popup (detail pages open in a new tab); carries an accuracy caveat |
 | `/kanji` | Kanji table — modern JLPT levels N5–N1 + "Beyond", searchable by character, reading, or meaning |
 | `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character — plus a "Load All Words" button that extends the list to the full dictionary (Beyond tier) |

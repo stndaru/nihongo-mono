@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, quiz rules, progress store, sentence parser (142 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, quiz rules, progress store, sentence parser (147 tests)
 bun run lint            # oxlint
 bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
@@ -46,8 +46,8 @@ Playwright gotchas learned the hard way:
 - "Usually kana" words never show their kanji (きれい not 綺麗) — assert on
   what actually renders. Kana-only words also render **no `<ruby>` element
   at all** — don't wait on `ruby` selectors for words like ある.
-- Debounced search (150 ms) needs `waitForFunction` on result content, not
-  fixed sleeps.
+- Debounced search (250 ms, `SEARCH_DEBOUNCE_MS`) needs `waitForFunction`
+  on result content, not fixed sleeps.
 - **Quiz feedback swallows Enter for its first 200 ms** (deliberate app
   behavior so the submitting Enter can't skip feedback). Scripts must wait
   ~300 ms after feedback appears before pressing Enter, or the session
@@ -91,14 +91,17 @@ Playwright gotchas learned the hard way:
   *number* 5. Every `validateSearch` normalizes with
   `String(search.levels ?? '')` before regex-testing. Any new search param
   that looks numeric needs the same treatment.
-- Level filter regexes are `[0-5]` on the list pages (0 = Beyond) but `[1-5]`
-  in quiz config — this asymmetry is intentional.
-- Never allow an empty level selection (toggle handlers guard against it).
+- Level filter regexes are `[0-5]` on the list pages (0 = Beyond, and they
+  also accept the `none` sentinel for label-toggled empty) but `[1-5]` in
+  quiz config — this asymmetry is intentional.
+- Per-chip level toggles never reach an empty selection; only the group
+  label's deselect-all does (deliberate bulk action → `levels=none`).
 - `EXT_LIMIT`, table `PAGE`, shard counts, and the ext wire format all have
   comments explaining their constraints — read them before "simplifying".
-  Shard counts now exist in **three pairs** that must stay in sync with
+  Shard counts now exist in **four pairs** that must stay in sync with
   `src/lib/data/loader.ts`: verbs/vocab ext (32/128, `build-extended.ts`),
-  kanji ext (16, `pack-jlpt.ts`), strokes (256, `build-strokes.ts`).
+  kanji ext (16) + kanji-words (64) (both `pack-jlpt.ts`), strokes (256,
+  `build-strokes.ts`).
 - **Never import multi-MB JSON through the JS module graph** — fetch it as
   static `.json.gz` (see architecture.md, "Tier 1"). This single mistake
   produced a 230 MB dev page.
