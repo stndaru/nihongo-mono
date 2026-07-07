@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, Flame, ListChecks, Target } from 'lucide-react'
+import { VerbCheatsheet } from '@/components/home/VerbCheatsheet'
 import { Button } from '@/components/ui/button'
 import { useProgress } from '@/lib/progress/context'
 import { streakAtRisk, streakBroken } from '@/lib/progress/streak'
@@ -127,6 +128,8 @@ function Dashboard() {
           <Link to="/progress">View Progress</Link>
         </Button>
       </div>
+
+      <VerbCheatsheet />
     </div>
   )
 }

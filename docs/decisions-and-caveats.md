@@ -271,6 +271,17 @@ feedback on many of these — treat them as requirements, not suggestions.
     (inflected surfaces never read like their dictionary form). Same
     round: the parser textarea grew to four lines by default.
 
+33. **Homepage verb-type cheatsheet** (owner request, content modeled on
+    japanese.thetinywisdom.com/learn): a skimmable recall section below
+    the dashboard buttons — three cards (godan/ichidan/irregular, each
+    with What / Spot It / Conjugate), the いる・える-lookalike trap list
+    (帰る 走る 入る… test with the ない form), and a five-form comparison
+    table across 書く/食べる/する/来る. Deliberately static content in
+    `components/home/VerbCheatsheet.tsx` (these facts don't change with
+    the dataset). Phone gotcha encoded in a comment: adjacent
+    `whitespace-nowrap` spans with no space between them form ONE
+    unbreakable run — the trap list is a flex-wrap row instead.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

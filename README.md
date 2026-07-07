@@ -48,6 +48,10 @@ exported as a file.
   (marked "Beyond"), and reading-based matching of variant kanji spellings
   (温かい finds the 暖かい entry). Every example sentence in the app links
   into the parser (small icon, opens a new tab).
+- **Verb-type cheatsheet** — the homepage carries a skimmable summary of
+  the three verb types (godan/ichidan/する・来る): how to spot each
+  (including the 帰る/走る ichidan-lookalike trap list) and how each
+  conjugates, with a side-by-side form table.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session
