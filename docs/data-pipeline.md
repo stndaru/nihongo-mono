@@ -82,7 +82,10 @@ page only (spec says no proper nouns in vocab).
   `[ ] ｜` are skipped rather than encoded ambiguously.
 - `pack-jlpt.ts` — gzips the pretty `src/data` files into
   `public/data/jlpt/*.json.gz`, which is what the app actually fetches.
-  Runs last in `data:build`; **must be re-run after any hand edit to
+  Also splits kanji into `jlpt/kanji-core.json.gz` (JLPT-listed or
+  frequency-ranked) plus 16 codepoint shards under `public/data/kanji-ext/`
+  — keep `KANJI_EXT_SHARDS` in sync with `src/lib/data/loader.ts`. Runs
+  last in `data:build`; **must be re-run after any hand edit to
   `src/data`** (`bun run data:pack`).
 
 Review logs land in `scripts/.cache/`: `furigana-misses*.txt`,

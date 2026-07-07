@@ -5,6 +5,7 @@ import { Furigana } from '@/components/verbs/Furigana'
 import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
 import { ClassBadge, LevelBadge, TransBadge } from '@/components/verbs/VerbBadges'
+import { BackButton } from '@/components/layout/BackButton'
 import { WordPractice } from '@/components/progress/WordPractice'
 import { CLASS_LABELS } from '@/lib/conjugation'
 import { findVerb } from '@/lib/data/loader'
@@ -34,6 +35,9 @@ function VerbDetailPage() {
   return (
     <div className="space-y-8">
       <header>
+        <div className="mb-2">
+          <BackButton fallback="/verbs" label="Verbs" />
+        </div>
         <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
           <Furigana segments={verb.furigana} className="text-4xl leading-tight" />
           <span lang="ja" className="text-lg text-muted-foreground">

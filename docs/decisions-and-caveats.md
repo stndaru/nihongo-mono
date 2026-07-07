@@ -111,6 +111,17 @@ feedback on many of these — treat them as requirements, not suggestions.
     one-line practice history on detail pages. Status thresholds
     (new/weak/learning/solid) live in `src/lib/progress/analytics.ts` and
     are deliberately simple; change them there, not in the UI.
+20. **Kanji pages + kanji data split** (owner request, with an explicit
+    "keep it network-efficient" follow-up mid-build): `/kanji` table and
+    `/kanji/$char` detail (readings, grade/frequency, KRADFILE component
+    cards, JLPT words using the character). The single 10,384-entry
+    `kanji.json.gz` was a **400 KB fetch on every word detail page** — it
+    became a 127 KB core (JLPT or frequency-ranked, 2,609 chars) plus 16
+    ~20 KB codepoint shards fetched only on a core miss or for the Beyond
+    chip. Detail pages also gained a **smart back button**: history-back
+    when the tab has in-app history (restores the previous page with its
+    filters), a "Back to <section>" fallback link otherwise (direct opens
+    and the new-tab links used mid-quiz).
 
 ## Known limitations / accepted trade-offs
 
@@ -124,6 +135,9 @@ feedback on many of these — treat them as requirements, not suggestions.
   queries still work via kana conversion.
 - Names have **no detail pages** (a row shows everything JMnedict knows)
   and match by prefix only, on the first character's bucket.
+- **Kanji JLPT levels use the old 4-level scale** (KANJIDIC2 has no N5
+  kanji tag), so the kanji list's level chips are N4–N1 while word lists
+  go to N5 — this asymmetry is data-driven, not a bug.
 - Quizzes deliberately exclude the Beyond tier.
 - Archaic verb classes (二段/四段, vs-s, vz…) are vocab entries
   (`pos: 'verb'`, badge "Verb (archaic)") — the engine doesn't conjugate
@@ -143,10 +157,9 @@ feedback on many of these — treat them as requirements, not suggestions.
 
 ## Planned / discussed but not built
 
-- **Kanji detail pages** (`/kanji/$char`): `KanjiBreakdown` has a comment
-  marking where cards become links; KanjiVG is the planned stroke-order
-  source (already listed on the About page). `kanji.json` already contains
-  all 10,384 KANJIDIC2 entries, so the data is ready.
+- **Stroke-order diagrams** on kanji detail pages: KanjiVG is the planned
+  source (already listed on the About page). The pages themselves exist
+  now (`/kanji`, `/kanji/$char`).
 - **Jreibun example sentences** once their dataset is published.
 
 ## Where the authoritative statements live

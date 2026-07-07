@@ -72,11 +72,62 @@ export async function loadVocabLevels(levels: readonly JlptLevel[]): Promise<Voc
   return lists.flat()
 }
 
-let kanjiCache: Promise<Record<string, KanjiEntry>> | null = null
+// --- kanji: two tiers, like the words ---------------------------------------
+// One full KANJIDIC2 file was a 400 KB fetch on every detail page. The core
+// file (JLPT-listed or frequency-ranked, ~127 KB) covers nearly every char a
+// JLPT word contains; the other ~7.8k chars live in 16 codepoint shards
+// (~20 KB each) fetched only on a core miss or for Beyond browsing.
+// Keep the shard count in sync with scripts/pack-jlpt.ts.
+const KANJI_EXT_SHARDS = 16
 
-export function loadKanji(): Promise<Record<string, KanjiEntry>> {
-  kanjiCache ??= fetchJsonGz<Record<string, KanjiEntry>>('jlpt/kanji.json.gz')
-  return kanjiCache
+let kanjiCoreCache: Promise<Record<string, KanjiEntry>> | null = null
+
+export function loadKanjiCore(): Promise<Record<string, KanjiEntry>> {
+  kanjiCoreCache ??= fetchJsonGz<Record<string, KanjiEntry>>('jlpt/kanji-core.json.gz')
+  return kanjiCoreCache
+}
+
+const kanjiShardCache = new Map<number, Promise<Record<string, KanjiEntry>>>()
+
+function loadKanjiShard(n: number): Promise<Record<string, KanjiEntry>> {
+  let shard = kanjiShardCache.get(n)
+  if (!shard) {
+    shard = fetchJsonGz<Record<string, KanjiEntry>>(`kanji-ext/words-${n}.json.gz`)
+    shard.catch(() => kanjiShardCache.delete(n)) // don't cache a failed fetch
+    kanjiShardCache.set(n, shard)
+  }
+  return shard
+}
+
+/**
+ * Resolves specific characters: the core file first, ext shards only for
+ * the misses. Unknown characters are simply absent from the result.
+ */
+export async function findKanjiChars(chars: string[]): Promise<Record<string, KanjiEntry>> {
+  const core = await loadKanjiCore()
+  const out: Record<string, KanjiEntry> = {}
+  const missing = new Set<number>()
+  for (const c of chars) {
+    if (core[c]) out[c] = core[c]
+    else missing.add((c.codePointAt(0) ?? 0) % KANJI_EXT_SHARDS)
+  }
+  if (missing.size > 0) {
+    const shards = await Promise.all(
+      [...missing].map((n) => loadKanjiShard(n).catch(() => ({}) as Record<string, KanjiEntry>)),
+    )
+    for (const shard of shards) {
+      for (const c of chars) if (!out[c] && shard[c]) out[c] = shard[c]
+    }
+  }
+  return out
+}
+
+/** Every beyond-core kanji, merged from all shards — opt-in browsing only. */
+export async function loadKanjiExt(): Promise<KanjiEntry[]> {
+  const shards = await Promise.all(
+    Array.from({ length: KANJI_EXT_SHARDS }, (_, n) => loadKanjiShard(n)),
+  )
+  return shards.flatMap((shard) => Object.values(shard))
 }
 
 const verbShardCache = new Map<number, Promise<Record<string, VerbEntry>>>()

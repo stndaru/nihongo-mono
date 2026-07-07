@@ -43,14 +43,18 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
+| `/kanji` | Kanji table — old-scale JLPT levels N4–N1 + "Beyond", searchable by character, reading, or meaning |
+| `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KRADFILE component cards, every JLPT word using the character |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/settings` | Theme, font toggles, progress export/import/reset |
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
 Navigation: desktop header (Vocab dropdown holds All Vocabulary / Antonyms /
-Proper Names; Settings is the gear icon at far right); phones get a burger
-side-drawer and a floating search button.
+Proper Names; Kanji, Quiz, Progress follow; Settings is the gear icon at far
+right); phones get a burger side-drawer and a floating search button. Detail
+pages have a back control that returns to the exact previous page (or the
+section's table when opened directly / in a new tab).
 
 ## The one-paragraph mental model
 

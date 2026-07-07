@@ -40,6 +40,17 @@
 - Entries are rich: furigana segments (from JmdictFurigana), up to 3 example
   sentences, per-sense meanings with per-sense examples, antonym/synonym id
   links, verb class/transitivity or part of speech.
+- **Kanji ships split in two tiers** (same philosophy as the words): the
+  full 10,384-entry KANJIDIC2 file was a **400 KB fetch on every word
+  detail page**. `pack-jlpt.ts` now splits `src/data/kanji/kanji.json` into
+  `jlpt/kanji-core.json.gz` (~127 KB — the 2,609 JLPT-listed or
+  frequency-ranked characters, which covers nearly everything a JLPT word
+  contains) and 16 codepoint shards `kanji-ext/words-{0..15}.json.gz`
+  (~20 KB each) for the other 7,775. Loader API: `loadKanjiCore()`,
+  `findKanjiChars(chars)` (core first, shards only for misses),
+  `loadKanjiExt()` (all shards — Beyond browsing only). The shard count
+  (`KANJI_EXT_SHARDS = 16`) must match between `scripts/pack-jlpt.ts` and
+  `src/lib/data/loader.ts`.
 - **Example-sentence furigana is a compact bracket string**, not segment
   objects: `もっと｜果物[くだもの]を｜食[た]べる`. The `｜` marks where an
   annotated base starts — without it the base/plain boundary is ambiguous
@@ -240,13 +251,43 @@ regardless of host compression config.
   correct · last on date" + link to `/progress`); renders nothing until
   the word has been quizzed.
 
+## Kanji pages
+
+- `/kanji` list (`kanji.index.tsx`): the core file covers the N4–N1 chips —
+  **KANJIDIC2 JLPT tags use the old 4-level scale, there is no N5 kanji
+  list** (103/181/739/1,207 characters). The Beyond chip merges the 16 ext
+  shards (~330 KB, one-time, with a loading note). Search matches the
+  character itself, readings (kana or romaji; okurigana dots stripped
+  before comparing), and English meanings, ranked exact reading → prefix →
+  meaning. Default order: easiest JLPT level, then newspaper frequency
+  rank. The "common" dot marks frequency-ranked characters (2,501 exist).
+- `/kanji/$char` detail (`kanji.$char.tsx`): readings (on/kun with an
+  okurigana-dot explainer), meanings, strokes, grade
+  (kyōiku/jōyō/jinmeiyō), frequency commentary, **KRADFILE component
+  cards** (linked when the component has its own KANJIDIC2 entry; the
+  char itself is filtered out of its own component list), and **every JLPT
+  word whose `kanjiChars` contain the character** (loads all ten level
+  files — cached; easiest level first, common first; 50-row pages).
+- `KanjiBreakdown` cards on verb/vocab detail pages are links to
+  `/kanji/$char` and resolve their characters via `findKanjiChars` — a
+  word detail page now costs ~127 KB of kanji data instead of 400 KB, plus
+  at most a 20 KB shard when a word contains a rare character.
+
 ## App shell & navigation
 
 - **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
   (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
-  highlights for `/names`) · Quiz · Progress, then right-aligned Search
-  (palette trigger with a platform-aware ⌘K/Ctrl K hint), theme toggle,
-  and a Settings **icon** button.
+  highlights for `/names`) · Kanji · Quiz · Progress, then right-aligned
+  Search (palette trigger with a platform-aware ⌘K/Ctrl K hint), theme
+  toggle, and a Settings **icon** button.
+- **Detail pages carry a smart back control**
+  (`components/layout/BackButton.tsx`, top-left on verb/vocab/kanji
+  detail): when the tab has in-app history (`useCanGoBack()`), it calls
+  `router.history.back()` — returning to exactly the page that led here,
+  filters and all (table, progress review, another detail page). With no
+  history — a direct link, or the `target="_blank"` links quiz feedback
+  uses so a running session is never navigated away — it renders a
+  "Back to Verbs/Vocabulary/Kanji" fallback link to the section's list.
 - **Phones (< sm)**: the inline nav hides; a burger opens a left slide-in
   drawer (`MobileNav.tsx`, Radix Dialog, 150 ms) with tiny faint section
   captions (Vocabulary / Practice) that must stay visually distinct from

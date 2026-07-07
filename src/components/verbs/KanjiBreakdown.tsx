@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { loadKanji } from '@/lib/data/loader'
+import { Link } from '@tanstack/react-router'
+import { findKanjiChars } from '@/lib/data/loader'
 import type { KanjiEntry } from '@/lib/data/types'
 import { LevelBadge } from './VerbBadges'
 
@@ -7,13 +8,13 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
   const [kanji, setKanji] = useState<Record<string, KanjiEntry> | null>(null)
   useEffect(() => {
     let alive = true
-    loadKanji().then((k) => {
+    findKanjiChars(chars).then((k) => {
       if (alive) setKanji(k)
     })
     return () => {
       alive = false
     }
-  }, [])
+  }, [chars])
 
   if (chars.length === 0) return null
   if (!kanji) {
@@ -26,8 +27,12 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
   return (
     <div className="grid gap-2.5 sm:grid-cols-2">
       {entries.map((entry) => (
-        <div key={entry.char} className="flex gap-3 rounded-md border p-3">
-          {/* becomes a Link to /kanji/$char once kanji pages exist */}
+        <Link
+          key={entry.char}
+          to="/kanji/$char"
+          params={{ char: entry.char }}
+          className="flex gap-3 rounded-md border p-3 transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
+        >
           <span lang="ja" className="text-4xl leading-none">
             {entry.char}
           </span>
@@ -58,7 +63,7 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
               )}
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )

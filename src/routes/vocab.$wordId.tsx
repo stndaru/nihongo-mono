@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { BackButton } from '@/components/layout/BackButton'
 import { WordPractice } from '@/components/progress/WordPractice'
 import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
@@ -46,6 +47,9 @@ function VocabDetailPage() {
   return (
     <div className="space-y-8">
       <header>
+        <div className="mb-2">
+          <BackButton fallback="/vocab" label="Vocabulary" />
+        </div>
         <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
           <Furigana segments={word.furigana} className="text-4xl leading-tight" />
           <span lang="ja" className="text-lg text-muted-foreground">
