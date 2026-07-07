@@ -66,6 +66,12 @@ const CASES: [string, string][] = [
   // mixed kanji+kana input works the same way
   ['食べた', '食べる'],
   ['寒かった', '寒い'],
+  // incomplete stems typed mid-conjugation
+  ['たべら', 'たべる'], // start of たべられる
+  ['たべろ', 'たべる'], // imperative
+  ['のみ', 'のむ'], // ます-stem
+  ['かか', 'かく'], // ない-stem
+  ['食べら', '食べる'],
 ]
 
 describe('deconjugate', () => {

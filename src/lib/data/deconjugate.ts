@@ -146,6 +146,24 @@ const MAX_DEPTH = 4
 const MAX_CANDIDATES = 48
 
 /**
+ * A query can also be an INCOMPLETE conjugation the user is still typing —
+ * "tabera" (たべら) is the start of たべられる, and its last kana points
+ * straight back at the dictionary ending (ら → る). Applied once to the raw
+ * query only; feeding these into the BFS rules would explode it.
+ */
+function stemCandidates(qKana: string): string[] {
+  const last = qKana[qKana.length - 1]
+  const head = qKana.slice(0, -1)
+  const out: string[] = []
+  for (const rows of [A2U, I2U, E2U, O2U]) {
+    if (rows[last]) out.push(head + rows[last])
+  }
+  // ます/ない-stem of an ichidan verb typed bare (たべ → たべる)
+  if (I2U[last] || E2U[last]) out.push(qKana + 'る')
+  return out
+}
+
+/**
  * All plausible dictionary forms of `qKana` (a hiragana-normalized query),
  * excluding the query itself. Empty set for queries too short to conjugate.
  */
@@ -153,6 +171,12 @@ export function deconjugate(qKana: string): Set<string> {
   const out = new Set<string>()
   if (qKana.length < 2) return out
   const seen = new Set<string>([qKana])
+  for (const cand of stemCandidates(qKana)) {
+    if (!seen.has(cand)) {
+      seen.add(cand)
+      out.add(cand)
+    }
+  }
   let frontier = [qKana]
   for (let depth = 0; depth < MAX_DEPTH && frontier.length > 0; depth++) {
     const next: string[] = []

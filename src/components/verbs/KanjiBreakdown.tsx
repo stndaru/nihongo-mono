@@ -31,12 +31,12 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
           <span lang="ja" className="text-4xl leading-none">
             {entry.char}
           </span>
-          <div className="min-w-0 text-sm">
+          <div className="min-w-0 text-base">
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="font-medium">{entry.meanings.slice(0, 3).join(', ')}</span>
               {entry.jlpt && <LevelBadge level={entry.jlpt} />}
             </div>
-            <dl lang="ja" className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+            <dl lang="ja" className="mt-1.5 space-y-1 text-sm text-muted-foreground">
               {entry.on.length > 0 && (
                 <div>
                   <dt className="inline">音: </dt>
@@ -50,7 +50,7 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
                 </div>
               )}
             </dl>
-            <div className="mt-1 text-xs text-muted-foreground">
+            <div className="mt-1.5 text-sm text-muted-foreground">
               {entry.strokes} strokes
               {entry.freq ? ` · freq #${entry.freq}` : ''}
               {entry.components && entry.components.length > 1 && (

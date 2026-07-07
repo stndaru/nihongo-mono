@@ -80,8 +80,8 @@ export function VocabAnswerFeedback({
         </div>
         <div className="mt-1 text-sm text-muted-foreground">{word.gloss.join('; ')}</div>
         {word.examples[0] && (
-          <div className="mt-2 border-t border-border/60 pt-2 text-sm">
-            <p className="leading-loose">
+          <div className="mt-2 border-t border-border/60 pt-3 text-sm">
+            <p className="text-base leading-loose">
               <ExampleJa example={word.examples[0]} />
             </p>
             <p className="mt-0.5 text-muted-foreground">{word.examples[0].en}</p>

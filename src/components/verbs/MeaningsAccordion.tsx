@@ -50,10 +50,11 @@ export function MeaningsAccordion({ senses }: { senses: WordSense[] }) {
                 )}
               </button>
               {isOpen && sense.examples.length > 0 && (
-                <div className="space-y-2 px-3 pb-3 pl-9">
+                // top padding keeps the first line's ruby clear of the header
+                <div className="space-y-3 px-3 pt-2 pb-3 pl-9">
                   {sense.examples.map((ex, j) => (
                     <div key={j} className="text-sm">
-                      <p className="leading-loose">
+                      <p className="text-base leading-loose">
                         <ExampleJa example={ex} />
                       </p>
                       <p className="mt-0.5 leading-relaxed text-muted-foreground">{ex.en}</p>
