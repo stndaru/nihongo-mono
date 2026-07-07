@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, streak (33 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, quiz rules, progress store (112 tests)
 bun run lint            # oxlint
 bun run build           # vite build && tsc -b  (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
@@ -57,6 +57,12 @@ Playwright gotchas learned the hard way:
   immediately.
 - Vite dev **hot-reloads while you edit** — a Playwright run started right
   after file edits can hit mid-reload states. Re-run before diagnosing.
+- To drive a quiz session from a script, go straight to
+  `/quiz/session?levels=5&forms=te,past&modes=input&length=3` — the default
+  config mixes in multiple-choice questions, which a type-and-Enter loop
+  can't answer. Detect the summary via its "By conjugation" heading. To
+  test `/progress` UI states, seed `nihongo-mono:progress:v1` with
+  `addInitScript` instead of grinding real quizzes.
 - `vite.config.ts` changes need a **dev-server restart**; HMR does not
   apply them (measured a config change as a no-op for a while).
 - When measuring network transfer, `response.body()` returns the

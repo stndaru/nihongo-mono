@@ -1,12 +1,29 @@
 import type { ConjugationForm } from '@/lib/conjugation'
 import { bumpStreak, todayLocal, type StreakData } from './streak'
 
+/**
+ * Which quiz pool(s) a stat came from. The same JMdict id can exist in both
+ * the verbs and vocab datasets (勉強 / 勉強する), so this is what lets the
+ * progress page pick the right dataset (and detail route) for display.
+ */
+export type WordKind = 'verb' | 'vocab' | 'both'
+
 export interface VerbStat {
   seen: number
   correct: number
   wrong: number
   /** YYYY-MM-DD of the last quiz appearance */
   lastSeen: string
+  /** absent on stats recorded before kinds were tracked */
+  kind?: WordKind
+  /** consecutive correct answers right now; a wrong answer resets it to 0 */
+  run?: number
+}
+
+/** Per-conjugation-form tally (conjugation quiz answers only). */
+export interface FormStat {
+  seen: number
+  correct: number
 }
 
 export interface SessionRecord {
@@ -23,6 +40,8 @@ export interface ProgressData {
   verbs: Record<string, VerbStat>
   sessions: SessionRecord[]
   streak: StreakData
+  /** per-conjugation-form accuracy; absent keys were never quizzed */
+  forms: Partial<Record<ConjugationForm, FormStat>>
 }
 
 const STORAGE_KEY = 'nihongo-mono:progress:v1'
@@ -34,6 +53,7 @@ export function emptyProgress(): ProgressData {
     verbs: {},
     sessions: [],
     streak: { current: 0, best: 0, lastActiveDay: null },
+    forms: {},
   }
 }
 
@@ -46,6 +66,8 @@ function migrate(raw: unknown): ProgressData {
     verbs: data.verbs ?? {},
     sessions: Array.isArray(data.sessions) ? data.sessions : [],
     streak: data.streak ?? { current: 0, best: 0, lastActiveDay: null },
+    // additive field — files exported before it existed simply lack it
+    forms: data.forms && typeof data.forms === 'object' ? data.forms : {},
   }
 }
 
@@ -64,22 +86,40 @@ export function saveProgress(data: ProgressData): void {
 
 export interface SessionResultInput {
   /** JMdict sequence id — verbs and vocabulary share the stat pool */
-  answers: { verbId: string; correct: boolean }[]
+  answers: {
+    verbId: string
+    correct: boolean
+    /** the conjugation form asked (conjugation quiz only) */
+    form?: ConjugationForm
+    /** overrides the session kind — the vocab quiz mixes in dictionary-form verbs */
+    kind?: 'verb' | 'vocab'
+  }[]
   forms: ConjugationForm[]
   kind?: 'verb' | 'vocab'
+}
+
+function mergeKind(prev: WordKind | undefined, next: WordKind): WordKind {
+  return prev && prev !== next ? 'both' : (prev ?? next)
 }
 
 /** Pure update — the context provider persists the returned object. */
 export function applySession(data: ProgressData, input: SessionResultInput): ProgressData {
   const today = todayLocal()
   const verbs = { ...data.verbs }
+  const forms = { ...data.forms }
   for (const a of input.answers) {
-    const prev = verbs[a.verbId] ?? { seen: 0, correct: 0, wrong: 0, lastSeen: today }
+    const prev = verbs[a.verbId]
     verbs[a.verbId] = {
-      seen: prev.seen + 1,
-      correct: prev.correct + (a.correct ? 1 : 0),
-      wrong: prev.wrong + (a.correct ? 0 : 1),
+      seen: (prev?.seen ?? 0) + 1,
+      correct: (prev?.correct ?? 0) + (a.correct ? 1 : 0),
+      wrong: (prev?.wrong ?? 0) + (a.correct ? 0 : 1),
       lastSeen: today,
+      kind: mergeKind(prev?.kind, a.kind ?? input.kind ?? 'verb'),
+      run: a.correct ? (prev?.run ?? 0) + 1 : 0,
+    }
+    if (a.form) {
+      const f = forms[a.form] ?? { seen: 0, correct: 0 }
+      forms[a.form] = { seen: f.seen + 1, correct: f.correct + (a.correct ? 1 : 0) }
     }
   }
   const record: SessionRecord = {
@@ -94,6 +134,7 @@ export function applySession(data: ProgressData, input: SessionResultInput): Pro
     verbs,
     sessions: [...data.sessions, record].slice(-SESSION_CAP),
     streak: bumpStreak(data.streak, today),
+    forms,
   }
 }
 
@@ -122,13 +163,24 @@ export function mergeProgress(a: ProgressData, b: ProgressData): ProgressData {
   const verbs = { ...a.verbs }
   for (const [id, stat] of Object.entries(b.verbs)) {
     const prev = verbs[id]
+    const newer = prev && prev.lastSeen > stat.lastSeen ? prev : stat
     verbs[id] = prev
       ? {
           seen: prev.seen + stat.seen,
           correct: prev.correct + stat.correct,
           wrong: prev.wrong + stat.wrong,
-          lastSeen: prev.lastSeen > stat.lastSeen ? prev.lastSeen : stat.lastSeen,
+          lastSeen: newer.lastSeen,
+          kind: stat.kind ? mergeKind(prev.kind, stat.kind) : prev.kind,
+          // a correct-answer run only makes sense on one timeline — keep the newer one
+          run: newer.run,
         }
+      : stat
+  }
+  const forms = { ...a.forms }
+  for (const [form, stat] of Object.entries(b.forms) as [ConjugationForm, FormStat][]) {
+    const prev = forms[form]
+    forms[form] = prev
+      ? { seen: prev.seen + stat.seen, correct: prev.correct + stat.correct }
       : stat
   }
   const sessions = [...a.sessions, ...b.sessions]
@@ -141,5 +193,6 @@ export function mergeProgress(a: ProgressData, b: ProgressData): ProgressData {
     verbs,
     sessions,
     streak: { ...streak, best: Math.max(a.streak.best, b.streak.best) },
+    forms,
   }
 }

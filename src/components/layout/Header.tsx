@@ -17,7 +17,10 @@ const NAV = [
   { to: '/verbs', label: 'Verbs' },
 ] as const
 
-const NAV_AFTER = [{ to: '/quiz', label: 'Quiz' }] as const
+const NAV_AFTER = [
+  { to: '/quiz', label: 'Quiz' },
+  { to: '/progress', label: 'Progress' },
+] as const
 
 const VOCAB_ITEMS = [
   { to: '/vocab', label: 'All Vocabulary' },

@@ -135,6 +135,8 @@ function VocabQuizSessionPage() {
       answers: state.results.map((r) => ({
         verbId: r.question.word.id,
         correct: r.correct,
+        // dictionary-form verbs mixed into the vocab quiz keep their verb id
+        kind: r.question.verb ? ('verb' as const) : ('vocab' as const),
       })),
       forms: [],
       kind: 'vocab',

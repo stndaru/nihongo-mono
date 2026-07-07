@@ -44,6 +44,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
+| `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/settings` | Theme, font toggles, progress export/import/reset |
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 

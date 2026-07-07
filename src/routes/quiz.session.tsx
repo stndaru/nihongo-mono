@@ -109,6 +109,7 @@ function QuizSessionPage() {
       answers: state.results.map((r) => ({
         verbId: r.question.verb.id,
         correct: r.correct,
+        form: r.question.form,
       })),
       forms: state.results.map((r) => r.question.form),
     })

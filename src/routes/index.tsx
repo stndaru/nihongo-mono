@@ -104,6 +104,9 @@ function Dashboard() {
         <Button size="lg" variant="outline" asChild>
           <Link to="/vocab">Browse Vocabulary</Link>
         </Button>
+        <Button size="lg" variant="outline" asChild>
+          <Link to="/progress">View Progress</Link>
+        </Button>
       </div>
     </div>
   )

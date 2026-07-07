@@ -159,8 +159,22 @@ regardless of host compression config.
   tagged `kind: 'verb' | 'vocab'`; per-word stats keyed by JMdict id shared
   across quiz types. Streak logic is **write-time-only** (computed when a
   session commits; the dashboard shows "at risk" without decrementing).
+- Per-word stats carry `seen/correct/wrong/lastSeen` plus two **optional**
+  fields added later (older stats simply lack them): `kind` ('verb' |
+  'vocab' | 'both' — widens to 'both' when the same id is hit from both
+  quiz pools; this is how the progress page picks the right dataset and
+  detail route for ambiguous ids like 勉強/勉強する) and `run` (current
+  consecutive-correct count, reset to 0 by a wrong answer).
+- `ProgressData.forms` tallies `{seen, correct}` **per conjugation form** —
+  the conjugation quiz passes `form` on every answer; the vocab quiz
+  doesn't. The vocab quiz instead passes a per-answer `kind` override so
+  its mixed-in dictionary-form verbs are recorded as `kind: 'verb'`.
+- All of this stays schema **version 1**: the new fields are additive, and
+  `migrate()`/`parseImported` default them for files exported before they
+  existed. Tested in `store.test.ts`.
 - Export/import via `src/lib/progress/transfer.ts` (merge = per-word
-  max/sum, keep better streak).
+  max/sum, keep better streak; form tallies sum; on conflicting kinds the
+  merged stat becomes 'both'; `run` keeps the newer timeline's value).
 - Quizzes sample weighted toward least-seen words (1/(1+seen)) and are
   **deliberately JLPT-only** — drilling 200k rare words isn't useful, and
   quiz config regexes only accept levels 1–5.
@@ -199,13 +213,40 @@ regardless of host compression config.
   `beforeunload` for tab closes. The top-left "Exit" control is just a Link
   to the setup page — the guard supplies the confirmation.
 
+### Progress analytics (`/progress`)
+
+- `src/routes/progress.tsx` + pure helpers in `src/lib/progress/analytics.ts`
+  (`accuracyOf`, `wordStatus`, `formBreakdown` — unit-tested).
+- **Word status buckets** (deliberately simple, thresholds documented in
+  `analytics.ts`): *new* < 2 encounters; *weak* < 60% accuracy; *solid* =
+  3+ encounters, ≥90% accuracy AND `run ≥ 2`; *learning* otherwise. The
+  shared `StatusBadge` (`components/progress/StatusBadge.tsx`) renders
+  them (destructive/primary/success/muted tints).
+- Page sections: summary cards (words practiced, lifetime answer accuracy,
+  weak/solid counts) → per-session accuracy bar chart (last 30 sessions,
+  plain divs, sub-60% sessions tinted destructive) → per-conjugation-form
+  accuracy bars, weakest first → sortable/filterable word table (sort:
+  weakest/most practiced/recent; filters: verb/vocab, status, debounced
+  text search incl. romaji→kana). Same conventions as the word lists:
+  100-row pages with Show More, row-click navigation behind
+  `rowClickGuard`, real `<a>` in the first cell.
+- **Id resolution**: stats only store JMdict ids, so the page loads all
+  ten JLPT level files (quizzes are JLPT-only, so that covers every
+  possible id) into two Maps; the stat's `kind` decides which dataset wins
+  when an id exists in both. Ids no longer in the dataset (regenerated
+  data) are counted and reported in a footnote rather than rendered.
+- **Detail pages** show a one-line personal history via
+  `components/progress/WordPractice.tsx` (status badge + "quizzed N×, P%
+  correct · last on date" + link to `/progress`); renders nothing until
+  the word has been quizzed.
+
 ## App shell & navigation
 
 - **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
   (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
-  highlights for `/names`) · Quiz, then right-aligned Search (palette
-  trigger with a platform-aware ⌘K/Ctrl K hint), theme toggle, and a
-  Settings **icon** button.
+  highlights for `/names`) · Quiz · Progress, then right-aligned Search
+  (palette trigger with a platform-aware ⌘K/Ctrl K hint), theme toggle,
+  and a Settings **icon** button.
 - **Phones (< sm)**: the inline nav hides; a burger opens a left slide-in
   drawer (`MobileNav.tsx`, Radix Dialog, 150 ms) with tiny faint section
   captions (Vocabulary / Practice) that must stay visually distinct from
@@ -255,6 +296,7 @@ regardless of host compression config.
 
 ## localStorage keys (all `nihongo-mono:` prefixed)
 
-`progress:v1` (stats/sessions/streak) · `theme` · `font-text` / `font-ja` ·
-`last-quiz-config` / `last-vocab-quiz-config` · `quiz-display` (session
-furigana/word-info toggles).
+`progress:v1` (per-word stats incl. kind/run, per-form tallies, sessions,
+streak) · `theme` · `font-text` / `font-ja` · `last-quiz-config` /
+`last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
+toggles).

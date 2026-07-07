@@ -5,6 +5,7 @@ import { Furigana } from '@/components/verbs/Furigana'
 import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
 import { ClassBadge, LevelBadge, TransBadge } from '@/components/verbs/VerbBadges'
+import { WordPractice } from '@/components/progress/WordPractice'
 import { CLASS_LABELS } from '@/lib/conjugation'
 import { findVerb } from '@/lib/data/loader'
 
@@ -50,6 +51,7 @@ function VerbDetailPage() {
             <span className="text-xs text-muted-foreground">· common verb</span>
           )}
         </div>
+        <WordPractice id={verb.id} />
       </header>
 
       <MeaningsAccordion senses={verb.senses} />

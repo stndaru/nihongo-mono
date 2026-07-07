@@ -103,6 +103,14 @@ feedback on many of these — treat them as requirements, not suggestions.
     and Vite dev JSON modules carrying source + inline sourcemap (2.9 MB →
     24 MB). Result: ~2.1 MB wire for all ten levels + kanji; prod lost its
     megabyte chunks (largest asset now the ~370 KB app bundle).
+19. **Per-word learning analytics** (owner request: see encounters and
+    accuracy per verb/vocab and find weak spots): the store gained
+    additive-only fields — per-word `kind`/`run`, a per-conjugation-form
+    tally — still schema v1, old exports import cleanly. New `/progress`
+    page (weakest-first word table, form accuracy, session trend) and a
+    one-line practice history on detail pages. Status thresholds
+    (new/weak/learning/solid) live in `src/lib/progress/analytics.ts` and
+    are deliberately simple; change them there, not in the UI.
 
 ## Known limitations / accepted trade-offs
 

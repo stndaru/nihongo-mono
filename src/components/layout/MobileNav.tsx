@@ -11,6 +11,7 @@ const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: st
   { to: '/vocab/antonyms', label: 'Antonyms' },
   { to: '/names', label: 'Proper Names' },
   { to: '/quiz', label: 'Quiz', section: 'Practice' },
+  { to: '/progress', label: 'Progress' },
   { to: '/settings', label: 'Settings' },
 ]
 

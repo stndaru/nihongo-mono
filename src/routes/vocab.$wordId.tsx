@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { WordPractice } from '@/components/progress/WordPractice'
 import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
@@ -58,6 +59,7 @@ function VocabDetailPage() {
           <PosBadge pos={word.pos} />
           {word.common && <span className="text-xs text-muted-foreground">· common word</span>}
         </div>
+        <WordPractice id={word.id} />
       </header>
 
       <MeaningsAccordion senses={word.senses} />
