@@ -327,7 +327,8 @@ regardless of host compression config.
   serif/sans toggles for Japanese glyphs vs Latin text: CSS vars
   `--font-latin` / `--font-ja` switched by `data-font-text` / `data-font-ja`
   attributes on `<html>`, set **pre-paint** by an inline script in
-  `index.html` (same script applies the theme; light is the default).
+  `index.html` (same script applies the theme; **system is the default**,
+  stored 'light'/'dark' are explicit picks).
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't

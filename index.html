@@ -34,11 +34,11 @@
       // Theme FOUC guard: must run before first paint.
       ;(function () {
         try {
-          // default is light; only stored 'dark' or explicit 'system' follows the OS
+          // default follows the OS; stored 'light'/'dark' are explicit picks
           var t = localStorage.getItem('nihongo-mono:theme')
           var dark =
             t === 'dark' ||
-            (t === 'system' &&
+            (t !== 'light' &&
               window.matchMedia('(prefers-color-scheme: dark)').matches)
           if (dark) document.documentElement.classList.add('dark')
           // font preferences (default serif/serif) — set pre-paint to avoid font flash

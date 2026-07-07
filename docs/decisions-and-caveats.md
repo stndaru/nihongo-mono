@@ -7,8 +7,9 @@ feedback on many of these — treat them as requirements, not suggestions.
 
 - **Bun over npm**, everywhere. (The very first infrastructure correction.)
 - **Serif by default for everything**, with Settings toggles to switch
-  Japanese glyphs and Latin text to sans independently. Light mode is the
-  default theme.
+  Japanese glyphs and Latin text to sans independently. The color theme
+  **follows the system by default** (changed from light-default on
+  request); stored 'light'/'dark' are explicit user picks.
 - **Title Case** on buttons and short UI labels ("Show More", "Common Only").
 - Pointer cursor on every clickable element.
 - Quiz answers show **furigana**, not a separate kana line; the answered
