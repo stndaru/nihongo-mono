@@ -25,6 +25,26 @@ feedback on many of these — treat them as requirements, not suggestions.
   exist in the data and render on word detail pages — they were removed
   from this table twice on request; don't add them back.
 - The vocab table's "common" indicator is the rightmost column, after JLPT.
+- **Terracotta (Claude-style orange) primary**, and specifically the
+  *lighter* light-mode shade `oklch(0.65 0.14 41)` — the owner asked to
+  lighten the first attempt. Dark mode: `oklch(0.72 0.13 44)`.
+- Branding: tab title **"NihongoMono - Companion"**, open-book favicon in
+  the terracotta, OG/Twitter link previews with `public/og.png`.
+- Navigation: **Names lives under the Vocab dropdown** (not top-level);
+  **Settings is an icon button at the far right**; phones use a burger
+  side-drawer whose section captions must read as labels, not links, and a
+  floating search button bottom-right.
+- **24px screen margins on mobile** (main, header, footer, drawer).
+- Table rows are **click-to-open everywhere**, but text selection and
+  modifier clicks must never trigger navigation (`src/lib/row-click.ts`).
+- Quiz sessions: **no repeated vocabulary words**; **verbs joinable in the
+  vocab quiz in dictionary form** (explicit correction away from stems);
+  the **shown word is never the asked answer**; furigana in quizzes is
+  smaller, with mid-quiz **Furigana / Word Info toggles**; leaving
+  mid-session requires **confirmation** (plus a top-left Exit control).
+- Example sentences render **with furigana** and generous type (text-xl on
+  detail pages, text-lg in accordions/quiz feedback); ruby floats 2px
+  clear of the base glyphs.
 
 ## Decision log (chronological, with rationale)
 
@@ -57,6 +77,32 @@ feedback on many of these — treat them as requirements, not suggestions.
     search with capped materialization, 100-row table pages with reset,
     pre-gzipped `.json.gz` data with client-side inflation. Measured
     outcome: Beyond ready ~1.5 s, searches ~100–220 ms, flat heap.
+11. **History rewrite** (details under limitations below) — done once,
+    pre-publication, to drop the uncompressed data blobs.
+12. **Terracotta rebrand + nav shuffle** on request (see conventions).
+13. **Clickable rows + mobile drawer** — row clicks guarded against text
+    selection; drawer built on Radix Dialog at the 150 ms animation cap.
+14. **Example-sentence furigana via kuromoji at build time** — sentences
+    contain conjugated/compound words no dictionary lookup covers, so
+    IPADIC morphological analysis runs in the pipeline, never the browser.
+    Known trade-off: kuromoji occasionally misreads rare proper nouns.
+15. **Deconjugation search** ("tabeta" → 食べる) chosen over indexing
+    conjugated forms — query-time BFS costs microseconds; indexing would
+    multiply the dataset. Incomplete-stem handling ("tabera") added after
+    the owner hit a miss.
+16. **Command palette** (Ctrl/Cmd+K) searches JLPT tiers instantly; the
+    extended indexes are an explicit opt-in ("Include Full Dictionary")
+    because they're a multi-MB download.
+17. **Quiz round of owner requirements**: no vocab repeats, dictionary-form
+    verbs (corrected from stems mid-implementation), never ask the shown
+    form, display toggles, leave confirmation, exit button.
+18. **Transfer crisis fix** (owner measured 230 MB in dev): example
+    furigana became a bracket string (5–10× smaller), and the JLPT tier
+    moved out of the JS module graph into packed static `.json.gz`
+    (`scripts/pack-jlpt.ts`). Root causes: pretty-printed segment objects,
+    and Vite dev JSON modules carrying source + inline sourcemap (2.9 MB →
+    24 MB). Result: ~2.1 MB wire for all ten levels + kanji; prod lost its
+    megabyte chunks (largest asset now the ~370 KB app bundle).
 
 ## Known limitations / accepted trade-offs
 

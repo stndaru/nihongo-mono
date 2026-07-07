@@ -44,9 +44,25 @@ Playwright gotchas learned the hard way:
 - `hasText` matching includes `<rt>` ruby text — 広い renders as text
   "広ひろい", so match on kana or use more specific locators.
 - "Usually kana" words never show their kanji (きれい not 綺麗) — assert on
-  what actually renders.
+  what actually renders. Kana-only words also render **no `<ruby>` element
+  at all** — don't wait on `ruby` selectors for words like ある.
 - Debounced search (150 ms) needs `waitForFunction` on result content, not
   fixed sleeps.
+- **Quiz feedback swallows Enter for its first 200 ms** (deliberate app
+  behavior so the submitting Enter can't skip feedback). Scripts must wait
+  ~300 ms after feedback appears before pressing Enter, or the session
+  looks "frozen" on question 1 — this burned a whole debugging session.
+- Radix dialogs/drawers animate for 150 ms and unmount only after the exit
+  animation — screenshot or count elements ~300 ms after open/close, not
+  immediately.
+- Vite dev **hot-reloads while you edit** — a Playwright run started right
+  after file edits can hit mid-reload states. Re-run before diagnosing.
+- `vite.config.ts` changes need a **dev-server restart**; HMR does not
+  apply them (measured a config change as a no-op for a while).
+- When measuring network transfer, `response.body()` returns the
+  **decoded** body — the dev server serves `.json.gz` with
+  Content-Encoding, so bodies look inflated; real wire cost is the .gz
+  size on disk.
 
 ## Testing philosophy
 
@@ -68,13 +84,22 @@ Playwright gotchas learned the hard way:
 - Never allow an empty level selection (toggle handlers guard against it).
 - `EXT_LIMIT`, table `PAGE`, shard counts, and the ext wire format all have
   comments explaining their constraints — read them before "simplifying".
+- **Never import multi-MB JSON through the JS module graph** — fetch it as
+  static `.json.gz` (see architecture.md, "Tier 1"). This single mistake
+  produced a 230 MB dev page.
+- CSS transforms don't apply to `rt` (ruby text) — use relative
+  positioning to nudge furigana.
 - New UI text: Title Case buttons, `lang="ja"` on Japanese text, pointer
   cursor comes free from base CSS, animations ≤150 ms.
+- After hand-editing anything under `src/data/`, run `bun run data:pack` —
+  the app serves the packed copies, not the pretty files.
 
 ## Deploying
 
 Static hosting only: build and serve `dist/`. SPA fallback rewrites exist
-for Netlify (`public/_redirects`) and Vercel (`vercel.json`). The
-`public/data/*.json.gz` files are fetched at runtime — any static host
+for Netlify (`public/_redirects`) and Vercel (`vercel.json`); the owner
+also deploys to a VPS with `bun run start-vps` (`serve -s dist -l 4050`).
+The `public/data/*.json.gz` files are fetched at runtime — any static host
 works since decompression happens client-side (`DecompressionStream`,
-baseline-2023 browsers).
+baseline-2023 browsers) with a magic-byte fallback when a server already
+inflates them.

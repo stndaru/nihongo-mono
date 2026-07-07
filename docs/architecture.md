@@ -40,6 +40,13 @@
 - Entries are rich: furigana segments (from JmdictFurigana), up to 3 example
   sentences, per-sense meanings with per-sense examples, antonym/synonym id
   links, verb class/transitivity or part of speech.
+- **Example-sentence furigana is a compact bracket string**, not segment
+  objects: `もっと｜果物[くだもの]を｜食[た]べる`. The `｜` marks where an
+  annotated base starts — without it the base/plain boundary is ambiguous
+  (取り扱[とりあつか] has kana inside the base). Emitted by
+  `scripts/lib/reading.ts` (kuromoji), parsed back by `parseFurigana` in
+  `src/lib/data/furigana.ts` at render time. Segment-object arrays were
+  5–10× larger on the wire and once doubled the dataset — don't go back.
 
 ### Tier 2 — Extended ("Beyond", level `0`), fetched
 
@@ -110,13 +117,19 @@ regardless of host compression config.
   食べた / "samukatta" into candidate dictionary forms **once per query**
   (rule-based BFS, over-generating on purpose — bogus candidates match
   nothing), and both search paths check Set membership per word (score 0.5,
-  between exact and prefix). Never index conjugated forms; that's the
-  data-explosion path. The rule table has its own 58-case test suite.
+  between exact and prefix). It also treats the raw query as an
+  **incomplete stem** — "tabera" (start of たべられる) maps its trailing
+  a/i/e/o-row kana back to the dictionary ending. Never index conjugated
+  forms; that's the data-explosion path. The rule table has its own
+  60+-case test suite (`deconjugate.test.ts`).
 - **Command palette** (`src/components/search/CommandPalette.tsx`,
-  Ctrl/Cmd+K or the header Search button): searches all JLPT verbs+vocab
-  with typed result rows (Verb/Noun/な-adj… + level badge), Enter/click
-  opens the detail page. The multi-MB extended indexes join only via the
-  explicit "Include Full Dictionary" footer action.
+  Ctrl/Cmd+K, the header Search button, or the mobile FAB): searches all
+  JLPT verbs+vocab with typed result rows (Verb/Noun/な-adj… + level
+  badge), arrow-key navigation, Enter/click opens the detail page. The
+  multi-MB extended indexes join only via the explicit "Include Full
+  Dictionary" footer action. External openers dispatch the
+  `OPEN_PALETTE_EVENT` window event (that's how the mobile floating button
+  in `__root.tsx` works) — one palette instance, no lifted state.
 - Tables render 100 rows per page (`PAGE` in VerbTable/VocabTable) and reset
   pagination when the result array changes — 500 ruby rows re-rendered per
   keystroke was a real lag source. Keep row rendering cheap; `<ruby>` is
@@ -152,6 +165,61 @@ regardless of host compression config.
   **deliberately JLPT-only** — drilling 200k rare words isn't useful, and
   quiz config regexes only accept levels 1–5.
 
+### Session rules (user requirements, tested in `engine.test.ts`)
+
+- **Vocabulary quiz never repeats a word** in a session; a pool smaller than
+  the requested length ends the session early instead of recycling.
+- **Vocabulary quiz can include verbs in dictionary form** (config flag
+  `verbs`, URL `?verbs=0|1`, default on; setup-page checkbox). They come
+  from `verbQuizWords()` in `vocab-engine.ts`, carry `question.verb = true`
+  (renders a "Verb" badge instead of a PosBadge, links to `/verbs/$id`),
+  and share the verb's id so stats pool with the conjugation quiz. This was
+  originally scoped as ます-stems and **corrected by the owner to
+  dictionary form** — don't reintroduce stems.
+- **Conjugation quiz never asks for the form already on screen**: answers
+  whose surface equals the shown dictionary form are skipped (so a
+  non-past-only setup is legitimately empty), and multiple-choice
+  distractors exclude the displayed dictionary form (a free elimination).
+- `AnswerFeedback` ignores Enter for its first **200 ms** so the Enter that
+  submitted an answer can't skip the feedback (also trips up automated
+  tests — see development.md).
+
+### Session UI
+
+- **Display toggles** (`QuizDisplayToggles.tsx`, persisted under
+  `nihongo-mono:quiz-display`): "Furigana" hides all ruby, "Word Info"
+  hides type badges and English glosses (elements marked with the
+  `quiz-info` class). Implemented as **data attributes + CSS** on the
+  session wrapper (`data-quiz`, `data-quiz-ruby`, `data-quiz-info`) so
+  toggling never re-renders or reshuffles the running session. `[data-quiz]`
+  also shrinks quiz ruby to 0.45em.
+- **Leave guard** (`QuizLeaveGuard.tsx`, TanStack `useBlocker` with
+  `withResolver`): active during question/feedback phases only; blocks
+  router navigation behind a "Leave This Quiz?" dialog and arms
+  `beforeunload` for tab closes. The top-left "Exit" control is just a Link
+  to the setup page — the guard supplies the confirmation.
+
+## App shell & navigation
+
+- **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
+  (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
+  highlights for `/names`) · Quiz, then right-aligned Search (palette
+  trigger with a platform-aware ⌘K/Ctrl K hint), theme toggle, and a
+  Settings **icon** button.
+- **Phones (< sm)**: the inline nav hides; a burger opens a left slide-in
+  drawer (`MobileNav.tsx`, Radix Dialog, 150 ms) with tiny faint section
+  captions (Vocabulary / Practice) that must stay visually distinct from
+  the links. A floating terracotta search button (bottom-right, 24px
+  insets) opens the palette via `OPEN_PALETTE_EVENT`.
+- **Mobile screen margins are 24px** (`px-6` on header/main/footer below
+  `sm`; drawer text also lands at 24px) — a direct owner requirement after
+  12px felt cramped.
+- **Table rows navigate as a whole** (verb + vocab tables) through
+  `src/lib/row-click.ts`: the click is ignored if it landed on the inner
+  link, ended a text selection (`getSelection().type === 'Range'`), or held
+  a modifier key — so copying row text never accidentally navigates and
+  middle/ctrl-click on the word link still opens new tabs.
+
 ## Typography & theming
 
 - Everything defaults to **serif** (user preference), with independent
@@ -159,8 +227,34 @@ regardless of host compression config.
   `--font-latin` / `--font-ja` switched by `data-font-text` / `data-font-ja`
   attributes on `<html>`, set **pre-paint** by an inline script in
   `index.html` (same script applies the theme; light is the default).
+- **Primary color is Claude-style terracotta**: light
+  `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
+  asked for it and then asked for the lighter light-mode shade; don't
+  darken it back. The favicon (open book) and `theme-color` use #D97757.
 - Japanese text must carry `lang="ja"` — the `[lang="ja"]` selector applies
   the Japanese font stack, and Latin stacks deliberately have no generic
   fallback so JP glyphs fall through correctly.
+- **Ruby quirks** (index.css): `rt` is lifted 2px off the base glyphs with
+  `position: relative; top: -2px` — **CSS transforms are silently ignored
+  on ruby-text boxes**, a translateY attempt did nothing. Global `rt` is
+  0.55em; quiz sessions (`[data-quiz]`) use 0.45em. The `Furigana`
+  component is `whitespace-nowrap` (right for words); sentence renderers
+  (`ExampleJa`) override with `whitespace-normal` so lines wrap.
 - Buttons and labels use **Title Case** (user preference). All clickables
   get `cursor: pointer` (base rule in index.css).
+
+## Branding & meta
+
+- Tab title: **"NihongoMono - Companion"**; favicon: an open dictionary
+  book, stroke SVG in #D97757 (`public/favicon.svg`).
+- Open Graph / Twitter-card meta live in `index.html` with a generated
+  1200×630 `public/og.png` (rendered from a Playwright-screenshotted HTML
+  card — rebuild by hand if the branding changes). `og:image` is
+  root-relative; swap to an absolute URL if a scraper demands it once the
+  site has a domain.
+
+## localStorage keys (all `nihongo-mono:` prefixed)
+
+`progress:v1` (stats/sessions/streak) · `theme` · `font-text` / `font-ja` ·
+`last-quiz-config` / `last-vocab-quiz-config` · `quiz-display` (session
+furigana/word-info toggles).

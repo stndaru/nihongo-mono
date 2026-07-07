@@ -32,7 +32,7 @@ date, source versions, counts — surfaced on the About page).
 | KRADFILE (`kradzip.zip` from edrdg.org) | `kradfile.txt` | Kanji component decomposition. Ships **EUC-JP** — decoded with `new TextDecoder('euc-jp')` (works in Bun); kradfile + kradfile2 concatenated |
 | `scripts/extra-words.json` | (committed, hand-curated) | Compound words missing from every public JLPT list (小説家, 懐中電灯, 連れて行く…). Format: `["kanji","kana",level]` |
 | `scripts/antonym-overrides.json` | (committed, hand-curated) | Antonym pairs JMdict lacks (~55 pairs: 広い↔狭い…). Format: pairs of `["kanji","kana"]` |
-| kuromoji (npm devDependency, IPADIC) | — | Example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f`). Build scripts must `await initReading()` before building entries |
+| kuromoji (npm devDependency, IPADIC) | — | Example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f` as a compact `｜base[reading]` bracket string; see architecture.md). Build scripts must `await initReading()` before building entries |
 
 **Not available (yet):** Jreibun example sentences — the project's data
 download is officially "in preparation" (its sentences on Jisho.org come
@@ -75,6 +75,15 @@ page only (spec says no proper nouns in vocab).
   queries. One row per entry (primary kanji + primary kana form).
 - `lib/gzip-out.ts` — `writeJsonGz`; all `public/data` output goes through
   it (level-9 gzip).
+- `lib/reading.ts` — kuromoji tokenizer singleton (`initReading()` once per
+  script) + `sentenceFurigana()`: per-token readings, shared kana stripped
+  from both ends (katakana counts as matching its hiragana reading), output
+  in the `｜base[reading]` bracket form. Sentences already containing
+  `[ ] ｜` are skipped rather than encoded ambiguously.
+- `pack-jlpt.ts` — gzips the pretty `src/data` files into
+  `public/data/jlpt/*.json.gz`, which is what the app actually fetches.
+  Runs last in `data:build`; **must be re-run after any hand edit to
+  `src/data`** (`bun run data:pack`).
 
 Review logs land in `scripts/.cache/`: `furigana-misses*.txt`,
 `unmatched-verbish.txt`, `skipped-classes.txt` — check them after a rebuild.
