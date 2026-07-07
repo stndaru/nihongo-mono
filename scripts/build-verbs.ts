@@ -6,41 +6,17 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { toRomaji } from 'wanakana'
-import type { VerbClass } from '../src/lib/conjugation'
 import type { DatasetMeta, JlptLevel, VerbEntry } from '../src/lib/data/types'
-import {
-  buildWordIndex,
-  expandRow,
-  kanjiCharsOf,
-  sensesDetail,
-  sensesGlosses,
-  sensesExamples,
-  usuallyKana,
-} from './lib/build-common'
-import { furiganaFor, loadFuriganaIndex } from './lib/furigana'
+import { buildWordIndex, expandRow } from './lib/build-common'
+import { buildVerbEntry, type EntryCtx } from './lib/entry'
+import { loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
-import {
-  displayKana,
-  displayKanji,
-  isCommon,
-  type JmdictFile,
-  type JmdictSense,
-  type JmdictWord,
-} from './lib/jmdict'
+import { UNSUPPORTED_VERB_CLASSES } from './lib/pos'
+import { displayKanji, type JmdictFile, type JmdictWord } from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
 const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'verbs')
 const META_PATH = join(import.meta.dirname, '..', 'src', 'data', 'meta.json')
-
-const VERB_CLASSES: ReadonlySet<string> = new Set([
-  'v5u', 'v5u-s', 'v5k', 'v5k-s', 'v5g', 'v5s', 'v5t', 'v5n', 'v5b', 'v5m',
-  'v5r', 'v5r-i', 'v5aru', 'v1', 'v1-s', 'vk',
-] satisfies VerbClass[])
-
-/** Verb-like classes we deliberately don't support yet. */
-const SKIPPED_CLASSES = new Set(['vs-s', 'vs-c', 'vn', 'vr', 'vz', 'v5uru', 'v4r', 'v4h', 'v4k', 'v4s', 'v4t', 'v4b', 'v4m', 'v4g', 'v4n'])
-
 
 console.log('loading sources…')
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
@@ -58,81 +34,17 @@ const furiganaMisses: string[] = []
 const unmatched: string[] = []
 const skipped: string[] = []
 
-
-
-function transitivityOf(senses: JmdictSense[]): VerbEntry['transitivity'] {
-  const pos = new Set(senses.flatMap((s) => s.partOfSpeech))
-  const vt = pos.has('vt')
-  const vi = pos.has('vi')
-  if (vt && vi) return 'both'
-  if (vt) return 'vt'
-  if (vi) return 'vi'
-  return null
-}
-
+const ctx: EntryCtx = { furiganaIndex, furiganaMisses }
 
 function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
-  // senses that describe a supported verb class
-  const verbSenses = word.sense.filter((s) =>
-    s.partOfSpeech.some((p) => VERB_CLASSES.has(p) || p === 'vs-i'),
-  )
-  const suruSenses = word.sense.filter((s) => s.partOfSpeech.includes('vs'))
-
-  const kanjiForm = displayKanji(word)
-  const kanaForm = displayKana(word, kanjiForm?.text)
-  if (!kanaForm) return null
-  const kana = kanaForm.text
-
-  if (verbSenses.length > 0) {
-    const pos = verbSenses[0].partOfSpeech
-    const cls = (pos.find((p) => VERB_CLASSES.has(p)) ??
-      (pos.includes('vs-i') ? 'vs' : undefined)) as VerbClass | undefined
-    if (!cls) return null
-    // vs-i entries must actually end in する for the engine to conjugate them
-    if (cls === 'vs' && !kana.endsWith('する')) return null
-    const kanji = !kanjiForm || usuallyKana(verbSenses) ? kana : kanjiForm.text
-    return {
-      id: word.id,
-      kanji,
-      kana,
-      romaji: toRomaji(kana),
-      furigana: furiganaFor(furiganaIndex, kanji, kana, furiganaMisses),
-      gloss: sensesGlosses(verbSenses),
-      jlpt: level,
-      common: isCommon(word),
-      examples: sensesExamples(verbSenses),
-      senses: sensesDetail(verbSenses),
-      class: cls,
-      transitivity: transitivityOf(verbSenses),
-      kanjiChars: kanjiCharsOf(kanji),
-    }
-  }
-
-  if (suruSenses.length > 0) {
-    // noun + する compound (勉強 → 勉強する)
-    const baseKanji = !kanjiForm || usuallyKana(suruSenses) ? kana : kanjiForm.text
-    const kanji = baseKanji + 'する'
-    return {
-      id: word.id,
-      kanji,
-      kana: kana + 'する',
-      romaji: toRomaji(kana + 'する'),
-      furigana: [...furiganaFor(furiganaIndex, baseKanji, kana, furiganaMisses), { t: 'する' }],
-      gloss: sensesGlosses(suruSenses),
-      jlpt: level,
-      common: isCommon(word),
-      examples: sensesExamples(suruSenses),
-      senses: sensesDetail(suruSenses),
-      class: 'vs',
-      transitivity: transitivityOf(suruSenses),
-      kanjiChars: kanjiCharsOf(kanji),
-    }
-  }
-
+  const entry = buildVerbEntry(word, level, ctx)
+  if (entry) return entry
   const skippedClass = word.sense
     .flatMap((s) => s.partOfSpeech)
-    .find((p) => SKIPPED_CLASSES.has(p))
-  if (skippedClass) skipped.push(`${word.id} ${kanjiForm?.text ?? kana} (${skippedClass})`)
+    .find((p) => UNSUPPORTED_VERB_CLASSES.has(p))
+  if (skippedClass) {
+    skipped.push(`${word.id} ${displayKanji(word)?.text ?? word.kana[0]?.text} (${skippedClass})`)
+  }
   return null
 }
 

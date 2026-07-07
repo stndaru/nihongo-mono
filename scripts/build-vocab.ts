@@ -6,58 +6,16 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { toRomaji } from 'wanakana'
-import type { DatasetMeta, JlptLevel, VocabEntry, VocabPos } from '../src/lib/data/types'
-import {
-  buildWordIndex,
-  expandRow,
-  kanjiCharsOf,
-  sensesDetail,
-  sensesGlosses,
-  sensesExamples,
-  usuallyKana,
-} from './lib/build-common'
-import { furiganaFor, loadFuriganaIndex } from './lib/furigana'
+import type { DatasetMeta, JlptLevel, VocabEntry } from '../src/lib/data/types'
+import { buildWordIndex, expandRow } from './lib/build-common'
+import { buildVocabEntry, type EntryCtx } from './lib/entry'
+import { loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
-import {
-  displayKana,
-  displayKanji,
-  isCommon,
-  xrefTargets,
-  type JmdictFile,
-  type JmdictWord,
-} from './lib/jmdict'
+import { type JmdictFile, type JmdictWord } from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
 const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'vocab')
 const META_PATH = join(import.meta.dirname, '..', 'src', 'data', 'meta.json')
-
-/** JMdict PoS tag → our vocab category. */
-const POS_MAP = new Map<string, VocabPos>([
-  ['adj-i', 'adj-i'],
-  ['adj-ix', 'adj-i'], // よい/いい special class
-  ['adj-na', 'adj-na'],
-  ['n', 'noun'],
-  ['n-t', 'noun'], // temporal nouns (今日, 毎朝…)
-  ['adv', 'adverb'],
-  ['adv-to', 'adverb'],
-])
-
-/**
- * Picks the word's category from the first sense that has any mapped tag,
- * respecting THAT SENSE's own tag order — JMdict lists tags by significance,
- * so 黄色 ["n","adj-no","adj-na"] is a noun while 綺麗 ["adj-na"] is an
- * adjective. A fixed precedence over the map got 黄色/大人 wrong.
- */
-function classifyPos(word: JmdictWord): VocabPos | undefined {
-  for (const sense of word.sense) {
-    for (const tag of sense.partOfSpeech) {
-      const pos = POS_MAP.get(tag)
-      if (pos) return pos
-    }
-  }
-  return undefined
-}
 
 console.log('loading sources…')
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
@@ -67,42 +25,16 @@ const index = buildWordIndex(jmdict.words)
 console.log(`jmdict ${jmdict.words.length} words, jlpt ${jlptRows.length} rows`)
 
 const furiganaMisses: string[] = []
+const ctx: EntryCtx = { furiganaIndex, furiganaMisses }
 
 /** Raw xref targets per entry id, resolved to ids after all entries exist. */
 const rawXrefs = new Map<string, { ant: [string, string?][]; syn: [string, string?][] }>()
 
 function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
-  const pos = classifyPos(word)
-  if (!pos) return null
-
-  const posTags = new Set(
-    [...POS_MAP.entries()].filter(([, cat]) => cat === pos).map(([tag]) => tag),
-  )
-  const senses = word.sense.filter((s) => s.partOfSpeech.some((t) => posTags.has(t)))
-
-  const kanjiForm = displayKanji(word)
-  const kanaForm = displayKana(word, kanjiForm?.text)
-  if (!kanaForm) return null
-  const kana = kanaForm.text
-  const kanji = !kanjiForm || usuallyKana(senses) ? kana : kanjiForm.text
-  rawXrefs.set(word.id, {
-    ant: senses.flatMap((s) => xrefTargets(s.antonym)),
-    syn: senses.flatMap((s) => xrefTargets(s.related)),
-  })
-  return {
-    id: word.id,
-    kanji,
-    kana,
-    romaji: toRomaji(kana),
-    furigana: furiganaFor(furiganaIndex, kanji, kana, furiganaMisses),
-    gloss: sensesGlosses(senses),
-    jlpt: level,
-    common: isCommon(word),
-    examples: sensesExamples(senses),
-    senses: sensesDetail(senses),
-    kanjiChars: kanjiCharsOf(kanji),
-    pos,
-  }
+  const built = buildVocabEntry(word, level, ctx)
+  if (!built) return null
+  rawXrefs.set(word.id, { ant: built.ant, syn: built.syn })
+  return built.entry
 }
 
 const byId = new Map<string, VocabEntry>()

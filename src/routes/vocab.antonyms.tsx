@@ -72,8 +72,10 @@ function AntonymsPage() {
   const pairs = useMemo(() => {
     if (!all) return null
     const byId = new Map(all.map((w) => [w.id, w]))
-    // strictly adjectives — both columns
-    const rows = all.filter((w) => isAdjective(w) && levels.includes(w.jlpt))
+    // strictly adjectives — both columns (this page only loads JLPT tiers)
+    const rows = all.filter(
+      (w) => isAdjective(w) && levels.includes(w.jlpt as JlptLevel),
+    )
     const used = new Set<string>()
     const paired: [VocabEntry, VocabEntry][] = []
     const alone: VocabEntry[] = []

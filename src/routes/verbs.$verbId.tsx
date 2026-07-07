@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { ConjugationTable } from '@/components/verbs/ConjugationTable'
+import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
@@ -52,6 +53,13 @@ function VerbDetailPage() {
       </header>
 
       <MeaningsAccordion senses={verb.senses} />
+
+      {verb.examples.length > 0 && (
+        <section>
+          <h2 className="mb-2 text-lg font-semibold">Example Sentences</h2>
+          <ExampleSentences examples={verb.examples} />
+        </section>
+      )}
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">Conjugations</h2>

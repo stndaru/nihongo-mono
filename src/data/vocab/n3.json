@@ -61,7 +61,10 @@
     "kanjiChars": [
       "愛"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1150450"
+    ]
   },
   {
     "id": "1401310",
@@ -246,6 +249,52 @@
     "pos": "noun",
     "synonyms": [
       "1044480"
+    ]
+  },
+  {
+    "id": "1150450",
+    "kanji": "愛する",
+    "kana": "あいする",
+    "romaji": "aisuru",
+    "furigana": [
+      {
+        "t": "愛",
+        "r": "あい"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to love"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ロメオはジュリエットが愛している男だ。",
+        "en": "Romeo is the man Juliet loves."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to love"
+        ],
+        "examples": [
+          {
+            "ja": "ロメオはジュリエットが愛している男だ。",
+            "en": "Romeo is the man Juliet loves."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "愛"
+    ],
+    "pos": "verb",
+    "synonyms": [
+      "1150410"
     ]
   },
   {
@@ -684,6 +733,53 @@
       "明"
     ],
     "pos": "adj-na"
+  },
+  {
+    "id": "1586250",
+    "kanji": "飽きる",
+    "kana": "あきる",
+    "romaji": "akiru",
+    "furigana": [
+      {
+        "t": "飽",
+        "r": "あ"
+      },
+      {
+        "t": "きる"
+      }
+    ],
+    "gloss": [
+      "to get tired of"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "息子はハンバーガーにあきています。",
+        "en": "My son is tired of hamburgers."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to get tired of",
+          "to tire of",
+          "to lose interest in",
+          "to grow weary of",
+          "to get fed up with"
+        ],
+        "examples": [
+          {
+            "ja": "息子はハンバーガーにあきています。",
+            "en": "My son is tired of hamburgers."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "飽"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1151230",
@@ -1145,7 +1241,7 @@
       "当",
       "前"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1612620",
@@ -1186,7 +1282,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "pronoun"
   },
   {
     "id": "1016610",
@@ -1812,6 +1908,44 @@
     "pos": "adj-na"
   },
   {
+    "id": "1586780",
+    "kanji": "あらゆる",
+    "kana": "あらゆる",
+    "romaji": "arayuru",
+    "furigana": [
+      {
+        "t": "あらゆる"
+      }
+    ],
+    "gloss": [
+      "all"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あらゆるものに限界がある。",
+        "en": "There is a limit to everything."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "all",
+          "every"
+        ],
+        "examples": [
+          {
+            "ja": "あらゆるものに限界がある。",
+            "en": "There is a limit to everything."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
+  },
+  {
     "id": "1610550",
     "kanji": "現れ",
     "kana": "あらわれ",
@@ -1859,6 +1993,82 @@
     "pos": "noun"
   },
   {
+    "id": "1586820",
+    "kanji": "ありがとう",
+    "kana": "ありがとう",
+    "romaji": "arigatou",
+    "furigana": [
+      {
+        "t": "ありがとう"
+      }
+    ],
+    "gloss": [
+      "thank you"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ありがとう。また、次の日にくるようにします。",
+        "en": "Thanks. Maybe we'll come back."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "thank you",
+          "thanks"
+        ],
+        "examples": [
+          {
+            "ja": "ありがとう。また、次の日にくるようにします。",
+            "en": "Thanks. Maybe we'll come back."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
+  },
+  {
+    "id": "1586840",
+    "kanji": "ある",
+    "kana": "ある",
+    "romaji": "aru",
+    "furigana": [
+      {
+        "t": "ある"
+      }
+    ],
+    "gloss": [
+      "a certain ..."
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ある学生に会うところです。",
+        "en": "I'm going to meet a certain student."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "a certain ...",
+          "some ..."
+        ],
+        "examples": [
+          {
+            "ja": "ある学生に会うところです。",
+            "en": "I'm going to meet a certain student."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
+  },
+  {
     "id": "1586850",
     "kanji": "あるいは",
     "kana": "あるいは",
@@ -1869,31 +2079,32 @@
       }
     ],
     "gloss": [
-      "maybe",
-      "some ... and others ..."
+      "or"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "ガスで調理しますか、あるいは電気ですか。",
+        "en": "Do you cook by gas or electricity?"
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "maybe",
-          "perhaps",
-          "possibly"
+          "or",
+          "either ... or"
         ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "some ... and others ...",
-          "sometimes ... and at other times ..."
-        ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "ガスで調理しますか、あるいは電気ですか。",
+            "en": "Do you cook by gas or electricity?"
+          }
+        ]
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "conjunction"
   },
   {
     "id": "1019450",
@@ -2315,7 +2526,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "adverb",
+    "synonyms": [
+      "1000590"
+    ]
   },
   {
     "id": "1158500",
@@ -3050,7 +3264,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-i"
+    "pos": "expression"
   },
   {
     "id": "1159930",
@@ -3577,45 +3791,41 @@
       }
     ],
     "gloss": [
-      "anyway",
-      "sooner or later"
+      "which",
+      "all"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "いずれどこかに落ち着いて身を固めるつもりだが、まだまだだ。",
-        "en": "Eventually I'd like to settle down and have a family, but not yet."
+        "ja": "作家としての彼女は伝統的なカテゴリーのいずれにも当てはまらない。",
+        "en": "As a writer, she does not fit into any of the traditional categories."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "anyway",
-          "anyhow",
-          "at any rate",
-          "in any case"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "sooner or later",
-          "one of these days",
-          "someday",
-          "before long",
-          "in due course"
+          "which",
+          "where",
+          "who"
         ],
         "examples": [
           {
-            "ja": "いずれどこかに落ち着いて身を固めるつもりだが、まだまだだ。",
-            "en": "Eventually I'd like to settle down and have a family, but not yet."
+            "ja": "作家としての彼女は伝統的なカテゴリーのいずれにも当てはまらない。",
+            "en": "As a writer, she does not fit into any of the traditional categories."
           }
         ]
+      },
+      {
+        "gloss": [
+          "all",
+          "both"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "pronoun"
   },
   {
     "id": "1155150",
@@ -3633,28 +3843,27 @@
       }
     ],
     "gloss": [
-      "the past"
+      "before"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "以前はこの丘の上に城があった。",
-        "en": "There used to be a castle on this hill."
+        "ja": "最善を尽くしますが、よくいっても木曜以前に終える事は出来ません。",
+        "en": "I'll do my best, but I'll not be able to finish it before Thursday at best."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "the past",
           "before",
-          "previously",
-          "former times"
+          "prior to",
+          "ago"
         ],
         "examples": [
           {
-            "ja": "以前はこの丘の上に城があった。",
-            "en": "There used to be a castle on this hill."
+            "ja": "最善を尽くしますが、よくいっても木曜以前に終える事は出来ません。",
+            "en": "I'll do my best, but I'll not be able to finish it before Thursday at best."
           }
         ]
       }
@@ -3663,7 +3872,7 @@
       "以",
       "前"
     ],
-    "pos": "noun"
+    "pos": "suffix"
   },
   {
     "id": "1155650",
@@ -3710,7 +3919,7 @@
       "依",
       "然"
     ],
-    "pos": "adverb"
+    "pos": "other"
   },
   {
     "id": "1481350",
@@ -3919,6 +4128,37 @@
     ],
     "kanjiChars": [],
     "pos": "noun"
+  },
+  {
+    "id": "1410800",
+    "kanji": "いただきます",
+    "kana": "いただきます",
+    "romaji": "itadakimasu",
+    "furigana": [
+      {
+        "t": "いただきます"
+      }
+    ],
+    "gloss": [
+      "thank you (for the meal just served)"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "thank you (for the meal just served)",
+          "I receive (this meal)"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression",
+    "synonyms": [
+      "1587290"
+    ]
   },
   {
     "id": "1587300",
@@ -4519,7 +4759,8 @@
       }
     ],
     "gloss": [
-      "whole life"
+      "whole life",
+      "(the only, the greatest, etc.) of one's life"
     ],
     "jlpt": 3,
     "common": true,
@@ -4527,6 +4768,10 @@
       {
         "ja": "あなたは、一生勉強しなければならない。",
         "en": "You must study your whole life."
+      },
+      {
+        "ja": "マイホームは一生の買い物だからね、そんな即断即決はできないよ。",
+        "en": "A home is a once-in-a-lifetime purchase so you don't want to make any snap decisions."
       }
     ],
     "senses": [
@@ -4540,6 +4785,17 @@
           {
             "ja": "あなたは、一生勉強しなければならない。",
             "en": "You must study your whole life."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "(the only, the greatest, etc.) of one's life"
+        ],
+        "examples": [
+          {
+            "ja": "マイホームは一生の買い物だからね、そんな即断即決はできないよ。",
+            "en": "A home is a once-in-a-lifetime purchase so you don't want to make any snap decisions."
           }
         ]
       }
@@ -5722,6 +5978,43 @@
     "pos": "noun"
   },
   {
+    "id": "2857380",
+    "kanji": "いや",
+    "kana": "いや",
+    "romaji": "iya",
+    "furigana": [
+      {
+        "t": "いや"
+      }
+    ],
+    "gloss": [
+      "no"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "「今日の新聞にいいニュース何かある？」「いや、特にないね」",
+        "en": "\"Any good news in today's paper?\" \"No, nothing in particular.\""
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "no"
+        ],
+        "examples": [
+          {
+            "ja": "「今日の新聞にいいニュース何かある？」「いや、特にないね」",
+            "en": "\"Any good news in today's paper?\" \"No, nothing in particular.\""
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
+  },
+  {
     "id": "1155210",
     "kanji": "以来",
     "kana": "いらい",
@@ -5737,24 +6030,35 @@
       }
     ],
     "gloss": [
-      "ever since"
+      "since"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "１９８８年以来トムに会っていません。",
+        "en": "I haven't seen Tom since 1988."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "ever since"
+          "since",
+          "henceforth"
         ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "１９８８年以来トムに会っていません。",
+            "en": "I haven't seen Tom since 1988."
+          }
+        ]
       }
     ],
     "kanjiChars": [
       "以",
       "来"
     ],
-    "pos": "noun"
+    "pos": "suffix"
   },
   {
     "id": "1155710",
@@ -5851,6 +6155,64 @@
     ],
     "kanjiChars": [],
     "pos": "noun"
+  },
+  {
+    "id": "1000920",
+    "kanji": "いらっしゃい",
+    "kana": "いらっしゃい",
+    "romaji": "irasshai",
+    "furigana": [
+      {
+        "t": "いらっしゃい"
+      }
+    ],
+    "gloss": [
+      "come",
+      "welcome"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "いるだけ持っていらっしゃい。",
+        "en": "Please take with you as much as you need."
+      },
+      {
+        "ja": "「いらっしゃ〜い」「よぉ」「なんだ、啓太か・・・」",
+        "en": "\"Welcome!\" \"Yo.\" \"Oh, what, it's only Keita?\""
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "come",
+          "go",
+          "stay"
+        ],
+        "examples": [
+          {
+            "ja": "いるだけ持っていらっしゃい。",
+            "en": "Please take with you as much as you need."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "welcome"
+        ],
+        "examples": [
+          {
+            "ja": "「いらっしゃ〜い」「よぉ」「なんだ、啓太か・・・」",
+            "en": "\"Welcome!\" \"Yo.\" \"Oh, what, it's only Keita?\""
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection",
+    "synonyms": [
+      "1000940"
+    ]
   },
   {
     "id": "1160140",
@@ -6087,6 +6449,46 @@
     ],
     "kanjiChars": [],
     "pos": "adverb"
+  },
+  {
+    "id": "1343150",
+    "kanji": "いわゆる",
+    "kana": "いわゆる",
+    "romaji": "iwayuru",
+    "furigana": [
+      {
+        "t": "いわゆる"
+      }
+    ],
+    "gloss": [
+      "what is called"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これがいわゆる「天ぷら」というものです。",
+        "en": "This is what we call \"tempura\"."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "what is called",
+          "what you call",
+          "what they call",
+          "so-called"
+        ],
+        "examples": [
+          {
+            "ja": "これがいわゆる「天ぷら」というものです。",
+            "en": "This is what we call \"tempura\"."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
   },
   {
     "id": "1022210",
@@ -6725,7 +7127,8 @@
       }
     ],
     "gloss": [
-      "birth"
+      "birth",
+      "born in (country, month, imperial era, zodiac year, etc.)"
     ],
     "jlpt": 3,
     "common": true,
@@ -6747,6 +7150,12 @@
             "en": "I was born and raised in Tokyo."
           }
         ]
+      },
+      {
+        "gloss": [
+          "born in (country, month, imperial era, zodiac year, etc.)"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -6912,6 +7321,73 @@
       "羨"
     ],
     "pos": "adj-i"
+  },
+  {
+    "id": "1454500",
+    "kanji": "得る",
+    "kana": "うる",
+    "romaji": "uru",
+    "furigana": [
+      {
+        "t": "得",
+        "r": "う"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to be able to ...",
+      "to get"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼との交際で得るところが多かった。",
+        "en": "I benefited much from my association with him."
+      },
+      {
+        "ja": "１５年間は満足しうる取り決めであった。",
+        "en": "It was a satisfactory arrangement for fifteen years."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to be able to ...",
+          "can ..."
+        ],
+        "examples": [
+          {
+            "ja": "１５年間は満足しうる取り決めであった。",
+            "en": "It was a satisfactory arrangement for fifteen years."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get",
+          "to acquire",
+          "to obtain",
+          "to procure",
+          "to earn"
+        ],
+        "examples": [
+          {
+            "ja": "彼との交際で得るところが多かった。",
+            "en": "I benefited much from my association with him."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "得"
+    ],
+    "pos": "verb",
+    "synonyms": [
+      "1588760"
+    ]
   },
   {
     "id": "1352140",
@@ -7555,6 +8031,52 @@
     "pos": "noun"
   },
   {
+    "id": "1588760",
+    "kanji": "得る",
+    "kana": "える",
+    "romaji": "eru",
+    "furigana": [
+      {
+        "t": "得",
+        "r": "え"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to be able to ..., can ..."
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これらのガスは地球規模の温暖化をもたらし得る。",
+        "en": "These gases can lead to global warming."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to be able to ..., can ..."
+        ],
+        "examples": [
+          {
+            "ja": "これらのガスは地球規模の温暖化をもたらし得る。",
+            "en": "These gases can lead to global warming."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "得"
+    ],
+    "pos": "other",
+    "synonyms": [
+      "1454500"
+    ]
+  },
+  {
     "id": "1175570",
     "kanji": "円",
     "kana": "えん",
@@ -7974,6 +8496,46 @@
     "pos": "noun"
   },
   {
+    "id": "2826528",
+    "kanji": "お",
+    "kana": "お",
+    "romaji": "o",
+    "furigana": [
+      {
+        "t": "お"
+      }
+    ],
+    "gloss": [
+      "honorific/polite/humble prefix"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あいつはのらりくらりの仕事にお忙しい事だ。",
+        "en": "He is busy loafing on the job."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "honorific/polite/humble prefix"
+        ],
+        "examples": [
+          {
+            "ja": "あいつはのらりくらりの仕事にお忙しい事だ。",
+            "en": "He is busy loafing on the job."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "prefix",
+    "synonyms": [
+      "1270190"
+    ]
+  },
+  {
     "id": "1485770",
     "kanji": "尾",
     "kana": "お",
@@ -8390,6 +8952,40 @@
     "pos": "noun"
   },
   {
+    "id": "1332760",
+    "kanji": "終える",
+    "kana": "おえる",
+    "romaji": "oeru",
+    "furigana": [
+      {
+        "t": "終",
+        "r": "お"
+      },
+      {
+        "t": "える"
+      }
+    ],
+    "gloss": [
+      "to finish doing ..."
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to finish doing ...",
+          "to be done doing ..."
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "終"
+    ],
+    "pos": "other"
+  },
+  {
     "id": "1412880",
     "kanji": "大いに",
     "kana": "おおいに",
@@ -8736,6 +9332,42 @@
       "幼"
     ],
     "pos": "adj-i"
+  },
+  {
+    "id": "1589090",
+    "kanji": "収める",
+    "kana": "おさめる",
+    "romaji": "osameru",
+    "furigana": [
+      {
+        "t": "収",
+        "r": "おさ"
+      },
+      {
+        "t": "める"
+      }
+    ],
+    "gloss": [
+      "to finish"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to finish",
+          "to conclude",
+          "to wind up",
+          "to bring to a close"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "収"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1236890",
@@ -9220,7 +9852,7 @@
       "男",
       "人"
     ],
-    "pos": "noun"
+    "pos": "expression"
   },
   {
     "id": "1414190",
@@ -9577,24 +10209,129 @@
       }
     ],
     "gloss": [
-      "before (a god, nobleman, etc.)"
+      "you"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "お前を娘の夫にしよう。",
+        "en": "You shall be my daughter's husband."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "before (a god, nobleman, etc.)",
-          "in front of"
+          "you"
         ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "お前を娘の夫にしよう。",
+            "en": "You shall be my daughter's husband."
+          }
+        ]
       }
     ],
     "kanjiChars": [
       "前"
     ],
-    "pos": "noun"
+    "pos": "pronoun"
+  },
+  {
+    "id": "1270700",
+    "kanji": "おめでとう",
+    "kana": "おめでとう",
+    "romaji": "omedetou",
+    "furigana": [
+      {
+        "t": "おめでとう"
+      }
+    ],
+    "gloss": [
+      "congratulations!"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "誕生日おめでとうございます。",
+        "en": "Many happy returns of the day!"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "congratulations!",
+          "well done!",
+          "best wishes!",
+          "all the best!"
+        ],
+        "examples": [
+          {
+            "ja": "誕生日おめでとうございます。",
+            "en": "Many happy returns of the day!"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
+  },
+  {
+    "id": "1535140",
+    "kanji": "お目にかかる",
+    "kana": "おめにかかる",
+    "romaji": "omenikakaru",
+    "furigana": [
+      {
+        "t": "お"
+      },
+      {
+        "t": "目",
+        "r": "め"
+      },
+      {
+        "t": "にかかる"
+      }
+    ],
+    "gloss": [
+      "to meet (someone of higher status)",
+      "to be recognized (esp. by someone of higher status)"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "家内もお目にかかることを楽しみにしておりますから。",
+        "en": "My wife will be glad to see you, too."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to meet (someone of higher status)"
+        ],
+        "examples": [
+          {
+            "ja": "家内もお目にかかることを楽しみにしておりますから。",
+            "en": "My wife will be glad to see you, too."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be recognized (esp. by someone of higher status)",
+          "to be visible",
+          "to be seen",
+          "to be noticed"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "目"
+    ],
+    "pos": "expression"
   },
   {
     "id": "1589340",
@@ -9741,6 +10478,45 @@
     "pos": "adverb"
   },
   {
+    "id": "1001560",
+    "kanji": "おや",
+    "kana": "おや",
+    "romaji": "oya",
+    "furigana": [
+      {
+        "t": "おや"
+      }
+    ],
+    "gloss": [
+      "oh!"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "おや、今朝は早いですね。",
+        "en": "Oh, you are early this morning."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "oh!",
+          "oh?",
+          "my!"
+        ],
+        "examples": [
+          {
+            "ja": "おや、今朝は早いですね。",
+            "en": "Oh, you are early this morning."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
+  },
+  {
     "id": "1613570",
     "kanji": "泳ぎ",
     "kana": "およぎ",
@@ -9844,6 +10620,57 @@
     "synonyms": [
       "1415050"
     ]
+  },
+  {
+    "id": "1577985",
+    "kanji": "居る",
+    "kana": "おる",
+    "romaji": "oru",
+    "furigana": [
+      {
+        "t": "居",
+        "r": "お"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to be ...-ing",
+      "to have ...-ed"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "おかげで元気にしております。",
+        "en": "They're all fine, thank you."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to be ...-ing"
+        ],
+        "examples": [
+          {
+            "ja": "おかげで元気にしております。",
+            "en": "They're all fine, thank you."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have ...-ed",
+          "to be ...-ed"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "居"
+    ],
+    "pos": "other"
   },
   {
     "id": "2859161",
@@ -10465,64 +11292,33 @@
       }
     ],
     "gloss": [
-      "a time",
-      "inning (baseball)",
-      "episode"
+      "counter for occurrences"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "このトーナメントに優勝するには、７回続けて勝たなくてはいけません。",
-        "en": "We have to win seven times in a row to win this tournament."
+        "ja": "新種の稲によっては年に２、３回収穫できる物もある。",
+        "en": "Some new kinds of rice can be harvested two or three times a year."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "a time",
-          "an instance"
+          "counter for occurrences"
         ],
         "examples": [
           {
-            "ja": "このトーナメントに優勝するには、７回続けて勝たなくてはいけません。",
-            "en": "We have to win seven times in a row to win this tournament."
+            "ja": "新種の稲によっては年に２、３回収穫できる物もある。",
+            "en": "Some new kinds of rice can be harvested two or three times a year."
           }
         ]
-      },
-      {
-        "gloss": [
-          "inning (baseball)",
-          "round",
-          "game"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "episode",
-          "chapter",
-          "instalment"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "Hui (people)"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "Islam"
-        ],
-        "examples": []
       }
     ],
     "kanjiChars": [
       "回"
     ],
-    "pos": "noun"
+    "pos": "counter"
   },
   {
     "id": "1203100",
@@ -11311,6 +12107,40 @@
       "復"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1512150",
+    "kanji": "返る",
+    "kana": "かえる",
+    "romaji": "kaeru",
+    "furigana": [
+      {
+        "t": "返",
+        "r": "かえ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to become extremely"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to become extremely",
+          "to become completely"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "返"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1589820",
@@ -14888,7 +15718,7 @@
       "髪",
       "毛"
     ],
-    "pos": "noun"
+    "pos": "expression"
   },
   {
     "id": "1590600",
@@ -14945,6 +15775,47 @@
       "目"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1002970",
+    "kanji": "かもしれない",
+    "kana": "かもしれない",
+    "romaji": "kamoshirenai",
+    "furigana": [
+      {
+        "t": "かもしれない"
+      }
+    ],
+    "gloss": [
+      "may"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたの言うことは正しいかもしれない。",
+        "en": "You could be right, I suppose."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "may",
+          "might",
+          "perhaps",
+          "may be",
+          "possibly"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの言うことは正しいかもしれない。",
+            "en": "You could be right, I suppose."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression"
   },
   {
     "id": "1569570",
@@ -16568,6 +17439,58 @@
       "心"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1215790",
+    "kanji": "関する",
+    "kana": "かんする",
+    "romaji": "kansuru",
+    "furigana": [
+      {
+        "t": "関",
+        "r": "かん"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to concern"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "君の関する事柄ではない。",
+        "en": "That is no business of yours."
+      },
+      {
+        "ja": "彼女は動物に関する本を書いた。",
+        "en": "She wrote a book about animals."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to concern",
+          "to be related"
+        ],
+        "examples": [
+          {
+            "ja": "君の関する事柄ではない。",
+            "en": "That is no business of yours."
+          },
+          {
+            "ja": "彼女は動物に関する本を書いた。",
+            "en": "She wrote a book about animals."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "関"
+    ],
+    "pos": "verb"
   },
   {
     "id": "1211490",
@@ -18340,7 +19263,8 @@
       }
     ],
     "gloss": [
-      "expectation"
+      "expectation",
+      "promising"
     ],
     "jlpt": 3,
     "common": true,
@@ -18363,6 +19287,14 @@
             "en": "Let's hope for the best anyway."
           }
         ]
+      },
+      {
+        "gloss": [
+          "promising",
+          "rising",
+          "up-and-coming"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -18722,6 +19654,61 @@
     ],
     "kanjiChars": [],
     "pos": "adj-i"
+  },
+  {
+    "id": "1221740",
+    "kanji": "気に入る",
+    "kana": "きにいる",
+    "romaji": "kiniiru",
+    "furigana": [
+      {
+        "t": "気",
+        "r": "き"
+      },
+      {
+        "t": "に"
+      },
+      {
+        "t": "入",
+        "r": "い"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to like"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "いくつかの点で私は彼女が気に入らない。",
+        "en": "I don't like her in some ways."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to like",
+          "to be pleased with",
+          "to be delighted with",
+          "to take a liking to",
+          "to suit one's fancy"
+        ],
+        "examples": [
+          {
+            "ja": "いくつかの点で私は彼女が気に入らない。",
+            "en": "I don't like her in some ways."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "気",
+      "入"
+    ],
+    "pos": "expression"
   },
   {
     "id": "1223330",
@@ -19415,7 +20402,7 @@
     "kanjiChars": [
       "逆"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1041850",
@@ -19504,28 +20491,30 @@
       }
     ],
     "gloss": [
-      "the old",
-      "old times",
+      "old",
       "Japan's old (lunisolar) calendar"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "官僚は旧法規の改正に関して、成り行きを見守っています。",
+        "en": "Bureaucrats are testing the waters over revising old regulations."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "the old",
-          "old things",
-          "old customs"
+          "old",
+          "former",
+          "ex-"
         ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "old times",
-          "bygone days"
-        ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "官僚は旧法規の改正に関して、成り行きを見守っています。",
+            "en": "Bureaucrats are testing the waters over revising old regulations."
+          }
+        ]
       },
       {
         "gloss": [
@@ -19537,7 +20526,7 @@
     "kanjiChars": [
       "旧"
     ],
-    "pos": "noun"
+    "pos": "prefix"
   },
   {
     "id": "1919590",
@@ -20764,7 +21753,7 @@
       "共",
       "通"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1591660",
@@ -21343,6 +22332,43 @@
       "切"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1384860",
+    "kanji": "きれる",
+    "kana": "きれる",
+    "romaji": "kireru",
+    "furigana": [
+      {
+        "t": "きれる"
+      }
+    ],
+    "gloss": [
+      "to be able to do completely"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この氷は薄すぎて君の体を支えきれないだろう。",
+        "en": "This ice is too thin to bear your weight."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to be able to do completely"
+        ],
+        "examples": [
+          {
+            "ja": "この氷は薄すぎて君の体を支えきれないだろう。",
+            "en": "This ice is too thin to bear your weight."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
   },
   {
     "id": "1223440",
@@ -22238,7 +23264,8 @@
       }
     ],
     "gloss": [
-      "finance"
+      "finance",
+      "monetary"
     ],
     "jlpt": 3,
     "common": true,
@@ -22263,6 +23290,14 @@
             "en": "A fiscal tightening policy is being enacted."
           }
         ]
+      },
+      {
+        "gloss": [
+          "monetary",
+          "financial",
+          "credit"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -22649,6 +23684,34 @@
       "鎖"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1497800",
+    "kanji": "くさる",
+    "kana": "くさる",
+    "romaji": "kusaru",
+    "furigana": [
+      {
+        "t": "くさる"
+      }
+    ],
+    "gloss": [
+      "to have the audacity to"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to have the audacity to",
+          "to be bastard enough to"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
   },
   {
     "id": "1509350",
@@ -23316,6 +24379,41 @@
     ]
   },
   {
+    "id": "1514940",
+    "kanji": "暮らす",
+    "kana": "くらす",
+    "romaji": "kurasu",
+    "furigana": [
+      {
+        "t": "暮",
+        "r": "く"
+      },
+      {
+        "t": "らす"
+      }
+    ],
+    "gloss": [
+      "to do daily"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do daily",
+          "to do all day long",
+          "to continue doing"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "暮"
+    ],
+    "pos": "suffix"
+  },
+  {
     "id": "1046430",
     "kanji": "グラス",
     "kana": "グラス",
@@ -23368,6 +24466,34 @@
     "synonyms": [
       "1040380"
     ]
+  },
+  {
+    "id": "1046840",
+    "kanji": "グランド",
+    "kana": "グランド",
+    "romaji": "gurando",
+    "furigana": [
+      {
+        "t": "グランド"
+      }
+    ],
+    "gloss": [
+      "grand"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "grand",
+          "large"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other"
   },
   {
     "id": "1044480",
@@ -26093,6 +27219,53 @@
       "県"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "2078590",
+    "kanji": "軒",
+    "kana": "けん",
+    "romaji": "ken",
+    "furigana": [
+      {
+        "t": "軒",
+        "r": "けん"
+      }
+    ],
+    "gloss": [
+      "counter for buildings (esp. houses)",
+      "suffix for a pen name, stage name, etc."
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "１０軒の家がその火事で焼失した。",
+        "en": "The fire burned down ten houses."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "counter for buildings (esp. houses)"
+        ],
+        "examples": [
+          {
+            "ja": "１０軒の家がその火事で焼失した。",
+            "en": "The fire burned down ten houses."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "suffix for a pen name, stage name, etc."
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "軒"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1255940",
@@ -30636,6 +31809,45 @@
     "pos": "noun"
   },
   {
+    "id": "2773660",
+    "kanji": "ことによると",
+    "kana": "ことによると",
+    "romaji": "kotoniyoruto",
+    "furigana": [
+      {
+        "t": "ことによると"
+      }
+    ],
+    "gloss": [
+      "possibly"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "ことによると、きみにも一緒にきてもらう。",
+        "en": "Maybe you'd better come with us."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "possibly",
+          "maybe",
+          "perhaps"
+        ],
+        "examples": [
+          {
+            "ja": "ことによると、きみにも一緒にきてもらう。",
+            "en": "Maybe you'd better come with us."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression"
+  },
+  {
     "id": "1264600",
     "kanji": "ことわざ",
     "kana": "ことわざ",
@@ -30827,6 +32039,49 @@
     "pos": "noun"
   },
   {
+    "id": "1270680",
+    "kanji": "ごめんなさい",
+    "kana": "ごめんなさい",
+    "romaji": "gomennasai",
+    "furigana": [
+      {
+        "t": "ごめんなさい"
+      }
+    ],
+    "gloss": [
+      "I'm sorry"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "お話し中、ごめんなさい。",
+        "en": "Excuse me for interrupting you."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "I'm sorry",
+          "my apologies",
+          "excuse me",
+          "pardon me"
+        ],
+        "examples": [
+          {
+            "ja": "お話し中、ごめんなさい。",
+            "en": "Excuse me for interrupting you."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression",
+    "synonyms": [
+      "1270670"
+    ]
+  },
+  {
     "id": "1347830",
     "kanji": "小屋",
     "kana": "こや",
@@ -30890,6 +32145,43 @@
       "屋"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1004830",
+    "kanji": "これら",
+    "kana": "これら",
+    "romaji": "korera",
+    "furigana": [
+      {
+        "t": "これら"
+      }
+    ],
+    "gloss": [
+      "these"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "これらのクッキーは星の形をしている。",
+        "en": "These cookies are star-shaped."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "these"
+        ],
+        "examples": [
+          {
+            "ja": "これらのクッキーは星の形をしている。",
+            "en": "These cookies are star-shaped."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "pronoun"
   },
   {
     "id": "1579080",
@@ -31188,7 +32480,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "adverb",
+    "synonyms": [
+      "1004880"
+    ]
   },
   {
     "id": "1289620",
@@ -31245,6 +32540,45 @@
       "難"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1289400",
+    "kanji": "こんにちは",
+    "kana": "こんにちは",
+    "romaji": "konnichiha",
+    "furigana": [
+      {
+        "t": "こんにちは"
+      }
+    ],
+    "gloss": [
+      "hello"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "こんにちは、ぼくの名前は斎藤健です。",
+        "en": "Hi, my name is Ken Saitou."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "hello",
+          "good day",
+          "good afternoon"
+        ],
+        "examples": [
+          {
+            "ja": "こんにちは、ぼくの名前は斎藤健です。",
+            "en": "Hi, my name is Ken Saitou."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
   },
   {
     "id": "1289710",
@@ -31597,7 +32931,7 @@
       "最",
       "高"
     ],
-    "pos": "adj-na",
+    "pos": "noun",
     "antonyms": [
       "1294220"
     ]
@@ -31877,7 +33211,7 @@
       "最",
       "低"
     ],
-    "pos": "adj-na",
+    "pos": "noun",
     "antonyms": [
       "1293850"
     ]
@@ -32375,6 +33709,37 @@
       "業"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1298200",
+    "kanji": "昨",
+    "kana": "さく",
+    "romaji": "saku",
+    "furigana": [
+      {
+        "t": "昨",
+        "r": "さく"
+      }
+    ],
+    "gloss": [
+      "last (year)"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "last (year)",
+          "yesterday"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "昨"
+    ],
+    "pos": "prefix"
   },
   {
     "id": "1297240",
@@ -33079,6 +34444,45 @@
     ]
   },
   {
+    "id": "1585460",
+    "kanji": "さて",
+    "kana": "さて",
+    "romaji": "sate",
+    "furigana": [
+      {
+        "t": "さて"
+      }
+    ],
+    "gloss": [
+      "well"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "さて次の話題に移ることにしよう。",
+        "en": "Let's go on to the next subject."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "well",
+          "now",
+          "then"
+        ],
+        "examples": [
+          {
+            "ja": "さて次の話題に移ることにしよう。",
+            "en": "Let's go on to the next subject."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
     "id": "1593800",
     "kanji": "砂漠",
     "kana": "さばく",
@@ -33467,6 +34871,60 @@
     "pos": "adverb"
   },
   {
+    "id": "1231650",
+    "kanji": "去る",
+    "kana": "さる",
+    "romaji": "saru",
+    "furigana": [
+      {
+        "t": "去",
+        "r": "さ"
+      },
+      {
+        "t": "る"
+      }
+    ],
+    "gloss": [
+      "to (do) completely",
+      "last ... (e.g. \"last April\")"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "去る６月に私の姉は高校の教師と結婚した。",
+        "en": "My sister married a high school teacher last June."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to (do) completely"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "last ... (e.g. \"last April\")"
+        ],
+        "examples": [
+          {
+            "ja": "去る６月に私の姉は高校の教師と結婚した。",
+            "en": "My sister married a high school teacher last June."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "去"
+    ],
+    "pos": "other",
+    "antonyms": [
+      "1547720",
+      "1591270"
+    ]
+  },
+  {
     "id": "1177390",
     "kanji": "さる",
     "kana": "さる",
@@ -33792,7 +35250,8 @@
       }
     ],
     "gloss": [
-      "acidity"
+      "acidity",
+      "acidic"
     ],
     "jlpt": 3,
     "common": true,
@@ -33813,6 +35272,12 @@
             "en": "Acid fruits like pineapples and lemons are sour."
           }
         ]
+      },
+      {
+        "gloss": [
+          "acidic"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -33878,6 +35343,7 @@
       }
     ],
     "gloss": [
+      "Mr",
       "clan"
     ],
     "jlpt": 3,
@@ -33886,9 +35352,27 @@
       {
         "ja": "それらの事実から判断すれば、森氏は金持ちにちがいない。",
         "en": "Judging from those facts, Mr Mori must be a wealthy person."
+      },
+      {
+        "ja": "１９９５年、安藤氏は建築におけるもっとも権威ある賞を受賞した。",
+        "en": "In 1995, Andou received architecture's most prestigious award."
       }
     ],
     "senses": [
+      {
+        "gloss": [
+          "Mr",
+          "Mrs",
+          "Ms",
+          "Miss"
+        ],
+        "examples": [
+          {
+            "ja": "１９９５年、安藤氏は建築におけるもっとも権威ある賞を受賞した。",
+            "en": "In 1995, Andou received architecture's most prestigious award."
+          }
+        ]
+      },
       {
         "gloss": [
           "clan"
@@ -33904,7 +35388,7 @@
     "kanjiChars": [
       "氏"
     ],
-    "pos": "noun",
+    "pos": "suffix",
     "synonyms": [
       "1311010"
     ]
@@ -34325,6 +35809,52 @@
     ],
     "kanjiChars": [],
     "pos": "adverb"
+  },
+  {
+    "id": "1506050",
+    "kanji": "しかも",
+    "kana": "しかも",
+    "romaji": "shikamo",
+    "furigana": [
+      {
+        "t": "しかも"
+      }
+    ],
+    "gloss": [
+      "moreover",
+      "nevertheless"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼はそれをした、しかも彼女のいる前で。",
+        "en": "He did it, and in her presence."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "moreover",
+          "furthermore"
+        ],
+        "examples": [
+          {
+            "ja": "彼はそれをした、しかも彼女のいる前で。",
+            "en": "He did it, and in her presence."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "nevertheless",
+          "and yet"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1319060",
@@ -35621,44 +37151,51 @@
       }
     ],
     "gloss": [
-      "order",
-      "circumstances",
-      "reason"
+      "depending on",
+      "as soon as",
+      "as (e.g. \"as one is told\", \"as one wishes\")"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "こういう次第だ。",
-        "en": "This is how it stands."
+        "ja": "空港に着き次第、電話します。",
+        "en": "I'll phone you as soon as I get to the airport."
+      },
+      {
+        "ja": "仕事の成功はあなた方の努力次第です。",
+        "en": "Our success in this work depends on your efforts."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "order",
-          "program",
-          "programme",
-          "precedence"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "circumstances",
-          "course of events",
-          "state of things"
+          "depending on"
         ],
         "examples": [
           {
-            "ja": "こういう次第だ。",
-            "en": "This is how it stands."
+            "ja": "仕事の成功はあなた方の努力次第です。",
+            "en": "Our success in this work depends on your efforts."
           }
         ]
       },
       {
         "gloss": [
-          "reason"
+          "as soon as",
+          "immediately after",
+          "upon"
+        ],
+        "examples": [
+          {
+            "ja": "空港に着き次第、電話します。",
+            "en": "I'll phone you as soon as I get to the airport."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "as (e.g. \"as one is told\", \"as one wishes\")",
+          "whatever (e.g. \"whatever is at hand\")"
         ],
         "examples": []
       }
@@ -35667,7 +37204,7 @@
       "次",
       "第"
     ],
-    "pos": "noun"
+    "pos": "suffix"
   },
   {
     "id": "1595240",
@@ -35808,6 +37345,45 @@
       "退"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1335230",
+    "kanji": "したがって",
+    "kana": "したがって",
+    "romaji": "shitagatte",
+    "furigana": [
+      {
+        "t": "したがって"
+      }
+    ],
+    "gloss": [
+      "therefore"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "したがって、すべての政治的理想の中で、人々を幸せにさせるものがもっとも危険であると言うことができる。",
+        "en": "Hence one can say that, of all political ideals, that of making people happy is the most dangerous."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "therefore",
+          "consequently",
+          "accordingly"
+        ],
+        "examples": [
+          {
+            "ja": "したがって、すべての政治的理想の中で、人々を幸せにさせるものがもっとも危険であると言うことができる。",
+            "en": "Hence one can say that, of all political ideals, that of making people happy is the most dangerous."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1365050",
@@ -36542,7 +38118,7 @@
     "kanjiChars": [
       "実"
     ],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1320170",
@@ -37484,6 +39060,110 @@
     "pos": "noun"
   },
   {
+    "id": "1305380",
+    "kanji": "しまう",
+    "kana": "しまう",
+    "romaji": "shimau",
+    "furigana": [
+      {
+        "t": "しまう"
+      }
+    ],
+    "gloss": [
+      "to do completely",
+      "to do accidentally"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "やってしまったことは元に戻らない。",
+        "en": "What is done cannot be undone."
+      },
+      {
+        "ja": "彼女は短絡的な思考で、表面的な情報だけで判断してしまう。",
+        "en": "She ends up making decisions based on superficial information because of her simplistic thinking."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to do completely",
+          "to finish"
+        ],
+        "examples": [
+          {
+            "ja": "やってしまったことは元に戻らない。",
+            "en": "What is done cannot be undone."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to do accidentally",
+          "to do without meaning to",
+          "to happen to do",
+          "to end up ..."
+        ],
+        "examples": [
+          {
+            "ja": "彼女は短絡的な思考で、表面的な情報だけで判断してしまう。",
+            "en": "She ends up making decisions based on superficial information because of her simplistic thinking."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "other",
+    "synonyms": [
+      "1005600"
+    ]
+  },
+  {
+    "id": "1005600",
+    "kanji": "しまった",
+    "kana": "しまった",
+    "romaji": "shimatta",
+    "furigana": [
+      {
+        "t": "しまった"
+      }
+    ],
+    "gloss": [
+      "darn it!"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "しまった、ガットが切れた。",
+        "en": "Oh, no. I broke a string in my racket."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "darn it!",
+          "darn!",
+          "oops!",
+          "oh dear!",
+          "oh no!"
+        ],
+        "examples": [
+          {
+            "ja": "しまった、ガットが切れた。",
+            "en": "Oh, no. I broke a string in my racket."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection",
+    "synonyms": [
+      "1305380"
+    ]
+  },
+  {
     "id": "1318680",
     "kanji": "自慢",
     "kana": "じまん",
@@ -37695,6 +39375,12 @@
         "gloss": [
           "end",
           "far from the imperial palace (i.e. far from Kyoto, esp. of western Japan)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "dirty (e.g. dirty jokes, etc.)"
         ],
         "examples": []
       }
@@ -40202,38 +41888,56 @@
       }
     ],
     "gloss": [
-      "the best",
-      "first volume (of a two or three-volume set)"
+      "from the standpoint of",
+      "on"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "地図上の青い線は川に相当する。",
+        "en": "The blue lines on the map correspond to rivers."
+      },
+      {
+        "ja": "彼は経済上の理由で計画を断念した。",
+        "en": "He gave up the plan for economic reasons."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "the best",
-          "top",
-          "first class",
-          "first grade"
+          "from the standpoint of",
+          "from the viewpoint of",
+          "with respect to",
+          "in terms of",
+          "as a matter of"
         ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "彼は経済上の理由で計画を断念した。",
+            "en": "He gave up the plan for economic reasons."
+          }
+        ]
       },
       {
         "gloss": [
-          "first volume (of a two or three-volume set)",
-          "first book"
+          "on",
+          "above",
+          "on top of",
+          "aboard (a ship or vehicle)"
         ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "地図上の青い線は川に相当する。",
+            "en": "The blue lines on the map correspond to rivers."
+          }
+        ]
       }
     ],
     "kanjiChars": [
       "上"
     ],
-    "pos": "noun",
-    "synonyms": [
-      "1184140",
-      "1423310"
-    ]
+    "pos": "suffix"
   },
   {
     "id": "1356210",
@@ -41334,7 +43038,7 @@
       "上",
       "等"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1351560",
@@ -43670,6 +45374,45 @@
     "pos": "noun"
   },
   {
+    "id": "1361750",
+    "kanji": "新興",
+    "kana": "しんこう",
+    "romaji": "shinkou",
+    "furigana": [
+      {
+        "t": "新",
+        "r": "しん"
+      },
+      {
+        "t": "興",
+        "r": "こう"
+      }
+    ],
+    "gloss": [
+      "rising"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "rising",
+          "developing",
+          "emergent",
+          "burgeoning",
+          "new"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "新",
+      "興"
+    ],
+    "pos": "noun"
+  },
+  {
     "id": "1361380",
     "kanji": "振興",
     "kana": "しんこう",
@@ -45263,70 +47006,35 @@
       }
     ],
     "gloss": [
-      "number",
-      "counting",
-      "destiny"
+      "several"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "今年は失業者数が記録的になるだろう。",
-        "en": "This year unemployment will reach record levels."
+        "ja": "あの木の枝に数羽の鳥がとまっている。",
+        "en": "Some birds are sitting on the branch of that tree."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "number",
-          "quantity",
-          "amount"
+          "several",
+          "a few",
+          "a number of"
         ],
         "examples": [
           {
-            "ja": "今年は失業者数が記録的になるだろう。",
-            "en": "This year unemployment will reach record levels."
+            "ja": "あの木の枝に数羽の鳥がとまっている。",
+            "en": "Some birds are sitting on the branch of that tree."
           }
         ]
-      },
-      {
-        "gloss": [
-          "counting",
-          "calculation",
-          "figures",
-          "numbers"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "number",
-          "numeral",
-          "figure"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "number"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "destiny",
-          "fate",
-          "outcome",
-          "course of events",
-          "trend"
-        ],
-        "examples": []
       }
     ],
     "kanjiChars": [
       "数"
     ],
-    "pos": "noun"
+    "pos": "prefix"
   },
   {
     "id": "1373060",
@@ -45840,6 +47548,48 @@
       "少"
     ],
     "pos": "adverb"
+  },
+  {
+    "id": "1196000",
+    "kanji": "過ごす",
+    "kana": "すごす",
+    "romaji": "sugosu",
+    "furigana": [
+      {
+        "t": "過",
+        "r": "す"
+      },
+      {
+        "t": "ごす"
+      }
+    ],
+    "gloss": [
+      "to overdo",
+      "to ... without acting on it"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to overdo",
+          "to do too much"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to ... without acting on it",
+          "to ... without getting involved"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "過"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1241750",
@@ -46472,6 +48222,63 @@
     "pos": "noun"
   },
   {
+    "id": "1404100",
+    "kanji": "すなわち",
+    "kana": "すなわち",
+    "romaji": "sunawachi",
+    "furigana": [
+      {
+        "t": "すなわち"
+      }
+    ],
+    "gloss": [
+      "that is (to say)",
+      "precisely",
+      "(and) then"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "すなわち彼はそれをしたくないのだ。",
+        "en": "In other words, he doesn't want to do it."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "that is (to say)",
+          "namely",
+          "i.e."
+        ],
+        "examples": [
+          {
+            "ja": "すなわち彼はそれをしたくないのだ。",
+            "en": "In other words, he doesn't want to do it."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "precisely",
+          "exactly",
+          "just",
+          "nothing but",
+          "neither more nor less"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "(and) then"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
     "id": "1072260",
     "kanji": "スピーチ",
     "kana": "スピーチ",
@@ -46605,6 +48412,55 @@
       "墨"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1295060",
+    "kanji": "すみません",
+    "kana": "すみません",
+    "romaji": "sumimasen",
+    "furigana": [
+      {
+        "t": "すみません"
+      }
+    ],
+    "gloss": [
+      "excuse me",
+      "thank you"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "すみません、この席あいていますか。",
+        "en": "Excuse me, is this seat taken?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "excuse me",
+          "pardon me",
+          "I'm sorry",
+          "I beg your pardon"
+        ],
+        "examples": [
+          {
+            "ja": "すみません、この席あいていますか。",
+            "en": "Excuse me, is this seat taken?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "thank you",
+          "you shouldn't have",
+          "it's too much"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression"
   },
   {
     "id": "1174890",
@@ -47112,7 +48968,8 @@
     ],
     "gloss": [
       "century",
-      "era"
+      "era",
+      "of the century (e.g. fight of the century)"
     ],
     "jlpt": 3,
     "common": true,
@@ -47137,6 +48994,12 @@
       {
         "gloss": [
           "era"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "of the century (e.g. fight of the century)"
         ],
         "examples": []
       }
@@ -47184,7 +49047,7 @@
       "正",
       "規"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1381320",
@@ -49635,26 +51498,29 @@
       }
     ],
     "gloss": [
-      "complete (set)"
+      "all"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
-        "ja": "その辞書は全２巻です。",
-        "en": "The dictionary comes in two volumes."
+        "ja": "全新聞がその事件を大きく取り上げた。",
+        "en": "All the papers featured the case."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "complete (set)",
-          "in total"
+          "all",
+          "whole",
+          "entire",
+          "complete",
+          "total"
         ],
         "examples": [
           {
-            "ja": "その辞書は全２巻です。",
-            "en": "The dictionary comes in two volumes."
+            "ja": "全新聞がその事件を大きく取り上げた。",
+            "en": "All the papers featured the case."
           }
         ]
       }
@@ -49662,7 +51528,7 @@
     "kanjiChars": [
       "全"
     ],
-    "pos": "noun"
+    "pos": "prefix"
   },
   {
     "id": "1396490",
@@ -50628,6 +52494,7 @@
     "pos": "adverb",
     "synonyms": [
       "1004310",
+      "1565440",
       "1008910"
     ]
   },
@@ -51382,14 +53249,24 @@
       }
     ],
     "gloss": [
-      "corresponding to (in meaning, function, etc.)"
+      "corresponding to (in meaning, function, etc.)",
+      "appropriate",
+      "considerable"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
       {
+        "ja": "１０年といえば相当な時間だ。",
+        "en": "Ten years is a long time."
+      },
+      {
         "ja": "その語に相当するようなフランス語を知っていますか。",
         "en": "Do you know the French equivalent of the word?"
+      },
+      {
+        "ja": "それを発明した教授は大学から相当の対価を受ける権利がある。",
+        "en": "The professor who invented it has the right to reasonable remuneration from the university."
       }
     ],
     "senses": [
@@ -51402,6 +53279,32 @@
           {
             "ja": "その語に相当するようなフランス語を知っていますか。",
             "en": "Do you know the French equivalent of the word?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "appropriate",
+          "suitable",
+          "befitting",
+          "proportionate"
+        ],
+        "examples": [
+          {
+            "ja": "それを発明した教授は大学から相当の対価を受ける権利がある。",
+            "en": "The professor who invented it has the right to reasonable remuneration from the university."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "considerable",
+          "substantial"
+        ],
+        "examples": [
+          {
+            "ja": "１０年といえば相当な時間だ。",
+            "en": "Ten years is a long time."
           }
         ]
       }
@@ -51507,6 +53410,55 @@
       "底"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1406090",
+    "kanji": "そこで",
+    "kana": "そこで",
+    "romaji": "sokode",
+    "furigana": [
+      {
+        "t": "そこで"
+      }
+    ],
+    "gloss": [
+      "so"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "最終電車に乗り遅れてしまいました。そこで、家までずっと歩くはめになりました。",
+        "en": "I missed the last train, so I had to walk all the way home."
+      },
+      {
+        "ja": "列車は満員だった。そこで彼女は２等車で旅行せねばならなかったし、ずっと立っていなければならなかった。",
+        "en": "The train was full, so she was obliged to travel second-class, and had to stand all the way."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "so",
+          "accordingly",
+          "now",
+          "then",
+          "thereupon"
+        ],
+        "examples": [
+          {
+            "ja": "最終電車に乗り遅れてしまいました。そこで、家までずっと歩くはめになりました。",
+            "en": "I missed the last train, so I had to walk all the way home."
+          },
+          {
+            "ja": "列車は満員だった。そこで彼女は２等車で旅行せねばならなかったし、ずっと立っていなければならなかった。",
+            "en": "The train was full, so she was obliged to travel second-class, and had to stand all the way."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1397630",
@@ -51818,7 +53770,7 @@
     "kanjiChars": [
       "上"
     ],
-    "pos": "noun"
+    "pos": "conjunction"
   },
   {
     "id": "1006930",
@@ -51869,7 +53821,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1406030",
@@ -52051,6 +54003,131 @@
     ],
     "kanjiChars": [],
     "pos": "adverb"
+  },
+  {
+    "id": "1406060",
+    "kanji": "それでも",
+    "kana": "それでも",
+    "romaji": "soredemo",
+    "furigana": [
+      {
+        "t": "それでも"
+      }
+    ],
+    "gloss": [
+      "but (still)"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "雨が激しく降っていますそれでも私は行かなければならない。",
+        "en": "It's raining hard and yet I must go."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "but (still)",
+          "and yet",
+          "nevertheless",
+          "even so",
+          "notwithstanding"
+        ],
+        "examples": [
+          {
+            "ja": "雨が激しく降っていますそれでも私は行かなければならない。",
+            "en": "It's raining hard and yet I must go."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
+    "id": "2396190",
+    "kanji": "それと",
+    "kana": "それと",
+    "romaji": "soreto",
+    "furigana": [
+      {
+        "t": "それと"
+      }
+    ],
+    "gloss": [
+      "and then"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "それと俺がホモだとしたら、罪になるわけ？",
+        "en": "And if I were gay, would that be a crime?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "and then",
+          "in addition to that",
+          "also",
+          "even so"
+        ],
+        "examples": [
+          {
+            "ja": "それと俺がホモだとしたら、罪になるわけ？",
+            "en": "And if I were gay, would that be a crime?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction",
+    "synonyms": [
+      "1007010"
+    ]
+  },
+  {
+    "id": "1007010",
+    "kanji": "それとも",
+    "kana": "それとも",
+    "romaji": "soretomo",
+    "furigana": [
+      {
+        "t": "それとも"
+      }
+    ],
+    "gloss": [
+      "or"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたはリンゴが好きですか、それともオレンジが好きですか。",
+        "en": "Do you like apples or oranges?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "or",
+          "or else"
+        ],
+        "examples": [
+          {
+            "ja": "あなたはリンゴが好きですか、それともオレンジが好きですか。",
+            "en": "Do you like apples or oranges?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction",
+    "synonyms": [
+      "2396190"
+    ]
   },
   {
     "id": "1406660",
@@ -52494,7 +54571,8 @@
       }
     ],
     "gloss": [
-      "large"
+      "large",
+      "great"
     ],
     "jlpt": 3,
     "common": true,
@@ -52527,12 +54605,21 @@
             "en": "The storm did great harm to the crop."
           }
         ]
+      },
+      {
+        "gloss": [
+          "great",
+          "prominent",
+          "eminent",
+          "distinguished"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
       "大"
     ],
-    "pos": "adj-na"
+    "pos": "prefix"
   },
   {
     "id": "1412560",
@@ -53122,6 +55209,53 @@
     "pos": "noun"
   },
   {
+    "id": "1412960",
+    "kanji": "大した",
+    "kana": "たいした",
+    "romaji": "taishita",
+    "furigana": [
+      {
+        "t": "大",
+        "r": "たい"
+      },
+      {
+        "t": "した"
+      }
+    ],
+    "gloss": [
+      "considerable"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "それはたいした問題ではない。",
+        "en": "That is not much of a problem."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "considerable",
+          "great",
+          "important",
+          "significant",
+          "a big deal"
+        ],
+        "examples": [
+          {
+            "ja": "それはたいした問題ではない。",
+            "en": "That is not much of a problem."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "大"
+    ],
+    "pos": "other"
+  },
+  {
     "id": "1409540",
     "kanji": "体重",
     "kana": "たいじゅう",
@@ -53305,6 +55439,73 @@
       "臣"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1610160",
+    "kanji": "対する",
+    "kana": "たいする",
+    "romaji": "taisuru",
+    "furigana": [
+      {
+        "t": "対",
+        "r": "たい"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to face (each other)",
+      "to be directed toward (the future, etc.)",
+      "to receive (a client, etc.)"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to face (each other)",
+          "to be facing"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be directed toward (the future, etc.)",
+          "to be in response to",
+          "to be related to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to receive (a client, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to compare with",
+          "to contrast with",
+          "to be in opposition with",
+          "to be opposed to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to confront",
+          "to oppose",
+          "to compete with"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "対"
+    ],
+    "pos": "verb"
   },
   {
     "id": "1414360",
@@ -54231,6 +56432,41 @@
     ]
   },
   {
+    "id": "1445770",
+    "kanji": "倒す",
+    "kana": "たおす",
+    "romaji": "taosu",
+    "furigana": [
+      {
+        "t": "倒",
+        "r": "たお"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to do completely"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do completely",
+          "to do thoroughly",
+          "to do to the fullest"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "倒"
+    ],
+    "pos": "other"
+  },
+  {
     "id": "1076170",
     "kanji": "タオル",
     "kana": "タオル",
@@ -54266,6 +56502,47 @@
     ],
     "kanjiChars": [],
     "pos": "noun"
+  },
+  {
+    "id": "2055530",
+    "kanji": "だが",
+    "kana": "だが",
+    "romaji": "daga",
+    "furigana": [
+      {
+        "t": "だが"
+      }
+    ],
+    "gloss": [
+      "but"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "あなたに手紙を書くつもりだったのだが。",
+        "en": "I meant to have written to you."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "but",
+          "however",
+          "(and) yet",
+          "nevertheless",
+          "still"
+        ],
+        "examples": [
+          {
+            "ja": "あなたに手紙を書くつもりだったのだが。",
+            "en": "I meant to have written to you."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1268770",
@@ -54409,6 +56686,45 @@
       "宅"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1007370",
+    "kanji": "だけど",
+    "kana": "だけど",
+    "romaji": "dakedo",
+    "furigana": [
+      {
+        "t": "だけど"
+      }
+    ],
+    "gloss": [
+      "but"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "で、電話してみたらしいんだけど、その電話先の相手ってのが問題だったのよ。",
+        "en": "And so it seems she tried phoning but it's who was on the other end of that phone that was the problem."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "but",
+          "however",
+          "although"
+        ],
+        "examples": [
+          {
+            "ja": "で、電話してみたらしいんだけど、その電話先の相手ってのが問題だったのよ。",
+            "en": "And so it seems she tried phoning but it's who was on the other end of that phone that was the problem."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1407810",
@@ -54734,6 +57050,51 @@
     "pos": "noun"
   },
   {
+    "id": "1416230",
+    "kanji": "達する",
+    "kana": "たっする",
+    "romaji": "tassuru",
+    "furigana": [
+      {
+        "t": "達",
+        "r": "たっ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to reach"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "水は彼の腰の所まで達した。",
+        "en": "The water came up to his waist."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to reach",
+          "to get to",
+          "to arrive at"
+        ],
+        "examples": [
+          {
+            "ja": "水は彼の腰の所まで達した。",
+            "en": "The water came up to his waist."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "達"
+    ],
+    "pos": "verb"
+  },
+  {
     "id": "1007230",
     "kanji": "たった",
     "kana": "たった",
@@ -54771,7 +57132,42 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "other"
+  },
+  {
+    "id": "2643970",
+    "kanji": "だって",
+    "kana": "だって",
+    "romaji": "datte",
+    "furigana": [
+      {
+        "t": "だって"
+      }
+    ],
+    "gloss": [
+      "after all",
+      "but"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "after all",
+          "because"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "but"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
   },
   {
     "id": "1007240",
@@ -55060,7 +57456,10 @@
       "他",
       "人"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1366410"
+    ]
   },
   {
     "id": "1328820",
@@ -55519,7 +57918,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-na",
+    "pos": "noun",
     "synonyms": [
       "1634500"
     ]
@@ -55642,7 +58041,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-i"
+    "pos": "expression"
   },
   {
     "id": "1312250",
@@ -56282,6 +58681,51 @@
     "pos": "noun"
   },
   {
+    "id": "1417020",
+    "kanji": "単なる",
+    "kana": "たんなる",
+    "romaji": "tannaru",
+    "furigana": [
+      {
+        "t": "単",
+        "r": "たん"
+      },
+      {
+        "t": "なる"
+      }
+    ],
+    "gloss": [
+      "mere"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "それは単なる偶然だと思う。",
+        "en": "I think it is a mere coincidence."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "mere",
+          "simple",
+          "sheer"
+        ],
+        "examples": [
+          {
+            "ja": "それは単なる偶然だと思う。",
+            "en": "I think it is a mere coincidence."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "単"
+    ],
+    "pos": "other"
+  },
+  {
     "id": "1417030",
     "kanji": "単に",
     "kana": "たんに",
@@ -56829,7 +59273,7 @@
     "kanjiChars": [
       "違"
     ],
-    "pos": "adj-i"
+    "pos": "expression"
   },
   {
     "id": "1242300",
@@ -57805,12 +60249,31 @@
       }
     ],
     "gloss": [
+      "used",
       "Middle Ages (in Japan esp. Heian period)"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "その中古の冷蔵庫はひどい代物だった。",
+        "en": "That used refrigerator was a real dog."
+      }
+    ],
     "senses": [
+      {
+        "gloss": [
+          "used",
+          "second-hand",
+          "old"
+        ],
+        "examples": [
+          {
+            "ja": "その中古の冷蔵庫はひどい代物だった。",
+            "en": "That used refrigerator was a real dog."
+          }
+        ]
+      },
       {
         "gloss": [
           "Middle Ages (in Japan esp. Heian period)"
@@ -58626,6 +61089,40 @@
       "者"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1303460",
+    "kanji": "散らす",
+    "kana": "ちらす",
+    "romaji": "chirasu",
+    "furigana": [
+      {
+        "t": "散",
+        "r": "ち"
+      },
+      {
+        "t": "らす"
+      }
+    ],
+    "gloss": [
+      "to do ... wildly (i.e. disorderly or frequently)"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do ... wildly (i.e. disorderly or frequently)",
+          "to do ... all over the place"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "散"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1316890",
@@ -59714,6 +62211,56 @@
     "pos": "noun"
   },
   {
+    "id": "1226510",
+    "kanji": "詰める",
+    "kana": "つめる",
+    "romaji": "tsumeru",
+    "furigana": [
+      {
+        "t": "詰",
+        "r": "つ"
+      },
+      {
+        "t": "める"
+      }
+    ],
+    "gloss": [
+      "to do non-stop",
+      "to do completely",
+      "to force someone into a difficult situation by ..."
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do non-stop",
+          "to do continuously",
+          "to keep doing (without a break)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to do completely",
+          "to do thoroughly"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to force someone into a difficult situation by ..."
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "詰"
+    ],
+    "pos": "other"
+  },
+  {
     "id": "1582960",
     "kanji": "梅雨",
     "kana": "つゆ",
@@ -60205,12 +62752,16 @@
     ],
     "gloss": [
       "fixed period",
-      "fixed-term commuter pass",
-      "fixed-term deposit"
+      "regular",
+      "fixed-term commuter pass"
     ],
     "jlpt": 3,
     "common": true,
     "examples": [
+      {
+        "ja": "今年も、アマチュア音楽家の定期演奏会が頻繁に開催される。",
+        "en": "This year too there are many regular concerts for amateur musicians being held."
+      },
       {
         "ja": "汽車の中で眠っている間に、財布と定期を盗まれてしまった。",
         "en": "I had my purse and commuter ticket stolen while I was sleeping in the train."
@@ -60223,6 +62774,19 @@
           "fixed term"
         ],
         "examples": []
+      },
+      {
+        "gloss": [
+          "regular",
+          "periodic",
+          "periodical"
+        ],
+        "examples": [
+          {
+            "ja": "今年も、アマチュア音楽家の定期演奏会が頻繁に開催される。",
+            "en": "This year too there are many regular concerts for amateur musicians being held."
+          }
+        ]
       },
       {
         "gloss": [
@@ -60734,6 +63298,50 @@
     "pos": "noun"
   },
   {
+    "id": "1437340",
+    "kanji": "適する",
+    "kana": "てきする",
+    "romaji": "tekisuru",
+    "furigana": [
+      {
+        "t": "適",
+        "r": "てき"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to fit"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "その肉は全く食用に適さなかった。",
+        "en": "None of the meat was fit to eat."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to fit",
+          "to suit"
+        ],
+        "examples": [
+          {
+            "ja": "その肉は全く食用に適さなかった。",
+            "en": "None of the meat was fit to eat."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "適"
+    ],
+    "pos": "verb"
+  },
+  {
     "id": "1437430",
     "kanji": "適切",
     "kana": "てきせつ",
@@ -60876,6 +63484,43 @@
     "pos": "noun"
   },
   {
+    "id": "2825960",
+    "kanji": "できれば",
+    "kana": "できれば",
+    "romaji": "dekireba",
+    "furigana": [
+      {
+        "t": "できれば"
+      }
+    ],
+    "gloss": [
+      "if possible"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "出来れば明日までに帰ります。",
+        "en": "I'll be back by tomorrow, if possible."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "if possible"
+        ],
+        "examples": [
+          {
+            "ja": "出来れば明日までに帰ります。",
+            "en": "I'll be back by tomorrow, if possible."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression"
+  },
+  {
     "id": "1082850",
     "kanji": "デザート",
     "kana": "デザート",
@@ -60997,6 +63642,50 @@
       "品"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1008430",
+    "kanji": "ですから",
+    "kana": "ですから",
+    "romaji": "desukara",
+    "furigana": [
+      {
+        "t": "ですから"
+      }
+    ],
+    "gloss": [
+      "so"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "いいえ、結構です。お腹が一杯ですから。",
+        "en": "No, thank you. I've had enough."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "so",
+          "therefore",
+          "accordingly",
+          "consequently",
+          "on those grounds"
+        ],
+        "examples": [
+          {
+            "ja": "いいえ、結構です。お腹が一杯ですから。",
+            "en": "No, thank you. I've had enough."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction",
+    "synonyms": [
+      "1007310"
+    ]
   },
   {
     "id": "1437780",
@@ -61859,21 +64548,81 @@
       }
     ],
     "gloss": [
-      "promoted pawn"
+      "if",
+      "and",
+      "with"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "１２と２４と７と１１の合計は５４です。",
+        "en": "The sum of 12, 24, 7 and 11 is 54."
+      },
+      {
+        "ja": "「鶴は千年生きるのよ」とチズコは言った。",
+        "en": "Chizuko said, \"A crane is supposed to live for one thousand years.\""
+      },
+      {
+        "ja": "彼はあなたとうまくやっていけそうな人だった。",
+        "en": "He was the sort of man you could get along with."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "promoted pawn"
+          "if",
+          "when"
+        ],
+        "examples": [
+          {
+            "ja": "このシャンプーを買うと、素敵なヘアブラシがついてきます。",
+            "en": "This shampoo comes with a nice hair brush."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "and"
+        ],
+        "examples": [
+          {
+            "ja": "１２と２４と７と１１の合計は５４です。",
+            "en": "The sum of 12, 24, 7 and 11 is 54."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "with"
+        ],
+        "examples": [
+          {
+            "ja": "彼はあなたとうまくやっていけそうな人だった。",
+            "en": "He was the sort of man you could get along with."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "used for quoting (thoughts, speech, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "「鶴は千年生きるのよ」とチズコは言った。",
+            "en": "Chizuko said, \"A crane is supposed to live for one thousand years.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "indicates a question"
         ],
         "examples": []
       }
     ],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "particle"
   },
   {
     "id": "1445160",
@@ -61945,6 +64694,46 @@
       "度"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "2252690",
+    "kanji": "ど",
+    "kana": "ど",
+    "romaji": "do",
+    "furigana": [
+      {
+        "t": "ど"
+      }
+    ],
+    "gloss": [
+      "extreme",
+      "damn"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "extreme",
+          "ultra",
+          "mega",
+          "totally",
+          "very much"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "damn",
+          "stupid",
+          "cursed"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "prefix"
   },
   {
     "id": "1535930",
@@ -62221,7 +65010,7 @@
       "同",
       "一"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1632200",
@@ -62701,10 +65490,7 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb",
-    "synonyms": [
-      "1009000"
-    ]
+    "pos": "expression"
   },
   {
     "id": "1449190",
@@ -62753,7 +65539,55 @@
       "当",
       "然"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
+  },
+  {
+    "id": "1008960",
+    "kanji": "どうぞよろしく",
+    "kana": "どうぞよろしく",
+    "romaji": "douzoyoroshiku",
+    "furigana": [
+      {
+        "t": "どうぞよろしく"
+      }
+    ],
+    "gloss": [
+      "pleased to meet you",
+      "my regards (to someone)"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "ご家族の皆さんにどうぞよろしく。",
+        "en": "Give my best regards to all your family."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "pleased to meet you",
+          "how do you do"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "my regards (to someone)",
+          "my greetings",
+          "best wishes",
+          "remember me to"
+        ],
+        "examples": [
+          {
+            "ja": "ご家族の皆さんにどうぞよろしく。",
+            "en": "Give my best regards to all your family."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "expression"
   },
   {
     "id": "1449870",
@@ -63000,7 +65834,7 @@
       "同",
       "様"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1453990",
@@ -63201,6 +66035,52 @@
       "路"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1432900",
+    "kanji": "通す",
+    "kana": "とおす",
+    "romaji": "toosu",
+    "furigana": [
+      {
+        "t": "通",
+        "r": "とお"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to do ... to the end"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "彼の勇気をもってすれば、この困難な仕事をやり通せるだろう。",
+        "en": "His courage will carry him through this difficult job."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to do ... to the end",
+          "to do ... continuously",
+          "to carry through ...",
+          "to complete ..."
+        ],
+        "examples": [
+          {
+            "ja": "彼の勇気をもってすれば、この困難な仕事をやり通せるだろう。",
+            "en": "His courage will carry him through this difficult job."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "通"
+    ],
+    "pos": "suffix"
   },
   {
     "id": "1444970",
@@ -63846,6 +66726,104 @@
     "pos": "noun"
   },
   {
+    "id": "1008570",
+    "kanji": "ところが",
+    "kana": "ところが",
+    "romaji": "tokoroga",
+    "furigana": [
+      {
+        "t": "ところが"
+      }
+    ],
+    "gloss": [
+      "even so"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ところが実はどうすることもできないのです。",
+        "en": "As it is, I can do nothing."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "even so",
+          "however",
+          "still",
+          "whereupon",
+          "even though"
+        ],
+        "examples": [
+          {
+            "ja": "ところが実はどうすることもできないのです。",
+            "en": "As it is, I can do nothing."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
+    "id": "1343110",
+    "kanji": "ところで",
+    "kana": "ところで",
+    "romaji": "tokorode",
+    "furigana": [
+      {
+        "t": "ところで"
+      }
+    ],
+    "gloss": [
+      "by the way",
+      "even if"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ぶつくさ言ったところでしょうがない。",
+        "en": "Complaining won't change anything."
+      },
+      {
+        "ja": "「ところでよ、そのおめーのお父さんはどこにいんのさ？」「横転したトラックの下なんよ」",
+        "en": "\"By the way, where's your old man?\" \"Under that over-turned truck.\""
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "by the way",
+          "incidentally",
+          "well",
+          "now"
+        ],
+        "examples": [
+          {
+            "ja": "「ところでよ、そのおめーのお父さんはどこにいんのさ？」「横転したトラックの下なんよ」",
+            "en": "\"By the way, where's your old man?\" \"Under that over-turned truck.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "even if",
+          "no matter (what, where, how, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "ぶつくさ言ったところでしょうがない。",
+            "en": "Complaining won't change anything."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
     "id": "1444780",
     "kanji": "登山",
     "kana": "とざん",
@@ -64302,7 +67280,7 @@
       "突",
       "然"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1085030",
@@ -64439,6 +67417,41 @@
     ],
     "kanjiChars": [],
     "pos": "adverb"
+  },
+  {
+    "id": "1485230",
+    "kanji": "飛ばす",
+    "kana": "とばす",
+    "romaji": "tobasu",
+    "furigana": [
+      {
+        "t": "飛",
+        "r": "と"
+      },
+      {
+        "t": "ばす"
+      }
+    ],
+    "gloss": [
+      "to do vigorously"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do vigorously",
+          "to do roughly",
+          "to do energetically"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "飛"
+    ],
+    "pos": "other"
   },
   {
     "id": "1539980",
@@ -65530,6 +68543,41 @@
     "pos": "noun"
   },
   {
+    "id": "1552120",
+    "kanji": "流す",
+    "kana": "ながす",
+    "romaji": "nagasu",
+    "furigana": [
+      {
+        "t": "流",
+        "r": "なが"
+      },
+      {
+        "t": "す"
+      }
+    ],
+    "gloss": [
+      "to do inattentively"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to do inattentively",
+          "to do without concentrating",
+          "to put little effort into doing"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "流"
+    ],
+    "pos": "suffix"
+  },
+  {
     "id": "1478780",
     "kanji": "半ば",
     "kana": "なかば",
@@ -65934,6 +68982,45 @@
     "pos": "noun"
   },
   {
+    "id": "1009410",
+    "kanji": "なぜなら",
+    "kana": "なぜなら",
+    "romaji": "nazenara",
+    "furigana": [
+      {
+        "t": "なぜなら"
+      }
+    ],
+    "gloss": [
+      "because"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "聞いて驚くなよ！今日から俺はピアノを始めるんだ。なぜなら私は音楽の先生になりたいからだ！",
+        "en": "Brace yourselves! From today I'm learning the piano. Why? Because I want to become a music teacher!"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "because",
+          "the reason is",
+          "if you want to know why"
+        ],
+        "examples": [
+          {
+            "ja": "聞いて驚くなよ！今日から俺はピアノを始めるんだ。なぜなら私は音楽の先生になりたいからだ！",
+            "en": "Brace yourselves! From today I'm learning the piano. Why? Because I want to become a music teacher!"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "conjunction"
+  },
+  {
     "id": "1459690",
     "kanji": "謎",
     "kana": "なぞ",
@@ -65945,7 +69032,8 @@
       }
     ],
     "gloss": [
-      "riddle"
+      "riddle",
+      "enigmatic"
     ],
     "jlpt": 3,
     "common": true,
@@ -65969,6 +69057,13 @@
             "en": "Can you guess this riddle?"
           }
         ]
+      },
+      {
+        "gloss": [
+          "enigmatic",
+          "mysterious"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -66047,16 +69142,100 @@
       }
     ],
     "gloss": [
-      "somehow"
+      "something"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "ここまでのところで何か落としていることはありませんか。",
+        "en": "Have I missed anything so far?"
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "somehow",
-          "for some reason"
+          "something",
+          "some",
+          "any"
+        ],
+        "examples": [
+          {
+            "ja": "ここまでのところで何か落としていることはありませんか。",
+            "en": "Have I missed anything so far?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "何"
+    ],
+    "pos": "pronoun"
+  },
+  {
+    "id": "1188490",
+    "kanji": "何も",
+    "kana": "なにも",
+    "romaji": "nanimo",
+    "furigana": [
+      {
+        "t": "何",
+        "r": "なに"
+      },
+      {
+        "t": "も"
+      }
+    ],
+    "gloss": [
+      "(not) anything",
+      "and everything else",
+      "(not) at all"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "過ちのない者は何も作り出せない。",
+        "en": "He who makes no mistakes makes nothing."
+      },
+      {
+        "ja": "車も何もなく、生活保護で生きてます。",
+        "en": "I'm living on welfare, without a car or anything."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "(not) anything",
+          "(nothing) at all",
+          "(not) any",
+          "nothing"
+        ],
+        "examples": [
+          {
+            "ja": "過ちのない者は何も作り出せない。",
+            "en": "He who makes no mistakes makes nothing."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "and everything else",
+          "and all"
+        ],
+        "examples": [
+          {
+            "ja": "車も何もなく、生活保護で生きてます。",
+            "en": "I'm living on welfare, without a car or anything."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "(not) at all",
+          "(not) in the least",
+          "(not) especially",
+          "(not) to that extent"
         ],
         "examples": []
       }
@@ -66064,7 +69243,7 @@
     "kanjiChars": [
       "何"
     ],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1459720",
@@ -66221,7 +69400,8 @@
       },
       {
         "gloss": [
-          "cash"
+          "blank (e.g. disk)",
+          "unused"
         ],
         "examples": []
       }
@@ -66574,24 +69754,35 @@
       }
     ],
     "gloss": [
-      "I am told"
+      "any"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "この犬は何でもほとんど食べます。",
+        "en": "This dog eats almost anything."
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "I am told",
-          "I hear",
-          "I understand",
-          "they say"
+          "any",
+          "anything",
+          "whatever",
+          "whatever one likes",
+          "everything"
         ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "この犬は何でもほとんど食べます。",
+            "en": "This dog eats almost anything."
+          }
+        ]
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1188420",
@@ -66604,33 +69795,23 @@
       }
     ],
     "gloss": [
-      "somehow (handling, dealing with something)"
+      "something"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [
-      {
-        "ja": "なんとかその機械を動かした。",
-        "en": "He managed to run the machine."
-      }
-    ],
+    "examples": [],
     "senses": [
       {
         "gloss": [
-          "somehow (handling, dealing with something)",
-          "anyhow",
-          "one way or another"
+          "something",
+          "something or other",
+          "so-and-so"
         ],
-        "examples": [
-          {
-            "ja": "なんとかその機械を動かした。",
-            "en": "He managed to run the machine."
-          }
-        ]
+        "examples": []
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1244470",
@@ -67210,6 +70391,52 @@
     "pos": "noun"
   },
   {
+    "id": "1478190",
+    "kanji": "抜く",
+    "kana": "ぬく",
+    "romaji": "nuku",
+    "furigana": [
+      {
+        "t": "抜",
+        "r": "ぬ"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to do to the end"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "最後まで戦い抜こう。",
+        "en": "Let's fight to the last."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to do to the end",
+          "to do thoroughly",
+          "to do completely",
+          "to do severely"
+        ],
+        "examples": [
+          {
+            "ja": "最後まで戦い抜こう。",
+            "en": "Let's fight to the last."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "抜"
+    ],
+    "pos": "suffix"
+  },
+  {
     "id": "1496840",
     "kanji": "布",
     "kana": "ぬの",
@@ -67499,6 +70726,49 @@
       "願"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1217950",
+    "kanji": "願う",
+    "kana": "ねがう",
+    "romaji": "negau",
+    "furigana": [
+      {
+        "t": "願",
+        "r": "ねが"
+      },
+      {
+        "t": "う"
+      }
+    ],
+    "gloss": [
+      "to have something done for oneself"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "足元に御用心願います。",
+        "en": "Do watch your step."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to have something done for oneself"
+        ],
+        "examples": [
+          {
+            "ja": "足元に御用心願います。",
+            "en": "Do watch your step."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "願"
+    ],
+    "pos": "other"
   },
   {
     "id": "1397840",
@@ -68225,6 +71495,47 @@
     "pos": "noun"
   },
   {
+    "id": "2080530",
+    "kanji": "ノー",
+    "kana": "ノー",
+    "romaji": "noo",
+    "furigana": [
+      {
+        "t": "ノー"
+      }
+    ],
+    "gloss": [
+      "no"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "うちの母はノーと言うに決まっている。",
+        "en": "My mother is certain to say no."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "no"
+        ],
+        "examples": [
+          {
+            "ja": "うちの母はノーと言うに決まっている。",
+            "en": "My mother is certain to say no."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection",
+    "synonyms": [
+      "1021010",
+      "2843921"
+    ]
+  },
+  {
     "id": "1260330",
     "kanji": "軒",
     "kana": "のき",
@@ -68634,6 +71945,66 @@
       "場"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "2069620",
+    "kanji": "はあ",
+    "kana": "はあ",
+    "romaji": "haa",
+    "furigana": [
+      {
+        "t": "はあ"
+      }
+    ],
+    "gloss": [
+      "yes",
+      "ha!",
+      "what?"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [
+      {
+        "ja": "・・・はぁ、どう状況を受け止めればいいのかしら。",
+        "en": "... Aaah, just how am I supposed to cope with this I wonder?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "yes",
+          "indeed",
+          "well"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "ha!"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "what?",
+          "huh?"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "sigh"
+        ],
+        "examples": [
+          {
+            "ja": "・・・はぁ、どう状況を受け止めればいいのかしら。",
+            "en": "... Aaah, just how am I supposed to cope with this I wonder?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
   },
   {
     "id": "1100610",
@@ -70440,6 +73811,51 @@
       "射"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1478080",
+    "kanji": "罰する",
+    "kana": "ばっする",
+    "romaji": "bassuru",
+    "furigana": [
+      {
+        "t": "罰",
+        "r": "ばっ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "to punish"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "どうしてあなたは彼らを罰しているのですか。",
+        "en": "What are you punishing them for?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to punish",
+          "to penalize",
+          "to penalise"
+        ],
+        "examples": [
+          {
+            "ja": "どうしてあなたは彼らを罰しているのですか。",
+            "en": "What are you punishing them for?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "罰"
+    ],
+    "pos": "verb"
   },
   {
     "id": "1477680",
@@ -74192,6 +77608,76 @@
     "pos": "noun"
   },
   {
+    "id": "1922780",
+    "kanji": "不",
+    "kana": "ふ",
+    "romaji": "fu",
+    "furigana": [
+      {
+        "t": "不",
+        "r": "ふ"
+      }
+    ],
+    "gloss": [
+      "un-"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "un-",
+          "non-"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "不"
+    ],
+    "pos": "prefix"
+  },
+  {
+    "id": "2423740",
+    "kanji": "無",
+    "kana": "ぶ",
+    "romaji": "bu",
+    "furigana": [
+      {
+        "t": "無",
+        "r": "ぶ"
+      }
+    ],
+    "gloss": [
+      "un-",
+      "bad ..."
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "un-",
+          "non-"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "bad ...",
+          "poor ..."
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [
+      "無"
+    ],
+    "pos": "prefix"
+  },
+  {
     "id": "1502850",
     "kanji": "分",
     "kana": "ぶ",
@@ -74203,53 +77689,37 @@
       }
     ],
     "gloss": [
-      "one-quarter of a ryō (obsolete unit of currency)",
-      "thickness",
-      "advantageous circumstances"
+      "one-tenth"
     ],
     "jlpt": 3,
     "common": false,
     "examples": [
       {
-        "ja": "彼のほうに分がある。",
-        "en": "The odds are in his favor."
+        "ja": "その貸付金は、８分の利益を生む。",
+        "en": "The loan bears an 8% interest."
       }
     ],
     "senses": [
       {
         "gloss": [
-          "one-quarter of a ryō (obsolete unit of currency)"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "thickness"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "advantageous circumstances"
+          "one-tenth",
+          "one percent (one-tenth of a wari)",
+          "3 mm (one-tenth of a sun)",
+          "2.4 mm (one-tenth of a mon, a traditional unit used to measure shoe sizes)",
+          "0.1 degree (one-tenth of a do, used to measure body temperature on any temperature scale)"
         ],
         "examples": [
           {
-            "ja": "彼のほうに分がある。",
-            "en": "The odds are in his favor."
+            "ja": "その貸付金は、８分の利益を生む。",
+            "en": "The loan bears an 8% interest."
           }
         ]
-      },
-      {
-        "gloss": [
-          "one-tenth of a monme of silver"
-        ],
-        "examples": []
       }
     ],
     "kanjiChars": [
       "分"
     ],
-    "pos": "noun"
+    "pos": "counter"
   },
   {
     "id": "1491150",
@@ -74471,7 +77941,8 @@
     ],
     "gloss": [
       "wrong",
-      "not allowed"
+      "not allowed",
+      "failing grade"
     ],
     "jlpt": 3,
     "common": true,
@@ -74503,13 +77974,19 @@
           "not possible"
         ],
         "examples": []
+      },
+      {
+        "gloss": [
+          "failing grade"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
       "不",
       "可"
     ],
-    "pos": "adj-na"
+    "pos": "noun"
   },
   {
     "id": "1498460",
@@ -79692,33 +83169,35 @@
       }
     ],
     "gloss": [
-      "certainly (not)",
-      "indeed"
+      "by no means"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "まさかもう彼が来たのではないでしょうね。",
+        "en": "He hasn't come already, has he?"
+      }
+    ],
     "senses": [
       {
         "gloss": [
-          "certainly (not)",
-          "surely (not)",
-          "hardly (expected)"
+          "by no means",
+          "never!",
+          "well, I never!",
+          "you don't say!",
+          "no way!"
         ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "indeed",
-          "really",
-          "truly",
-          "unexpectedly"
-        ],
-        "examples": []
+        "examples": [
+          {
+            "ja": "まさかもう彼が来たのではないでしょうね。",
+            "en": "He hasn't come already, has he?"
+          }
+        ]
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "interjection"
   },
   {
     "id": "1376640",
@@ -80119,7 +83598,8 @@
       }
     ],
     "gloss": [
-      "the end (of)"
+      "the end (of)",
+      "powder"
     ],
     "jlpt": 3,
     "common": true,
@@ -80140,12 +83620,21 @@
             "en": "With reference to the invoice No.56789 which was due last month, we have not yet received your remittance."
           }
         ]
+      },
+      {
+        "gloss": [
+          "powder"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
       "末"
     ],
-    "pos": "noun"
+    "pos": "suffix",
+    "synonyms": [
+      "1504880"
+    ]
   },
   {
     "id": "1363250",
@@ -80813,7 +84302,8 @@
       }
     ],
     "gloss": [
-      "(unlikely event of) emergency"
+      "(unlikely event of) emergency",
+      "(if) by some chance"
     ],
     "jlpt": 3,
     "common": true,
@@ -80821,6 +84311,10 @@
       {
         "ja": "万一の場合に備えて貯金するのは賢明だ。",
         "en": "It is wise to save money for a rainy day."
+      },
+      {
+        "ja": "万一彼がこちらへきたらすぐ知らせます。",
+        "en": "If by any chance he comes here, I'll let you know at once."
       }
     ],
     "senses": [
@@ -80834,6 +84328,19 @@
           {
             "ja": "万一の場合に備えて貯金するのは賢明だ。",
             "en": "It is wise to save money for a rainy day."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "(if) by some chance",
+          "by some possibility",
+          "in the unlikely event that"
+        ],
+        "examples": [
+          {
+            "ja": "万一彼がこちらへきたらすぐ知らせます。",
+            "en": "If by any chance he comes here, I'll let you know at once."
           }
         ]
       }
@@ -83817,33 +87324,23 @@
       }
     ],
     "gloss": [
-      "reasonable"
+      "but then"
     ],
     "jlpt": 3,
     "common": true,
-    "examples": [
-      {
-        "ja": "彼がその画家を尊敬するのはもっともだ。",
-        "en": "He may well respect the artist."
-      }
-    ],
+    "examples": [],
     "senses": [
       {
         "gloss": [
-          "reasonable",
-          "natural",
-          "just"
+          "but then",
+          "although",
+          "though"
         ],
-        "examples": [
-          {
-            "ja": "彼がその画家を尊敬するのはもっともだ。",
-            "en": "He may well respect the artist."
-          }
-        ]
+        "examples": []
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-na"
+    "pos": "conjunction"
   },
   {
     "id": "2219590",
@@ -83857,13 +87354,33 @@
       }
     ],
     "gloss": [
+      "former",
       "earlier times",
       "formerly"
     ],
     "jlpt": 3,
     "common": false,
-    "examples": [],
+    "examples": [
+      {
+        "ja": "うちのかみさんは元プロレスラーで、だからもし私が浮気をしているところを見つかりでもしようものなら、それこそコテンパンにやられてしまうよ。",
+        "en": "My wife used to be a pro-wrestler, so if she ever catches me two-timing her, I'd be beaten to a pulp."
+      }
+    ],
     "senses": [
+      {
+        "gloss": [
+          "former",
+          "ex-",
+          "past",
+          "one-time"
+        ],
+        "examples": [
+          {
+            "ja": "うちのかみさんは元プロレスラーで、だからもし私が浮気をしているところを見つかりでもしようものなら、それこそコテンパンにやられてしまうよ。",
+            "en": "My wife used to be a pro-wrestler, so if she ever catches me two-timing her, I'd be beaten to a pulp."
+          }
+        ]
+      },
       {
         "gloss": [
           "earlier times",
@@ -84871,6 +88388,54 @@
     "pos": "noun"
   },
   {
+    "id": "2771700",
+    "kanji": "やや",
+    "kana": "やや",
+    "romaji": "yaya",
+    "furigana": [
+      {
+        "t": "やや"
+      }
+    ],
+    "gloss": [
+      "oh!",
+      "not a chance",
+      "oh no"
+    ],
+    "jlpt": 3,
+    "common": false,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "oh!",
+          "oh my!",
+          "dear me!"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "not a chance",
+          "not likely",
+          "no way",
+          "no"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "oh no",
+          "yuck",
+          "eew"
+        ],
+        "examples": []
+      }
+    ],
+    "kanjiChars": [],
+    "pos": "interjection"
+  },
+  {
     "id": "1538920",
     "kanji": "唯一",
     "kana": "ゆいいつ",
@@ -85021,8 +88586,7 @@
       }
     ],
     "gloss": [
-      "organic chemistry",
-      "organic compound"
+      "organic"
     ],
     "jlpt": 3,
     "common": true,
@@ -85030,13 +88594,7 @@
     "senses": [
       {
         "gloss": [
-          "organic chemistry"
-        ],
-        "examples": []
-      },
-      {
-        "gloss": [
-          "organic compound"
+          "organic"
         ],
         "examples": []
       }
@@ -85045,7 +88603,7 @@
       "有",
       "機"
     ],
-    "pos": "noun"
+    "pos": "other"
   },
   {
     "id": "1541290",
@@ -86273,7 +89831,7 @@
     "kanjiChars": [
       "要"
     ],
-    "pos": "adverb"
+    "pos": "expression"
   },
   {
     "id": "1546800",
@@ -86772,7 +90330,7 @@
       "世",
       "中"
     ],
-    "pos": "noun"
+    "pos": "expression"
   },
   {
     "id": "1544520",
@@ -87210,7 +90768,48 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "expression"
+  },
+  {
+    "id": "1547710",
+    "kanji": "来",
+    "kana": "らい",
+    "romaji": "rai",
+    "furigana": [
+      {
+        "t": "来",
+        "r": "らい"
+      }
+    ],
+    "gloss": [
+      "next (year, spring, etc.)"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "来年末までで、ここで働き始めてどれくらいの期間になりますか。",
+        "en": "How long will you have been working here by the end of next year?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "next (year, spring, etc.)",
+          "coming"
+        ],
+        "examples": [
+          {
+            "ja": "来年末までで、ここで働き始めてどれくらいの期間になりますか。",
+            "en": "How long will you have been working here by the end of next year?"
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "来"
+    ],
+    "pos": "prefix"
   },
   {
     "id": "1137880",
@@ -89472,7 +93071,8 @@
       }
     ],
     "gloss": [
-      "topic"
+      "topic",
+      "much talked about"
     ],
     "jlpt": 3,
     "common": true,
@@ -89494,6 +93094,15 @@
             "en": "The topic is worth discussing."
           }
         ]
+      },
+      {
+        "gloss": [
+          "much talked about",
+          "topical",
+          "in the news",
+          "hot"
+        ],
+        "examples": []
       }
     ],
     "kanjiChars": [
@@ -89632,6 +93241,50 @@
       "口"
     ],
     "pos": "noun"
+  },
+  {
+    "id": "1607050",
+    "kanji": "我々",
+    "kana": "われわれ",
+    "romaji": "wareware",
+    "furigana": [
+      {
+        "t": "我",
+        "r": "われ"
+      },
+      {
+        "t": "々",
+        "r": "われ"
+      }
+    ],
+    "gloss": [
+      "we"
+    ],
+    "jlpt": 3,
+    "common": true,
+    "examples": [
+      {
+        "ja": "しかし我々は彼なしで続行した。",
+        "en": "But we carried on without him."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "we"
+        ],
+        "examples": [
+          {
+            "ja": "しかし我々は彼なしで続行した。",
+            "en": "But we carried on without him."
+          }
+        ]
+      }
+    ],
+    "kanjiChars": [
+      "我"
+    ],
+    "pos": "pronoun"
   },
   {
     "id": "1562800",

@@ -7,6 +7,16 @@ export const POS_LABELS: Record<VocabPos, string> = {
   'adj-i': 'い-adj',
   'adj-na': 'な-adj',
   adverb: 'Adverb',
+  expression: 'Expression',
+  interjection: 'Interjection',
+  pronoun: 'Pronoun',
+  particle: 'Particle',
+  conjunction: 'Conjunction',
+  counter: 'Counter',
+  prefix: 'Prefix',
+  suffix: 'Suffix',
+  verb: 'Verb (archaic)',
+  other: 'Other',
 }
 
 export function PosBadge({ pos, className }: { pos: VocabPos; className?: string }) {

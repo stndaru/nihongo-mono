@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
 import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
@@ -60,6 +61,13 @@ function VocabDetailPage() {
       </header>
 
       <MeaningsAccordion senses={word.senses} />
+
+      {word.examples.length > 0 && (
+        <section>
+          <h2 className="mb-2 text-lg font-semibold">Example Sentences</h2>
+          <ExampleSentences examples={word.examples} />
+        </section>
+      )}
 
       <AdjectiveInflectionTable word={word} />
 

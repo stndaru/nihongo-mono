@@ -1,9 +1,9 @@
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import type { ClassGroup } from '@/lib/conjugation'
-import type { JlptLevel } from '@/lib/data/types'
+import type { WordLevel } from '@/lib/data/types'
 
 export interface VerbListFilters {
-  levels: JlptLevel[]
+  levels: WordLevel[]
   group?: ClassGroup
   ending?: 'ru' | 'other'
   trans?: 'vt' | 'vi'
@@ -17,7 +17,7 @@ export function VerbFilters({
   filters: VerbListFilters
   onChange: (next: VerbListFilters) => void
 }) {
-  const toggleLevel = (level: JlptLevel) => {
+  const toggleLevel = (level: WordLevel) => {
     const has = filters.levels.includes(level)
     const levels = has
       ? filters.levels.filter((l) => l !== level)
@@ -44,6 +44,13 @@ export function VerbFilters({
             N{level}
           </Chip>
         ))}
+        <Chip
+          active={filters.levels.includes(0)}
+          onClick={() => toggleLevel(0)}
+          title="every other JMdict verb, beyond the JLPT lists"
+        >
+          Beyond
+        </Chip>
       </ChipGroup>
       <ChipGroup label="Type">
         <Chip active={filters.group === 'godan'} onClick={() => toggle('group', 'godan')}>

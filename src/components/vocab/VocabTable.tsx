@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Furigana } from '@/components/verbs/Furigana'
@@ -6,10 +6,13 @@ import { LevelBadge } from '@/components/verbs/VerbBadges'
 import type { VocabEntry } from '@/lib/data/types'
 import { PosBadge } from './PosBadge'
 
-const PAGE = 500
+// kept small: every keystroke re-renders the visible rows (ruby is expensive)
+const PAGE = 100
 
 export function VocabTable({ words }: { words: VocabEntry[] }) {
   const [visible, setVisible] = useState(PAGE)
+  // new result set → back to one page, so old Show More clicks don't linger
+  useEffect(() => setVisible(PAGE), [words])
 
   if (words.length === 0) {
     return (

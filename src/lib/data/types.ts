@@ -24,6 +24,12 @@ export interface WordSense {
 
 export type JlptLevel = 1 | 2 | 3 | 4 | 5
 
+/**
+ * A word's level: a JLPT level, or 0 for the extended tier — entries from
+ * the full JMdict that appear on no JLPT list ("beyond JLPT").
+ */
+export type WordLevel = JlptLevel | 0
+
 /** Fields shared by verbs and (future) vocabulary entries. */
 export interface WordBase {
   /** JMdict sequence number — stable, used as the route param. */
@@ -36,7 +42,7 @@ export interface WordBase {
   furigana: FuriganaSegment[]
   /** Up to 3 senses. */
   gloss: string[]
-  jlpt: JlptLevel
+  jlpt: WordLevel
   /** From JMdict priority tags (news1/ichi1/spec1/gai1). */
   common: boolean
   /** Up to 3, from the Tanaka corpus via JMdict. */
@@ -52,7 +58,22 @@ export interface VerbEntry extends WordBase {
   transitivity: 'vt' | 'vi' | 'both' | null
 }
 
-export type VocabPos = 'noun' | 'adj-i' | 'adj-na' | 'adverb'
+export type VocabPos =
+  | 'noun'
+  | 'adj-i'
+  | 'adj-na'
+  | 'adverb'
+  | 'expression'
+  | 'interjection'
+  | 'pronoun'
+  | 'particle'
+  | 'conjunction'
+  | 'counter'
+  | 'prefix'
+  | 'suffix'
+  /** verb classes the conjugation engine doesn't support (archaic 二段/四段 etc.) */
+  | 'verb'
+  | 'other'
 
 export interface VocabEntry extends WordBase {
   pos: VocabPos
@@ -85,4 +106,39 @@ export interface DatasetMeta {
   verbCounts: Record<`n${JlptLevel}`, number>
   vocabCounts?: Record<`n${JlptLevel}`, number>
   kanjiCount: number
+  /** Beyond-JLPT tier sizes (full JMdict, served from public/data). */
+  extended?: { verbs: number; vocab: number }
+  /** JMnedict proper-name entries (served from public/data/names). */
+  namesCount?: number
 }
+
+/**
+ * Compact list row of the extended tier's search index
+ * (public/data/vocab-ext/index.json). Detail entries live in id-hash shards.
+ * `pos`/`trans` use the short codes from ext-format.ts; `hira` is present
+ * only when the hiragana reading differs from `kana` (katakana words), so
+ * search never has to kana-convert 200k rows in the browser.
+ */
+export type VocabIndexRow = [
+  id: number,
+  kanji: string,
+  kana: string,
+  gloss: string,
+  pos: string,
+  common: 0 | 1,
+  hira?: string,
+]
+
+export type VerbIndexRow = [
+  id: number,
+  kanji: string,
+  kana: string,
+  gloss: string,
+  cls: string,
+  trans: '' | 't' | 'i' | 'b',
+  common: 0 | 1,
+  hira?: string,
+]
+
+/** One JMnedict proper-name row: [kanji ('' if kana-only), kana, types csv, romanization]. */
+export type NameRow = [kanji: string, kana: string, types: string, gloss: string]

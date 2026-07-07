@@ -15,6 +15,7 @@ const NAV = [
 ] as const
 
 const NAV_AFTER = [
+  { to: '/names', label: 'Names' },
   { to: '/quiz', label: 'Quiz' },
   { to: '/settings', label: 'Settings' },
 ] as const

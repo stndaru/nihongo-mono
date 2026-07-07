@@ -4,7 +4,8 @@
       "repo": "scriptin/jmdict-simplified",
       "assets": [
         { "pattern": "^jmdict-examples-eng-.*\\.json\\.zip$", "out": "jmdict.json", "zip": true },
-        { "pattern": "^kanjidic2-en-.*\\.json\\.zip$", "out": "kanjidic2.json", "zip": true }
+        { "pattern": "^kanjidic2-en-.*\\.json\\.zip$", "out": "kanjidic2.json", "zip": true },
+        { "pattern": "^jmnedict-all-.*\\.json\\.zip$", "out": "jmnedict.json", "zip": true }
       ]
     },
     {

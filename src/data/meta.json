@@ -2,7 +2,8 @@
   "generated": "2026-07-07",
   "sources": {
     "elzup/jlpt-word-list": "master",
-    "edrdg/kradfile": "kradzip"
+    "edrdg/kradfile": "kradzip",
+    "scriptin/jmdict-simplified": "3.6.2+20260706150322"
   },
   "verbCounts": {
     "n5": 137,
@@ -11,12 +12,17 @@
     "n2": 501,
     "n1": 1159
   },
-  "kanjiCount": 1915,
+  "kanjiCount": 10384,
   "vocabCounts": {
-    "n5": 523,
-    "n4": 477,
-    "n3": 1684,
-    "n2": 1285,
-    "n1": 2480
-  }
+    "n5": 602,
+    "n4": 523,
+    "n3": 1762,
+    "n2": 1338,
+    "n1": 2592
+  },
+  "extended": {
+    "verbs": 23740,
+    "vocab": 204021
+  },
+  "namesCount": 743456
 }

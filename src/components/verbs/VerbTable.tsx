@@ -1,14 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import type { VerbEntry } from '@/lib/data/types'
 import { Furigana } from './Furigana'
 import { ClassBadge, LevelBadge, TransBadge } from './VerbBadges'
 
-const PAGE = 500
+// kept small: every keystroke re-renders the visible rows (ruby is expensive)
+const PAGE = 100
 
 export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
   const [visible, setVisible] = useState(PAGE)
+  // new result set → back to one page, so old Show More clicks don't linger
+  useEffect(() => setVisible(PAGE), [verbs])
 
   if (verbs.length === 0) {
     return (

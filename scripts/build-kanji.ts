@@ -1,6 +1,7 @@
 /**
- * Builds src/data/kanji/kanji.json: KANJIDIC2 entries filtered to the kanji
- * actually used by the verb dataset. Run build-verbs.ts first.
+ * Builds src/data/kanji/kanji.json: every KANJIDIC2 entry, so the extended
+ * (full-JMdict) tier's detail pages can break down any word's kanji.
+ * Run build-verbs.ts first.
  *
  * Usage: bun scripts/build-kanji.ts
  */
@@ -40,7 +41,7 @@ for (const dataset of ['verbs', 'vocab']) {
     for (const word of words) for (const c of word.kanjiChars) usedChars.add(c)
   }
 }
-console.log(`${usedChars.size} distinct kanji used by verbs + vocab`)
+console.log(`${usedChars.size} distinct kanji used by JLPT verbs + vocab (coverage check)`)
 
 const kanjidic: { characters: Kanjidic2Character[] } = JSON.parse(
   readFileSync(join(CACHE, 'kanjidic2.json'), 'utf8'),
@@ -57,7 +58,6 @@ console.log(`kradfile: ${components.size} decompositions`)
 
 const out: Record<string, KanjiEntry> = {}
 for (const ch of kanjidic.characters) {
-  if (!usedChars.has(ch.literal)) continue
   const groups = ch.readingMeaning?.groups ?? []
   out[ch.literal] = {
     char: ch.literal,

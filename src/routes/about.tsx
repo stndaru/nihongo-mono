@@ -11,7 +11,14 @@ const SOURCES = [
     href: 'https://www.edrdg.org/jmdict/j_jmdict.html',
     license: 'EDRDG licence (CC BY-SA compatible)',
     licenseHref: 'https://www.edrdg.org/edrdg/licence.html',
-    what: 'Verb entries: readings, verb classes, transitivity, translations.',
+    what: 'Every word entry — readings, verb classes, transitivity, translations. JLPT-listed words are bundled; the full dictionary loads on demand ("Beyond" level).',
+  },
+  {
+    name: 'JMnedict / ENAMDICT',
+    href: 'https://www.edrdg.org/enamdict/enamdict_doc.html',
+    license: 'EDRDG licence',
+    licenseHref: 'https://www.edrdg.org/edrdg/licence.html',
+    what: 'The Names page: 740k+ proper names (surnames, given names, places, companies…).',
   },
   {
     name: 'KANJIDIC2 (via jmdict-simplified)',
@@ -54,6 +61,7 @@ const FURTHER_REFERENCES = [
   { name: 'JMdict-EDICT project', href: 'https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project' },
   { name: 'KANJIDIC project', href: 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project' },
   { name: 'Tatoeba', href: 'https://tatoeba.org/' },
+  { name: 'Jreibun (example sentences — planned; its dataset is not yet published)', href: 'https://www.tufs.ac.jp/ts/personal/SUZUKI_Tomomi/jreibun/index-jreibun.html' },
   { name: 'KanjiVG (stroke-order data)', href: 'https://kanjivg.tagaini.net/' },
   { name: 'kanji.org', href: 'https://www.kanji.org/' },
 ] as const

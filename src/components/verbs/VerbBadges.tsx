@@ -1,20 +1,25 @@
 import { Badge } from '@/components/ui/badge'
 import { classGroup, type VerbClass } from '@/lib/conjugation'
-import type { JlptLevel, VerbEntry } from '@/lib/data/types'
+import type { VerbEntry, WordLevel } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
 
-const LEVEL_STYLES: Record<JlptLevel, string> = {
+const LEVEL_STYLES: Record<WordLevel, string> = {
   5: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
   4: 'bg-sky-500/15 text-sky-700 dark:text-sky-400',
   3: 'bg-amber-500/15 text-amber-700 dark:text-amber-400',
   2: 'bg-orange-500/15 text-orange-700 dark:text-orange-400',
   1: 'bg-rose-500/15 text-rose-700 dark:text-rose-400',
+  0: 'bg-muted text-muted-foreground',
 }
 
-export function LevelBadge({ level, className }: { level: JlptLevel; className?: string }) {
+export function LevelBadge({ level, className }: { level: WordLevel; className?: string }) {
   return (
-    <Badge variant="secondary" className={cn('px-1.5 font-medium', LEVEL_STYLES[level], className)}>
-      N{level}
+    <Badge
+      variant="secondary"
+      className={cn('px-1.5 font-medium', LEVEL_STYLES[level], className)}
+      title={level === 0 ? 'beyond the JLPT lists' : undefined}
+    >
+      {level === 0 ? 'Beyond' : `N${level}`}
     </Badge>
   )
 }
