@@ -1,14 +1,16 @@
 /** Shared helpers for the dataset build scripts. */
-import type { ExampleSentence } from '../../src/lib/data/types'
+import type { ExampleSentence, WordSense } from '../../src/lib/data/types'
 import { isCommon, type JmdictSense, type JmdictWord } from './jmdict'
 
 export const KANJI_CHAR_RE = /[㐀-鿿豈-﫿]/gu
 
 export interface WordIndex {
   find: (expression: string, reading: string) => JmdictWord | undefined
+  findById: (seq: string) => JmdictWord | undefined
 }
 
 export function buildWordIndex(words: JmdictWord[]): WordIndex {
+  const byId = new Map<string, JmdictWord>(words.map((w) => [w.id, w]))
   const byKanjiText = new Map<string, JmdictWord[]>()
   const byKanaText = new Map<string, JmdictWord[]>()
   for (const word of words) {
@@ -35,6 +37,9 @@ export function buildWordIndex(words: JmdictWord[]): WordIndex {
       )
       const pool = readingMatches.length > 0 ? readingMatches : candidates
       return pool.find(isCommon) ?? pool[0]
+    },
+    findById(seq) {
+      return byId.get(seq)
     },
   }
 }
@@ -78,6 +83,23 @@ export function sensesExamples(senses: JmdictSense[]): ExampleSentence[] {
 
 export function kanjiCharsOf(kanji: string): string[] {
   return [...new Set(kanji.match(KANJI_CHAR_RE) ?? [])]
+}
+
+/**
+ * Full per-sense meanings for the detail page: every sense keeps its own
+ * glosses and up to 2 of its own example sentences.
+ */
+export function sensesDetail(senses: JmdictSense[]): WordSense[] {
+  return senses.slice(0, 8).map((s) => ({
+    gloss: s.gloss.slice(0, 5).map((g) => g.text),
+    examples: s.examples
+      .map((ex) => ({
+        ja: ex.sentences.find((x) => x.lang === 'jpn')?.text ?? '',
+        en: ex.sentences.find((x) => x.lang === 'eng')?.text ?? '',
+      }))
+      .filter((e) => e.ja && e.en)
+      .slice(0, 2),
+  }))
 }
 
 /** Only the primary sense decides kana-only display (行く has a rare uk sense). */

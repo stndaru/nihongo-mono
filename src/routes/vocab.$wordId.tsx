@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
-import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
+import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { AdjectiveInflectionTable } from '@/components/vocab/AdjectiveInflectionTable'
 import { PosBadge } from '@/components/vocab/PosBadge'
@@ -59,17 +59,12 @@ function VocabDetailPage() {
         </div>
       </header>
 
+      <MeaningsAccordion senses={word.senses} />
+
       <AdjectiveInflectionTable word={word} />
 
       <RelatedWords title="Antonyms" words={antonyms} />
       <RelatedWords title="See also" words={synonyms} />
-
-      {word.examples.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-lg font-semibold">Examples</h2>
-          <ExampleSentences examples={word.examples} />
-        </section>
-      )}
 
       {word.kanjiChars.length > 0 && (
         <section>

@@ -16,6 +16,12 @@ export interface ExampleSentence {
   en: string
 }
 
+/** One dictionary sense: its glosses plus example sentences for that sense. */
+export interface WordSense {
+  gloss: string[]
+  examples: ExampleSentence[]
+}
+
 export type JlptLevel = 1 | 2 | 3 | 4 | 5
 
 /** Fields shared by verbs and (future) vocabulary entries. */
@@ -35,6 +41,8 @@ export interface WordBase {
   common: boolean
   /** Up to 3, from the Tanaka corpus via JMdict. */
   examples: ExampleSentence[]
+  /** All dictionary senses with their own examples (detail-page accordion). */
+  senses: WordSense[]
   /** Unique kanji characters used — keys into the kanji dataset. */
   kanjiChars: string[]
 }
@@ -61,6 +69,8 @@ export interface KanjiEntry {
   on: string[]
   /** Kun'yomi readings (hiragana). */
   kun: string[]
+  /** Visual components from KRADFILE (radical decomposition). */
+  components?: string[]
   strokes: number
   jlpt: JlptLevel | null
   /** School grade (1–6 kyouiku, 8 jouyou, 9/10 jinmeiyou). */

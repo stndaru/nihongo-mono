@@ -12,6 +12,7 @@ import {
   buildWordIndex,
   expandRow,
   kanjiCharsOf,
+  sensesDetail,
   sensesGlosses,
   sensesExamples,
   usuallyKana,
@@ -31,11 +32,8 @@ const CACHE = join(import.meta.dirname, '.cache')
 const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'vocab')
 const META_PATH = join(import.meta.dirname, '..', 'src', 'data', 'meta.json')
 
-/** JMdict PoS tag → our vocab category. Order sets precedence within a sense:
- *  きれい (adj-na + n) counts as an adjective, and n+adv hybrids like 今日
- *  count as nouns, matching how textbooks categorize them. Pure adverbs
- *  (ゆっくり, とても) still land in adverb. */
-const POS_MAP: [string, VocabPos][] = [
+/** JMdict PoS tag → our vocab category. */
+const POS_MAP = new Map<string, VocabPos>([
   ['adj-i', 'adj-i'],
   ['adj-ix', 'adj-i'], // よい/いい special class
   ['adj-na', 'adj-na'],
@@ -43,7 +41,23 @@ const POS_MAP: [string, VocabPos][] = [
   ['n-t', 'noun'], // temporal nouns (今日, 毎朝…)
   ['adv', 'adverb'],
   ['adv-to', 'adverb'],
-]
+])
+
+/**
+ * Picks the word's category from the first sense that has any mapped tag,
+ * respecting THAT SENSE's own tag order — JMdict lists tags by significance,
+ * so 黄色 ["n","adj-no","adj-na"] is a noun while 綺麗 ["adj-na"] is an
+ * adjective. A fixed precedence over the map got 黄色/大人 wrong.
+ */
+function classifyPos(word: JmdictWord): VocabPos | undefined {
+  for (const sense of word.sense) {
+    for (const tag of sense.partOfSpeech) {
+      const pos = POS_MAP.get(tag)
+      if (pos) return pos
+    }
+  }
+  return undefined
+}
 
 console.log('loading sources…')
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
@@ -58,18 +72,11 @@ const furiganaMisses: string[] = []
 const rawXrefs = new Map<string, { ant: [string, string?][]; syn: [string, string?][] }>()
 
 function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
-  let pos: VocabPos | undefined
-  for (const sense of word.sense) {
-    const hit = POS_MAP.find(([tag]) => sense.partOfSpeech.includes(tag))
-    if (hit) {
-      pos = hit[1]
-      break
-    }
-  }
+  const pos = classifyPos(word)
   if (!pos) return null
 
   const posTags = new Set(
-    POS_MAP.filter(([, category]) => category === pos).map(([tag]) => tag),
+    [...POS_MAP.entries()].filter(([, cat]) => cat === pos).map(([tag]) => tag),
   )
   const senses = word.sense.filter((s) => s.partOfSpeech.some((t) => posTags.has(t)))
 
@@ -92,6 +99,7 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
     jlpt: level,
     common: isCommon(word),
     examples: sensesExamples(senses),
+    senses: sensesDetail(senses),
     kanjiChars: kanjiCharsOf(kanji),
     pos,
   }
@@ -100,7 +108,9 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
 const byId = new Map<string, VocabEntry>()
 for (const row of jlptRows) {
   for (const [expression, reading] of expandRow(row.expression, row.reading)) {
-    let word = index.find(expression, reading)
+    // exact sequence id from the source beats text matching
+    let word = row.seq ? index.findById(row.seq) : undefined
+    word ??= index.find(expression, reading)
     // "ゆっくりと" rows include the と particle; JMdict lists the bare adverb
     if (!word && expression.endsWith('と')) {
       word = index.find(expression.slice(0, -1), reading.replace(/と$/, ''))

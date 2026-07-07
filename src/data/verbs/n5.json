@@ -29,6 +29,33 @@
         "en": "I was caught in a shower on my way to the station."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to meet",
+          "to encounter",
+          "to see"
+        ],
+        "examples": [
+          {
+            "ja": "前に彼にあったのを覚えている。",
+            "en": "I remember seeing him before."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have an accident",
+          "to have a bad experience"
+        ],
+        "examples": [
+          {
+            "ja": "駅へ行く途中でにわか雨に遭った。",
+            "en": "I was caught in a shower on my way to the station."
+          }
+        ]
+      }
+    ],
     "class": "v5u",
     "transitivity": "vi",
     "kanjiChars": [
@@ -68,6 +95,73 @@
       {
         "ja": "１塁があいていたので打者を歩かせた。",
         "en": "With first base open, he walked the batter."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to open (e.g. doors)"
+        ],
+        "examples": [
+          {
+            "ja": "ぐいと押すとドアは開いた。",
+            "en": "The door yielded to a strong push."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to open (e.g. business, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be empty"
+        ],
+        "examples": [
+          {
+            "ja": "１塁があいていたので打者を歩かせた。",
+            "en": "With first base open, he walked the batter."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be vacant",
+          "to be available",
+          "to be free"
+        ],
+        "examples": [
+          {
+            "ja": "放課後は空いてますか？",
+            "en": "Are you free after school?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be open (e.g. neckline, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to have been opened (of one's eyes, mouth, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come to an end"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to open (one's eyes, mouth, etc.)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -111,6 +205,78 @@
         "en": "Please leave next Saturday afternoon free."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to open (a door, etc.)",
+          "to unwrap (e.g. parcel, package)",
+          "to unlock"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの手紙を間違ってあけてしまってすいませんでした。",
+            "en": "I'm sorry I opened your mail by mistake."
+          },
+          {
+            "ja": "３人の少年達はその建物の扉を開けました。",
+            "en": "The three boys opened the doors of the building."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to open (for business, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to empty",
+          "to remove",
+          "to make space",
+          "to make room"
+        ],
+        "examples": [
+          {
+            "ja": "財布の中身をこの袋に空けなさい。",
+            "en": "Empty the purse into this bag."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to move out",
+          "to clear out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be away from (e.g. one's house)",
+          "to leave (temporarily)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to dawn",
+          "to grow light"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to end (of a period, season)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to begin (of the New Year)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "both",
     "kanjiChars": [
@@ -152,6 +318,85 @@
         "en": "The store raised all the prices."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to raise",
+          "to elevate"
+        ],
+        "examples": [
+          {
+            "ja": "質問があれば右手を挙げて下さい。",
+            "en": "If you have a question, please raise your right hand."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to move something (to a higher place)",
+          "to put onto (e.g. a shelf)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to increase (price, quality, status, etc.)",
+          "to raise (a wage)"
+        ],
+        "examples": [
+          {
+            "ja": "その店は値段を全部上げた。",
+            "en": "The store raised all the prices."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to show someone (into a room)",
+          "to let in (e.g. a guest)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to give"
+        ],
+        "examples": [
+          {
+            "ja": "あなたは時には妹さんにおこづかいをあげますか。",
+            "en": "Do you sometimes give your sister money?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to enrol (one's child in school)",
+          "to enroll",
+          "to send (one's child; e.g. to college)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to develop (talent, skill, etc.)",
+          "to improve"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to earn (something desirable)",
+          "to achieve (e.g. a good result)",
+          "to obtain"
+        ],
+        "examples": [
+          {
+            "ja": "彼は立派な成績を上げた。",
+            "en": "He got wonderful results."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "both",
     "kanjiChars": [
@@ -189,6 +434,72 @@
         "en": "There were two children playing on the street."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to play (games, sports)",
+          "to enjoy oneself",
+          "to have a good time"
+        ],
+        "examples": [
+          {
+            "ja": "２人の子供が通りで遊んでいた。",
+            "en": "There were two children playing on the street."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to mess about (with alcohol, gambling, philandery, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be idle",
+          "to do nothing",
+          "to be unused"
+        ],
+        "examples": [
+          {
+            "ja": "その機械は今遊んでいる。",
+            "en": "The machine is lying idle."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to meet up (with friends)",
+          "to hang out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to give oneself up (to gambling, drinking, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to go to (for pleasure or for study)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to tease (someone)",
+          "to play (with)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to intentionally throw a ball to lower the batter's concentration"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5b",
     "transitivity": "vi",
     "kanjiChars": [
@@ -219,6 +530,32 @@
       {
         "ja": "屋根は日を浴びて輝いている。",
         "en": "The roof is shining in the sun."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to dash over oneself (e.g. water)",
+          "to take (e.g. shower)",
+          "to bask in (e.g. the sun)",
+          "to bathe in",
+          "to be flooded with (e.g. light)"
+        ],
+        "examples": [
+          {
+            "ja": "屋根は日を浴びて輝いている。",
+            "en": "The roof is shining in the sun."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to suffer (e.g. an attack)",
+          "to draw (e.g. criticism, attention, praise)",
+          "to have heaped upon",
+          "to be showered with"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -254,6 +591,42 @@
         "en": "When you wash the bag, please do not put it in the washing machine."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to wash",
+          "to cleanse",
+          "to rinse"
+        ],
+        "examples": [
+          {
+            "ja": "そのバッグを洗うときは洗濯機に入れないでください。",
+            "en": "When you wash the bag, please do not put it in the washing machine."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to inquire into",
+          "to investigate"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to purify (one's heart)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to lave (e.g. shore)",
+          "to wash over (e.g. deck)",
+          "to sweep"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5u",
     "transitivity": "vt",
     "kanjiChars": [
@@ -287,6 +660,58 @@
         "en": "Excuse me; allow me to point out three errors in the above article."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be",
+          "to exist",
+          "to live"
+        ],
+        "examples": [
+          {
+            "ja": "失礼だが、上記の記事にある３つの誤りを指摘しておきたい。",
+            "en": "Excuse me; allow me to point out three errors in the above article."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have"
+        ],
+        "examples": [
+          {
+            "ja": "悪いけどほかに用事があるの。",
+            "en": "I'm sorry, I have another engagement."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be located"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be equipped with"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to happen",
+          "to come about"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to exist (in a completed state)",
+          "to be (something unchanged in its current state)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r-i",
     "transitivity": "vi",
     "kanjiChars": []
@@ -314,6 +739,19 @@
       {
         "ja": "歩いて行きますか？それともバスで行きますか？",
         "en": "Will you go on foot or by bus?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to walk"
+        ],
+        "examples": [
+          {
+            "ja": "歩いて行きますか？それともバスで行きますか？",
+            "en": "Will you go on foot or by bus?"
+          }
+        ]
       }
     ],
     "class": "v5k",
@@ -351,6 +789,40 @@
       {
         "ja": "「みんなひと休みしようぜ」とジョンは言った。",
         "en": "John said, \"Hey guys, let's take a break.\""
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to say",
+          "to utter",
+          "to declare"
+        ],
+        "examples": [
+          {
+            "ja": "「みんなひと休みしようぜ」とジョンは言った。",
+            "en": "John said, \"Hey guys, let's take a break.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to name",
+          "to call"
+        ],
+        "examples": [
+          {
+            "ja": "この動物は日本語で何と言いますか。",
+            "en": "What do you call this animal in Japanese?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go (e.g. \"the alarm went ping\")",
+          "to make a noise"
+        ],
+        "examples": []
       }
     ],
     "class": "v5u",
@@ -394,6 +866,86 @@
         "en": "The sound grew fainter and fainter."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to go",
+          "to move (towards)",
+          "to head (towards)",
+          "to leave (for)"
+        ],
+        "examples": [
+          {
+            "ja": "お母さん、泳ぎに行ってもいい？",
+            "en": "Can I go swimming, Mother?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to move through",
+          "to travel across",
+          "to walk along (e.g. a road)"
+        ],
+        "examples": [
+          {
+            "ja": "探検家が山中の道なき道を行った。",
+            "en": "The explorer pushed his way through the trackless mountain region."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go (well, badly, etc.)",
+          "to proceed",
+          "to turn out",
+          "to get along"
+        ],
+        "examples": [
+          {
+            "ja": "あなたのおかげで仕事がうまく行きました。",
+            "en": "Thanks to you, the job went well."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to do (in a particular way)",
+          "to go (with; a choice)",
+          "to try"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to pass (of time, seasons, etc.)",
+          "to go by"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to stream",
+          "to flow"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to die",
+          "to pass away"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to reach (a stage, extent, age, etc.)",
+          "to get to",
+          "to go (so far as ...)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5k-s",
     "transitivity": "vi",
     "kanjiChars": [
@@ -427,6 +979,21 @@
       {
         "ja": "その語にはいくつかの意味がある。",
         "en": "The word has several meanings."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "meaning",
+          "significance",
+          "sense"
+        ],
+        "examples": [
+          {
+            "ja": "その語にはいくつかの意味がある。",
+            "en": "The word has several meanings."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -467,6 +1034,49 @@
         "en": "Which would you rather do, go to the cinema or stay at home?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be (of animate objects)",
+          "to exist"
+        ],
+        "examples": [
+          {
+            "ja": "民主主義に対する信頼をなくした者もいる。",
+            "en": "Some have lost faith in democracy."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to stay"
+        ],
+        "examples": [
+          {
+            "ja": "映画に行くのと家にいるの、どっちがいい？",
+            "en": "Which would you rather do, go to the cinema or stay at home?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be ...-ing"
+        ],
+        "examples": [
+          {
+            "ja": "すっかり食べ終わってはいない。",
+            "en": "I haven't quite finished eating."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have ...-ed",
+          "to be ...-ed"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": []
@@ -490,6 +1100,23 @@
       {
         "ja": "今のところお金はいらない。",
         "en": "I don't need money at present."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to be needed",
+          "to be necessary",
+          "to be required",
+          "to be wanted",
+          "to need"
+        ],
+        "examples": [
+          {
+            "ja": "今のところお金はいらない。",
+            "en": "I don't need money at present."
+          }
+        ]
       }
     ],
     "class": "v5r",
@@ -531,6 +1158,87 @@
         "en": "It's very warm. Shall I turn on the air conditioner?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to put in",
+          "to let in",
+          "to take in",
+          "to bring in",
+          "to insert"
+        ],
+        "examples": [
+          {
+            "ja": "それは引き出しに入れておきました。",
+            "en": "I put it in the drawer."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to admit",
+          "to accept",
+          "to employ",
+          "to hire"
+        ],
+        "examples": [
+          {
+            "ja": "留学生も入れるのかしら。",
+            "en": "Can foreign students be in the club?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to accept",
+          "to comply",
+          "to grant",
+          "to adopt (a policy, etc.)",
+          "to take (advice, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to include"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to pay (one's rent, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to cast (a vote)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make (tea, coffee, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "あなたは、私にコーヒーをいれてもらいたいですか。",
+            "en": "Do you want me to make coffee?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to turn on (a switch, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "ずいぶん暑いですね。クーラーをいれましょうか。",
+            "en": "It's very warm. Shall I turn on the air conditioner?"
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -561,6 +1269,27 @@
       {
         "ja": "ジョンはステージで何を歌いましたか。",
         "en": "What did John sing on the stage?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to sing"
+        ],
+        "examples": [
+          {
+            "ja": "ジョンはステージで何を歌いましたか。",
+            "en": "What did John sing on the stage?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to sing of (love, beauty, etc.) in a poem",
+          "to express in the form of a poem",
+          "to recite (a poem)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5u",
@@ -594,6 +1323,19 @@
         "en": "What sign were you born under?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be born"
+        ],
+        "examples": [
+          {
+            "ja": "あなたは何座生まれですか。",
+            "en": "What sign were you born under?"
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -625,6 +1367,41 @@
       {
         "ja": "ガソリンはリットル単位で売られる。",
         "en": "Gasoline is sold by the liter."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to sell"
+        ],
+        "examples": [
+          {
+            "ja": "ガソリンはリットル単位で売られる。",
+            "en": "Gasoline is sold by the liter."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to betray",
+          "to sell out (one's friend, country, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make (oneself) known",
+          "to establish (a reputation) for oneself"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to pick (a fight, quarrel, etc.)",
+          "to provoke",
+          "to force on someone"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -668,6 +1445,47 @@
         "en": "\"If there is an accident,\" he says, \"they will know right away.\""
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to get up",
+          "to rise",
+          "to blaze up (fire)"
+        ],
+        "examples": [
+          {
+            "ja": "６時ごろ起きた。",
+            "en": "I got up at about six."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to wake up",
+          "to be awake",
+          "to stay awake"
+        ],
+        "examples": [
+          {
+            "ja": "お子さんはまだ起きているのですか。",
+            "en": "Is the kid still up?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to occur (usu. of unfavourable incidents)",
+          "to happen",
+          "to take place"
+        ],
+        "examples": [
+          {
+            "ja": "「事故が起きれば、すぐにわかるよ」と彼は言う。",
+            "en": "\"If there is an accident,\" he says, \"they will know right away.\""
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -709,6 +1527,72 @@
         "en": "As it happens, I have left the camera at home."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to put",
+          "to place"
+        ],
+        "examples": [
+          {
+            "ja": "それをテーブルの上に置きなさい。",
+            "en": "Lay it on the table."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to leave (behind)"
+        ],
+        "examples": [
+          {
+            "ja": "あいにく私はカメラを家においてきた。",
+            "en": "As it happens, I have left the camera at home."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to establish (an organization, a facility, a position, etc.)",
+          "to set up"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to appoint (someone to a certain position)",
+          "to hire",
+          "to employ"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to place (one's trust, one's faith, etc.)",
+          "to bear (in mind, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to put down a tool (e.g. a pen) hence stopping what one is doing with that tool"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to take in (boarders, etc.)",
+          "to provide lodging in one's house"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to separate spatially or temporally"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5k",
     "transitivity": "vt",
     "kanjiChars": [
@@ -744,6 +1628,39 @@
       {
         "ja": "ジョーンズ先生が私たちに英会話を教えてくれます。",
         "en": "Mr Jones teaches us English conversation."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to teach",
+          "to instruct"
+        ],
+        "examples": [
+          {
+            "ja": "ジョーンズ先生が私たちに英会話を教えてくれます。",
+            "en": "Mr Jones teaches us English conversation."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to tell",
+          "to inform",
+          "to show"
+        ],
+        "examples": [
+          {
+            "ja": "地下鉄へ行く道を教えていただけませんか。",
+            "en": "Could you tell me how to get to the subway station?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to preach"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -783,6 +1700,81 @@
         "en": "The box bears the stamp of the manufacturer."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to push",
+          "to thrust",
+          "to shove"
+        ],
+        "examples": [
+          {
+            "ja": "シャッターを押してくれますか。",
+            "en": "Could you press this button?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to press (down)",
+          "to push (e.g. a button)",
+          "to exert pressure on"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to stamp (e.g. one's name)",
+          "to affix (a seal)"
+        ],
+        "examples": [
+          {
+            "ja": "その箱には製造者の証印が押してある。",
+            "en": "The box bears the stamp of the manufacturer."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to affix (e.g. gold leaf)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to push (someone for something)",
+          "to press",
+          "to put pressure on (someone)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to overwhelm",
+          "to overpower",
+          "to put (someone) under pressure",
+          "to be superior to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to push ahead (with a policy, plan, etc.)",
+          "to proceed",
+          "to stick to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to do ... in spite of ...",
+          "to defy",
+          "to brave",
+          "to push aside"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5s",
     "transitivity": "both",
     "kanjiChars": [
@@ -815,6 +1807,20 @@
       {
         "ja": "３時はお茶にしよう。",
         "en": "Let's have tea at 3:00."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "tea break",
+          "teatime"
+        ],
+        "examples": [
+          {
+            "ja": "３時はお茶にしよう。",
+            "en": "Let's have tea at 3:00."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -858,6 +1864,54 @@
         "en": "You must remember to tell him all that you know."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to memorize",
+          "to memorise",
+          "to commit to memory",
+          "to learn by heart",
+          "to bear in mind"
+        ],
+        "examples": [
+          {
+            "ja": "あなたが知っている事を全部彼に話す事を覚えておいてください。",
+            "en": "You must remember to tell him all that you know."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to learn",
+          "to pick up",
+          "to acquire"
+        ],
+        "examples": [
+          {
+            "ja": "日本語は外人にとって覚えにくい。",
+            "en": "It is hard for foreigners to learn Japanese."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to feel"
+        ],
+        "examples": [
+          {
+            "ja": "その音楽には本当に感動をおぼえた。",
+            "en": "That music really gets me."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to think",
+          "to regard"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -889,6 +1943,39 @@
       {
         "ja": "この湖で泳ぐのは危険だと思うんだ。",
         "en": "I think it is dangerous to swim in the lake."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to swim"
+        ],
+        "examples": [
+          {
+            "ja": "この湖で泳ぐのは危険だと思うんだ。",
+            "en": "I think it is dangerous to swim in the lake."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to struggle through (a crowd)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make one's way through the world",
+          "to get along (in life)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to totter",
+          "to lose one's balance"
+        ],
+        "examples": []
       }
     ],
     "class": "v5g",
@@ -932,6 +2019,70 @@
         "en": "The professional skier liked to \"hot-dog\" down the mountain."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to descend (e.g. a mountain)",
+          "to go down",
+          "to come down"
+        ],
+        "examples": [
+          {
+            "ja": "あのプロのスキーヤーは離れ業をしながら山をおりるのが好きだった。",
+            "en": "The professional skier liked to \"hot-dog\" down the mountain."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to alight (e.g. from bus)",
+          "to get off",
+          "to disembark",
+          "to dismount"
+        ],
+        "examples": [
+          {
+            "ja": "ここで降りましょう。",
+            "en": "Let's get off here."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to step down",
+          "to retire",
+          "to give up",
+          "to quit",
+          "to fold"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be granted",
+          "to be issued",
+          "to be given"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to form (of frost, dew, mist, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "今朝は露が降りた。",
+            "en": "The dew fell this morning."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be passed (from the body; e.g. of a roundworm)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -973,6 +2124,62 @@
         "en": "He tried in vain to put an end to their heated discussion."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to end",
+          "to come to an end",
+          "to finish",
+          "to close",
+          "to be over"
+        ],
+        "examples": [
+          {
+            "ja": "野球の試合は引き分けに終わった。",
+            "en": "The baseball game ended in a draw."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to finish",
+          "to complete",
+          "to conclude"
+        ],
+        "examples": [
+          {
+            "ja": "彼は彼らの激論を終わらせようとしたが無駄だった。",
+            "en": "He tried in vain to put an end to their heated discussion."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to finish doing"
+        ],
+        "examples": [
+          {
+            "ja": "彼は食べ終わるとすぐに、再び歩き始めた。",
+            "en": "As soon as he finished eating, he began to walk again."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be past its (one's) prime"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be awful",
+          "to be terrible",
+          "to suck",
+          "to be hopeless"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "both",
     "kanjiChars": [
@@ -1009,6 +2216,20 @@
       {
         "ja": "１日おきに買い物に行く。",
         "en": "I go shopping every other day."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "shopping",
+          "purchased goods"
+        ],
+        "examples": [
+          {
+            "ja": "１日おきに買い物に行く。",
+            "en": "I go shopping every other day."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -1053,6 +2274,64 @@
         "en": "We fully appreciate his excellence as a skier."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to buy",
+          "to purchase"
+        ],
+        "examples": [
+          {
+            "ja": "車を買うために貯金をしている。",
+            "en": "I'm saving money for a car."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to value (highly)",
+          "to think highly of",
+          "to have a high opinion of",
+          "to appreciate",
+          "to recognize"
+        ],
+        "examples": [
+          {
+            "ja": "彼のスキーヤーとしての優秀性は十分に買っています。",
+            "en": "We fully appreciate his excellence as a skier."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to incur (someone's anger, displeasure, etc.)",
+          "to elicit (e.g. sneers)",
+          "to invite (e.g. scorn)",
+          "to evoke",
+          "to arouse"
+        ],
+        "examples": [
+          {
+            "ja": "彼が絶えず侮辱したので私の怒りをかった。",
+            "en": "His constant insults aroused my anger."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to accept",
+          "to take on",
+          "to take up"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to pay for (a prostitute, geisha, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5u",
     "transitivity": "vt",
     "kanjiChars": [
@@ -1088,6 +2367,64 @@
       {
         "ja": "お前は恩を仇で返したな。",
         "en": "You bit the hand that fed you."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to return (something)",
+          "to restore",
+          "to put back"
+        ],
+        "examples": [
+          {
+            "ja": "お金は明日返すよ。",
+            "en": "I'll give you back the money tomorrow."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to turn over",
+          "to turn upside down",
+          "to overturn"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to pay back",
+          "to retaliate",
+          "to reciprocate"
+        ],
+        "examples": [
+          {
+            "ja": "お前は恩を仇で返したな。",
+            "en": "You bit the hand that fed you."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to respond (with)",
+          "to retort",
+          "to reply",
+          "to say back"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to do ... back (e.g. speak back, throw back)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to do again",
+          "to do repeatedly"
+        ],
+        "examples": []
       }
     ],
     "class": "v5s",
@@ -1127,6 +2464,40 @@
         "en": "After 11 o'clock the guests began to leave by twos and threes."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to return",
+          "to come home",
+          "to go home",
+          "to go back"
+        ],
+        "examples": [
+          {
+            "ja": "恋人よ、我に帰れ。",
+            "en": "Lover, come back to me."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to leave (of a guest, customer, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "１１時を過ぎると、お客たちは三々五々帰り始めた。",
+            "en": "After 11 o'clock the guests began to leave by twos and threes."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get home",
+          "to get to home plate"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1164,6 +2535,91 @@
         "en": "The horse kicked at him when he approached it."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to take (a resource, e.g. time or money)"
+        ],
+        "examples": [
+          {
+            "ja": "あれだけのコインを収集するのにどれだけの年月がかかりましたか。",
+            "en": "How long did it take you to collect so many coins?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to hang"
+        ],
+        "examples": [
+          {
+            "ja": "壁に地図がかかっています。",
+            "en": "There is a map on the wall."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to come into view",
+          "to arrive"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come under (a contract, a tax)"
+        ],
+        "examples": [
+          {
+            "ja": "所得税は控除額を上回るいかなる所得にもかかる。",
+            "en": "An income tax is levied on any income that exceeds deductions."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to start (engines, motors)"
+        ],
+        "examples": [
+          {
+            "ja": "どうしたらエンジンがかかりますか。",
+            "en": "How can I start the engine?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to attend",
+          "to deal with",
+          "to handle"
+        ],
+        "examples": [
+          {
+            "ja": "歯が痛むなら、歯医者さんにかかるべきです。",
+            "en": "If your tooth hurts, you should see a dentist."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have started to",
+          "to be on the verge of"
+        ],
+        "examples": [
+          {
+            "ja": "それはほとんど終わりかかっています。",
+            "en": "It's almost over."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to overlap (e.g. information in a manual)",
+          "to cover"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": []
@@ -1192,6 +2648,28 @@
       {
         "ja": "ここにあなたの名前をかいてくれませんか。",
         "en": "Would you please write your name here?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to write",
+          "to compose",
+          "to pen"
+        ],
+        "examples": [
+          {
+            "ja": "ここにあなたの名前をかいてくれませんか。",
+            "en": "Would you please write your name here?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to draw",
+          "to paint"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -1231,6 +2709,114 @@
         "en": "Can I make a phone call for ten yen?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to hang up (e.g. a coat, a picture on the wall)",
+          "to let hang",
+          "to suspend (from)",
+          "to hoist (e.g. sail)",
+          "to raise (e.g. flag)"
+        ],
+        "examples": [
+          {
+            "ja": "コートをハンガーに掛けておきなさい。",
+            "en": "Put your coat on a hanger."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to put on (e.g. a blanket)",
+          "to put on top of",
+          "to cover",
+          "to lay",
+          "to spread"
+        ],
+        "examples": [
+          {
+            "ja": "ウエートレスはテーブルの上に白いテーブルクロスをかけた。",
+            "en": "The waitress spread a white cloth over the table."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to put on (glasses, etc.)",
+          "to wear (a necklace, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "その婦人は真珠のネックレスをかけていた。",
+            "en": "The lady wore a necklace of pearls."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to make (a call)"
+        ],
+        "examples": [
+          {
+            "ja": "１０円で電話がかけられますか。",
+            "en": "Can I make a phone call for ten yen?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to spend (time, money)",
+          "to expend",
+          "to use"
+        ],
+        "examples": [
+          {
+            "ja": "スーツにそんなにお金をかけるにはためらいがある。",
+            "en": "I hesitate to pay so much for a suit."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to pour (liquid) onto",
+          "to sprinkle (powder or spices) onto",
+          "to splash",
+          "to throw (e.g. water) onto"
+        ],
+        "examples": [
+          {
+            "ja": "コックさんは少しもかけていない。",
+            "en": "The cook hasn't put any on it."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to turn on (an engine, radio, etc.)",
+          "to set (a dial, alarm clock, etc.)",
+          "to put on (a DVD, song, etc.)",
+          "to use (a device, implement, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to cause (someone inconvenience, trouble, etc.)",
+          "to burden (someone)",
+          "to impose"
+        ],
+        "examples": [
+          {
+            "ja": "大変ご迷惑をおかけして申し訳ありません。",
+            "en": "I am sorry to trouble you so much."
+          },
+          {
+            "ja": "ご迷惑をおかけして、本当に申し訳ありません。",
+            "en": "I really appreciate all the trouble you've gone to."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": []
@@ -1264,6 +2850,39 @@
       {
         "ja": "鞄が必要です。貸してください。",
         "en": "I need a bag. Will you lend me one?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to lend",
+          "to loan"
+        ],
+        "examples": [
+          {
+            "ja": "鞄が必要です。貸してください。",
+            "en": "I need a bag. Will you lend me one?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rent out",
+          "to hire out"
+        ],
+        "examples": [
+          {
+            "ja": "夏の間彼らは家を人に貸した。",
+            "en": "They rented their house for the summer."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to hand (over)",
+          "to give"
+        ],
+        "examples": []
       }
     ],
     "class": "v5s",
@@ -1303,6 +2922,84 @@
         "en": "I asked her who the man wearing the white hat was."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to put on (one's head)",
+          "to wear",
+          "to have on",
+          "to pull over (one's head)",
+          "to crown (oneself)"
+        ],
+        "examples": [
+          {
+            "ja": "「白い帽子をかぶっている男の人は誰ですか」と私は彼女に言った。",
+            "en": "I asked her who the man wearing the white hat was."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be covered with (dust, snow, etc.)",
+          "to pour (water, etc.) on oneself",
+          "to dash on oneself",
+          "to ship water"
+        ],
+        "examples": [
+          {
+            "ja": "その機械はほこりをかぶっていた。",
+            "en": "The machine was coated with dust."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to bear (e.g. someone's debts, faults, etc.)",
+          "to take (blame)",
+          "to assume (responsibility)",
+          "to shoulder (burden)"
+        ],
+        "examples": [
+          {
+            "ja": "避難民は食料や水、薬などその他いろいろ不足を被るものだ。",
+            "en": "Refugees will suffer lack of food, water, medicine and all that."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to overlap (e.g. sound or color)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be similar",
+          "to be redundant"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be fogged (due to overexposure, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to close",
+          "to come to an end"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to get a full house",
+          "to sell out"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "both",
     "kanjiChars": []
@@ -1336,6 +3033,46 @@
       {
         "ja": "２部屋あるアパートを借りたいのですが。",
         "en": "I want to rent an apartment with two rooms."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to borrow"
+        ],
+        "examples": [
+          {
+            "ja": "この本をお借りしてもよろしいですか。",
+            "en": "May I borrow this book?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rent",
+          "to hire"
+        ],
+        "examples": [
+          {
+            "ja": "２部屋あるアパートを借りたいのですが。",
+            "en": "I want to rent an apartment with two rooms."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to make use of (another's help, wisdom, etc.)",
+          "to obtain",
+          "to receive"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to use (for another purpose)",
+          "to put to a different use"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -1379,6 +3116,87 @@
         "en": "The music faded away."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to disappear",
+          "to vanish",
+          "to go out of sight",
+          "to go away",
+          "to become lost"
+        ],
+        "examples": [
+          {
+            "ja": "たくさんの虫が一晩のうちに消えてしまった。",
+            "en": "A lot of insects vanished overnight."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go out (of a fire, light, etc.)",
+          "to die",
+          "to turn off (e.g. of a TV screen)"
+        ],
+        "examples": [
+          {
+            "ja": "突然、明かりが消えた。",
+            "en": "All at once the lights went out."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to fade (of a feeling, impression, etc.)",
+          "to vanish (e.g. of hope)"
+        ],
+        "examples": [
+          {
+            "ja": "時間がたつにつれて我々の希望は消えた。",
+            "en": "As time went on, our hopes sank."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go away (e.g. of a smell, itchiness, sleepiness)",
+          "to disappear",
+          "to fade away (e.g. of footsteps)"
+        ],
+        "examples": [
+          {
+            "ja": "その音楽の音はしだいに消えていった。",
+            "en": "The music faded away."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to wear away (e.g. of an inscription)",
+          "to rub out (of writing)",
+          "to fade (e.g. of ink)"
+        ],
+        "examples": [
+          {
+            "ja": "文句が消えないように、消えないインクを使ってくれませんか。",
+            "en": "Will you please use indelible ink so the phrase won't rub out?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be lost (e.g. of a tradition)",
+          "to die out",
+          "to disappear"
+        ],
+        "examples": [
+          {
+            "ja": "流行は古くなって消えていく。",
+            "en": "Fashions grow old and die."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1414,6 +3232,78 @@
       {
         "ja": "一番のチャンネルで英語が、７番のチャンネルでは日本語がお聞きになれます。",
         "en": "You can hear English on Channel 1, and Japanese on Channel 7."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to hear"
+        ],
+        "examples": [
+          {
+            "ja": "一番のチャンネルで英語が、７番のチャンネルでは日本語がお聞きになれます。",
+            "en": "You can hear English on Channel 1, and Japanese on Channel 7."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to listen (e.g. to music)"
+        ],
+        "examples": [
+          {
+            "ja": "音楽が好きで、毎日聴いています。",
+            "en": "I like music, and I listen to it every day."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to ask",
+          "to enquire",
+          "to query"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hear about",
+          "to hear of",
+          "to learn of"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to follow (advice, order, etc.)",
+          "to obey",
+          "to listen to",
+          "to comply with"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hear (e.g. a plea)",
+          "to grant (a request)",
+          "to accept (e.g. an argument)",
+          "to give consideration to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to smell (esp. incense)",
+          "to sample (a fragrance)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to taste (alcohol)",
+          "to try"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -1457,6 +3347,88 @@
         "en": "Do you mind if I turn off the AC?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to cut",
+          "to cut through",
+          "to perform (surgery)"
+        ],
+        "examples": [
+          {
+            "ja": "２．大根は拍子木に切る。",
+            "en": "2. Cut the daikon into long sticks."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to sever (connections, ties)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to turn off (e.g. the light)"
+        ],
+        "examples": [
+          {
+            "ja": "エアコンを切ってもかまいませんか。",
+            "en": "Do you mind if I turn off the AC?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to terminate (e.g. a conversation)",
+          "to hang up (the phone)",
+          "to disconnect"
+        ],
+        "examples": [
+          {
+            "ja": "「スミスさんをお願いしたいのですが」「そのまま切らずにお待ちください」",
+            "en": "\"May I speak to Mr Smith?\" \"Will you hold the line?\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to punch (a ticket)",
+          "to tear off (a stub)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to open (something sealed)"
+        ],
+        "examples": [
+          {
+            "ja": "いったん封を切るとそのテープは返品できません。",
+            "en": "Once you break the seal, you can't return the tape."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to start"
+        ],
+        "examples": [
+          {
+            "ja": "転職も引っ越しもして、心機一転、新たなスタートを切った。",
+            "en": "I quit my job and moved so I could start off with a clean slate."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to set (a limit)",
+          "to do (something) in less or within a certain time",
+          "to issue (cheques, vouchers, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vt",
     "kanjiChars": [
@@ -1493,6 +3465,32 @@
         "en": "\"You had better not wear the red dress.\" \"Why not?\""
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to wear (from the shoulders down)",
+          "to put on"
+        ],
+        "examples": [
+          {
+            "ja": "「あの赤い服を着るのはよしなさい」「なぜいけないの」",
+            "en": "\"You had better not wear the red dress.\" \"Why not?\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to take (the blame, responsibility)",
+          "to bear"
+        ],
+        "examples": [
+          {
+            "ja": "その男は反逆者の汚名をきせられた。",
+            "en": "The man was branded as a traitor."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -1524,6 +3522,44 @@
       {
         "ja": "蒸気でメガネが曇ってしまった。",
         "en": "The steam has fogged my glasses."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to get cloudy",
+          "to cloud over",
+          "to become overcast"
+        ],
+        "examples": [
+          {
+            "ja": "蒸気でメガネが曇ってしまった。",
+            "en": "The steam has fogged my glasses."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to cloud up",
+          "to fog up",
+          "to mist up",
+          "to become dim"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be gloomy",
+          "to be clouded (expression)",
+          "to be downcast"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to look slightly downward (of a noh mask; indicating sadness, grief, etc.)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -1561,6 +3597,57 @@
       {
         "ja": "私の父は私に、ぜひそこを見てくるようにといった。",
         "en": "My father insisted that I should go to see the place."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to come (spatially or temporally)",
+          "to approach",
+          "to arrive"
+        ],
+        "examples": [
+          {
+            "ja": "１０時までに来ます。",
+            "en": "I'll come by 10."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to come back",
+          "to do ... and come back"
+        ],
+        "examples": [
+          {
+            "ja": "私の父は私に、ぜひそこを見てくるようにといった。",
+            "en": "My father insisted that I should go to see the place."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to come to be",
+          "to become",
+          "to get",
+          "to grow",
+          "to continue"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come from",
+          "to be caused by",
+          "to derive from"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come to (e.g. \"when it comes to spinach ...\")"
+        ],
+        "examples": []
       }
     ],
     "class": "vk",
@@ -1604,6 +3691,85 @@
         "en": "The firemen quickly extinguished the blaze."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to erase",
+          "to rub out",
+          "to rub off",
+          "to cross out",
+          "to delete"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to turn off (a light, TV, heater, etc.)",
+          "to switch off"
+        ],
+        "examples": [
+          {
+            "ja": "寝る前に電気を消してください。",
+            "en": "Turn off the light before you go to bed."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to extinguish (a fire, candle, etc.)",
+          "to put out"
+        ],
+        "examples": [
+          {
+            "ja": "消防士たちはすばやく火事を消した。",
+            "en": "The firemen quickly extinguished the blaze."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to remove (a smell, pain, etc.)",
+          "to eliminate",
+          "to get rid of",
+          "to relieve (pain, anxiety, etc.)",
+          "to neutralize (poison)"
+        ],
+        "examples": [
+          {
+            "ja": "どんな言葉も彼女の深い悲しみを消す事はできない。",
+            "en": "No words can relieve her deep sorrow."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to drown out (a sound)",
+          "to deaden",
+          "to absorb",
+          "to muffle"
+        ],
+        "examples": [
+          {
+            "ja": "騒音に消されて私の声は人に届かなかった。",
+            "en": "I couldn't make myself heard above the noise."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to kill",
+          "to murder",
+          "to bump off",
+          "to rub out"
+        ],
+        "examples": [
+          {
+            "ja": "私はお前を消せと命令されている。",
+            "en": "I have orders to waste you."
+          }
+        ]
+      }
+    ],
     "class": "v5s",
     "transitivity": "vt",
     "kanjiChars": [
@@ -1639,6 +3805,19 @@
         "en": "Marriage proposals flooded in."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "marriage"
+        ],
+        "examples": [
+          {
+            "ja": "結婚の申し込みが殺到した。",
+            "en": "Marriage proposals flooded in."
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1671,6 +3850,20 @@
         "en": "\"No, I don't,\" said Mr Jordan."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to answer",
+          "to reply"
+        ],
+        "examples": [
+          {
+            "ja": "「はい、ありません」とジョーダンさんは答えた。",
+            "en": "\"No, I don't,\" said Mr Jordan."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1699,6 +3892,20 @@
       {
         "ja": "完成した本のコピーを１部送っていただくという条件で、私どものソフトウエアを収録することを許可します。",
         "en": "You have our permission to include our software on condition that you send us a copy of the final product."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "copy",
+          "photocopy"
+        ],
+        "examples": [
+          {
+            "ja": "完成した本のコピーを１部送っていただくという条件で、私どものソフトウエアを収録することを許可します。",
+            "en": "You have our permission to include our software on condition that you send us a copy of the final product."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -1740,6 +3947,49 @@
         "en": "Turn to me for help if you are in difficulty."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be troubled",
+          "to have difficulty",
+          "to be in a fix",
+          "to be at a loss",
+          "to be stumped"
+        ],
+        "examples": [
+          {
+            "ja": "困ったら私に助けを求めなさい。",
+            "en": "Turn to me for help if you are in difficulty."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be bothered",
+          "to be inconvenienced",
+          "to be annoyed"
+        ],
+        "examples": [
+          {
+            "ja": "騒音でこまっている。",
+            "en": "The noise bothers me."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be badly off",
+          "to be hard up",
+          "to be in straitened circumstances"
+        ],
+        "examples": [
+          {
+            "ja": "僕はしばしばお金に困る。",
+            "en": "I am often in difficulties."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1770,6 +4020,28 @@
       {
         "ja": "これらの花は春に咲く。",
         "en": "These flowers bloom in spring."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to bloom",
+          "to flower",
+          "to blossom",
+          "to open"
+        ],
+        "examples": [
+          {
+            "ja": "これらの花は春に咲く。",
+            "en": "These flowers bloom in spring."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rise up (of breaking waves)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -1806,6 +4078,26 @@
       {
         "ja": "「友情」という題で作文を書きなさい。",
         "en": "Write an essay on \"Friendship\"."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "writing (an essay, prose, etc.)",
+          "composition"
+        ],
+        "examples": [
+          {
+            "ja": "「友情」という題で作文を書きなさい。",
+            "en": "Write an essay on \"Friendship\"."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "formal writing with little real meaning"
+        ],
+        "examples": []
       }
     ],
     "class": "vs",
@@ -1846,6 +4138,71 @@
         "en": "Expressions and smiles change like that just from applying rouge and lipstick."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to shine"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be visible"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be tinged with"
+        ],
+        "examples": [
+          {
+            "ja": "ほお紅や口紅を差すだけで表情や笑顔がどんどん変わってくるんです。",
+            "en": "Expressions and smiles change like that just from applying rouge and lipstick."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rise (of water levels)",
+          "to flow in"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be felt (i.e. as an emotion)",
+          "to come over one"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hold up (an umbrella, etc.)",
+          "to put up",
+          "to raise"
+        ],
+        "examples": [
+          {
+            "ja": "彼は雨の中を傘もささずに歩きつづけた。",
+            "en": "He went on walking in the rain without an umbrella."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to extend one's arm straight ahead (in dance)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to insert",
+          "to put in"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5s",
     "transitivity": "both",
     "kanjiChars": [
@@ -1879,6 +4236,20 @@
       {
         "ja": "公園を散歩しましょう。",
         "en": "Let's take a walk in the park."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "walk",
+          "stroll"
+        ],
+        "examples": [
+          {
+            "ja": "公園を散歩しましょう。",
+            "en": "Let's take a walk in the park."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -1917,6 +4288,23 @@
         "en": "\"I think you like your job.\" \"On the contrary, I hate it.\""
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "work",
+          "job",
+          "labor",
+          "labour",
+          "business"
+        ],
+        "examples": [
+          {
+            "ja": "「あなたは仕事が気に入っていると思います」「いやそれどころか、嫌いです」",
+            "en": "\"I think you like your job.\" \"On the contrary, I hate it.\""
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "vi",
     "kanjiChars": [
@@ -1953,6 +4341,21 @@
         "en": "I asked him about the accident."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "question",
+          "inquiry",
+          "enquiry"
+        ],
+        "examples": [
+          {
+            "ja": "その事故について彼に質問した。",
+            "en": "I asked him about the accident."
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "both",
     "kanjiChars": [
@@ -1985,6 +4388,35 @@
       {
         "ja": "その少年は死んだものとしてあきらめられた。",
         "en": "The boy was given up for dead."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to die",
+          "to pass away"
+        ],
+        "examples": [
+          {
+            "ja": "その少年は死んだものとしてあきらめられた。",
+            "en": "The boy was given up for dead."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to lose spirit",
+          "to lose vigor",
+          "to look dead"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to cease",
+          "to stop"
+        ],
+        "examples": []
       }
     ],
     "class": "v5n",
@@ -2024,6 +4456,53 @@
         "en": "The door was locked, so I couldn't get in."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be shut",
+          "to close",
+          "to be closed"
+        ],
+        "examples": [
+          {
+            "ja": "あいにく店は閉まっていた。",
+            "en": "Unfortunately, the store was closed."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be firm (of a body, face, etc.)",
+          "to be well-knit"
+        ],
+        "examples": [
+          {
+            "ja": "ドアが閉まっていたので、入ることが出来なかった。",
+            "en": "The door was locked, so I couldn't get in."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be locked"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to tighten",
+          "to be tightened"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to become sober",
+          "to become tense"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -2053,6 +4532,20 @@
       {
         "ja": "どうかドアを閉めてくれませんか。",
         "en": "Will you please shut the door?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to close",
+          "to shut"
+        ],
+        "examples": [
+          {
+            "ja": "どうかドアを閉めてくれませんか。",
+            "en": "Will you please shut the door?"
+          }
+        ]
       }
     ],
     "class": "v1",
@@ -2088,6 +4581,72 @@
         "en": "You must fasten your seat belts during take-off."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to tie",
+          "to fasten",
+          "to tighten"
+        ],
+        "examples": [
+          {
+            "ja": "離陸の際は、シートベルトを締めなくてはならない。",
+            "en": "You must fasten your seat belts during take-off."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to wear (necktie, belt)",
+          "to put on"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to total",
+          "to sum"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be strict with"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to economize",
+          "to economise",
+          "to cut down on"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to salt",
+          "to marinate",
+          "to pickle",
+          "to make sushi adding a mixture of vinegar and salt"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to kill (fish, poultry, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to strongly press (someone)",
+          "to crack down on",
+          "to keep under strict control"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "both",
     "kanjiChars": [
@@ -2121,6 +4680,23 @@
       {
         "ja": "それは授業の終わりだった。",
         "en": "That was the end of the class."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "lesson",
+          "class",
+          "teaching",
+          "instruction",
+          "classwork"
+        ],
+        "examples": [
+          {
+            "ja": "それは授業の終わりだった。",
+            "en": "That was the end of the class."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -2161,6 +4737,78 @@
         "en": "I find it necessary to be able to say what I feel."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to know",
+          "to be aware (of)",
+          "to be conscious (of)",
+          "to learn (of)",
+          "to find out"
+        ],
+        "examples": [
+          {
+            "ja": "あなたは１９９０年から彼女を知っているのですか？",
+            "en": "Have you known her since 1990?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to sense",
+          "to feel",
+          "to notice",
+          "to realize"
+        ],
+        "examples": [
+          {
+            "ja": "私は自分が感じたことを言えるのが必要であることを知った。",
+            "en": "I find it necessary to be able to say what I feel."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to understand",
+          "to comprehend",
+          "to grasp",
+          "to appreciate"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to remember",
+          "to be familiar with",
+          "to be acquainted with"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to experience",
+          "to go through",
+          "to know (e.g. hardship)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to get acquainted with (a person)",
+          "to get to know"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to have to do with",
+          "to be concerned with",
+          "to be one's concern",
+          "to be one's responsibility"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2198,6 +4846,47 @@
         "en": "High school students who flagrantly smoke in class and the teachers who can't caution them will be punished."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to breathe in",
+          "to inhale",
+          "to smoke (a cigarette, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "教室でどうどうとタバコをすう高校生たちとそれを注意できない教師たちは罰を受けることになります。",
+            "en": "High school students who flagrantly smoke in class and the teachers who can't caution them will be punished."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to suck",
+          "to sip",
+          "to slurp"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to absorb",
+          "to soak up"
+        ],
+        "examples": [
+          {
+            "ja": "この紙はインクを吸わない。",
+            "en": "This paper does not absorb ink."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to kiss"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5u",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2227,6 +4916,23 @@
       {
         "ja": "あなたはどのくらいの間、神戸に住んでいますか。",
         "en": "How long have you lived in Kobe?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to live (of humans)",
+          "to reside",
+          "to inhabit",
+          "to dwell",
+          "to abide"
+        ],
+        "examples": [
+          {
+            "ja": "あなたはどのくらいの間、神戸に住んでいますか。",
+            "en": "How long have you lived in Kobe?"
+          }
+        ]
       }
     ],
     "class": "v5m",
@@ -2266,6 +4972,97 @@
         "en": "He used a headache as an excuse for leaving early."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to do",
+          "to carry out",
+          "to perform"
+        ],
+        "examples": [
+          {
+            "ja": "「これ以上何も言うことはありません、いいわけをするのはいやですから」と彼は言った。",
+            "en": "He said, \"I will say nothing more, because I hate making excuses.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to cause to become",
+          "to make (into)",
+          "to turn (into)"
+        ],
+        "examples": [
+          {
+            "ja": "それらはあなたを暖かくするのに役立つでしょう。",
+            "en": "They will help you to get warm."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to serve as",
+          "to act as",
+          "to work as"
+        ],
+        "examples": [
+          {
+            "ja": "頭痛を言い訳にして、彼は早く帰った。",
+            "en": "He used a headache as an excuse for leaving early."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to wear (clothes, a facial expression, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "そんな苦虫を噛みつぶしたような顔するなよ。",
+            "en": "Don't make such a sour face."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to judge as being",
+          "to view as being",
+          "to think of as",
+          "to treat as",
+          "to use as"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to decide on",
+          "to choose"
+        ],
+        "examples": [
+          {
+            "ja": "結構です。それにしましょう。",
+            "en": "All right. I'll take it."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be sensed (of a smell, noise, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "このスープはいやなにおいがする。腐っているでしょう？",
+            "en": "This soup smells horrible. Do you think it's gone off?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be (in a state, condition, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "both",
     "kanjiChars": []
@@ -2294,6 +5091,30 @@
       {
         "ja": "数人の学生がベンチに座り、昼食を食べていた。",
         "en": "Some students were sitting on the bench and having lunch."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to sit (down)",
+          "to have a seat",
+          "to be seated",
+          "to kneel (on the floor)"
+        ],
+        "examples": [
+          {
+            "ja": "数人の学生がベンチに座り、昼食を食べていた。",
+            "en": "Some students were sitting on the bench and having lunch."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to assume (a position)",
+          "to take on (a duty)",
+          "to occupy (a post)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -2331,6 +5152,20 @@
         "en": "This cotton shirt washes well."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "washing",
+          "laundry"
+        ],
+        "examples": [
+          {
+            "ja": "この綿のシャツは洗濯がよく効く。",
+            "en": "This cotton shirt washes well."
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2365,6 +5200,22 @@
       {
         "ja": "あなたの部屋を掃除しましたか。",
         "en": "Did you clean your room?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "cleaning",
+          "sweeping",
+          "dusting",
+          "scrubbing"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの部屋を掃除しましたか。",
+            "en": "Did you clean your room?"
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -2409,6 +5260,102 @@
         "en": "The government issued the following statement."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to take out",
+          "to get out"
+        ],
+        "examples": [
+          {
+            "ja": "お金がいくらか必要なら銀行から出してもよい。",
+            "en": "You can withdraw some money out of the bank, if you need any."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to put out",
+          "to reveal",
+          "to show"
+        ],
+        "examples": [
+          {
+            "ja": "この件では名前を出したくない。",
+            "en": "I want to remain anonymous in this."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to submit (e.g. thesis)",
+          "to turn in"
+        ],
+        "examples": [
+          {
+            "ja": "答案を出す前にもう一度読み返しなさい。",
+            "en": "Read over your paper before you hand it in."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to publish",
+          "to make public"
+        ],
+        "examples": [
+          {
+            "ja": "１月２０日（月曜日）の午前中に最終の議事事項を出しますので、早急にお返事を下さい。",
+            "en": "We'll release the final agenda on the morning of Monday, January 20, so please reply quickly."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to send (e.g. letter)"
+        ],
+        "examples": [
+          {
+            "ja": "この間投稿した記事がやっと雑誌に載ったんだよ。頑張って出し続けた甲斐があったよ。",
+            "en": "Sending manuscript after manuscript paid off. A magazine finally published my work."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to produce (a sound)",
+          "to start (fire)"
+        ],
+        "examples": [
+          {
+            "ja": "政府は次のような声明を出した。",
+            "en": "The government issued the following statement."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to serve (food)"
+        ],
+        "examples": [
+          {
+            "ja": "ここではおいしい食べ物が出されます。",
+            "en": "They serve excellent food here."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "... out (e.g. to jump out, to carry out)"
+        ],
+        "examples": [
+          {
+            "ja": "いつから痛みだしましたか。",
+            "en": "How long have you had this pain?"
+          }
+        ]
+      }
+    ],
     "class": "v5s",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2448,6 +5395,112 @@
       {
         "ja": "煙突から煙が立っていた。",
         "en": "Smoke was rising from the chimney."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to stand (up)",
+          "to rise",
+          "to get to one's feet",
+          "to stand on end (e.g. of hairs)",
+          "to stick up"
+        ],
+        "examples": [
+          {
+            "ja": "次々に立って出ていった。",
+            "en": "One after another they stood up and went out."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to stand (in a position; of a person, tree, building, etc.)",
+          "to be situated (in, on)"
+        ],
+        "examples": [
+          {
+            "ja": "しかし、あなたがたのなかに、あなたがたが知らない方が立っておられます。",
+            "en": "But among you stands one you do not know."
+          },
+          {
+            "ja": "断崖のてっぺんに古い城が立っている。",
+            "en": "An old castle stands on top of the cliff."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be (in difficulties, the lead, etc.)",
+          "to put oneself (in a position or situation)",
+          "to take up (a position, post, etc.)",
+          "to position oneself"
+        ],
+        "examples": [
+          {
+            "ja": "その大臣は不正取引によって窮地に立ちました。",
+            "en": "The minister was in a fix over illegal dealings."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to leave (to do something)"
+        ],
+        "examples": [
+          {
+            "ja": "失礼しますといって席を立った。",
+            "en": "I excused myself from the table."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to depart (on a journey, trip, etc.)",
+          "to leave",
+          "to set off",
+          "to start"
+        ],
+        "examples": [
+          {
+            "ja": "あの人はアメリカへ立ったまま消息がない。",
+            "en": "Nothing has been heard from him since he left for America."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get stuck (into; of an arrow, thorn etc.)",
+          "to pierce"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to develop (of a haze, waves, etc.)",
+          "to form (of steam, bubbles, etc.)",
+          "to appear (of a rainbow, clouds, etc.)",
+          "to rise (of smoke, waves, etc.)",
+          "to begin to blow (of a wind, breeze, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "煙突から煙が立っていた。",
+            "en": "Smoke was rising from the chimney."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to spread (of a rumour, reputation, etc.)",
+          "to be become widely known"
+        ],
+        "examples": [
+          {
+            "ja": "その過激派が政府打倒の陰謀を企てているという噂が立ってる。",
+            "en": "There is a rumor that the radicals are plotting against the government."
+          }
+        ]
       }
     ],
     "class": "v5t",
@@ -2491,6 +5544,51 @@
         "en": "I'm still waiting for my order."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to request",
+          "to beg",
+          "to ask"
+        ],
+        "examples": [
+          {
+            "ja": "あなたに頼んでもよろしいですか。",
+            "en": "May I request a favour of you?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to call",
+          "to order",
+          "to reserve"
+        ],
+        "examples": [
+          {
+            "ja": "私が頼んだものがまだ届いていません。",
+            "en": "I'm still waiting for my order."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to entrust to"
+        ],
+        "examples": [
+          {
+            "ja": "田中さんのことを頼むよ。",
+            "en": "Take care of Mr. Tanaka for me!"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rely on"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5m",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2525,6 +5623,32 @@
       {
         "ja": "僕は脚本家で食べていく決心をした。",
         "en": "I am determined to make a living as a playwright."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to eat"
+        ],
+        "examples": [
+          {
+            "ja": "もっと果物を食べるべきです。",
+            "en": "You should eat more fruit."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to live on (e.g. a salary)",
+          "to live off",
+          "to subsist on"
+        ],
+        "examples": [
+          {
+            "ja": "僕は脚本家で食べていく決心をした。",
+            "en": "I am determined to make a living as a playwright."
+          }
+        ]
       }
     ],
     "class": "v1",
@@ -2568,6 +5692,48 @@
         "en": "Is he mad that he should say such a foolish thing?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to differ (from)",
+          "to be different",
+          "to be distinct",
+          "to be unlike",
+          "to vary"
+        ],
+        "examples": [
+          {
+            "ja": "その点では私は君と意見が違う。",
+            "en": "I differ from you on that point."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be wrong",
+          "to be incorrect",
+          "to be mistaken"
+        ],
+        "examples": [
+          {
+            "ja": "そんなばかなことを言うなんて彼は気でも違ったのか。",
+            "en": "Is he mad that he should say such a foolish thing?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to become abnormal",
+          "to go wrong"
+        ],
+        "examples": [
+          {
+            "ja": "君は違う方にいきますよ。",
+            "en": "You're going the wrong way."
+          }
+        ]
+      }
+    ],
     "class": "v5u",
     "transitivity": "vi",
     "kanjiChars": [
@@ -2609,6 +5775,56 @@
         "en": "It has become common practise to employ foreigners working abroad from Asian countries as maids."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to use (a tool, method, etc.)",
+          "to make use of",
+          "to put to use"
+        ],
+        "examples": [
+          {
+            "ja": "「あなたの辞書を使ってもいいですか」「はい、どうぞ」",
+            "en": "\"Can I use your dictionary?\" \"Yes, here you are.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to use (a person, animal, puppet, etc.)",
+          "to employ",
+          "to handle",
+          "to manage",
+          "to manipulate"
+        ],
+        "examples": [
+          {
+            "ja": "アジア諸国などから出稼ぎにきた外国人をメイドとして使うのが常識のようになっている。",
+            "en": "It has become common practise to employ foreigners working abroad from Asian countries as maids."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to use (time, money, etc.)",
+          "to spend",
+          "to consume"
+        ],
+        "examples": [
+          {
+            "ja": "お湯を全部使わないで。",
+            "en": "Don't use all the hot water."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to use (language)",
+          "to speak"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5u",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2640,6 +5856,35 @@
       {
         "ja": "そのとき、彼らは、ブラックベリーの林の周りをつかれて、のどがかわくまで競争して遊んでいました。",
         "en": "Then they played \"ring-a-ring-a-rosy\" until they were tired and thirsty."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to get tired",
+          "to tire",
+          "to get fatigued",
+          "to become exhausted",
+          "to grow weary"
+        ],
+        "examples": [
+          {
+            "ja": "そのとき、彼らは、ブラックベリーの林の周りをつかれて、のどがかわくまで競争して遊んでいました。",
+            "en": "Then they played \"ring-a-ring-a-rosy\" until they were tired and thirsty."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to become worn out (of a well-used object)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to starve"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -2676,6 +5921,32 @@
       {
         "ja": "あなたがロンドンに着く頃には晩秋となっているだろう。",
         "en": "It will be late autumn when you get to London."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to arrive at",
+          "to reach"
+        ],
+        "examples": [
+          {
+            "ja": "あなたがロンドンに着く頃には晩秋となっているだろう。",
+            "en": "It will be late autumn when you get to London."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to sit on",
+          "to sit at (e.g. the table)"
+        ],
+        "examples": [
+          {
+            "ja": "各自席につきなさい。",
+            "en": "Go to your respective seats."
+          }
+        ]
       }
     ],
     "class": "v5k",
@@ -2719,11 +5990,226 @@
         "en": "You can't make an omelet without breaking eggs."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to make",
+          "to produce",
+          "to manufacture",
+          "to build",
+          "to construct"
+        ],
+        "examples": [
+          {
+            "ja": "どこへ行っても、彼は必ず友達を作る。",
+            "en": "Wherever he may go, he is sure to make friends."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to prepare (food)",
+          "to brew (alcohol)"
+        ],
+        "examples": [
+          {
+            "ja": "たまごを割らずにオムレツは作れない。",
+            "en": "You can't make an omelet without breaking eggs."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to raise",
+          "to grow",
+          "to cultivate",
+          "to train"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの菜園で作れる穀物や野菜を食べて生活する方がずっと安上がりだ。",
+            "en": "It's much cheaper to live on grains and vegetables you can grow in your garden."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to till"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to draw up (a document)",
+          "to make out",
+          "to prepare",
+          "to write"
+        ],
+        "examples": [
+          {
+            "ja": "文法的に正しい文章を作るよう心がけるべきだ。",
+            "en": "You should try to produce grammatical sentences."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to create (an artistic work, etc.)",
+          "to compose"
+        ],
+        "examples": [
+          {
+            "ja": "ＤＴＰで本を作れば、安いし早いし、まさに一挙両得だ。",
+            "en": "Desktop publishing lets you produce books quickly and cheaply. It's like killing two birds with one stone."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to coin (a phrase)",
+          "to organize",
+          "to organise",
+          "to establish",
+          "to found"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to have (a child)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vt",
     "kanjiChars": [
       "作"
     ]
+  },
+  {
+    "id": "1495770",
+    "kanji": "つける",
+    "kana": "つける",
+    "romaji": "tsukeru",
+    "furigana": [
+      {
+        "t": "つける"
+      }
+    ],
+    "gloss": [
+      "to attach",
+      "to furnish (a house with)",
+      "to wear"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "警官はその男をつけた。",
+        "en": "The policeman followed him."
+      },
+      {
+        "ja": "おまえの上着は私の勘定につけておきなさい。",
+        "en": "Put your coat on my account."
+      },
+      {
+        "ja": "鎧をつけている人は、転ぶと大きな音がする。",
+        "en": "He who wears armor falls with a big crash!"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to attach",
+          "to join",
+          "to connect",
+          "to add",
+          "to append"
+        ],
+        "examples": [
+          {
+            "ja": "おまえの上着は私の勘定につけておきなさい。",
+            "en": "Put your coat on my account."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to furnish (a house with)"
+        ],
+        "examples": [
+          {
+            "ja": "自宅を改築する際に、この部屋にだけ防音設備と内鍵を付けたんだ。",
+            "en": "When my home had an extension built I only had this room fitted with soundproofing and an internal lock."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to wear",
+          "to put on"
+        ],
+        "examples": [
+          {
+            "ja": "鎧をつけている人は、転ぶと大きな音がする。",
+            "en": "He who wears armor falls with a big crash!"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to keep a diary",
+          "to make an entry"
+        ],
+        "examples": [
+          {
+            "ja": "彼女は昔、日記を付けていたが今はつけていない。",
+            "en": "She used to keep a diary, but she no longer does."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to appraise",
+          "to set (a price)"
+        ],
+        "examples": [
+          {
+            "ja": "あの店では商品を値下げして値段がつけてある。",
+            "en": "They mark down goods at that shop."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to allot",
+          "to budget",
+          "to assign"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to bring alongside"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to place (under guard or doctor)"
+        ],
+        "examples": [
+          {
+            "ja": "警官はその男をつけた。",
+            "en": "The policeman followed him."
+          }
+        ]
+      }
+    ],
+    "class": "v1",
+    "transitivity": "vt",
+    "kanjiChars": []
   },
   {
     "id": "1433680",
@@ -2749,6 +6235,29 @@
       {
         "ja": "彼はスプーンをスープの中につけた。",
         "en": "He dipped his spoon into the soup."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to soak (in)",
+          "to steep",
+          "to dip",
+          "to dunk"
+        ],
+        "examples": [
+          {
+            "ja": "彼はスプーンをスープの中につけた。",
+            "en": "He dipped his spoon into the soup."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to pickle",
+          "to preserve (in salt, vinegar, etc.)"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -2788,6 +6297,41 @@
         "en": "She was a bridesmaid at the wedding."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to work (for)",
+          "to be employed (at)",
+          "to serve (in)"
+        ],
+        "examples": [
+          {
+            "ja": "私の父は外務省に勤めている。",
+            "en": "My father serves in the Foreign Ministry."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to serve (as)",
+          "to act (as)",
+          "to fill (the position of)",
+          "to play the role (of)"
+        ],
+        "examples": [
+          {
+            "ja": "彼女は結婚式で花嫁の付き添い役をつとめた。",
+            "en": "She was a bridesmaid at the wedding."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to conduct a religious service"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -2818,6 +6362,30 @@
       {
         "ja": "１０分前に出かけました。",
         "en": "She left home ten minutes ago."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to go out (e.g. on an excursion or outing)",
+          "to leave",
+          "to depart",
+          "to start",
+          "to set out"
+        ],
+        "examples": [
+          {
+            "ja": "１０分前に出かけました。",
+            "en": "She left home ten minutes ago."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be about to leave",
+          "to be just going out"
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -2857,6 +6425,100 @@
         "en": "They seem to be in love with each other."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be able to do",
+          "to be possible",
+          "to be permitted (to do)"
+        ],
+        "examples": [
+          {
+            "ja": "申し訳ないけど長居できないんですよ。",
+            "en": "I'm sorry, I can't stay long."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be good at",
+          "to do well",
+          "to be proficient (in)",
+          "to be capable"
+        ],
+        "examples": [
+          {
+            "ja": "「論文できましたか」「いや、残念ですが、まだ書き終えていません」",
+            "en": "\"Is the essay ready?\" \"No, I'm sorry. I haven't finished writing it yet.\""
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to come into existence",
+          "to form",
+          "to appear",
+          "to come up (of a matter)",
+          "to be born"
+        ],
+        "examples": [
+          {
+            "ja": "あのサッカーボールは本物の革でできている。",
+            "en": "That football is made of genuine leather."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be made",
+          "to be built",
+          "to be constructed",
+          "to be formed",
+          "to be established"
+        ],
+        "examples": [
+          {
+            "ja": "トイレお借りできますか。",
+            "en": "May I use your toilet?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be finished",
+          "to be completed",
+          "to be done",
+          "to be ready"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to grow (of a crop)",
+          "to be produced"
+        ],
+        "examples": [
+          {
+            "ja": "オレンジは暖かい国で出来る。",
+            "en": "Oranges grow in warm countries."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be mature and well-balanced",
+          "to be of fine character"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be by nature",
+          "to be born ..."
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": []
@@ -2888,6 +6550,34 @@
       {
         "ja": "新しいエンジンは必要なテストをすべて受けなければならない。",
         "en": "The new engine must undergo all the necessary tests."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "test (of ability, knowledge, etc.)",
+          "exam",
+          "examination",
+          "quiz"
+        ],
+        "examples": [
+          {
+            "ja": "私は数学のテストの結果に満足しています。",
+            "en": "I am satisfied with the result of my math test."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "test (of performance, quality, etc.)",
+          "trial"
+        ],
+        "examples": [
+          {
+            "ja": "新しいエンジンは必要なテストをすべて受けなければならない。",
+            "en": "The new engine must undergo all the necessary tests."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -2929,6 +6619,87 @@
         "en": "Many American students work their way through university."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to leave",
+          "to exit",
+          "to go out",
+          "to come out",
+          "to get out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to leave (on a journey)",
+          "to depart",
+          "to start out",
+          "to set out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to move forward"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come to",
+          "to get to",
+          "to lead to",
+          "to reach"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to appear",
+          "to come out",
+          "to emerge",
+          "to surface",
+          "to come forth"
+        ],
+        "examples": [
+          {
+            "ja": "私の家におばけが出たのは本当だ。",
+            "en": "It's true that a ghost appeared at my house."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to appear (in print)",
+          "to be published",
+          "to be announced",
+          "to be issued",
+          "to be listed"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to attend",
+          "to participate",
+          "to take part",
+          "to enter (an event)",
+          "to play in"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be stated",
+          "to be expressed",
+          "to come up",
+          "to be brought up",
+          "to be raised"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -2964,6 +6735,20 @@
         "en": "The telephone rang repeatedly."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "telephone call",
+          "phone call"
+        ],
+        "examples": [
+          {
+            "ja": "電話は繰り返し鳴っていた。",
+            "en": "The telephone rang repeatedly."
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "both",
     "kanjiChars": [
@@ -2990,6 +6775,14 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to give"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": null,
     "kanjiChars": []
@@ -3027,6 +6820,99 @@
       {
         "ja": "君はどのくらい高く跳べますか。",
         "en": "How high can you jump?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to fly",
+          "to soar"
+        ],
+        "examples": [
+          {
+            "ja": "飛行機は山の上を飛んだ。",
+            "en": "The plane flew over the mountain."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to jump",
+          "to leap",
+          "to spring",
+          "to bound",
+          "to hop"
+        ],
+        "examples": [
+          {
+            "ja": "君はどのくらい高く跳べますか。",
+            "en": "How high can you jump?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to spatter",
+          "to scatter",
+          "to splash",
+          "to fly (e.g. of sparks)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hurry",
+          "to rush"
+        ],
+        "examples": [
+          {
+            "ja": "彼女は良い知らせを持って学校から家にとんで帰ったあの秋の日のことを考えた。彼女はリレーチームの選手に選ばれたのだった。",
+            "en": "She thought of the fine autumn day when she had rushed home from school with the good news; she was chosen to be on the relay team."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to flee",
+          "to run off",
+          "to escape"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to disappear",
+          "to vanish",
+          "to fade",
+          "to thin out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to break off",
+          "to come off",
+          "to fall off",
+          "to blow (of a fuse)"
+        ],
+        "examples": [
+          {
+            "ja": "ヒューズが飛んだ。",
+            "en": "A fuse has blown."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be sent out (of an order)",
+          "to fly (of false rumours, catcalls, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "首相が重病だといううわさが飛んでいる。",
+            "en": "Word is passing that the Prime Minister is seriously ill."
+          }
+        ]
       }
     ],
     "class": "v5b",
@@ -3070,6 +6956,47 @@
         "en": "Partly because he could not receive enough information, Harper's description remains imperfect."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to stop (moving)",
+          "to come to a stop"
+        ],
+        "examples": [
+          {
+            "ja": "そして、電車はキーッという音を立てて止まった。",
+            "en": "Then, the train screeched to a halt."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to stop (doing, working, being supplied)",
+          "to come to a halt",
+          "to cease",
+          "to be stopped",
+          "to be suspended"
+        ],
+        "examples": [
+          {
+            "ja": "十分な情報を受け取ることができなかったという理由も一部にはあって、ハーパーの描写は不完全なものにとどまっている。",
+            "en": "Partly because he could not receive enough information, Harper's description remains imperfect."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to alight",
+          "to perch on"
+        ],
+        "examples": [
+          {
+            "ja": "あの木の枝に数羽の鳥がとまっている。",
+            "en": "Some birds are sitting on the branch of that tree."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3111,6 +7038,124 @@
         "en": "Could you pass me the salt, please?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to take",
+          "to pick up",
+          "to grab",
+          "to catch",
+          "to hold"
+        ],
+        "examples": [
+          {
+            "ja": "先生はノートを取ることの大切さを強調した。",
+            "en": "The teacher stressed the importance of taking notes."
+          },
+          {
+            "ja": "お皿に取ったものは全部食べなさい。",
+            "en": "You'd better eat everything that's on your plate."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to pass",
+          "to hand",
+          "to give"
+        ],
+        "examples": [
+          {
+            "ja": "塩をとっていただけますか。",
+            "en": "Could you pass me the salt, please?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get",
+          "to obtain",
+          "to acquire",
+          "to win",
+          "to receive"
+        ],
+        "examples": [
+          {
+            "ja": "彼は数学で満点を取った。",
+            "en": "He got full marks in mathematics."
+          },
+          {
+            "ja": "昨日休みを取ってピクニックにいきました。",
+            "en": "I took a day off yesterday and went on a picnic."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to adopt (a method, proposal, etc.)",
+          "to take (a measure, attitude, etc.)",
+          "to choose"
+        ],
+        "examples": [
+          {
+            "ja": "どういう処置を取るかはあなたに任せます。",
+            "en": "I leave it in your hands what course of action to take."
+          },
+          {
+            "ja": "老人はごう慢な態度をとった。",
+            "en": "The old man assumed an impudent attitude."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to remove",
+          "to get rid of",
+          "to take off"
+        ],
+        "examples": [
+          {
+            "ja": "肉から脂身を取りなさい。",
+            "en": "Trim the fat off the meat."
+          },
+          {
+            "ja": "コーヒーの染みは拭い取るのが難しい。",
+            "en": "The coffee stain was difficult to remove."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to take away",
+          "to steal",
+          "to rob"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to eat",
+          "to have (e.g. lunch)",
+          "to take (e.g. vitamins)"
+        ],
+        "examples": [
+          {
+            "ja": "水分をたくさん取ってください。",
+            "en": "You should drink a lot of liquid."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to pick (e.g. flowers)",
+          "to gather",
+          "to extract (e.g. juice)",
+          "to catch (e.g. fish)",
+          "to harvest (a crop)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vt",
     "kanjiChars": [
@@ -3145,6 +7190,32 @@
       {
         "ja": "この番組、ビデオに録っておいて。",
         "en": "Will you record this program on video for me?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to take (a photograph)"
+        ],
+        "examples": [
+          {
+            "ja": "これは私の妹を撮った写真です。",
+            "en": "This is a picture of my sister."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to record (audio or video)",
+          "to film",
+          "to shoot"
+        ],
+        "examples": [
+          {
+            "ja": "この番組、ビデオに録っておいて。",
+            "en": "Will you record this program on video for me?"
+          }
+        ]
       }
     ],
     "class": "v5r",
@@ -3187,6 +7258,33 @@
         "en": "That pretty bird did nothing but sing day after day."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to make sound (of an animal)",
+          "to call",
+          "to cry",
+          "to whine",
+          "to sing"
+        ],
+        "examples": [
+          {
+            "ja": "カエルが鳴いたら帰ろう。",
+            "en": "Let's return when the frog croaks."
+          },
+          {
+            "ja": "あのかわいい鳥は来る日も来る日も鳴いてばかりいた。",
+            "en": "That pretty bird did nothing but sing day after day."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to make a meld call (e.g. pung, kong)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5k",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3219,6 +7317,34 @@
         "en": "To get the nation's economy out of the red, more foreign aid had to be pumped in."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to lose (something)"
+        ],
+        "examples": [
+          {
+            "ja": "彼女は新しい時計をなくした。",
+            "en": "She lost her new watch."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get rid of",
+          "to eliminate",
+          "to remove",
+          "to eradicate",
+          "to abolish"
+        ],
+        "examples": [
+          {
+            "ja": "その国の財政の赤字をなくすには、もっと、たくさんの外国の援助を注ぎ込まなければならなかった。",
+            "en": "To get the nation's economy out of the red, more foreign aid had to be pumped in."
+          }
+        ]
+      }
+    ],
     "class": "v5s",
     "transitivity": "vt",
     "kanjiChars": []
@@ -3246,6 +7372,23 @@
       {
         "ja": "車の運転を習っています。",
         "en": "I've been learning to drive."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to take lessons in",
+          "to be taught",
+          "to learn (from a teacher)",
+          "to study (under a teacher)",
+          "to get training in"
+        ],
+        "examples": [
+          {
+            "ja": "車の運転を習っています。",
+            "en": "I've been learning to drive."
+          }
+        ]
       }
     ],
     "class": "v5u",
@@ -3282,6 +7425,33 @@
       {
         "ja": "列に並んで長い間待たされた後、身分証明として正式な出生証明書が必要だといわれた。",
         "en": "After a long wait in line, she was told she should get a certified copy of her birth certificate as identification."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to line up",
+          "to stand in a line"
+        ],
+        "examples": [
+          {
+            "ja": "列に並んで長い間待たされた後、身分証明として正式な出生証明書が必要だといわれた。",
+            "en": "After a long wait in line, she was told she should get a certified copy of her birth certificate as identification."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rival",
+          "to match",
+          "to equal"
+        ],
+        "examples": [
+          {
+            "ja": "彼は古今に並ぶ者のない偉大な政治家である。",
+            "en": "He is the greatest statesman that ever lived."
+          }
+        ]
       }
     ],
     "class": "v5b",
@@ -3321,6 +7491,41 @@
         "en": "All you do is string together a bunch of farfetched ideas. I can't understand a word of it."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to line up",
+          "to set up",
+          "to arrange in a line"
+        ],
+        "examples": [
+          {
+            "ja": "メイドはテーブルにナイフとフォークを並べた。",
+            "en": "The maid arranged the knives and forks on the table."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to enumerate",
+          "to itemize"
+        ],
+        "examples": [
+          {
+            "ja": "屁理屈ばかり並べて、お前の言ってること全然筋が通ってないよ。",
+            "en": "All you do is string together a bunch of farfetched ideas. I can't understand a word of it."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be equal (to)",
+          "to compare well (with)",
+          "to be as good (as)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -3358,6 +7563,92 @@
         "en": "When you go, I'll miss you very much."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to become",
+          "to get",
+          "to grow",
+          "to turn",
+          "to reach"
+        ],
+        "examples": [
+          {
+            "ja": "あなたがいなくなるととても寂しくなります。",
+            "en": "When you go, I'll miss you very much."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to result in",
+          "to turn out",
+          "to end up",
+          "to prove (to be)"
+        ],
+        "examples": [
+          {
+            "ja": "１週間してそのニュースは本当になった。",
+            "en": "The news turned out true in a week."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to consist of",
+          "to be composed of",
+          "to be made up of"
+        ],
+        "examples": [
+          {
+            "ja": "１チームは９人の選手から成る。",
+            "en": "Nine players make up a team."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be completed",
+          "to be realized",
+          "to succeed",
+          "to be attained",
+          "to be accomplished"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to change (into)",
+          "to turn (into)",
+          "to transform"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come (to do)",
+          "to begin (to do)",
+          "to grow (to do)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to come to",
+          "to amount to",
+          "to add up to",
+          "to make"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to play (the part of)",
+          "to act as"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": []
@@ -3385,6 +7676,20 @@
       {
         "ja": "ここで靴を脱がなければなりませんか。",
         "en": "Do I have to take off my shoes here?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to take off (clothes, shoes, etc.)",
+          "to undress"
+        ],
+        "examples": [
+          {
+            "ja": "ここで靴を脱がなければなりませんか。",
+            "en": "Do I have to take off my shoes here?"
+          }
+        ]
       }
     ],
     "class": "v5g",
@@ -3428,6 +7733,66 @@
         "en": "The boy lay on his back, basking in the spring sunshine."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to sleep (lying down)"
+        ],
+        "examples": [
+          {
+            "ja": "赤ん坊は１日中寝ていた。",
+            "en": "The baby was sleeping all day long."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go to bed",
+          "to lie in bed"
+        ],
+        "examples": [
+          {
+            "ja": "寝る前に歯を磨きなさい。",
+            "en": "Brush your teeth before going to bed."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to lie down"
+        ],
+        "examples": [
+          {
+            "ja": "少年は春の日差しを浴びて仰向けに寝ていた。",
+            "en": "The boy lay on his back, basking in the spring sunshine."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to sleep (with someone, i.e. have intercourse)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to lie flat (e.g. of hair)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to lie idle (of funds, stock, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to ferment (of soy sauce, miso, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3456,6 +7821,20 @@
       {
         "ja": "ジェレミは彼の会計士の一次試験のためノートを熱心に勉強していたよ。",
         "en": "I left Jeremy poring over his notes for his first accountancy exam tomorrow."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "note",
+          "noting down"
+        ],
+        "examples": [
+          {
+            "ja": "ジェレミは彼の会計士の一次試験のためノートを熱心に勉強していたよ。",
+            "en": "I left Jeremy poring over his notes for his first accountancy exam tomorrow."
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -3497,6 +7876,85 @@
         "en": "The loss adds up to more than one million dollars."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to ascend",
+          "to go up",
+          "to climb"
+        ],
+        "examples": [
+          {
+            "ja": "あなたは、上れませんよ。",
+            "en": "You cannot climb!"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to ascend (as a natural process, e.g. the Sun)",
+          "to rise"
+        ],
+        "examples": [
+          {
+            "ja": "そのとき太陽がのぼるところだった。",
+            "en": "The sun was coming up then."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go to (the capital)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be promoted"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to add up to"
+        ],
+        "examples": [
+          {
+            "ja": "損失は１００万ドル以上にのぼる。",
+            "en": "The loss adds up to more than one million dollars."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to advance (in price)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to swim up (a river)",
+          "to sail up"
+        ],
+        "examples": [
+          {
+            "ja": "彼らは川を舟をこいで上った。",
+            "en": "They rowed up the river."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to come up (on the agenda)"
+        ],
+        "examples": [
+          {
+            "ja": "議題に上っている項目の議論を続けましょう。",
+            "en": "Let's proceed with the items on the agenda."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3528,6 +7986,67 @@
       {
         "ja": "この薬を飲まなければ行けませんか。",
         "en": "Must I take this medicine?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to drink",
+          "to swallow",
+          "to take (medicine)"
+        ],
+        "examples": [
+          {
+            "ja": "この薬を飲まなければ行けませんか。",
+            "en": "Must I take this medicine?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to smoke (tobacco)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to swallow up",
+          "to engulf"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to suppress (one's anger, bitter feelings, etc.)",
+          "to keep down",
+          "to hold back",
+          "to swallow (one's tears)",
+          "to catch (one's breath)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to accept (a demand, conditions, etc.)",
+          "to agree to"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make light of (someone)",
+          "to think nothing of",
+          "to overwhelm",
+          "to overawe"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to carry (a concealed dagger, etc.)",
+          "to conceal (up one's sleeve, etc.)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5m",
@@ -3571,6 +8090,88 @@
         "en": "If you say \"I was tricked,\" well that's certainly so but there's no mistaking that you were the one who signed up on a \"sweet deal\"."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to get on (train, plane, bus, ship, etc.)",
+          "to get in",
+          "to board",
+          "to take",
+          "to embark"
+        ],
+        "examples": [
+          {
+            "ja": "１１時の列車に乗るつもりです。",
+            "en": "I'm catching the 11:00 train."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to get on (e.g. a footstool)",
+          "to step on",
+          "to jump on",
+          "to sit on",
+          "to mount"
+        ],
+        "examples": [
+          {
+            "ja": "そんなに沢山パンに乗るんか？",
+            "en": "You really put that much in the sandwich?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to reach",
+          "to go over",
+          "to pass"
+        ],
+        "examples": [
+          {
+            "ja": "「騙された」と言ってしまえばそれまでですが、「うまい話」に乗った当人であることは間違いありません。",
+            "en": "If you say \"I was tricked,\" well that's certainly so but there's no mistaking that you were the one who signed up on a \"sweet deal\"."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to follow",
+          "to stay (on track)",
+          "to go with (the times, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to take part",
+          "to participate",
+          "to join"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to get into the swing (and sing, dance, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be deceived",
+          "to be taken in"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be carried",
+          "to be spread",
+          "to be scattered"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3612,10 +8213,181 @@
         "en": "This stadium will hold 50,000 people."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to enter",
+          "to come in",
+          "to go in",
+          "to get in",
+          "to arrive"
+        ],
+        "examples": [
+          {
+            "ja": "日本の家に入るときには靴を脱がなくてはなりません。",
+            "en": "You must remove your shoes when you enter a Japanese house."
+          },
+          {
+            "ja": "目に砂が入りました。",
+            "en": "I got some sand in my eye."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to join (a club, company, etc.)",
+          "to enter (a university, the army, etc.)",
+          "to enroll (in)",
+          "to go into (e.g. politics)",
+          "to get into"
+        ],
+        "examples": [
+          {
+            "ja": "彼は大学へ進まず実業界に入った。",
+            "en": "He entered the business world instead of going on to college."
+          },
+          {
+            "ja": "私は水泳部に入っています。",
+            "en": "I belong to the swimming club."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be contained (in)",
+          "to be included (in)",
+          "to be inside (e.g. a box)",
+          "to come under (a heading)",
+          "to belong (in a category)"
+        ],
+        "examples": [
+          {
+            "ja": "箱の中にはりんごが６個入っている。",
+            "en": "There are six apples in the box."
+          },
+          {
+            "ja": "この本は何の項目に入りますか。",
+            "en": "What heading does this book come under?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to (be able to) fit (in a container, building, etc.)",
+          "to be (able to be) held",
+          "to be (able to be) accommodated"
+        ],
+        "examples": [
+          {
+            "ja": "この球場は５万人入る。",
+            "en": "This stadium will hold 50,000 people."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be introduced",
+          "to be brought in",
+          "to be installed"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be received",
+          "to be obtained"
+        ],
+        "examples": [
+          {
+            "ja": "彼は月収２０００ドルの金が入る。",
+            "en": "He has a monthly income of 2,000 dollars."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be scored (of points)",
+          "to be won (of votes)"
+        ],
+        "examples": [
+          {
+            "ja": "わがチームは最終回で５点入った。",
+            "en": "Our team scored five runs in the last inning."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to turn on",
+          "to start functioning",
+          "to start working"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
       "入"
+    ]
+  },
+  {
+    "id": "1607260",
+    "kanji": "履く",
+    "kana": "はく",
+    "romaji": "haku",
+    "furigana": [
+      {
+        "t": "履",
+        "r": "は"
+      },
+      {
+        "t": "く"
+      }
+    ],
+    "gloss": [
+      "to put on (lower-body clothing, e.g. pants, skirt, footwear)",
+      "to affix (a sword to one's hip)",
+      "to affix (a bowstring to a bow)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "この靴はきつすぎてはけない。",
+        "en": "These shoes are too tight to get into."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to put on (lower-body clothing, e.g. pants, skirt, footwear)",
+          "to wear"
+        ],
+        "examples": [
+          {
+            "ja": "この靴はきつすぎてはけない。",
+            "en": "These shoes are too tight to get into."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to affix (a sword to one's hip)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to affix (a bowstring to a bow)"
+        ],
+        "examples": []
+      }
+    ],
+    "class": "v5k",
+    "transitivity": "vt",
+    "kanjiChars": [
+      "履"
     ]
   },
   {
@@ -3642,6 +8414,27 @@
       {
         "ja": "お前は床を掃きさえすればよい。",
         "en": "You have only to sweep the floor."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to sweep",
+          "to brush",
+          "to clean"
+        ],
+        "examples": [
+          {
+            "ja": "お前は床を掃きさえすればよい。",
+            "en": "You have only to sweep the floor."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to gather silkworms"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -3675,6 +8468,35 @@
       {
         "ja": "その試合は何時に始まりますか。",
         "en": "What time does the game start?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to begin",
+          "to start",
+          "to commence"
+        ],
+        "examples": [
+          {
+            "ja": "その試合は何時に始まりますか。",
+            "en": "What time does the game start?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to happen (again)",
+          "to begin (anew)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to date (from)",
+          "to originate (in)"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -3718,6 +8540,115 @@
         "en": "This car is running less smoothly than it used to."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to run"
+        ],
+        "examples": [
+          {
+            "ja": "あの走ってる少年をごらんなさい。",
+            "en": "Look at that boy running."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to run (of a vehicle)",
+          "to drive",
+          "to travel",
+          "to move",
+          "to sail"
+        ],
+        "examples": [
+          {
+            "ja": "この車は以前ほど快調に走らない。",
+            "en": "This car is running less smoothly than it used to."
+          },
+          {
+            "ja": "この列車は東京と大阪の間を走ります。",
+            "en": "This train runs between Tokyo and Osaka."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rush (to)",
+          "to dash",
+          "to race"
+        ],
+        "examples": [
+          {
+            "ja": "彼はバスを目指して懸命に走った。",
+            "en": "He made a dash for the bus."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to retreat",
+          "to flee",
+          "to defect (to)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to run away",
+          "to abscond",
+          "to elope"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to flash (of lightning)",
+          "to streak",
+          "to shoot (through; e.g. of pain)",
+          "to run (through)",
+          "to flare"
+        ],
+        "examples": [
+          {
+            "ja": "稲妻が走るたびに、犬はベッドの下に隠れた。",
+            "en": "The dog hid under the bed whenever lightning flashed."
+          },
+          {
+            "ja": "震えが背筋を走った。",
+            "en": "A shiver ran down my spine."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go (e.g. bad, to extremes)",
+          "to become",
+          "to turn",
+          "to take to (e.g. crime)",
+          "to get carried away by (e.g. one's emotions)"
+        ],
+        "examples": [
+          {
+            "ja": "耐えられない圧迫から逃れるために自殺に走る子供たちもいる。",
+            "en": "Some children resort to suicide in order to escape from unbearable pressure."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to run (through; of a road, street, etc.)",
+          "to extend (e.g. of a mountain range)",
+          "to stretch",
+          "to lie"
+        ],
+        "examples": [
+          {
+            "ja": "道はくねくねと畑の中を走っていた。",
+            "en": "The road wound through the fields."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3753,6 +8684,52 @@
       {
         "ja": "スイッチは時間通りに働かなかった。",
         "en": "The switch didn't work on time."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to work",
+          "to labor",
+          "to labour"
+        ],
+        "examples": [
+          {
+            "ja": "彼は５時間以上もぶっ続けで働いた。",
+            "en": "He worked more than five hours on end."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to function",
+          "to operate",
+          "to be effective",
+          "to work (i.e. ... works)",
+          "to come into play"
+        ],
+        "examples": [
+          {
+            "ja": "スイッチは時間通りに働かなかった。",
+            "en": "The switch didn't work on time."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to commit (e.g. a crime)",
+          "to perpetrate",
+          "to do",
+          "to act",
+          "to practise"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be conjugated"
+        ],
+        "examples": []
       }
     ],
     "class": "v5k",
@@ -3796,6 +8773,48 @@
         "en": "Please tell me about your hobbies."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to talk",
+          "to speak",
+          "to converse",
+          "to chat"
+        ],
+        "examples": [
+          {
+            "ja": "ジョンはお客さんと電話で話した。",
+            "en": "John talked with his customer on the phone."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to tell",
+          "to explain",
+          "to narrate",
+          "to mention",
+          "to describe"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの趣味について話してください。",
+            "en": "Please tell me about your hobbies."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to speak (a language)"
+        ],
+        "examples": [
+          {
+            "ja": "英語はカナダで話されている。",
+            "en": "English is spoken in Canada."
+          }
+        ]
+      }
+    ],
     "class": "v5s",
     "transitivity": "vt",
     "kanjiChars": [
@@ -3831,6 +8850,75 @@
       {
         "ja": "クモがクモの巣を張るところを見たことがありますか。",
         "en": "Have you ever seen a spider spinning its web?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to stick",
+          "to paste",
+          "to affix"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの願書に最近の写真を貼りなさい。",
+            "en": "Attach a recent photograph to your application form."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to stretch",
+          "to spread",
+          "to strain",
+          "to tighten",
+          "to put up (e.g. a tent)"
+        ],
+        "examples": [
+          {
+            "ja": "クモがクモの巣を張るところを見たことがありますか。",
+            "en": "Have you ever seen a spider spinning its web?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to form (e.g. ice on a pond)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to fill",
+          "to swell"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to stick out",
+          "to push out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to post (a link, etc. online)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to be expensive"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to keep a watch on",
+          "to be on the lookout"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -3874,6 +8962,51 @@
         "en": "Tom's acknowledgement that he stole the ring cleared the maid of suspicion."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to clear up",
+          "to clear away",
+          "to be sunny",
+          "to stop raining"
+        ],
+        "examples": [
+          {
+            "ja": "明日は晴れるだろう。",
+            "en": "It will be fine tomorrow."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to refresh (e.g. spirits)"
+        ],
+        "examples": [
+          {
+            "ja": "彼の憂うつは彼女がキスをすると晴れた。",
+            "en": "His depression came to an end when she kissed him."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be cleared (e.g. of a suspicion)"
+        ],
+        "examples": [
+          {
+            "ja": "指輪を盗んだというトムの自白で女中の容疑は晴れた。",
+            "en": "Tom's acknowledgement that he stole the ring cleared the maid of suspicion."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be dispelled",
+          "to be banished"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3915,6 +9048,98 @@
         "en": "Two from ten leaves eight."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to pull",
+          "to tug",
+          "to lead (e.g. a horse)"
+        ],
+        "examples": [
+          {
+            "ja": "カーテンがゆっくり引かれた。",
+            "en": "The curtains were drawn slowly."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to draw (attention, sympathy, etc.)",
+          "to attract (e.g. interest)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to draw back (e.g. one's hand)",
+          "to draw in (one's chin, stomach, etc.)",
+          "to pull in"
+        ],
+        "examples": [
+          {
+            "ja": "あんな本みたらフツーの女は引くもんな！",
+            "en": "Obviously a normal woman would lose interest if she saw a book like that!"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to draw (a card, mahjong tile, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "あなたの引いたカードは赤のマークですね。",
+            "en": "The card you drew was a red, wasn't it?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to draw (a line, plan, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "ＡからＢまで線をひきなさい。",
+            "en": "Draw a line from A to B."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to catch (a cold)"
+        ],
+        "examples": [
+          {
+            "ja": "悪い風邪をひいていて、さらに悪いことには、雪が降ってきました。",
+            "en": "I had a bad cold, and to make matters worse, it began snowing."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to play (a stringed or keyboard instrument)"
+        ],
+        "examples": [
+          {
+            "ja": "彼女はグランドピアノでその曲を引いた。",
+            "en": "She played that tune on her grand piano."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to look up (in a dictionary, phone book, etc.)",
+          "to consult",
+          "to check"
+        ],
+        "examples": [
+          {
+            "ja": "その単語を辞書でひいてごらん。",
+            "en": "Look up the word in your dictionary."
+          }
+        ]
+      }
+    ],
     "class": "v5k",
     "transitivity": "both",
     "kanjiChars": [
@@ -3946,6 +9171,19 @@
         "en": "Somebody is playing the piano."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to play (a stringed or keyboard instrument)"
+        ],
+        "examples": [
+          {
+            "ja": "誰かがピアノを弾いている。",
+            "en": "Somebody is playing the piano."
+          }
+        ]
+      }
+    ],
     "class": "v5k",
     "transitivity": "vt",
     "kanjiChars": [
@@ -3972,6 +9210,17 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to be free",
+          "to be not busy",
+          "to be available",
+          "to be doing nothing"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "vi",
     "kanjiChars": [
@@ -3997,6 +9246,14 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "pooling (money, resources, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "vt",
     "kanjiChars": []
@@ -4036,6 +9293,89 @@
         "en": "Rose was blowing bubbles."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to blow (of the wind)"
+        ],
+        "examples": [
+          {
+            "ja": "あの日は強い風が吹いていました。",
+            "en": "There was a strong wind that day."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to blow (one's breath)",
+          "to breathe out",
+          "to blow on (hot tea, candles, etc.)",
+          "to puff"
+        ],
+        "examples": [
+          {
+            "ja": "ローズはしゃぼん玉を吹いていた。",
+            "en": "Rose was blowing bubbles."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to play (a wind instrument)",
+          "to blow (a whistle, trumpet, etc.)",
+          "to whistle (a tune)"
+        ],
+        "examples": [
+          {
+            "ja": "テッドはトランペットを吹くのが好きです。",
+            "en": "Ted likes playing the trumpet."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to emit (smoke, fire, etc.)",
+          "to spout",
+          "to spew",
+          "to puff out"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to sprout",
+          "to put forth (buds)"
+        ],
+        "examples": [
+          {
+            "ja": "木が芽をふいている。",
+            "en": "The trees are shooting out buds."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to appear (on the surface)",
+          "to form",
+          "to be coated with (powder, rust, etc.)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to burst out laughing",
+          "to burst into laughter"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to brag",
+          "to talk big"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5k",
     "transitivity": "both",
     "kanjiChars": [
@@ -4067,6 +9407,41 @@
       {
         "ja": "シカゴのあたりでは雨が降っていました。",
         "en": "It was raining around Chicago."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to fall (of rain, snow, ash, etc.)",
+          "to come down"
+        ],
+        "examples": [
+          {
+            "ja": "シカゴのあたりでは雨が降っていました。",
+            "en": "It was raining around Chicago."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to form (of frost)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to beam down (of sunlight or moonlight)",
+          "to pour in"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to visit (of luck, misfortune, etc.)",
+          "to come",
+          "to arrive"
+        ],
+        "examples": []
       }
     ],
     "class": "v5r",
@@ -4106,6 +9481,33 @@
         "en": "What subjects do you study at school?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "study"
+        ],
+        "examples": [
+          {
+            "ja": "学校ではどんな科目を勉強しますか。",
+            "en": "What subjects do you study at school?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "diligence",
+          "working hard"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "discount",
+          "price reduction"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "both",
     "kanjiChars": [
@@ -4132,6 +9534,14 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "cap (move)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "vi",
     "kanjiChars": []
@@ -4155,6 +9565,14 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "post (on a blog, social media, etc.)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "vs",
     "transitivity": "vt",
     "kanjiChars": []
@@ -4194,6 +9612,47 @@
         "en": "A black limo rounded the corner with a squeal of tires."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to bend",
+          "to curve",
+          "to warp",
+          "to wind",
+          "to twist"
+        ],
+        "examples": [
+          {
+            "ja": "風に吹かれて木が曲がった。",
+            "en": "The tree bent in the wind."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to turn"
+        ],
+        "examples": [
+          {
+            "ja": "黒塗りのリムジンがキーというタイヤの音と共に角を曲がった。",
+            "en": "A black limo rounded the corner with a squeal of tires."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to be awry",
+          "to be askew",
+          "to be crooked"
+        ],
+        "examples": [
+          {
+            "ja": "ネクタイが曲がってるよ。",
+            "en": "Your tie is crooked."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": [
@@ -4227,11 +9686,71 @@
         "en": "Please hold the line a moment."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to wait"
+        ],
+        "examples": [
+          {
+            "ja": "しばらく電話を切らずにお待ちください。",
+            "en": "Please hold the line a moment."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to await",
+          "to look forward to",
+          "to anticipate"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to depend on",
+          "to need"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5t",
     "transitivity": "both",
     "kanjiChars": [
       "待"
     ]
+  },
+  {
+    "id": "2784220",
+    "kanji": "マッチする",
+    "kana": "マッチする",
+    "romaji": "matchisuru",
+    "furigana": [
+      {
+        "t": "マッチ"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "matching (with)"
+    ],
+    "jlpt": 5,
+    "common": false,
+    "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "matching (with)",
+          "going well (with)"
+        ],
+        "examples": []
+      }
+    ],
+    "class": "vs",
+    "transitivity": "vi",
+    "kanjiChars": []
   },
   {
     "id": "1523940",
@@ -4261,6 +9780,38 @@
       {
         "ja": "学生は読書の技能を磨くべきだ。",
         "en": "Students should develop their reading skills."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to polish",
+          "to shine",
+          "to burnish",
+          "to scour",
+          "to scrub"
+        ],
+        "examples": [
+          {
+            "ja": "弟は銀の食器類を磨いた。",
+            "en": "My brother polished the silver."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to refine (a skill, etc.)",
+          "to improve",
+          "to hone",
+          "to polish (up)",
+          "to cultivate (one's character)"
+        ],
+        "examples": [
+          {
+            "ja": "学生は読書の技能を磨くべきだ。",
+            "en": "Students should develop their reading skills."
+          }
+        ]
       }
     ],
     "class": "v5k",
@@ -4304,6 +9855,74 @@
         "en": "She wears high heels to make herself look taller."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to show",
+          "to display"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make (something or someone) look ...",
+          "to present an appearance of ..."
+        ],
+        "examples": [
+          {
+            "ja": "彼女は背を高く見せるためにハイヒールをはいている。",
+            "en": "She wears high heels to make herself look taller."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to make (something) worth watching",
+          "to be entertaining"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to have (something) looked at (by a specialist)",
+          "to have (an antique, etc.) appraised"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to have (an injury, person, etc.) looked at (by a doctor)",
+          "to take (someone) to a doctor"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to make a show of (doing)",
+          "to do in a conspicuous manner",
+          "to do in view of others"
+        ],
+        "examples": [
+          {
+            "ja": "取り繕うように、笑ってみせる。",
+            "en": "She smiled to smooth things over."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to resolve to do",
+          "to do at any cost",
+          "to show others that one will ..."
+        ],
+        "examples": [
+          {
+            "ja": "どんな手を使ってでも勝ちとってみせる。",
+            "en": "I'll win no matter what it takes."
+          }
+        ]
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4343,6 +9962,84 @@
       {
         "ja": "私も親の面倒とか見られないですね。",
         "en": "I can't look after my parents and such either."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to see",
+          "to look",
+          "to watch",
+          "to view",
+          "to observe"
+        ],
+        "examples": [
+          {
+            "ja": "１０ページの５行目をみなさい。",
+            "en": "Let's begin with the fifth line on page 10."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to examine",
+          "to look over",
+          "to assess",
+          "to check",
+          "to judge"
+        ],
+        "examples": [
+          {
+            "ja": "頭がくらくらしているので、深く考えずにいい加減なことを書いてみる。",
+            "en": "My head is swimming, so I'll try writing any old stuff without any deep thought."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to look after",
+          "to attend to",
+          "to take care of",
+          "to keep an eye on"
+        ],
+        "examples": [
+          {
+            "ja": "私も親の面倒とか見られないですね。",
+            "en": "I can't look after my parents and such either."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to experience",
+          "to meet with (misfortune, success, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "映画を観に行かない？",
+            "en": "Would you like to take in a movie?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to try ...",
+          "to have a go at ...",
+          "to give ... a try"
+        ],
+        "examples": [
+          {
+            "ja": "私たちはお互いを理解してみるべきだ。",
+            "en": "We should try to understand one another."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to see (that) ...",
+          "to find (that) ..."
+        ],
+        "examples": []
       }
     ],
     "class": "v1",
@@ -4386,6 +10083,77 @@
         "en": "I'm a holder of ABC Travel Insurance."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to hold (in one's hand)",
+          "to take",
+          "to carry"
+        ],
+        "examples": [
+          {
+            "ja": "コートを持ちましょうか。",
+            "en": "Shall I carry your coat?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to possess",
+          "to have",
+          "to own"
+        ],
+        "examples": [
+          {
+            "ja": "ＡＢＣ海外旅行障害保険を持っています。",
+            "en": "I'm a holder of ABC Travel Insurance."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to maintain",
+          "to keep"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to last",
+          "to be durable",
+          "to keep",
+          "to survive"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to take charge of",
+          "to be in charge of"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hold (meeting, etc.)",
+          "to have (opportunity, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "私たちは数回会合を持った。",
+            "en": "We've had several meetings."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have \"it\"",
+          "to have that special something",
+          "to be blessed with good luck"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5t",
     "transitivity": "both",
     "kanjiChars": [
@@ -4427,6 +10195,53 @@
         "en": "He rested for a while."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to be absent",
+          "to take a day off"
+        ],
+        "examples": [
+          {
+            "ja": "彼はよく会合を休む。",
+            "en": "He often absents himself from meetings."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to rest",
+          "to have a break"
+        ],
+        "examples": [
+          {
+            "ja": "彼はしばらくの間休んだ。",
+            "en": "He rested for a while."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to go to bed",
+          "to (lie down to) sleep",
+          "to turn in",
+          "to retire"
+        ],
+        "examples": [
+          {
+            "ja": "父はまだ休んでいる。",
+            "en": "Father is still in bed."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to stop doing some ongoing activity for a time",
+          "to suspend business"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5m",
     "transitivity": "vi",
     "kanjiChars": [
@@ -4464,8 +10279,161 @@
         "en": "Aha, you did it, didn't you?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to do",
+          "to undertake",
+          "to perform",
+          "to play (a game)",
+          "to study"
+        ],
+        "examples": [
+          {
+            "ja": "ああ、君がやったんだね。",
+            "en": "Aha, you did it, didn't you?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to send",
+          "to dispatch",
+          "to despatch"
+        ],
+        "examples": [
+          {
+            "ja": "彼はその少年を使いにやった。",
+            "en": "He has sent the boy on an errand."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to put",
+          "to move",
+          "to turn (one's head, glance, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "俺のマイナスドライバーどこにやった！！",
+            "en": "Where've you stuck my flat-head screwdriver?!"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to give (esp. to someone of equal or lower status)",
+          "to let have",
+          "to present",
+          "to bestow",
+          "to confer"
+        ],
+        "examples": [
+          {
+            "ja": "５ドルをやる。",
+            "en": "Here's $5."
+          },
+          {
+            "ja": "サイン書いてやってもいいぞ。",
+            "en": "I can give you an autograph if you want."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to make (a vehicle) go faster"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to run (a business)",
+          "to keep",
+          "to be engaged in",
+          "to practice (law, medicine, etc.)",
+          "to practise"
+        ],
+        "examples": [
+          {
+            "ja": "全てを捨ててこのレストランをやる目的はひとつだけでした。",
+            "en": "I had only one aim in throwing everything away to run this restaurant."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to have (food, drink, etc.)",
+          "to eat",
+          "to drink",
+          "to smoke"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hold (a performance)",
+          "to perform",
+          "to show"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5r",
     "transitivity": "both",
+    "kanjiChars": []
+  },
+  {
+    "id": "1013050",
+    "kanji": "ゆっくりする",
+    "kana": "ゆっくりする",
+    "romaji": "yukkurisuru",
+    "furigana": [
+      {
+        "t": "ゆっくり"
+      },
+      {
+        "t": "する"
+      }
+    ],
+    "gloss": [
+      "slowly",
+      "well (e.g. sleep)"
+    ],
+    "jlpt": 5,
+    "common": true,
+    "examples": [
+      {
+        "ja": "ゆっくりでも着実にやってゆけば勝負には勝つ。",
+        "en": "Slow and steady wins the race."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "slowly",
+          "unhurriedly",
+          "without haste",
+          "leisurely",
+          "at one's leisure"
+        ],
+        "examples": [
+          {
+            "ja": "ゆっくりでも着実にやってゆけば勝負には勝つ。",
+            "en": "Slow and steady wins the race."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "well (e.g. sleep)",
+          "comfortably"
+        ],
+        "examples": []
+      }
+    ],
+    "class": "vs",
+    "transitivity": null,
     "kanjiChars": []
   },
   {
@@ -4501,6 +10469,74 @@
       {
         "ja": "あなたが呼べば、彼は来るでしょう。",
         "en": "He will come if you call him."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to call out (to)",
+          "to call",
+          "to invoke"
+        ],
+        "examples": [
+          {
+            "ja": "あなたが呼べば、彼は来るでしょう。",
+            "en": "He will come if you call him."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to summon (a doctor, etc.)"
+        ],
+        "examples": [
+          {
+            "ja": "「本当に警察を呼びたいのか」と僕は彼女に尋ねた。",
+            "en": "\"Are you sure you want to call the police?\" I asked her."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to invite"
+        ],
+        "examples": [
+          {
+            "ja": "パーティーに呼んでもらいましたが今回は行けません。",
+            "en": "You invited me to your party, but I can't make it this time."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to designate",
+          "to name",
+          "to brand"
+        ],
+        "examples": [
+          {
+            "ja": "あなたをケパと呼ぶことにします。",
+            "en": "You will be called Cephas."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to garner (support, etc.)",
+          "to gather"
+        ],
+        "examples": [
+          {
+            "ja": "この映画は大変な人気を呼んだ。",
+            "en": "This movie has won great popularity."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to take as one's wife"
+        ],
+        "examples": []
       }
     ],
     "class": "v5b",
@@ -4544,6 +10580,74 @@
         "en": "My mind is quite accustomed to reading music, but deciphering secret codes is not its forte."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to read"
+        ],
+        "examples": [
+          {
+            "ja": "ミルトンの作品を読んだことがありますか。",
+            "en": "Have you ever read Milton's works?"
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to recite (e.g. a sutra)",
+          "to chant"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to predict",
+          "to guess",
+          "to forecast",
+          "to read (someone's thoughts)",
+          "to see (e.g. into someone's heart)"
+        ],
+        "examples": [
+          {
+            "ja": "彼女の心の動きを読むことさえできなかった。",
+            "en": "I could not even make a guess at the working of her mind."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to pronounce",
+          "to read (e.g. a kanji)"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to decipher",
+          "to read (a meter, graph, music, etc.)",
+          "to tell (the time)"
+        ],
+        "examples": [
+          {
+            "ja": "私の頭は楽譜を読むようにはよく慣らされて居りますが、どうも暗号を読むには適しません。",
+            "en": "My mind is quite accustomed to reading music, but deciphering secret codes is not its forte."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to count",
+          "to estimate"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to read (a kanji) with its native Japanese reading"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v5m",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4584,6 +10688,36 @@
         "en": "Good points: The pleasure of disposing of enemies with a variety of combos."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "cooking",
+          "cookery",
+          "cuisine",
+          "food",
+          "dish"
+        ],
+        "examples": [
+          {
+            "ja": "これらのりんごは料理用にもってこいだ。",
+            "en": "These apples are good cookers."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "dealing with (skillfully)",
+          "handling (well)",
+          "managing"
+        ],
+        "examples": [
+          {
+            "ja": "良い所：様々なコンボで自由に敵を料理する楽しさ。",
+            "en": "Good points: The pleasure of disposing of enemies with a variety of combos."
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4618,6 +10752,23 @@
       {
         "ja": "いつ旅行においでになりますか。",
         "en": "When will you go on a journey?"
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "travel",
+          "trip",
+          "journey",
+          "excursion",
+          "tour"
+        ],
+        "examples": [
+          {
+            "ja": "いつ旅行においでになりますか。",
+            "en": "When will you go on a journey?"
+          }
+        ]
       }
     ],
     "class": "vs",
@@ -4656,6 +10807,23 @@
         "en": "When do you practice the piano?"
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "practice",
+          "training",
+          "drill",
+          "(an) exercise",
+          "workout"
+        ],
+        "examples": [
+          {
+            "ja": "あなたはいつピアノの練習をしますか。",
+            "en": "When do you practice the piano?"
+          }
+        ]
+      }
+    ],
     "class": "vs",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4689,6 +10857,38 @@
         "en": "\"I understand how you feel, Hiroshi,\" says Mike."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to understand",
+          "to comprehend",
+          "to grasp",
+          "to see",
+          "to get"
+        ],
+        "examples": [
+          {
+            "ja": "「博、君の気持ちは分かるよ」とマイクが言います。",
+            "en": "\"I understand how you feel, Hiroshi,\" says Mike."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to become clear",
+          "to be known",
+          "to be discovered",
+          "to be realized (realised)",
+          "to be found out"
+        ],
+        "examples": [
+          {
+            "ja": "彼が有名な人物だというのがわかります。",
+            "en": "I understand that he's something of a famous personality."
+          }
+        ]
+      }
+    ],
     "class": "v5r",
     "transitivity": "vi",
     "kanjiChars": []
@@ -4713,6 +10913,18 @@
     "jlpt": 5,
     "common": true,
     "examples": [],
+    "senses": [
+      {
+        "gloss": [
+          "to forget",
+          "to leave carelessly",
+          "to be forgetful of",
+          "to forget about",
+          "to forget (an article)"
+        ],
+        "examples": []
+      }
+    ],
     "class": "v1",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4754,6 +10966,47 @@
         "en": "Then, please give him this note. This is urgent."
       }
     ],
+    "senses": [
+      {
+        "gloss": [
+          "to ferry across (e.g. a river)",
+          "to carry across",
+          "to traverse"
+        ],
+        "examples": [
+          {
+            "ja": "走者がリレーでバトンを渡さなければなりません。",
+            "en": "A runner must pass the baton in a relay race."
+          },
+          {
+            "ja": "わたしを向こう側へわたしてください。",
+            "en": "Please take me over to the other side."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to lay across",
+          "to build across"
+        ],
+        "examples": []
+      },
+      {
+        "gloss": [
+          "to hand over",
+          "to hand in",
+          "to pass",
+          "to give",
+          "to transfer"
+        ],
+        "examples": [
+          {
+            "ja": "それじゃあこのメモを渡してください。緊急です。",
+            "en": "Then, please give him this note. This is urgent."
+          }
+        ]
+      }
+    ],
     "class": "v5s",
     "transitivity": "vt",
     "kanjiChars": [
@@ -4788,6 +11041,34 @@
       {
         "ja": "この儀式は幾世代にもわたって伝わってきた。",
         "en": "This ceremony has been handed down from generation to generation."
+      }
+    ],
+    "senses": [
+      {
+        "gloss": [
+          "to cross over",
+          "to go across"
+        ],
+        "examples": [
+          {
+            "ja": "橋は安全です。車でわたれます。",
+            "en": "The bridge is safe; you can drive across."
+          }
+        ]
+      },
+      {
+        "gloss": [
+          "to extend",
+          "to cover",
+          "to range",
+          "to span"
+        ],
+        "examples": [
+          {
+            "ja": "この儀式は幾世代にもわたって伝わってきた。",
+            "en": "This ceremony has been handed down from generation to generation."
+          }
+        ]
       }
     ],
     "class": "v5r",

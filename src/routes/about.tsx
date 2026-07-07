@@ -35,12 +35,27 @@ const SOURCES = [
     what: 'Japanese–English example sentences.',
   },
   {
-    name: 'JLPT word lists (elzup/jlpt-word-list, based on Jonathan Waller’s lists)',
-    href: 'https://github.com/elzup/jlpt-word-list',
+    name: 'JLPT word lists (elzup/jlpt-word-list & stephenmk/yomitan-jlpt-vocab, based on Jonathan Waller’s lists)',
+    href: 'https://github.com/stephenmk/yomitan-jlpt-vocab',
     license: 'CC BY (tanos.co.uk)',
     licenseHref: 'http://www.tanos.co.uk/jlpt/sharing/',
-    what: 'JLPT level assignment.',
+    what: 'JLPT level assignment; the yomitan lists add exact JMdict entry ids.',
   },
+  {
+    name: 'KRADFILE',
+    href: 'https://www.edrdg.org/krad/kradinf.html',
+    license: 'EDRDG licence',
+    licenseHref: 'https://www.edrdg.org/edrdg/licence.html',
+    what: 'Kanji component (radical) decomposition.',
+  },
+] as const
+
+const FURTHER_REFERENCES = [
+  { name: 'JMdict-EDICT project', href: 'https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project' },
+  { name: 'KANJIDIC project', href: 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project' },
+  { name: 'Tatoeba', href: 'https://tatoeba.org/' },
+  { name: 'KanjiVG (stroke-order data)', href: 'https://kanjivg.tagaini.net/' },
+  { name: 'kanji.org', href: 'https://www.kanji.org/' },
 ] as const
 
 function AboutPage() {
@@ -84,6 +99,26 @@ function AboutPage() {
               </a>
             </div>
             <p className="mt-1 text-muted-foreground">{s.what}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h2 className="mt-8 text-lg font-semibold">Further references</h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        Projects consulted for verification, and planned sources for the kanji
+        pages:
+      </p>
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        {FURTHER_REFERENCES.map((r) => (
+          <li key={r.name}>
+            <a
+              className="text-primary underline-offset-2 hover:underline"
+              href={r.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {r.name}
+            </a>
           </li>
         ))}
       </ul>

@@ -13,6 +13,7 @@ import {
   buildWordIndex,
   expandRow,
   kanjiCharsOf,
+  sensesDetail,
   sensesGlosses,
   sensesExamples,
   usuallyKana,
@@ -100,6 +101,7 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
       jlpt: level,
       common: isCommon(word),
       examples: sensesExamples(verbSenses),
+      senses: sensesDetail(verbSenses),
       class: cls,
       transitivity: transitivityOf(verbSenses),
       kanjiChars: kanjiCharsOf(kanji),
@@ -120,6 +122,7 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
       jlpt: level,
       common: isCommon(word),
       examples: sensesExamples(suruSenses),
+      senses: sensesDetail(suruSenses),
       class: 'vs',
       transitivity: transitivityOf(suruSenses),
       kanjiChars: kanjiCharsOf(kanji),
@@ -139,7 +142,9 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
 const byId = new Map<string, VerbEntry>()
 for (const row of jlptRows) {
   for (const [expression, reading] of expandRow(row.expression, row.reading)) {
-    let word = index.find(expression, reading)
+    // exact sequence id from the source beats text matching
+    let word = row.seq ? index.findById(row.seq) : undefined
+    word ??= index.find(expression, reading)
     // "コピーする" rows list the noun+する compound; JMdict holds the noun
     if (!word && expression.endsWith('する')) {
       word = index.find(expression.slice(0, -2), reading.replace(/する$/, ''))

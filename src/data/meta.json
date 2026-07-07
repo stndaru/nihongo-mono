@@ -1,21 +1,22 @@
 {
   "generated": "2026-07-07",
   "sources": {
-    "elzup/jlpt-word-list": "master"
+    "elzup/jlpt-word-list": "master",
+    "edrdg/kradfile": "kradzip"
   },
   "verbCounts": {
-    "n5": 133,
-    "n4": 254,
-    "n3": 765,
-    "n2": 495,
-    "n1": 1100
+    "n5": 137,
+    "n4": 262,
+    "n3": 770,
+    "n2": 501,
+    "n1": 1159
   },
-  "kanjiCount": 1887,
+  "kanjiCount": 1915,
   "vocabCounts": {
-    "n5": 510,
-    "n4": 458,
-    "n3": 1647,
-    "n2": 1263,
-    "n1": 2207
+    "n5": 523,
+    "n4": 477,
+    "n3": 1684,
+    "n2": 1285,
+    "n1": 2480
   }
 }

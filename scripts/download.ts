@@ -81,12 +81,35 @@ const versions: Record<string, string> = existsSync(versionsPath)
   ? JSON.parse(readFileSync(versionsPath, 'utf8'))
   : {}
 
+/** KRADFILE (kanji component decomposition) ships EUC-JP inside a zip. */
+async function downloadKradfile() {
+  const target = join(CACHE, 'kradfile.txt')
+  if (!FORCE && existsSync(target)) {
+    console.log('[skip] kradfile.txt')
+    return
+  }
+  const url = 'http://ftp.edrdg.org/pub/Nihongo/kradzip.zip'
+  console.log(`[get ] ${url}`)
+  const buf = new Uint8Array(await (await fetchOk(url)).arrayBuffer())
+  const entries = unzipSync(buf)
+  const decoder = new TextDecoder('euc-jp')
+  // kradfile covers JIS X 0208, kradfile2 the rarer JIS X 0212 characters
+  const text = ['kradfile', 'kradfile2']
+    .filter((name) => entries[name])
+    .map((name) => decoder.decode(entries[name]))
+    .join('\n')
+  writeFileSync(target, text)
+  console.log('[ok  ] kradfile.txt')
+  versions['edrdg/kradfile'] = 'kradzip'
+}
+
 for (const gh of sources.github) {
   await downloadGithub(gh.repo, gh.assets, versions)
 }
 for (const raw of sources.raw) {
   await downloadRaw(raw.url, raw.out)
 }
+await downloadKradfile()
 versions['elzup/jlpt-word-list'] = versions['elzup/jlpt-word-list'] ?? 'master'
 writeFileSync(versionsPath, JSON.stringify(versions, null, 2))
 console.log('done.')

@@ -53,6 +53,9 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
             <div className="mt-1 text-xs text-muted-foreground">
               {entry.strokes} strokes
               {entry.freq ? ` · freq #${entry.freq}` : ''}
+              {entry.components && entry.components.length > 1 && (
+                <span lang="ja"> · parts: {entry.components.join(' ')}</span>
+              )}
             </div>
           </div>
         </div>

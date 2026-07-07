@@ -1,15 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
+import { POS_LABELS } from '@/components/vocab/PosBadge'
 import { loadVocabLevels } from '@/lib/data/loader'
-import type { JlptLevel, VocabEntry } from '@/lib/data/types'
+import type { JlptLevel, VocabEntry, VocabPos } from '@/lib/data/types'
 
 interface AntonymsSearch {
   /** e.g. "5,4" — omitted means all levels, so no pair is hidden by level */
   levels?: string
+  pos?: VocabPos
 }
+
+const POS_VALUES: VocabPos[] = ['noun', 'adj-i', 'adj-na', 'adverb']
+const UNPAIRED_PAGE = 100
 
 export const Route = createFileRoute('/vocab/antonyms')({
   validateSearch: (search: Record<string, unknown>): AntonymsSearch => {
@@ -17,6 +23,7 @@ export const Route = createFileRoute('/vocab/antonyms')({
     // ?levels=5 arrives as a number (router JSON-parses params) — normalize
     const levels = String(search.levels ?? '')
     if (/^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
+    if (POS_VALUES.includes(search.pos as VocabPos)) out.pos = search.pos as VocabPos
     return out
   },
   component: AntonymsPage,
@@ -26,8 +33,6 @@ function parseLevels(levels: string | undefined): JlptLevel[] {
   if (!levels) return [5, 4, 3, 2, 1]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as JlptLevel[]
 }
-
-const isAdjective = (w: VocabEntry) => w.pos === 'adj-i' || w.pos === 'adj-na'
 
 function AntonymCell({ word }: { word: VocabEntry | null }) {
   if (!word) {
@@ -52,6 +57,7 @@ function AntonymsPage() {
   const search = Route.useSearch()
   const navigate = Route.useNavigate()
   const levels = useMemo(() => parseLevels(search.levels), [search.levels])
+  const [unpairedShown, setUnpairedShown] = useState(UNPAIRED_PAGE)
 
   // all levels load so a partner from a harder level still shows up
   const [all, setAll] = useState<VocabEntry[] | null>(null)
@@ -68,85 +74,121 @@ function AntonymsPage() {
   const pairs = useMemo(() => {
     if (!all) return null
     const byId = new Map(all.map((w) => [w.id, w]))
-    const adjectives = all.filter((w) => isAdjective(w) && levels.includes(w.jlpt))
+    const rows = all.filter(
+      (w) => levels.includes(w.jlpt) && (!search.pos || w.pos === search.pos),
+    )
     const used = new Set<string>()
     const paired: [VocabEntry, VocabEntry][] = []
     const alone: VocabEntry[] = []
-    for (const adj of adjectives) {
-      if (used.has(adj.id)) continue
-      used.add(adj.id)
-      const partner = (adj.antonyms ?? [])
+    for (const word of rows) {
+      if (used.has(word.id)) continue
+      used.add(word.id)
+      const partner = (word.antonyms ?? [])
         .map((id) => byId.get(id))
-        .find((w): w is VocabEntry => Boolean(w && isAdjective(w)))
+        .find((w): w is VocabEntry => Boolean(w))
       if (partner) {
         used.add(partner.id)
-        paired.push([adj, partner])
+        paired.push([word, partner])
       } else {
-        alone.push(adj)
+        alone.push(word)
       }
     }
     return { paired, alone }
-  }, [all, levels])
+  }, [all, levels, search.pos])
+
+  const setSearch = (patch: Partial<AntonymsSearch>) => {
+    setUnpairedShown(UNPAIRED_PAGE)
+    navigate({ search: { ...search, ...patch }, replace: true })
+  }
 
   const toggleLevel = (level: JlptLevel) => {
     const has = levels.includes(level)
     const next = has ? levels.filter((l) => l !== level) : [...levels, level]
     if (next.length === 0) return
     const sorted = next.sort((a, b) => b - a)
-    navigate({
-      search: { levels: sorted.length === 5 ? undefined : sorted.join(',') },
-      replace: true,
-    })
+    setSearch({ levels: sorted.length === 5 ? undefined : sorted.join(',') })
   }
 
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold">Adjective antonyms</h1>
+        <h1 className="text-2xl font-semibold">Antonyms</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Learning adjectives in opposite pairs makes both stick. Click a word for
-          its detail page.
+          Learning words in opposite pairs makes both stick. Click a word for its
+          detail page.
         </p>
       </div>
-      <ChipGroup label="Level">
-        {([5, 4, 3, 2, 1] as const).map((level) => (
-          <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
-            N{level}
-          </Chip>
-        ))}
-      </ChipGroup>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <ChipGroup label="Level">
+          {([5, 4, 3, 2, 1] as const).map((level) => (
+            <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
+              N{level}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <ChipGroup label="Type">
+          {POS_VALUES.map((pos) => (
+            <Chip
+              key={pos}
+              active={search.pos === pos}
+              onClick={() => setSearch({ pos: search.pos === pos ? undefined : pos })}
+            >
+              {POS_LABELS[pos]}
+            </Chip>
+          ))}
+        </ChipGroup>
+      </div>
 
       {pairs === null ? (
         <div className="py-12 text-center text-sm text-muted-foreground">Loading…</div>
       ) : (
-        <div className="overflow-hidden rounded-lg border">
-          <div className="grid grid-cols-2 border-b bg-muted/40 text-xs font-medium text-muted-foreground">
-            <div className="p-2 pl-3">Adjective</div>
-            <div className="border-l p-2 pl-3">Antonym</div>
+        <>
+          <div className="overflow-hidden rounded-lg border">
+            <div className="grid grid-cols-2 border-b bg-muted/40 text-xs font-medium text-muted-foreground">
+              <div className="p-2 pl-3">Word</div>
+              <div className="border-l p-2 pl-3">Antonym</div>
+            </div>
+            {pairs.paired.map(([left, right]) => (
+              <div
+                key={left.id}
+                className="grid grid-cols-2 border-b border-border/60 last:border-b-0"
+              >
+                <AntonymCell word={left} />
+                <div className="border-l border-border/60">
+                  <AntonymCell word={right} />
+                </div>
+              </div>
+            ))}
+            {pairs.alone.slice(0, unpairedShown).map((word) => (
+              <div
+                key={word.id}
+                className="grid grid-cols-2 border-b border-border/60 last:border-b-0"
+              >
+                <AntonymCell word={word} />
+                <div className="border-l border-border/60">
+                  <AntonymCell word={null} />
+                </div>
+              </div>
+            ))}
           </div>
-          {pairs.paired.map(([left, right]) => (
-            <div key={left.id} className="grid grid-cols-2 border-b border-border/60 last:border-b-0">
-              <AntonymCell word={left} />
-              <div className="border-l border-border/60">
-                <AntonymCell word={right} />
-              </div>
-            </div>
-          ))}
-          {pairs.alone.map((word) => (
-            <div key={word.id} className="grid grid-cols-2 border-b border-border/60 last:border-b-0">
-              <AntonymCell word={word} />
-              <div className="border-l border-border/60">
-                <AntonymCell word={null} />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {pairs && (
-        <p className="text-xs text-muted-foreground">
-          {pairs.paired.length} antonym pair{pairs.paired.length === 1 ? '' : 's'} ·{' '}
-          {pairs.alone.length} without a known antonym
-        </p>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>
+              {pairs.paired.length} antonym pair{pairs.paired.length === 1 ? '' : 's'} ·{' '}
+              {pairs.alone.length} without a known antonym
+              {pairs.alone.length > unpairedShown &&
+                ` (showing ${unpairedShown})`}
+            </span>
+            {pairs.alone.length > unpairedShown && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setUnpairedShown((v) => v + UNPAIRED_PAGE)}
+              >
+                Show More
+              </Button>
+            )}
+          </div>
+        </>
       )}
     </div>
   )

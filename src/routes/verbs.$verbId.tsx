@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { ConjugationTable } from '@/components/verbs/ConjugationTable'
-import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
+import { MeaningsAccordion } from '@/components/verbs/MeaningsAccordion'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
 import { ClassBadge, LevelBadge, TransBadge } from '@/components/verbs/VerbBadges'
 import { CLASS_LABELS } from '@/lib/conjugation'
@@ -51,6 +51,8 @@ function VerbDetailPage() {
         </div>
       </header>
 
+      <MeaningsAccordion senses={verb.senses} />
+
       <section>
         <h2 className="mb-2 text-lg font-semibold">Conjugations</h2>
         <p className="mb-3 text-xs text-muted-foreground">
@@ -58,13 +60,6 @@ function VerbDetailPage() {
         </p>
         <ConjugationTable verb={verb} />
       </section>
-
-      {verb.examples.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-lg font-semibold">Examples</h2>
-          <ExampleSentences examples={verb.examples} />
-        </section>
-      )}
 
       {verb.kanjiChars.length > 0 && (
         <section>

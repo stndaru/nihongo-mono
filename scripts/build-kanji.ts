@@ -46,6 +46,15 @@ const kanjidic: { characters: Kanjidic2Character[] } = JSON.parse(
   readFileSync(join(CACHE, 'kanjidic2.json'), 'utf8'),
 )
 
+// KRADFILE: "亜 : ｜ 一 口" — visual component decomposition per kanji
+const components = new Map<string, string[]>()
+for (const line of readFileSync(join(CACHE, 'kradfile.txt'), 'utf8').split('\n')) {
+  if (!line || line.startsWith('#')) continue
+  const [char, parts] = line.split(' : ')
+  if (char && parts) components.set(char.trim(), parts.trim().split(/\s+/))
+}
+console.log(`kradfile: ${components.size} decompositions`)
+
 const out: Record<string, KanjiEntry> = {}
 for (const ch of kanjidic.characters) {
   if (!usedChars.has(ch.literal)) continue
@@ -61,6 +70,7 @@ for (const ch of kanjidic.characters) {
     kun: groups.flatMap((g) =>
       g.readings.filter((r) => r.type === 'ja_kun').map((r) => r.value),
     ),
+    components: components.get(ch.literal),
     strokes: ch.misc.strokeCounts[0] ?? 0,
     jlpt: (ch.misc.jlptLevel as JlptLevel | null) ?? null,
     grade: ch.misc.grade ?? null,

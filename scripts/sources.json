@@ -15,6 +15,11 @@
     }
   ],
   "raw": [
+    { "url": "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/main/original_data/n1.csv", "out": "yomitan-n1.csv" },
+    { "url": "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/main/original_data/n2.csv", "out": "yomitan-n2.csv" },
+    { "url": "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/main/original_data/n3.csv", "out": "yomitan-n3.csv" },
+    { "url": "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/main/original_data/n4.csv", "out": "yomitan-n4.csv" },
+    { "url": "https://raw.githubusercontent.com/stephenmk/yomitan-jlpt-vocab/main/original_data/n5.csv", "out": "yomitan-n5.csv" },
     { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n1.csv", "out": "jlpt-n1.csv" },
     { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n2.csv", "out": "jlpt-n2.csv" },
     { "url": "https://raw.githubusercontent.com/elzup/jlpt-word-list/master/src/n3.csv", "out": "jlpt-n3.csv" },
