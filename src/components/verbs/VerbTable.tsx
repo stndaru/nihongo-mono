@@ -28,7 +28,10 @@ export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
             <th className="hidden py-1.5 pr-2 font-medium sm:table-cell">Reading</th>
             <th className="py-1.5 pr-2 font-medium">Meaning</th>
             <th className="hidden py-1.5 pr-2 font-medium md:table-cell">Type</th>
-            <th className="py-1.5 font-medium">Level</th>
+            <th className="py-1.5 pr-2 font-medium">Level</th>
+            <th className="py-1.5 font-medium" title="common verb">
+              <span className="sr-only">Common</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -38,15 +41,9 @@ export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
                 <Link
                   to="/verbs/$verbId"
                   params={{ verbId: verb.id }}
-                  className="flex items-center gap-1.5 py-1.5 text-base leading-snug"
+                  className="flex items-center py-1.5 text-base leading-snug"
                 >
                   <Furigana segments={verb.furigana} />
-                  {verb.common && (
-                    <span
-                      className="size-1.5 shrink-0 rounded-full bg-primary/60"
-                      title="common verb"
-                    />
-                  )}
                 </Link>
               </td>
               <td lang="ja" className="hidden py-1.5 pr-2 text-muted-foreground sm:table-cell">
@@ -59,8 +56,16 @@ export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
                 <ClassBadge cls={verb.class} />
                 <TransBadge trans={verb.transitivity} className="ml-1" />
               </td>
-              <td className="py-1.5">
+              <td className="py-1.5 pr-2">
                 <LevelBadge level={verb.jlpt} />
+              </td>
+              <td className="w-4 py-1.5">
+                {verb.common && (
+                  <span
+                    className="block size-1.5 rounded-full bg-primary/60"
+                    title="common verb"
+                  />
+                )}
               </td>
             </tr>
           ))}

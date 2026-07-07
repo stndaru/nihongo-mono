@@ -48,6 +48,10 @@ export type VocabPos = 'noun' | 'adj-i' | 'adj-na' | 'adverb'
 
 export interface VocabEntry extends WordBase {
   pos: VocabPos
+  /** ids of antonyms that exist in this dataset (JMdict ant xrefs) */
+  antonyms?: string[]
+  /** ids of related/see-also words in this dataset (JMdict xrefs) */
+  synonyms?: string[]
 }
 
 export interface KanjiEntry {

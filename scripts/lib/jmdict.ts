@@ -29,8 +29,19 @@ export interface JmdictSense {
   appliesToKanji: string[]
   appliesToKana: string[]
   misc: string[]
+  /** cross-references: [targetText, maybeReading?, maybeSenseNum?] */
+  related: (string | number)[][]
+  antonym: (string | number)[][]
   gloss: { lang: string; text: string }[]
   examples: JmdictExample[]
+}
+
+/** Extracts (text, reading?) pairs from xref arrays. */
+export function xrefTargets(xrefs: (string | number)[][]): [string, string?][] {
+  return xrefs.map((x) => {
+    const texts = x.filter((p): p is string => typeof p === 'string')
+    return [texts[0], texts[1]] as [string, string?]
+  }).filter(([t]) => Boolean(t))
 }
 
 export interface JmdictWord {

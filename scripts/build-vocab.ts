@@ -18,7 +18,14 @@ import {
 } from './lib/build-common'
 import { furiganaFor, loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
-import { displayKana, displayKanji, isCommon, type JmdictFile, type JmdictWord } from './lib/jmdict'
+import {
+  displayKana,
+  displayKanji,
+  isCommon,
+  xrefTargets,
+  type JmdictFile,
+  type JmdictWord,
+} from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
 const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'vocab')
@@ -47,6 +54,9 @@ console.log(`jmdict ${jmdict.words.length} words, jlpt ${jlptRows.length} rows`)
 
 const furiganaMisses: string[] = []
 
+/** Raw xref targets per entry id, resolved to ids after all entries exist. */
+const rawXrefs = new Map<string, { ant: [string, string?][]; syn: [string, string?][] }>()
+
 function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
   let pos: VocabPos | undefined
   for (const sense of word.sense) {
@@ -68,6 +78,10 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VocabEntry | null {
   if (!kanaForm) return null
   const kana = kanaForm.text
   const kanji = !kanjiForm || usuallyKana(senses) ? kana : kanjiForm.text
+  rawXrefs.set(word.id, {
+    ant: senses.flatMap((s) => xrefTargets(s.antonym)),
+    syn: senses.flatMap((s) => xrefTargets(s.related)),
+  })
   return {
     id: word.id,
     kanji,
@@ -99,6 +113,29 @@ for (const row of jlptRows) {
     if (!existing || entry.jlpt > existing.jlpt) byId.set(entry.id, entry)
   }
 }
+
+// resolve antonym/synonym xrefs to ids of words that exist in the dataset,
+// so every reference the UI renders is clickable
+let antCount = 0
+for (const entry of byId.values()) {
+  const raw = rawXrefs.get(entry.id)
+  if (!raw) continue
+  const resolve = (targets: [string, string?][]): string[] => [
+    ...new Set(
+      targets
+        .map(([text, reading]) => index.find(text, reading ?? text)?.id)
+        .filter((id): id is string => Boolean(id) && id !== entry.id && byId.has(id!)),
+    ),
+  ]
+  const antonyms = resolve(raw.ant)
+  const synonyms = resolve(raw.syn)
+  if (antonyms.length > 0) {
+    entry.antonyms = antonyms
+    antCount++
+  }
+  if (synonyms.length > 0) entry.synonyms = synonyms
+}
+console.log(`${antCount} words with in-dataset antonyms`)
 
 mkdirSync(OUT_DIR, { recursive: true })
 const vocabCounts = {} as NonNullable<DatasetMeta['vocabCounts']>

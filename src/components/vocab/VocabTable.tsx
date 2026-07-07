@@ -29,7 +29,10 @@ export function VocabTable({ words }: { words: VocabEntry[] }) {
             <th className="hidden py-1.5 pr-2 font-medium sm:table-cell">Reading</th>
             <th className="py-1.5 pr-2 font-medium">Meaning</th>
             <th className="hidden py-1.5 pr-2 font-medium md:table-cell">Type</th>
-            <th className="py-1.5 font-medium">Level</th>
+            <th className="py-1.5 pr-2 font-medium">Level</th>
+            <th className="py-1.5 font-medium" title="common word">
+              <span className="sr-only">Common</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -39,15 +42,9 @@ export function VocabTable({ words }: { words: VocabEntry[] }) {
                 <Link
                   to="/vocab/$wordId"
                   params={{ wordId: word.id }}
-                  className="flex items-center gap-1.5 py-1.5 text-base leading-snug"
+                  className="flex items-center py-1.5 text-base leading-snug"
                 >
                   <Furigana segments={word.furigana} />
-                  {word.common && (
-                    <span
-                      className="size-1.5 shrink-0 rounded-full bg-primary/60"
-                      title="common word"
-                    />
-                  )}
                 </Link>
               </td>
               <td lang="ja" className="hidden py-1.5 pr-2 text-muted-foreground sm:table-cell">
@@ -59,8 +56,16 @@ export function VocabTable({ words }: { words: VocabEntry[] }) {
               <td className="hidden whitespace-nowrap py-1.5 pr-2 md:table-cell">
                 <PosBadge pos={word.pos} />
               </td>
-              <td className="py-1.5">
+              <td className="py-1.5 pr-2">
                 <LevelBadge level={word.jlpt} />
+              </td>
+              <td className="w-4 py-1.5">
+                {word.common && (
+                  <span
+                    className="block size-1.5 rounded-full bg-primary/60"
+                    title="common word"
+                  />
+                )}
               </td>
             </tr>
           ))}

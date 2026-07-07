@@ -99,7 +99,11 @@
     "kanjiChars": [
       "赤"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1383440",
+      "1582390"
+    ]
   },
   {
     "id": "1383240",
@@ -506,7 +510,10 @@
     "kanjiChars": [
       "暑"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1210360"
+    ]
   },
   {
     "id": "1467720",
@@ -538,7 +545,10 @@
     "kanjiChars": [
       "熱"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1556730"
+    ]
   },
   {
     "id": "1275320",
@@ -639,7 +649,10 @@
     "kanjiChars": [
       "兄"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1581930"
+    ]
   },
   {
     "id": "1307630",
@@ -916,7 +929,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "synonyms": [
+      "1605820"
+    ]
   },
   {
     "id": "1191730",
@@ -1241,7 +1257,10 @@
       "一",
       "日"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "2225040"
+    ]
   },
   {
     "id": "1165970",
@@ -1581,7 +1600,10 @@
       "入",
       "口"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1338850"
+    ]
   },
   {
     "id": "1357600",
@@ -1774,7 +1796,10 @@
     "kanjiChars": [
       "歌"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1418630"
+    ]
   },
   {
     "id": "1191740",
@@ -1803,7 +1828,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1457730"
+    ]
   },
   {
     "id": "1201190",
@@ -2304,7 +2332,10 @@
       "菓",
       "子"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1195670"
+    ]
   },
   {
     "id": "1001820",
@@ -2334,7 +2365,10 @@
     "kanjiChars": [
       "金"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1242590"
+    ]
   },
   {
     "id": "1179330",
@@ -2424,7 +2458,10 @@
     "kanjiChars": [
       "皿"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1299680"
+    ]
   },
   {
     "id": "1607070",
@@ -2456,7 +2493,10 @@
       "叔",
       "父"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1607100"
+    ]
   },
   {
     "id": "1002320",
@@ -2578,7 +2618,11 @@
     "kanjiChars": [
       "茶"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1422570",
+      "1422610"
+    ]
   },
   {
     "id": "1002100",
@@ -2679,7 +2723,10 @@
     "kanjiChars": [
       "弟"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1249900"
+    ]
   },
   {
     "id": "1419990",
@@ -2712,7 +2759,10 @@
     "kanjiChars": [
       "男"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1344930"
+    ]
   },
   {
     "id": "1420010",
@@ -2748,7 +2798,10 @@
       "男",
       "子"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1344970"
+    ]
   },
   {
     "id": "1576050",
@@ -3090,7 +3143,10 @@
       "弁",
       "当"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1513060"
+    ]
   },
   {
     "id": "1002120",
@@ -3114,7 +3170,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1342110"
+    ]
   },
   {
     "id": "1335750",
@@ -3154,7 +3213,10 @@
     "kanjiChars": [
       "重"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1252560"
+    ]
   },
   {
     "id": "1533580",
@@ -3259,7 +3321,10 @@
     "kanjiChars": [
       "女"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1419990"
+    ]
   },
   {
     "id": "1344970",
@@ -3295,7 +3360,10 @@
       "女",
       "子"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1420010"
+    ]
   },
   {
     "id": "1203620",
@@ -3619,7 +3687,11 @@
     "kanjiChars": [
       "風"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1361130",
+      "1583720"
+    ]
   },
   {
     "id": "1583720",
@@ -3731,7 +3803,10 @@
     "common": true,
     "examples": [],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1507090"
+    ]
   },
   {
     "id": "1206730",
@@ -3787,7 +3862,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1050390"
+    ]
   },
   {
     "id": "1192280",
@@ -4069,7 +4147,10 @@
     "kanjiChars": [
       "体"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "2830705"
+    ]
   },
   {
     "id": "1252560",
@@ -4109,7 +4190,10 @@
     "kanjiChars": [
       "軽"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1335750"
+    ]
   },
   {
     "id": "1039140",
@@ -4804,7 +4888,10 @@
     "kanjiChars": [
       "嫌"
     ],
-    "pos": "adj-na"
+    "pos": "adj-na",
+    "antonyms": [
+      "1277450"
+    ]
   },
   {
     "id": "1591900",
@@ -4862,7 +4949,11 @@
     "common": true,
     "examples": [],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1042620",
+      "1042650"
+    ]
   },
   {
     "id": "1042620",
@@ -5237,7 +5328,10 @@
     "kanjiChars": [
       "暗"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1532350"
+    ]
   },
   {
     "id": "1044070",
@@ -6059,7 +6153,10 @@
       "言",
       "葉"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1264420"
+    ]
   },
   {
     "id": "1307850",
@@ -6465,7 +6562,10 @@
     "kanjiChars": [
       "寒"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1343460"
+    ]
   },
   {
     "id": "1293660",
@@ -6735,7 +6835,10 @@
     "kanjiChars": [
       "下"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1185180"
+    ]
   },
   {
     "id": "1320760",
@@ -7352,7 +7455,10 @@
     "kanjiChars": [
       "好"
     ],
-    "pos": "adj-na"
+    "pos": "adj-na",
+    "antonyms": [
+      "1257240"
+    ]
   },
   {
     "id": "1348910",
@@ -7774,7 +7880,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1557630"
+    ]
   },
   {
     "id": "1387500",
@@ -8034,7 +8143,10 @@
     "kanjiChars": [
       "外"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "antonyms": [
+      "1191740"
+    ]
   },
   {
     "id": "1238460",
@@ -8388,7 +8500,10 @@
     "kanjiChars": [
       "高"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1434180"
+    ]
   },
   {
     "id": "1415870",
@@ -8807,7 +8922,10 @@
     "kanjiChars": [
       "近"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1242130"
+    ]
   },
   {
     "id": "1420900",
@@ -8903,7 +9021,10 @@
     "kanjiChars": [
       "父"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1514990"
+    ]
   },
   {
     "id": "1422720",
@@ -9173,7 +9294,10 @@
     "kanjiChars": [
       "冷"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1467720"
+    ]
   },
   {
     "id": "1236070",
@@ -9387,7 +9511,10 @@
       "出",
       "口"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1582820"
+    ]
   },
   {
     "id": "1079760",
@@ -9635,7 +9762,10 @@
     "kanjiChars": [
       "戸"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1483380"
+    ]
   },
   {
     "id": "1087820",
@@ -9708,7 +9838,11 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "adverb",
+    "synonyms": [
+      "1004310",
+      "1006610"
+    ]
   },
   {
     "id": "1466940",
@@ -9834,7 +9968,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adverb"
+    "pos": "adverb",
+    "synonyms": [
+      "1466950"
+    ]
   },
   {
     "id": "1177800",
@@ -10405,7 +10542,10 @@
     "kanjiChars": [
       "長"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1418620"
+    ]
   },
   {
     "id": "1577120",
@@ -10590,7 +10730,10 @@
       "名",
       "前"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1604730"
+    ]
   },
   {
     "id": "1463480",
@@ -11363,7 +11506,10 @@
     "kanjiChars": [
       "花"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1587180"
+    ]
   },
   {
     "id": "1486720",
@@ -11454,7 +11600,10 @@
     "kanjiChars": [
       "母"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1497610"
+    ]
   },
   {
     "id": "1404975",
@@ -11821,7 +11970,10 @@
     "kanjiChars": [
       "低"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1283190"
+    ]
   },
   {
     "id": "1485470",
@@ -11891,7 +12043,10 @@
     "kanjiChars": [
       "左"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1171010"
+    ]
   },
   {
     "id": "1580640",
@@ -12151,7 +12306,10 @@
     "common": true,
     "examples": [],
     "kanjiChars": [],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1511600"
+    ]
   },
   {
     "id": "1426250",
@@ -12188,7 +12346,10 @@
     "kanjiChars": [
       "昼"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1660100"
+    ]
   },
   {
     "id": "1602340",
@@ -12668,7 +12829,10 @@
       "下",
       "手"
     ],
-    "pos": "adj-na"
+    "pos": "adj-na",
+    "antonyms": [
+      "1353320"
+    ]
   },
   {
     "id": "1119650",
@@ -12870,7 +13034,10 @@
       "便",
       "利"
     ],
-    "pos": "adj-na"
+    "pos": "adj-na",
+    "antonyms": [
+      "1494860"
+    ]
   },
   {
     "id": "1519170",
@@ -13781,7 +13948,10 @@
     "kanjiChars": [
       "右"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1290800"
+    ]
   },
   {
     "id": "1418620",
@@ -13820,7 +13990,10 @@
     "kanjiChars": [
       "短"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1429750"
+    ]
   },
   {
     "id": "1371260",
@@ -13849,7 +14022,10 @@
     "kanjiChars": [
       "水"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "synonyms": [
+      "1448580"
+    ]
   },
   {
     "id": "1582120",
@@ -14241,7 +14417,10 @@
     "kanjiChars": [
       "難"
     ],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1157000"
+    ]
   },
   {
     "id": "1585315",
@@ -14664,7 +14843,10 @@
       }
     ],
     "kanjiChars": [],
-    "pos": "adj-i"
+    "pos": "adj-i",
+    "antonyms": [
+      "1460850"
+    ]
   },
   {
     "id": "1153670",
@@ -15828,7 +16010,10 @@
     "kanjiChars": [
       "私"
     ],
-    "pos": "noun"
+    "pos": "noun",
+    "antonyms": [
+      "1247250"
+    ]
   },
   {
     "id": "1151260",

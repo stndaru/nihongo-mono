@@ -3,14 +3,27 @@ import { ExampleSentences } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { KanjiBreakdown } from '@/components/verbs/KanjiBreakdown'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
+import { AdjectiveInflectionTable } from '@/components/vocab/AdjectiveInflectionTable'
 import { PosBadge } from '@/components/vocab/PosBadge'
+import { RelatedWords } from '@/components/vocab/RelatedWords'
 import { findVocab } from '@/lib/data/loader'
+import type { VocabEntry } from '@/lib/data/types'
+
+async function resolveIds(ids: string[] | undefined): Promise<VocabEntry[]> {
+  if (!ids || ids.length === 0) return []
+  const words = await Promise.all(ids.map(findVocab))
+  return words.filter((w): w is VocabEntry => Boolean(w))
+}
 
 export const Route = createFileRoute('/vocab/$wordId')({
   loader: async ({ params }) => {
     const word = await findVocab(params.wordId)
     if (!word) throw notFound()
-    return word
+    const [antonyms, synonyms] = await Promise.all([
+      resolveIds(word.antonyms),
+      resolveIds(word.synonyms),
+    ])
+    return { word, antonyms, synonyms }
   },
   component: VocabDetailPage,
   notFoundComponent: () => (
@@ -27,7 +40,7 @@ export const Route = createFileRoute('/vocab/$wordId')({
 })
 
 function VocabDetailPage() {
-  const word = Route.useLoaderData()
+  const { word, antonyms, synonyms } = Route.useLoaderData()
   return (
     <div className="space-y-8">
       <header>
@@ -45,6 +58,11 @@ function VocabDetailPage() {
           {word.common && <span className="text-xs text-muted-foreground">· common word</span>}
         </div>
       </header>
+
+      <AdjectiveInflectionTable word={word} />
+
+      <RelatedWords title="Antonyms" words={antonyms} />
+      <RelatedWords title="See also" words={synonyms} />
 
       {word.examples.length > 0 && (
         <section>
