@@ -123,7 +123,14 @@ regardless of host compression config.
   Katakana words match via hiragana-normalized keys (WeakMap-cached for
   JLPT entries, prebuilt `hira` field for extended rows).
 - No search library — ranked substring scan is fast enough at this scale
-  (~100–220 ms over 204k rows including the 150 ms input debounce).
+  (~100–220 ms over 204k rows including the input debounce).
+- **Search inputs debounce at 250 ms** (`SEARCH_DEBOUNCE_MS` in
+  SearchBox.tsx, shared by the command palette) and fire inside
+  `startTransition`. The original 150/120 ms sat BELOW normal typing
+  cadence (~150–250 ms between keystrokes), so searches fired mid-typing
+  and every heavy table render stuttered the input — the owner felt it as
+  continuous lag. Don't shorten it; don't lengthen it much either (the
+  owner asked for "tiny").
 - **Conjugated queries deconjugate**: `deconjugate.ts` turns "tabeta" /
   食べた / "samukatta" into candidate dictionary forms **once per query**
   (rule-based BFS, over-generating on purpose — bogus candidates match

@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { startTransition, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { BookOpen, ScanText, Search } from 'lucide-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import { Button } from '@/components/ui/button'
 import { Furigana } from '@/components/verbs/Furigana'
+import { SEARCH_DEBOUNCE_MS } from '@/components/verbs/SearchBox'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { POS_LABELS } from '@/components/vocab/PosBadge'
 import { searchVerbRows, searchVocabRows } from '@/lib/data/ext-search'
@@ -86,7 +87,9 @@ export function CommandPalette() {
   }, [open, words])
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(query), 120)
+    // shared debounce + non-urgent update — keeps keystrokes responsive
+    // while the result list re-renders (see SEARCH_DEBOUNCE_MS)
+    const t = setTimeout(() => startTransition(() => setDebounced(query)), SEARCH_DEBOUNCE_MS)
     return () => clearTimeout(t)
   }, [query])
 

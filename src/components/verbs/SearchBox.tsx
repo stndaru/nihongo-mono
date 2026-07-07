@@ -1,6 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { startTransition, useEffect, useRef, useState } from 'react'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+
+/**
+ * Shared search debounce. 150 ms sat below normal typing cadence
+ * (~150–250 ms between keystrokes), so searches kept firing MID-typing and
+ * each heavy table render stuttered the input. 250 ms waits typing out
+ * without feeling laggy. Used by SearchBox and the command palette.
+ */
+export const SEARCH_DEBOUNCE_MS = 250
 
 export function SearchBox({
   value,
@@ -30,7 +38,11 @@ export function SearchBox({
           const next = e.target.value
           setText(next)
           clearTimeout(timer.current)
-          timer.current = setTimeout(() => onChange(next), 150)
+          timer.current = setTimeout(() => {
+            // non-urgent: lets further keystrokes interrupt the heavy
+            // result re-render instead of stuttering behind it
+            startTransition(() => onChange(next))
+          }, SEARCH_DEBOUNCE_MS)
         }}
       />
     </div>
