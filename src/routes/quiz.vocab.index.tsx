@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { QuizTabs } from '@/components/quiz/QuizTabs'
+import { toggleAll, ToggleAllHeading } from '@/components/quiz/ToggleAllHeading'
 import { POS_LABELS } from '@/components/vocab/PosBadge'
 import type { JlptLevel, VocabPos } from '@/lib/data/types'
 import { QUIZ_LENGTHS, type QuizMode } from '@/lib/quiz/config'
@@ -45,7 +46,13 @@ function VocabQuizSetupPage() {
       </div>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">JLPT level</h2>
+        <ToggleAllHeading
+          onClick={() =>
+            setConfig({ ...config, levels: toggleAll(config.levels, [5, 4, 3, 2, 1]) })
+          }
+        >
+          JLPT level
+        </ToggleAllHeading>
         <ChipGroup label="">
           {([5, 4, 3, 2, 1] as JlptLevel[]).map((level) => (
             <Chip
@@ -60,7 +67,11 @@ function VocabQuizSetupPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">Word type</h2>
+        <ToggleAllHeading
+          onClick={() => setConfig({ ...config, pos: toggleAll(config.pos, ALL_POS) })}
+        >
+          Word type
+        </ToggleAllHeading>
         <ChipGroup label="">
           {ALL_POS.map((pos: VocabPos) => (
             <Chip
@@ -86,7 +97,16 @@ function VocabQuizSetupPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">Answer mode</h2>
+        <ToggleAllHeading
+          onClick={() =>
+            setConfig({
+              ...config,
+              modes: toggleAll(config.modes, ['input', 'choice'] as QuizMode[]),
+            })
+          }
+        >
+          Answer mode
+        </ToggleAllHeading>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           {(
             [
@@ -127,7 +147,15 @@ function VocabQuizSetupPage() {
         </ChipGroup>
       </section>
 
-      <Button size="lg" onClick={start} disabled={config.pos.length === 0}>
+      <Button
+        size="lg"
+        onClick={start}
+        disabled={
+          config.pos.length === 0 ||
+          config.levels.length === 0 ||
+          config.modes.length === 0
+        }
+      >
         Start Quiz
       </Button>
     </div>

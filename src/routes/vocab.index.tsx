@@ -41,9 +41,10 @@ export const Route = createFileRoute('/vocab/')({
   validateSearch: (search: Record<string, unknown>): VocabSearch => {
     const out: VocabSearch = {}
     if (typeof search.q === 'string' && search.q) out.q = search.q
-    // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize.
+    // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
-    if (/^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
+    if (levels === 'none' || /^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
     if (POS_VALUES.includes(search.pos as VocabPos)) out.pos = search.pos as VocabPos
     if (search.common === true) out.common = true
     return out
@@ -52,6 +53,7 @@ export const Route = createFileRoute('/vocab/')({
 })
 
 function parseLevels(levels: string | undefined): WordLevel[] {
+  if (levels === 'none') return []
   if (!levels) return [5]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as WordLevel[]
 }
@@ -107,14 +109,31 @@ function VocabListPage() {
   const setSearch = (patch: Partial<VocabSearch>) =>
     navigate({ search: { ...search, ...patch }, replace: true })
 
+  const setLevels = (next: WordLevel[]) => {
+    const sorted = [...next].sort((a, b) => b - a)
+    setSearch({
+      levels:
+        sorted.length === 0
+          ? 'none'
+          : sorted.length === 1 && sorted[0] === 5
+            ? undefined
+            : sorted.join(','),
+    })
+  }
+
   const toggleLevel = (level: WordLevel) => {
     const has = levels.includes(level)
     const next = has ? levels.filter((l) => l !== level) : [...levels, level]
     if (next.length === 0) return
-    const sorted = next.sort((a, b) => b - a)
-    setSearch({
-      levels: sorted.length === 1 && sorted[0] === 5 ? undefined : sorted.join(','),
-    })
+    setLevels(next)
+  }
+
+  // label click: select/deselect all JLPT levels; Beyond keeps its state
+  const toggleAllLevels = () => {
+    const jlptAll: WordLevel[] = [5, 4, 3, 2, 1]
+    const allOn = jlptAll.every((l) => levels.includes(l))
+    const beyond: WordLevel[] = levels.includes(0) ? [0] : []
+    setLevels(allOn ? beyond : [...jlptAll, ...beyond])
   }
 
   return (
@@ -132,7 +151,11 @@ function VocabListPage() {
         onChange={(q) => setSearch({ q: q || undefined })}
       />
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <ChipGroup label="Level">
+        <ChipGroup
+          label="Level"
+          onLabelClick={toggleAllLevels}
+          labelTitle="select/deselect all JLPT levels"
+        >
           {([5, 4, 3, 2, 1] as const).map((level) => (
             <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
               N{level}
@@ -146,7 +169,11 @@ function VocabListPage() {
             Beyond
           </Chip>
         </ChipGroup>
-        <ChipGroup label="Type">
+        <ChipGroup
+          label="Type"
+          onLabelClick={() => setSearch({ pos: undefined })}
+          labelTitle="show all word types"
+        >
           {POS_VALUES.map((pos) => (
             <Chip
               key={pos}

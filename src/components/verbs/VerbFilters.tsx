@@ -22,8 +22,16 @@ export function VerbFilters({
     const levels = has
       ? filters.levels.filter((l) => l !== level)
       : [...filters.levels, level].sort((a, b) => b - a)
-    if (levels.length === 0) return // never allow zero levels
+    if (levels.length === 0) return // never allow zero levels chip-by-chip
     onChange({ ...filters, levels })
+  }
+  // label click: select/deselect all JLPT levels; Beyond (a heavyweight
+  // opt-in download) keeps whatever state it has
+  const toggleAllLevels = () => {
+    const jlptAll: WordLevel[] = [5, 4, 3, 2, 1]
+    const allOn = jlptAll.every((l) => filters.levels.includes(l))
+    const beyond: WordLevel[] = filters.levels.includes(0) ? [0] : []
+    onChange({ ...filters, levels: allOn ? beyond : [...jlptAll, ...beyond] })
   }
   const toggle = <K extends 'group' | 'ending' | 'trans'>(
     key: K,
@@ -34,7 +42,11 @@ export function VerbFilters({
 
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-      <ChipGroup label="Level">
+      <ChipGroup
+        label="Level"
+        onLabelClick={toggleAllLevels}
+        labelTitle="select/deselect all JLPT levels"
+      >
         {([5, 4, 3, 2, 1] as const).map((level) => (
           <Chip
             key={level}
@@ -52,7 +64,11 @@ export function VerbFilters({
           Beyond
         </Chip>
       </ChipGroup>
-      <ChipGroup label="Type">
+      <ChipGroup
+        label="Type"
+        onLabelClick={() => onChange({ ...filters, group: undefined })}
+        labelTitle="show all types"
+      >
         <Chip active={filters.group === 'godan'} onClick={() => toggle('group', 'godan')}>
           Godan
         </Chip>
@@ -66,7 +82,11 @@ export function VerbFilters({
           来る
         </Chip>
       </ChipGroup>
-      <ChipGroup label="Ends">
+      <ChipGroup
+        label="Ends"
+        onLabelClick={() => onChange({ ...filters, ending: undefined })}
+        labelTitle="show all endings"
+      >
         <Chip active={filters.ending === 'ru'} onClick={() => toggle('ending', 'ru')}>
           〜る
         </Chip>
@@ -74,7 +94,11 @@ export function VerbFilters({
           Other
         </Chip>
       </ChipGroup>
-      <ChipGroup label="Trans.">
+      <ChipGroup
+        label="Trans."
+        onLabelClick={() => onChange({ ...filters, trans: undefined })}
+        labelTitle="show both transitivities"
+      >
         <Chip
           active={filters.trans === 'vt'}
           onClick={() => toggle('trans', 'vt')}

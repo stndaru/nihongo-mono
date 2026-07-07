@@ -28,9 +28,10 @@ export const Route = createFileRoute('/verbs/')({
   validateSearch: (search: Record<string, unknown>): VerbsSearch => {
     const out: VerbsSearch = {}
     if (typeof search.q === 'string' && search.q) out.q = search.q
-    // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize.
+    // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
-    if (/^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
+    if (levels === 'none' || /^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
     if (GROUPS.includes(search.group as ClassGroup)) out.group = search.group as ClassGroup
     if (search.ending === 'ru' || search.ending === 'other') out.ending = search.ending
     if (search.trans === 'vt' || search.trans === 'vi') out.trans = search.trans
@@ -41,6 +42,7 @@ export const Route = createFileRoute('/verbs/')({
 })
 
 function parseLevels(levels: string | undefined): WordLevel[] {
+  if (levels === 'none') return []
   if (!levels) return [5]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as WordLevel[]
 }
@@ -111,9 +113,11 @@ function VerbListPage() {
       search: {
         ...search,
         levels:
-          next.levels.length === 1 && next.levels[0] === 5
-            ? undefined
-            : next.levels.join(','),
+          next.levels.length === 0
+            ? 'none'
+            : next.levels.length === 1 && next.levels[0] === 5
+              ? undefined
+              : next.levels.join(','),
         group: next.group,
         ending: next.ending,
         trans: next.trans,

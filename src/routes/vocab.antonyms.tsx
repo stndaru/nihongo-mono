@@ -19,15 +19,17 @@ const isAdjective = (w: VocabEntry) => w.pos === 'adj-i' || w.pos === 'adj-na'
 export const Route = createFileRoute('/vocab/antonyms')({
   validateSearch: (search: Record<string, unknown>): AntonymsSearch => {
     const out: AntonymsSearch = {}
-    // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize.
+    // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
-    if (/^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
+    if (levels === 'none' || /^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
     return out
   },
   component: AntonymsPage,
 })
 
 function parseLevels(levels: string | undefined): JlptLevel[] {
+  if (levels === 'none') return []
   if (!levels) return [5, 4, 3, 2, 1]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as JlptLevel[]
 }
@@ -100,13 +102,23 @@ function AntonymsPage() {
     navigate({ search: { ...search, ...patch }, replace: true })
   }
 
+  const setLevels = (next: JlptLevel[]) => {
+    const sorted = [...next].sort((a, b) => b - a)
+    setSearch({
+      levels: sorted.length === 0 ? 'none' : sorted.length === 5 ? undefined : sorted.join(','),
+    })
+  }
+
   const toggleLevel = (level: JlptLevel) => {
     const has = levels.includes(level)
     const next = has ? levels.filter((l) => l !== level) : [...levels, level]
     if (next.length === 0) return
-    const sorted = next.sort((a, b) => b - a)
-    setSearch({ levels: sorted.length === 5 ? undefined : sorted.join(',') })
+    setLevels(next)
   }
+
+  // label click: select/deselect all levels
+  const toggleAllLevels = () =>
+    setLevels(levels.length === 5 ? [] : [5, 4, 3, 2, 1])
 
   return (
     <div className="space-y-4">
@@ -117,7 +129,11 @@ function AntonymsPage() {
           its detail page.
         </p>
       </div>
-      <ChipGroup label="Level">
+      <ChipGroup
+        label="Level"
+        onLabelClick={toggleAllLevels}
+        labelTitle="select/deselect all JLPT levels"
+      >
         {([5, 4, 3, 2, 1] as const).map((level) => (
           <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
             N{level}

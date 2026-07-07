@@ -19,10 +19,11 @@ export const Route = createFileRoute('/kanji/')({
   validateSearch: (search: Record<string, unknown>): KanjiSearch => {
     const out: KanjiSearch = {}
     if (typeof search.q === 'string' && search.q) out.q = search.q
-    // ?levels=4 arrives as a number (router JSON-parses params) — normalize
+    // ?levels=4 arrives as a number (router JSON-parses params) — normalize.
+    // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
     // KANJIDIC2 JLPT tags use the old 4-level scale: there is no N5 kanji list
-    if (/^[0-4](,[0-4])*$/.test(levels)) out.levels = levels
+    if (levels === 'none' || /^[0-4](,[0-4])*$/.test(levels)) out.levels = levels
     return out
   },
   component: KanjiListPage,
@@ -31,6 +32,7 @@ export const Route = createFileRoute('/kanji/')({
 const PAGE = 100
 
 function parseLevels(levels: string | undefined): WordLevel[] {
+  if (levels === 'none') return []
   if (!levels) return [4]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as WordLevel[]
 }
@@ -129,14 +131,31 @@ function KanjiListPage() {
   const setSearch = (patch: Partial<KanjiSearch>) =>
     navigate({ to: '/kanji', search: { ...search, ...patch }, replace: true })
 
+  const setLevels = (next: WordLevel[]) => {
+    const sorted = [...next].sort((a, b) => b - a)
+    setSearch({
+      levels:
+        sorted.length === 0
+          ? 'none'
+          : sorted.length === 1 && sorted[0] === 4
+            ? undefined
+            : sorted.join(','),
+    })
+  }
+
   const toggleLevel = (level: WordLevel) => {
     const has = levels.includes(level)
     const next = has ? levels.filter((l) => l !== level) : [...levels, level]
     if (next.length === 0) return
-    const sorted = next.sort((a, b) => b - a)
-    setSearch({
-      levels: sorted.length === 1 && sorted[0] === 4 ? undefined : sorted.join(','),
-    })
+    setLevels(next)
+  }
+
+  // label click: select/deselect all JLPT levels; Beyond keeps its state
+  const toggleAllLevels = () => {
+    const jlptAll: WordLevel[] = [4, 3, 2, 1]
+    const allOn = jlptAll.every((l) => levels.includes(l))
+    const beyond: WordLevel[] = levels.includes(0) ? [0] : []
+    setLevels(allOn ? beyond : [...jlptAll, ...beyond])
   }
 
   return (
@@ -155,7 +174,11 @@ function KanjiListPage() {
         placeholder="Search a kanji, reading, or meaning…"
       />
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <ChipGroup label="Level">
+        <ChipGroup
+          label="Level"
+          onLabelClick={toggleAllLevels}
+          labelTitle="select/deselect all JLPT levels"
+        >
           {([4, 3, 2, 1] as const).map((level) => (
             <Chip
               key={level}

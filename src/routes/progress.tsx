@@ -291,7 +291,11 @@ function ProgressPage() {
               Recent
             </Chip>
           </ChipGroup>
-          <ChipGroup label="Type">
+          <ChipGroup
+            label="Type"
+            onLabelClick={() => setKind('all')}
+            labelTitle="show both types"
+          >
             <Chip
               active={kind === 'verb'}
               onClick={() => setKind(kind === 'verb' ? 'all' : 'verb')}
@@ -305,7 +309,11 @@ function ProgressPage() {
               Vocabulary
             </Chip>
           </ChipGroup>
-          <ChipGroup label="Status">
+          <ChipGroup
+            label="Status"
+            onLabelClick={() => setStatus(null)}
+            labelTitle="show all statuses"
+          >
             {(['weak', 'learning', 'solid', 'new'] as const).map((s) => (
               <Chip key={s} active={status === s} onClick={() => setStatus(status === s ? null : s)}>
                 {STATUS_LABELS[s]}

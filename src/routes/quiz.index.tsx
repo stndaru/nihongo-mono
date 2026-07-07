@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { QuizTabs } from '@/components/quiz/QuizTabs'
+import { toggleAll, ToggleAllHeading } from '@/components/quiz/ToggleAllHeading'
 import {
   CONJUGATION_FORMS,
   FORM_GROUPS,
@@ -61,7 +62,13 @@ function QuizSetupPage() {
       </div>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">JLPT level</h2>
+        <ToggleAllHeading
+          onClick={() =>
+            setConfig({ ...config, levels: toggleAll(config.levels, [5, 4, 3, 2, 1]) })
+          }
+        >
+          JLPT level
+        </ToggleAllHeading>
         <ChipGroup label="">
           {([5, 4, 3, 2, 1] as JlptLevel[]).map((level) => (
             <Chip
@@ -76,7 +83,11 @@ function QuizSetupPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">Verb type</h2>
+        <ToggleAllHeading
+          onClick={() => setConfig({ ...config, groups: toggleAll(config.groups, ALL_GROUPS) })}
+        >
+          Verb type
+        </ToggleAllHeading>
         <ChipGroup label="">
           {ALL_GROUPS.map((group) => (
             <Chip
@@ -92,7 +103,11 @@ function QuizSetupPage() {
 
       <section className="space-y-2">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <h2 className="text-sm font-medium">Conjugations</h2>
+          <ToggleAllHeading
+            onClick={() => setForms(toggleAll(config.forms, CONJUGATION_FORMS))}
+          >
+            Conjugations
+          </ToggleAllHeading>
           <div className="flex gap-1">
             <Chip
               active={config.forms.length === CONJUGATION_FORMS.length}
@@ -151,7 +166,16 @@ function QuizSetupPage() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium">Answer mode</h2>
+        <ToggleAllHeading
+          onClick={() =>
+            setConfig({
+              ...config,
+              modes: toggleAll(config.modes, ['input', 'choice'] as QuizMode[]),
+            })
+          }
+        >
+          Answer mode
+        </ToggleAllHeading>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           {(
             [
@@ -192,7 +216,16 @@ function QuizSetupPage() {
         </ChipGroup>
       </section>
 
-      <Button size="lg" onClick={start} disabled={config.forms.length === 0}>
+      <Button
+        size="lg"
+        onClick={start}
+        disabled={
+          config.forms.length === 0 ||
+          config.levels.length === 0 ||
+          config.groups.length === 0 ||
+          config.modes.length === 0
+        }
+      >
         Start Quiz
       </Button>
     </div>

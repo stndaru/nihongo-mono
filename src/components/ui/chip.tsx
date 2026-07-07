@@ -32,10 +32,36 @@ export function Chip({
   )
 }
 
-export function ChipGroup({ label, children }: { label: string; children: React.ReactNode }) {
+/**
+ * `onLabelClick` makes the group's name itself a control: multi-select
+ * groups toggle select/deselect-all, single-select filters clear back to
+ * "all" (user convention — every filter label on the site behaves this way).
+ */
+export function ChipGroup({
+  label,
+  onLabelClick,
+  labelTitle,
+  children,
+}: {
+  label: string
+  onLabelClick?: () => void
+  labelTitle?: string
+  children: React.ReactNode
+}) {
   return (
     <div className="flex flex-wrap items-center gap-1">
-      <span className="mr-0.5 text-xs text-muted-foreground">{label}</span>
+      {onLabelClick ? (
+        <button
+          type="button"
+          onClick={onLabelClick}
+          title={labelTitle}
+          className="mr-0.5 rounded-sm text-xs text-muted-foreground underline-offset-2 transition-colors duration-100 hover:text-foreground hover:underline"
+        >
+          {label}
+        </button>
+      ) : (
+        <span className="mr-0.5 text-xs text-muted-foreground">{label}</span>
+      )}
       {children}
     </div>
   )
