@@ -4,18 +4,17 @@ import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
-import { POS_LABELS } from '@/components/vocab/PosBadge'
 import { loadVocabLevels } from '@/lib/data/loader'
-import type { JlptLevel, VocabEntry, VocabPos } from '@/lib/data/types'
+import type { JlptLevel, VocabEntry } from '@/lib/data/types'
 
 interface AntonymsSearch {
   /** e.g. "5,4" — omitted means all levels, so no pair is hidden by level */
   levels?: string
-  pos?: VocabPos
 }
 
-const POS_VALUES: VocabPos[] = ['noun', 'adj-i', 'adj-na', 'adverb']
 const UNPAIRED_PAGE = 100
+
+const isAdjective = (w: VocabEntry) => w.pos === 'adj-i' || w.pos === 'adj-na'
 
 export const Route = createFileRoute('/vocab/antonyms')({
   validateSearch: (search: Record<string, unknown>): AntonymsSearch => {
@@ -23,7 +22,6 @@ export const Route = createFileRoute('/vocab/antonyms')({
     // ?levels=5 arrives as a number (router JSON-parses params) — normalize
     const levels = String(search.levels ?? '')
     if (/^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
-    if (POS_VALUES.includes(search.pos as VocabPos)) out.pos = search.pos as VocabPos
     return out
   },
   component: AntonymsPage,
@@ -74,9 +72,8 @@ function AntonymsPage() {
   const pairs = useMemo(() => {
     if (!all) return null
     const byId = new Map(all.map((w) => [w.id, w]))
-    const rows = all.filter(
-      (w) => levels.includes(w.jlpt) && (!search.pos || w.pos === search.pos),
-    )
+    // strictly adjectives — both columns
+    const rows = all.filter((w) => isAdjective(w) && levels.includes(w.jlpt))
     const used = new Set<string>()
     const paired: [VocabEntry, VocabEntry][] = []
     const alone: VocabEntry[] = []
@@ -85,7 +82,7 @@ function AntonymsPage() {
       used.add(word.id)
       const partner = (word.antonyms ?? [])
         .map((id) => byId.get(id))
-        .find((w): w is VocabEntry => Boolean(w))
+        .find((w): w is VocabEntry => Boolean(w && isAdjective(w)))
       if (partner) {
         used.add(partner.id)
         paired.push([word, partner])
@@ -94,7 +91,7 @@ function AntonymsPage() {
       }
     }
     return { paired, alone }
-  }, [all, levels, search.pos])
+  }, [all, levels])
 
   const setSearch = (patch: Partial<AntonymsSearch>) => {
     setUnpairedShown(UNPAIRED_PAGE)
@@ -112,32 +109,19 @@ function AntonymsPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold">Antonyms</h1>
+        <h1 className="text-2xl font-semibold">Adjective antonyms</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Learning words in opposite pairs makes both stick. Click a word for its
-          detail page.
+          Learning adjectives in opposite pairs makes both stick. Click a word for
+          its detail page.
         </p>
       </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <ChipGroup label="Level">
-          {([5, 4, 3, 2, 1] as const).map((level) => (
-            <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
-              N{level}
-            </Chip>
-          ))}
-        </ChipGroup>
-        <ChipGroup label="Type">
-          {POS_VALUES.map((pos) => (
-            <Chip
-              key={pos}
-              active={search.pos === pos}
-              onClick={() => setSearch({ pos: search.pos === pos ? undefined : pos })}
-            >
-              {POS_LABELS[pos]}
-            </Chip>
-          ))}
-        </ChipGroup>
-      </div>
+      <ChipGroup label="Level">
+        {([5, 4, 3, 2, 1] as const).map((level) => (
+          <Chip key={level} active={levels.includes(level)} onClick={() => toggleLevel(level)}>
+            N{level}
+          </Chip>
+        ))}
+      </ChipGroup>
 
       {pairs === null ? (
         <div className="py-12 text-center text-sm text-muted-foreground">Loading…</div>
@@ -145,7 +129,7 @@ function AntonymsPage() {
         <>
           <div className="overflow-hidden rounded-lg border">
             <div className="grid grid-cols-2 border-b bg-muted/40 text-xs font-medium text-muted-foreground">
-              <div className="p-2 pl-3">Word</div>
+              <div className="p-2 pl-3">Adjective</div>
               <div className="border-l p-2 pl-3">Antonym</div>
             </div>
             {pairs.paired.map(([left, right]) => (
