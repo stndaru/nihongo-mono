@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { Link, useRouterState, type LinkProps } from '@tanstack/react-router'
 import { ChevronDown, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -66,20 +67,55 @@ function NavDropdown({
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const active = activePrefixes.some((p) => pathname.startsWith(p))
+
+  // Linear-style hover behavior: open on trigger hover, close shortly after
+  // the pointer leaves both the trigger and the panel (the delay bridges the
+  // 4px gap between them). modal={false} so pointer events outside keep
+  // working — that's what lets "mouse moved away" close it.
+  const [open, setOpen] = useState(false)
+  const closeTimer = useRef<number | null>(null)
+  const cancelClose = () => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+  }
+  const scheduleClose = () => {
+    cancelClose()
+    closeTimer.current = window.setTimeout(() => setOpen(false), 200)
+  }
+  const openNow = () => {
+    cancelClose()
+    setOpen(true)
+  }
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenuTrigger
         className={cn(linkClass, 'flex items-center gap-0.5', active && activeClass)}
+        onMouseEnter={openNow}
+        onMouseLeave={scheduleClose}
       >
         {label}
         <ChevronDown className="size-3" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="grid w-[26rem] grid-cols-2 gap-1 p-2">
+      <DropdownMenuContent
+        align="start"
+        className="grid w-[26rem] grid-cols-2 gap-1 border-border/80 bg-muted p-2 shadow-lg dark:bg-popover dark:brightness-110"
+        onMouseEnter={openNow}
+        onMouseLeave={scheduleClose}
+      >
         {items.map((item) => (
-          <DropdownMenuItem key={item.to} asChild className="items-start">
+          <DropdownMenuItem
+            key={item.to}
+            asChild
+            className="cursor-pointer items-start focus:bg-background/80 dark:focus:bg-accent"
+          >
             <Link to={item.to} className="flex h-full flex-col gap-0.5 rounded-md p-2.5">
-              <span className="text-xs text-muted-foreground">{item.label}</span>
-              <span className="text-sm leading-snug font-medium">{item.description}</span>
+              <span className="text-sm font-medium">{item.label}</span>
+              <span className="text-xs leading-snug text-balance text-muted-foreground">
+                {item.description}
+              </span>
             </Link>
           </DropdownMenuItem>
         ))}

@@ -156,8 +156,10 @@ regardless of host compression config.
   (Verb/Noun/Adjective/Adverb/Other) always visible next to Level, with
   contextual sub-filters behind a "More Filters" toggle — verb
   class/ending/transitivity appear only while Verb is selected, い/な only
-  while Adjective is (a sub-filter never applies while its parent type is
-  deselected, so stale URL state can't silently filter; the collapsed
+  while Adjective is, and the full remaining POS list (Expression,
+  Interjection, Pronoun, Particle, Conjunction, Counter, Prefix, Suffix…)
+  only while Other is (a sub-filter never applies while its parent type
+  is deselected, so stale URL state can't silently filter; the collapsed
   toggle shows a hidden-active count). Beyond works like the other lists:
   both ext indexes, `EXT_LIMIT` cap per list, type selections mapped to a
   `VocabPos` whitelist for the ext row scan.
@@ -452,10 +454,15 @@ regardless of host compression config.
   **Tools** (dropdown: Sentence Parser / Quiz / Progress), then
   right-aligned Search (palette trigger with a platform-aware ⌘K/Ctrl K
   hint), theme toggle, and a Settings **icon** button. The dropdowns are
-  **Linear-style panels** (owner request, from a screenshot): a two-column
-  grid where each item shows its name as a small muted caption with a bold
-  one-line value description under it (`NavDropdown`); triggers highlight
-  when the current path starts with any of the group's routes.
+  **Linear-style panels** (owner request, from a screenshot; refined by a
+  feedback round): a two-column grid on a `bg-muted` surface (must stay
+  visually distinct from the page), each item a **bold title over a
+  small muted description** (`text-balance` so no orphan words),
+  `cursor-pointer`. They **open on hover and auto-close ~200 ms after
+  the pointer leaves** trigger + panel (controlled open state,
+  `modal={false}` — without it Radix blocks outside pointer events and
+  hover-away close can't work). Triggers highlight when the current
+  path starts with any of the group's routes.
 - **Detail pages carry a smart back control**
   (`components/layout/BackButton.tsx`, top-left on verb/vocab/kanji
   detail): when the tab has in-app history (`useCanGoBack()`), it calls

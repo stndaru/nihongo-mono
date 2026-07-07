@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { DictionaryTable, type DictRow } from '@/components/dictionary/DictionaryTable'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { SearchBox } from '@/components/verbs/SearchBox'
+import { POS_LABELS } from '@/components/vocab/PosBadge'
 import { searchVerbRows, searchVocabRows } from '@/lib/data/ext-search'
 import {
   loadVerbExtIndex,
@@ -74,6 +75,8 @@ interface DictionarySearch {
   ending?: string
   trans?: string
   adj?: string
+  /** "Other" sub-filter: specific POS within the Other bucket */
+  pos?: string
   common?: boolean
 }
 
@@ -107,6 +110,8 @@ export const Route = createFileRoute('/dictionary')({
     if (trans) out.trans = trans
     const adj = csvOf(search.adj, ADJ)
     if (adj) out.adj = adj
+    const pos = csvOf(search.pos, OTHER_POS)
+    if (pos) out.pos = pos
     if (search.common === true) out.common = true
     return out
   },
@@ -128,6 +133,7 @@ function DictionaryPage() {
   const endings = useMemo(() => parseCsv<'ru' | 'other'>(search.ending), [search.ending])
   const trans = useMemo(() => parseCsv<'vt' | 'vi'>(search.trans), [search.trans])
   const adj = useMemo(() => parseCsv<'i' | 'na'>(search.adj), [search.adj])
+  const posSub = useMemo(() => parseCsv<VocabPos>(search.pos), [search.pos])
 
   const jlptLevels = useMemo(() => levels.filter((l): l is JlptLevel => l !== 0), [levels])
   const beyond = levels.includes(0)
@@ -190,9 +196,9 @@ function DictionaryPage() {
     if (types.includes('noun')) out.push('noun')
     if (types.includes('adjective')) out.push(...adjPos)
     if (types.includes('adverb')) out.push('adverb')
-    if (types.includes('other')) out.push(...OTHER_POS)
+    if (types.includes('other')) out.push(...(posSub.length > 0 ? posSub : OTHER_POS))
     return out
-  }, [types, adjPos])
+  }, [types, adjPos, posSub])
 
   const results = useMemo(() => {
     if (!verbs || !vocab) return null
@@ -276,7 +282,7 @@ function DictionaryPage() {
   }
 
   const toggleCsv = <T extends string>(
-    key: 'types' | 'group' | 'ending' | 'trans' | 'adj',
+    key: 'types' | 'group' | 'ending' | 'trans' | 'adj' | 'pos',
     list: T[],
     item: T,
   ) => {
@@ -284,7 +290,7 @@ function DictionaryPage() {
     setSearch({ [key]: next.length > 0 ? next.join(',') : undefined })
   }
   const toggleAllCsv = <T extends string>(
-    key: 'types' | 'group' | 'ending' | 'trans' | 'adj',
+    key: 'types' | 'group' | 'ending' | 'trans' | 'adj' | 'pos',
     list: T[],
     all: readonly T[],
   ) => {
@@ -298,6 +304,7 @@ function DictionaryPage() {
   const hiddenActive =
     (types.includes('verb') ? groups.length + endings.length + trans.length : 0) +
     (types.includes('adjective') ? adj.length : 0) +
+    (types.includes('other') ? posSub.length : 0) +
     (search.common ? 1 : 0)
 
   return (
@@ -403,15 +410,28 @@ function DictionaryPage() {
               </Chip>
             </ChipGroup>
           )}
+          {types.includes('other') && (
+            <ChipGroup
+              label="Other Types"
+              onLabelClick={() => toggleAllCsv('pos', posSub, OTHER_POS)}
+              labelTitle="select/deselect all other word types"
+            >
+              {OTHER_POS.map((p) => (
+                <Chip key={p} active={posSub.includes(p)} onClick={() => toggleCsv('pos', posSub, p)}>
+                  {POS_LABELS[p]}
+                </Chip>
+              ))}
+            </ChipGroup>
+          )}
           <Chip
             active={search.common === true}
             onClick={() => setSearch({ common: search.common ? undefined : true })}
           >
             Common Only
           </Chip>
-          {!types.includes('verb') && !types.includes('adjective') && (
+          {!types.includes('verb') && !types.includes('adjective') && !types.includes('other') && (
             <span className="text-xs text-muted-foreground">
-              Select the Verb or Adjective type for its specific filters.
+              Select the Verb, Adjective, or Other type for its specific filters.
             </span>
           )}
         </div>
