@@ -10,7 +10,8 @@ scripts.
 
 ```bash
 bun run data:download   # fetch all sources → scripts/.cache/ (gitignored, idempotent, --force to refetch)
-bun run data:build      # build-verbs → build-vocab → build-kanji → build-extended → build-names
+bun run data:build      # build-verbs → build-vocab → build-kanji → build-extended → build-names → pack-jlpt
+bun run data:pack       # re-gzip src/data into public/data/jlpt (run after hand-editing src/data)
 ```
 
 Order matters: `build-extended.ts` reads the generated JLPT files to know

@@ -67,25 +67,26 @@ function tokenSegments(surface: string, reading: string): FuriganaSegment[] {
   return segs
 }
 
-export function sentenceFurigana(ja: string): FuriganaSegment[] | undefined {
-  if (!tokenizer || !hasKanji(ja)) return undefined
-  const segs: FuriganaSegment[] = []
-  const plain = (t: string) => {
-    const last = segs[segs.length - 1]
-    if (last && !last.r) last.t += t
-    else segs.push({ t })
-  }
+/**
+ * Compact bracket form: ｜base[reading] runs inline with plain text, e.g.
+ * もっと｜果物[くだもの]を｜食[た]べる (the shape parseFurigana in
+ * src/lib/data/furigana.ts reads back). The ｜ marks where an annotated
+ * base starts — without it the base/plain boundary is ambiguous. Sentences
+ * that already use the delimiter characters are skipped.
+ */
+export function sentenceFurigana(ja: string): string | undefined {
+  if (!tokenizer || !hasKanji(ja) || /[[\]｜]/.test(ja)) return undefined
+  let out = ''
   for (const token of tokenizer.tokenize(ja)) {
     const surface = token.surface_form
     const reading = token.reading && token.reading !== '*' ? toHiragana(token.reading) : ''
     if (!hasKanji(surface) || !reading) {
-      plain(surface)
+      out += surface
       continue
     }
     for (const seg of tokenSegments(surface, reading)) {
-      if (seg.r) segs.push(seg)
-      else plain(seg.t)
+      out += seg.r ? `｜${seg.t}[${seg.r}]` : seg.t
     }
   }
-  return segs
+  return out
 }

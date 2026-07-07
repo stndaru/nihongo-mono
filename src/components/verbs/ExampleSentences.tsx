@@ -1,3 +1,4 @@
+import { parseFurigana } from '@/lib/data/furigana'
 import type { ExampleSentence } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
 import { Furigana } from './Furigana'
@@ -12,7 +13,9 @@ export function ExampleJa({
 }) {
   if (example.f) {
     // sentences must wrap, unlike single-word furigana
-    return <Furigana segments={example.f} className={cn('whitespace-normal', className)} />
+    return (
+      <Furigana segments={parseFurigana(example.f)} className={cn('whitespace-normal', className)} />
+    )
   }
   return (
     <span lang="ja" className={className}>

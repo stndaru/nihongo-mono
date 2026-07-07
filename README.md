@@ -50,17 +50,19 @@ bun run build      # production build (vite build && tsc -b)
 
 Word and kanji data are generated JSON in two tiers. The JLPT tier is
 committed under `src/data/`, one pretty-printed (hand-editable) file per
-level, bundled per level so the app only downloads what you browse. The
-extended tier — every remaining JMdict entry plus all JMnedict names — is
-too large to bundle, so it's written pre-gzipped under `public/data/`
-(compact search indexes plus id-sharded detail files, `.json.gz` inflated
-in the browser via `DecompressionStream`) and fetched on demand. Search
-over the extended index runs on the raw rows and only materializes the
-matches it shows, so enabling "Beyond" stays responsive.
+level; `bun run data:pack` gzips it into `public/data/jlpt/`, which is what
+the app fetches per level — so it only downloads what you browse, and the
+multi-MB JSON stays out of the JS bundle. The extended tier — every
+remaining JMdict entry plus all JMnedict names — is also served pre-gzipped
+under `public/data/` (compact search indexes plus id-sharded detail files,
+`.json.gz` inflated in the browser via `DecompressionStream`) and fetched
+on demand. Search over the extended index runs on the raw rows and only
+materializes the matches it shows, so enabling "Beyond" stays responsive.
 
 ```bash
 bun run data:download   # fetch JMdict, JMnedict, KANJIDIC2, JmdictFurigana, JLPT lists → scripts/.cache/
-bun run data:build      # regenerate src/data/ (JLPT tier) and public/data/ (extended tier + names)
+bun run data:build      # regenerate src/data/ (JLPT tier) and public/data/ (runtime tiers)
+bun run data:pack       # re-gzip src/data into public/data/jlpt after hand edits
 ```
 
 The build is idempotent and writes review logs (`furigana-misses.txt`,

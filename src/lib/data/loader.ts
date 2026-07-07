@@ -11,13 +11,16 @@ import type {
 const verbCache = new Map<JlptLevel, Promise<VerbEntry[]>>()
 const vocabCache = new Map<JlptLevel, Promise<VocabEntry[]>>()
 
-/** Lazy-loads one JLPT level's verbs; each level is its own Vite chunk. */
+/**
+ * Lazy-loads one JLPT level's verbs. Served as pre-gzipped static files
+ * (public/data/jlpt, written by scripts/pack-jlpt.ts) rather than JSON
+ * imports — Vite modules carried the pretty-printing plus an inline
+ * sourcemap, inflating a 2.9 MB file to a 24 MB dev download.
+ */
 export function loadVerbLevel(level: JlptLevel): Promise<VerbEntry[]> {
   let cached = verbCache.get(level)
   if (!cached) {
-    cached = import(`../../data/verbs/n${level}.json`).then(
-      (m: { default: VerbEntry[] }) => m.default,
-    )
+    cached = fetchJsonGz<VerbEntry[]>(`jlpt/verbs-n${level}.json.gz`)
     verbCache.set(level, cached)
   }
   return cached
@@ -26,9 +29,7 @@ export function loadVerbLevel(level: JlptLevel): Promise<VerbEntry[]> {
 export function loadVocabLevel(level: JlptLevel): Promise<VocabEntry[]> {
   let cached = vocabCache.get(level)
   if (!cached) {
-    cached = import(`../../data/vocab/n${level}.json`).then(
-      (m: { default: VocabEntry[] }) => m.default,
-    )
+    cached = fetchJsonGz<VocabEntry[]>(`jlpt/vocab-n${level}.json.gz`)
     vocabCache.set(level, cached)
   }
   return cached
@@ -74,9 +75,7 @@ export async function loadVocabLevels(levels: readonly JlptLevel[]): Promise<Voc
 let kanjiCache: Promise<Record<string, KanjiEntry>> | null = null
 
 export function loadKanji(): Promise<Record<string, KanjiEntry>> {
-  kanjiCache ??= import('../../data/kanji/kanji.json').then(
-    (m) => m.default as Record<string, KanjiEntry>,
-  )
+  kanjiCache ??= fetchJsonGz<Record<string, KanjiEntry>>('jlpt/kanji.json.gz')
   return kanjiCache
 }
 

@@ -6,6 +6,9 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // the dataset JSON is large — ship it as one JSON.parse("…") string per
+  // module (smaller than an object literal, and faster for engines to parse)
+  json: { stringify: true, namedExports: false },
   plugins: [
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),

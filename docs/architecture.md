@@ -25,14 +25,18 @@
 
 ## The two-tier data model (the most important design)
 
-### Tier 1 — JLPT ("the learning core"), bundled
+### Tier 1 — JLPT ("the learning core")
 
-- `src/data/verbs/n{1..5}.json`, `src/data/vocab/n{1..5}.json`,
-  `src/data/kanji/kanji.json`, `src/data/meta.json`.
-- Pretty-printed, stable-ordered → **hand-editable**; manual edits persist
-  until the next `data:build` regeneration.
-- Imported with dynamic `import()` per level in `src/lib/data/loader.ts`, so
-  each level is its own Vite chunk and only checked levels download.
+- Source of truth: `src/data/verbs/n{1..5}.json`, `src/data/vocab/n{1..5}.json`,
+  `src/data/kanji/kanji.json`, `src/data/meta.json` — pretty-printed,
+  stable-ordered, **hand-editable** (re-run `bun run data:pack` after edits).
+- What the app fetches: `public/data/jlpt/*.json.gz`, written by
+  `scripts/pack-jlpt.ts` and loaded per level via `fetchJsonGz` in
+  `src/lib/data/loader.ts`. **Never import the dataset JSON through the JS
+  module graph** — Vite dev modules carry the pretty-printing plus an inline
+  sourcemap (a 2.9 MB file became a 24 MB dev download; a page browse hit
+  230 MB), and prod would bundle megabyte JS chunks. As static .gz the same
+  data is ~2 MB total on the wire.
 - Entries are rich: furigana segments (from JmdictFurigana), up to 3 example
   sentences, per-sense meanings with per-sense examples, antonym/synonym id
   links, verb class/transitivity or part of speech.

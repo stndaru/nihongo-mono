@@ -1,6 +1,26 @@
 import type { FuriganaSegment } from './types'
 
 /**
+ * Parses the compact bracket form the build scripts emit for example
+ * sentences — もっと｜果物[くだもの]を｜食[た]べる — back into ruby
+ * segments (｜ marks the start of an annotated base). The string form is
+ * 5–10× smaller on the wire than segment objects, which is why it exists.
+ */
+export function parseFurigana(f: string): FuriganaSegment[] {
+  const segs: FuriganaSegment[] = []
+  const re = /｜([^[]+)\[([^\]]+)\]/g
+  let last = 0
+  for (let m = re.exec(f); m; m = re.exec(f)) {
+    // plain text between the previous annotation and this one
+    if (m.index > last) segs.push({ t: f.slice(last, m.index) })
+    segs.push({ t: m[1], r: m[2] })
+    last = re.lastIndex
+  }
+  if (last < f.length) segs.push({ t: f.slice(last) })
+  return segs
+}
+
+/**
  * Derives ruby segments for any kanji/kana surface pair, e.g. a conjugated
  * form the dataset has no precomputed furigana for. The shared kana tail is
  * left bare and the differing head becomes one ruby segment, which also
