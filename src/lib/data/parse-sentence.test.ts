@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import type { VerbEntry, VocabEntry } from './types'
 import {
   buildParserDicts,
+  collectUnlinkedSurfaces,
   isJapaneseOnly,
+  linkBeyondWords,
   parseSentence,
   stripNonJapanese,
   tokensToSegments,
@@ -212,6 +214,21 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].word?.entry.id).toBe('w1')
   })
 
+  it('prefers the common/easier entry among homographs, in any insert order', () => {
+    // こと must resolve to 事 "thing" (N5, common), never 琴 the zither (N3)
+    const koto = word('thing', '事', 'こと')
+    const zither = word('zither', '琴', 'こと')
+    zither.jlpt = 3
+    for (const vocab of [
+      [koto, zither],
+      [zither, koto],
+    ]) {
+      const dicts = buildParserDicts([], vocab)
+      const segs = tokensToSegments([tok('こと', '名詞', '非自立', 'こと', 'コト')], dicts)
+      expect(segs[0].word?.entry.id).toBe('thing')
+    }
+  })
+
   it('never links a particle token to a content word sharing its kana', () => {
     // で the particle must not become 出 (で) the noun
     const dicts = buildParserDicts([], [word('w9', '出', 'で'), word('w5', 'の', 'の', 'particle')])
@@ -273,6 +290,49 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs).toHaveLength(1)
     expect(segs[0].text).toBe('食べてしまった')
     expect(segs[0].word?.entry.id).toBe('v1')
+  })
+})
+
+describe('Beyond linking', () => {
+  const DICTS = buildParserDicts([verb('v1', '食べる', 'たべる', 'v1')], [])
+
+  it('collects only unlinked content-word surfaces', () => {
+    const segs = tokensToSegments(
+      [
+        tok('渦潮', '名詞', '一般', '渦潮', 'ウズシオ'),
+        tok('を', '助詞', '格助詞', 'を', 'ヲ'),
+        tok('食べ', '動詞', '自立', '食べる', 'タベ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      DICTS,
+    )
+    const { verbs, words } = collectUnlinkedSurfaces(segs)
+    expect([...words]).toEqual(['渦潮']) // を is a particle, 食べた is linked
+    expect(verbs.size).toBe(0)
+  })
+
+  it('attaches extended entries with the conjugation identified', () => {
+    const segs = tokensToSegments(
+      [
+        tok('彷徨っ', '動詞', '自立', '彷徨う', 'サマヨッ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+        tok('渦潮', '名詞', '一般', '渦潮', 'ウズシオ'),
+      ],
+      DICTS,
+    )
+    const extVerb = verb('e1', '彷徨う', 'さまよう', 'v5u')
+    extVerb.jlpt = 0 as never
+    const extNoun = word('e2', '渦潮', 'うずしお')
+    extNoun.jlpt = 0 as never
+    const linked = linkBeyondWords(
+      segs,
+      new Map([['彷徨う', extVerb]]),
+      new Map([['渦潮', extNoun]]),
+    )
+    expect(linked[0].word?.entry.id).toBe('e1')
+    expect(linked[0].word?.formLabel).toBe('Past')
+    expect(linked[1].word?.entry.id).toBe('e2')
+    expect(linked[1].word?.entry.jlpt).toBe(0)
   })
 })
 

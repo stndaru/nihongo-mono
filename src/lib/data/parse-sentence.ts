@@ -86,26 +86,51 @@ export interface ParserDicts {
   adjectives: Map<string, VocabEntry>
 }
 
+/**
+ * Homograph tie-break for surfaces claimed by several entries: verbs first
+ * (existing behavior for surfaces that are both), then common words, then
+ * the easier JLPT level — so kana こと resolves to 事 (N5, common), not
+ * 琴 the zither (N3). Insertion order must never decide.
+ */
+function hitScore(entry: VerbEntry | VocabEntry, isVerb: boolean): number {
+  return (isVerb ? 100 : 0) + (entry.common ? 10 : 0) + entry.jlpt
+}
+
+function setPreferring(map: Map<string, DictHit>, key: string, hit: DictHit): void {
+  const prev = map.get(key)
+  if (!prev || hitScore(hit.entry, hit.isVerb) > hitScore(prev.entry, prev.isVerb)) {
+    map.set(key, hit)
+  }
+}
+
+function setPreferringT<T extends VerbEntry | VocabEntry>(
+  map: Map<string, T>,
+  key: string,
+  entry: T,
+): void {
+  const prev = map.get(key)
+  if (!prev || hitScore(entry, false) > hitScore(prev, false)) map.set(key, entry)
+}
+
 export function buildParserDicts(verbs: VerbEntry[], vocab: VocabEntry[]): ParserDicts {
   const lookup = new Map<string, DictHit>()
   const verbMap = new Map<string, VerbEntry>()
   const adjMap = new Map<string, VocabEntry>()
   for (const entry of vocab) {
     const hit = { entry, isVerb: false }
-    if (entry.kanji) lookup.set(entry.kanji, hit)
-    if (entry.kana) lookup.set(entry.kana, hit)
+    if (entry.kanji) setPreferring(lookup, entry.kanji, hit)
+    if (entry.kana) setPreferring(lookup, entry.kana, hit)
     if (entry.pos === 'adj-i') {
-      if (entry.kanji) adjMap.set(entry.kanji, entry)
-      if (entry.kana) adjMap.set(entry.kana, entry)
+      if (entry.kanji) setPreferringT(adjMap, entry.kanji, entry)
+      if (entry.kana) setPreferringT(adjMap, entry.kana, entry)
     }
   }
-  // verbs second so a surface that is both (勉強する) resolves to the verb
   for (const entry of verbs) {
     const hit = { entry, isVerb: true }
-    if (entry.kanji) lookup.set(entry.kanji, hit)
-    if (entry.kana) lookup.set(entry.kana, hit)
-    if (entry.kanji) verbMap.set(entry.kanji, entry)
-    if (entry.kana) verbMap.set(entry.kana, entry)
+    if (entry.kanji) setPreferring(lookup, entry.kanji, hit)
+    if (entry.kana) setPreferring(lookup, entry.kana, hit)
+    if (entry.kanji) setPreferringT(verbMap, entry.kanji, entry)
+    if (entry.kana) setPreferringT(verbMap, entry.kana, entry)
   }
   return { lookup, verbs: verbMap, adjectives: adjMap }
 }
@@ -412,6 +437,57 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
     i += 1
   }
   return segments
+}
+
+// --- Beyond-tier linking (smart mode only) -----------------------------------
+// Content-word tokens the JLPT maps missed get a second chance against the
+// extended indexes, so 渦潮 links to its JMdict entry marked "Beyond".
+
+/** Surfaces worth querying against the extended indexes. */
+export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
+  verbs: Set<string>
+  words: Set<string>
+} {
+  const verbs = new Set<string>()
+  const words = new Set<string>()
+  for (const seg of segments) {
+    if (seg.word || !seg.token) continue
+    if (seg.token.pos === 'particle' || seg.token.pos === 'other') continue
+    const base = seg.token.baseForm ?? seg.text
+    if (seg.token.pos === 'verb') {
+      verbs.add(base)
+    } else {
+      words.add(seg.text)
+      if (base !== seg.text) words.add(base)
+    }
+  }
+  return { verbs, words }
+}
+
+/** Attaches extended-tier entries (jlpt 0 → "Beyond" badge) to the misses. */
+export function linkBeyondWords(
+  segments: ParsedSegment[],
+  verbEntries: Map<string, VerbEntry>,
+  vocabEntries: Map<string, VocabEntry>,
+): ParsedSegment[] {
+  return segments.map((seg) => {
+    if (seg.word || !seg.token) return seg
+    const base = seg.token.baseForm ?? seg.text
+    if (seg.token.pos === 'verb') {
+      const verb = verbEntries.get(base)
+      if (!verb) return seg
+      const isDictForm = seg.text === verb.kanji || seg.text === verb.kana
+      const formLabel = isDictForm ? null : (identifyVerbForm(verb, seg.text) ?? 'Conjugated')
+      return { ...seg, word: { entry: verb, isVerb: true, surface: seg.text, formLabel } }
+    }
+    const entry = vocabEntries.get(seg.text) ?? vocabEntries.get(base)
+    if (!entry) return seg
+    const formLabel =
+      entry.pos === 'adj-i' && seg.text !== entry.kanji && seg.text !== entry.kana
+        ? (identifyAdjForm(entry, seg.text) ?? 'Inflected')
+        : null
+    return { ...seg, word: { entry, isVerb: false, surface: seg.text, formLabel } }
+  })
 }
 
 /** The matched words in order of first appearance, deduped by id+surface. */

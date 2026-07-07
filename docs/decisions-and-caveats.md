@@ -173,6 +173,15 @@ feedback on many of these — treat them as requirements, not suggestions.
     and a real merge-rule bug was fixed — compound verbs were being glued
     (遊び始めた rendered as one 遊ぶ), now 非自立 verbs merge only after
     a て/で connective, so it splits into 遊び (Stem) + 始めた (Past).
+26. **Parser round 3** (owner-reported こと→琴 mislink): homograph
+    surfaces now resolve by preference (common, then easier JLPT level;
+    verbs still beat vocab) instead of insertion order. **Beyond
+    linking**: in smart mode, unlinked content words get an
+    exact-surface pass over the extended indexes (~6 MB, loaded on the
+    first parse with misses; disclosed in the Smart Parsing dialog) and
+    link as lite entries with the Beyond badge — an explicit owner
+    request. Scrollbars restyled to a thin theme-aware pill (webkit
+    pseudos + Firefox standard props behind a -moz guard).
 
 ## Known limitations / accepted trade-offs
 

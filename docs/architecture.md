@@ -200,6 +200,21 @@ regardless of host compression config.
   `/kanji/$char` in a new tab), and an "Open Detail Page" button that
   opens the verb/vocab page in a **new tab**. The Words Found rows open
   the same popup. Hover tooltips remain for quick glances.
+- **Homographs resolve by preference, never insertion order**
+  (`hitScore` in `buildParserDicts`): verbs beat vocab on shared
+  surfaces, then common words, then the easier JLPT level — kana こと
+  is 事 "thing" (N5), not 琴 the zither (N3), which insertion order once
+  picked. Particle/auxiliary tokens additionally refuse to link to
+  content words that merely share their kana (で ≠ 出).
+- **Beyond linking (smart mode)**: content-word tokens the JLPT maps
+  missed get a second pass against the extended indexes
+  (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —
+  one exact-surface scan, first hit wins since rows are common-first).
+  The indexes (~6 MB, shared with the palette's Include Full
+  Dictionary) load on the first smart parse that has misses; matches
+  attach as lite entries with `jlpt: 0`, so they render the **Beyond**
+  badge and open real detail pages. Truly-unknown words keep the faded
+  underline and "no dictionary entry" tooltip.
 - **Honest-boundary rule**: a deconjugation match is accepted only when
   the surface EXACTLY equals one of the candidate's conjugated forms
   (`conjugate` / `inflectAdjective` over all forms) — so 食べていた
@@ -423,6 +438,12 @@ regardless of host compression config.
   (`ExampleJa`) override with `whitespace-normal` so lines wrap.
 - Buttons and labels use **Title Case** (user preference). All clickables
   get `cursor: pointer` (base rule in index.css).
+- **Scrollbars are custom-styled** (index.css): thin rounded pill on a
+  transparent track, theme-aware via `--muted-foreground` color-mix.
+  Chromium/Safari use the `::-webkit-scrollbar` pseudos; Firefox gets the
+  standard `scrollbar-width`/`scrollbar-color` behind a `-moz` support
+  guard — Chromium ignores the webkit pseudos entirely once
+  `scrollbar-color` is set, so the two must not both apply.
 
 ## Branding & meta
 

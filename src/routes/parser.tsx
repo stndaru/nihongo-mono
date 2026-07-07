@@ -17,10 +17,18 @@ import {
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { PosBadge } from '@/components/vocab/PosBadge'
-import { loadVerbLevels, loadVocabLevels } from '@/lib/data/loader'
+import { findVerbRowsBySurface, findVocabRowsBySurface } from '@/lib/data/ext-search'
+import {
+  loadVerbExtIndex,
+  loadVerbLevels,
+  loadVocabExtIndex,
+  loadVocabLevels,
+} from '@/lib/data/loader'
 import { loadTokenizer, tokenizerReady } from '@/lib/data/kuromoji'
 import {
   buildParserDicts,
+  collectUnlinkedSurfaces,
+  linkBeyondWords,
   parseSentence,
   stripNonJapanese,
   tokensToSegments,
@@ -214,7 +222,7 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
           {token.posLabel}
         </Badge>
         {contentWord && (
-          <span className="text-xs text-muted-foreground">not in the JLPT lists</span>
+          <span className="text-xs text-muted-foreground">no dictionary entry</span>
         )}
       </div>
     </TooltipShell>
@@ -253,6 +261,7 @@ function ParserPage() {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
+  const [extLoading, setExtLoading] = useState(false)
   const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
 
   const onInput = (raw: string) => {
@@ -284,7 +293,29 @@ function ParserPage() {
         if (!alive) return
         setDownload(null)
         setAnalyzerFailed(false)
-        setResult({ segments: tokensToSegments(tokenizer.tokenize(q), dicts), engine: 'accurate' })
+        const segments = tokensToSegments(tokenizer.tokenize(q), dicts)
+        setResult({ segments, engine: 'accurate' })
+        // second pass: content words the JLPT maps missed get looked up in
+        // the extended indexes and linked as "Beyond" entries
+        const { verbs, words } = collectUnlinkedSurfaces(segments)
+        if (verbs.size + words.size === 0) return
+        setExtLoading(true)
+        Promise.all([loadVerbExtIndex(), loadVocabExtIndex()])
+          .then(([verbRows, vocabRows]) => {
+            if (!alive) return
+            const verbHits = findVerbRowsBySurface(verbRows, verbs)
+            const vocabHits = findVocabRowsBySurface(vocabRows, words)
+            if (verbHits.size + vocabHits.size > 0) {
+              setResult({
+                segments: linkBeyondWords(segments, verbHits, vocabHits),
+                engine: 'accurate',
+              })
+            }
+          })
+          .catch(() => {}) // no Beyond links is a degraded state, not an error
+          .finally(() => {
+            if (alive) setExtLoading(false)
+          })
       })
       .catch(() => {
         if (!alive) return
@@ -368,8 +399,11 @@ function ParserPage() {
               <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
             </li>
             <li>
-              Only JLPT-listed words are clickable; with Smart Parsing, other
-              words still show their reading and part of speech on hover.
+              Only JLPT-listed words are clickable in the default mode. With
+              Smart Parsing, other dictionary words link too (marked{' '}
+              <span className="font-medium">Beyond</span>), and anything not in
+              the dictionary still shows its reading and part of speech on
+              hover.
             </li>
           </ul>
         </div>
@@ -419,6 +453,11 @@ function ParserPage() {
               dictionary-match breakdown instead.
             </p>
           )}
+          {extLoading && (
+            <p className="text-xs text-muted-foreground">
+              Checking the full dictionary for words outside the JLPT lists…
+            </p>
+          )}
         </div>
 
         {result && (
@@ -450,7 +489,7 @@ function ParserPage() {
                       {l.label}
                     </span>
                   ))}
-                  <span>· faded underline = not JLPT-listed · gray = particles &amp; endings</span>
+                  <span>· faded underline = not in the dictionary · gray = particles &amp; endings</span>
                 </div>
               ) : (
                 !smart && (
@@ -530,10 +569,11 @@ function ParserPage() {
               <DialogDescription>
                 This downloads the kuromoji morphological analyzer and its IPADIC
                 dictionary — a one-time download of about 17&nbsp;MB, cached by
-                your browser afterwards. Sentences are then segmented by a real
-                analyzer: better word boundaries, furigana on every word, and
-                reading/part-of-speech info even for words outside the JLPT
-                lists.
+                your browser afterwards (plus a ~6&nbsp;MB full-dictionary index
+                the first time a sentence contains words outside the JLPT
+                lists). Sentences are then segmented by a real analyzer: better
+                word boundaries, furigana on every word, and clickable entries
+                even beyond the JLPT lists.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>

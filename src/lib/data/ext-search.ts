@@ -124,6 +124,39 @@ function matVerb(row: VerbIndexRow): VerbEntry {
   }
 }
 
+/**
+ * Exact-surface lookups for the sentence parser's Beyond linking: one pass
+ * over the raw rows (they're common-first, so the first hit per surface is
+ * the best one), materializing only the handful of matches.
+ */
+export function findVocabRowsBySurface(
+  rows: VocabIndexRow[],
+  surfaces: ReadonlySet<string>,
+): Map<string, VocabEntry> {
+  if (surfaces.size === 0) return new Map()
+  const hits = new Map<string, VocabIndexRow>()
+  for (const row of rows) {
+    if (hits.size >= surfaces.size) break
+    if (surfaces.has(row[1]) && !hits.has(row[1])) hits.set(row[1], row)
+    if (surfaces.has(row[2]) && !hits.has(row[2])) hits.set(row[2], row)
+  }
+  return new Map([...hits].map(([surface, row]) => [surface, matVocab(row)]))
+}
+
+export function findVerbRowsBySurface(
+  rows: VerbIndexRow[],
+  surfaces: ReadonlySet<string>,
+): Map<string, VerbEntry> {
+  if (surfaces.size === 0) return new Map()
+  const hits = new Map<string, VerbIndexRow>()
+  for (const row of rows) {
+    if (hits.size >= surfaces.size) break
+    if (surfaces.has(row[1]) && !hits.has(row[1])) hits.set(row[1], row)
+    if (surfaces.has(row[2]) && !hits.has(row[2])) hits.set(row[2], row)
+  }
+  return new Map([...hits].map(([surface, row]) => [surface, matVerb(row)]))
+}
+
 export function searchVocabRows(
   rows: VocabIndexRow[],
   query: string,
