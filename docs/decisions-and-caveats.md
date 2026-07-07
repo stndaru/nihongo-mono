@@ -77,10 +77,13 @@ feedback on many of these — treat them as requirements, not suggestions.
 - The names/extended data is one row per entry using the **primary**
   kanji/kana form; alternate spellings of a name are separate JMnedict
   entries or dropped variants.
-- **Git history still contains the pre-gzip ~145 MB blobs** (commit
-  68e0076). The working tree is small now, but a clone pulls the old blobs.
-  If the repo is ever published, consider rewriting/squashing those two
-  data commits first (nothing has been pushed anywhere as of this writing).
+- Git history was **rewritten once** (before anything was pushed) to squash
+  the two full-coverage data commits: the intermediate ~145 MB of
+  uncompressed `public/data/*.json` never existed in the surviving history,
+  so clones stay small. Those files were generated artifacts — fully
+  reproducible with `bun run data:download && bun run data:build` — which is
+  why dropping them was safe. Commit hashes quoted in notes written before
+  the rewrite no longer resolve.
 - `performance.memory`-style dev measurements were taken on the dev server;
   production is lighter but hasn't been profiled separately.
 
@@ -91,7 +94,6 @@ feedback on many of these — treat them as requirements, not suggestions.
   source (already listed on the About page). `kanji.json` already contains
   all 10,384 KANJIDIC2 entries, so the data is ready.
 - **Jreibun example sentences** once their dataset is published.
-- Possible history rewrite to drop the large blobs (owner not yet asked).
 
 ## Where the authoritative statements live
 
