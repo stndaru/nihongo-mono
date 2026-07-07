@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { LogOut } from 'lucide-react'
 import { toHiragana } from 'wanakana'
 import { AnswerFeedback } from '@/components/quiz/AnswerFeedback'
 import { KanaInput } from '@/components/quiz/KanaInput'
@@ -164,7 +165,15 @@ function QuizSessionPage() {
             style={{ width: `${(state.index / state.questions.length) * 100}%` }}
           />
         </div>
-        <div className="mt-2 flex justify-end">
+        <div className="mt-2 flex items-center justify-between">
+          {/* navigating away triggers the leave confirmation */}
+          <Link
+            to="/quiz"
+            className="flex items-center gap-1 rounded-md px-1.5 py-1 text-xs text-muted-foreground transition-colors duration-100 hover:text-foreground"
+            title="Exit this quiz"
+          >
+            <LogOut className="size-3.5 rotate-180" /> Exit
+          </Link>
           <QuizDisplayToggles display={display} onChange={setDisplay} />
         </div>
       </div>
