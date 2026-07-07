@@ -290,6 +290,17 @@ feedback on many of these — treat them as requirements, not suggestions.
     footer gained a GitHub icon link (inline SVG — lucide dropped its
     brand icons) to github.com/stndaru/nihongo-mono.
 
+34. **Every `grid` needs an explicit mobile column** (owner-reported:
+    vocab detail and parser pages scrolled horizontally on phones when
+    a card held a long gloss). A `grid` with only `sm:grid-cols-*`
+    leaves phones on an *implicit auto* column, which grows to the
+    widest row's single-line width — Tailwind's `grid-cols-1` is
+    `minmax(0, 1fr)` and caps it at the container. All card grids
+    (related words, parser Words Found, MC choices, kanji breakdown,
+    cheatsheet, progress forms) now carry `grid-cols-1`; keep it on any
+    new grid whose cells can hold long text. Same round: the footer
+    stacks vertically on phones (`flex-col`, `sm:flex-row`).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

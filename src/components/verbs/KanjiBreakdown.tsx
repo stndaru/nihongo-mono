@@ -26,7 +26,7 @@ export function KanjiBreakdown({ chars }: { chars: string[] }) {
   if (entries.length === 0) return null
 
   return (
-    <div className="grid gap-2.5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
       {entries.map((entry) => (
         <Link
           key={entry.char}

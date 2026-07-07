@@ -516,7 +516,9 @@ function ParserPage() {
                   lists, or an unusual spelling.
                 </p>
               ) : (
-                <div className="grid gap-1.5">
+                // grid-cols-1 (minmax(0,1fr)): an implicit auto column grows past the
+                // viewport when a row's single-line width exceeds it (long glosses)
+                <div className="grid grid-cols-1 gap-1.5">
                   {words.map((word) => (
                     <button
                       key={`${word.entry.id}:${word.surface}`}

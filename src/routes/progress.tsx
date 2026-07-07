@@ -258,7 +258,7 @@ function ProgressPage() {
           <p className="mb-3 text-xs text-muted-foreground">
             Accuracy per asked form in the conjugation quiz, weakest first.
           </p>
-          <div className="grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
             {forms.map((row) => (
               <div key={row.form}>
                 <div className="flex items-baseline justify-between gap-2 text-sm">

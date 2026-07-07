@@ -7,7 +7,8 @@ export function RelatedWords({ title, words }: { title: string; words: VocabEntr
   return (
     <section>
       <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-      <div className="grid gap-2 sm:grid-cols-2">
+      {/* explicit cols: an implicit auto column would grow past the viewport on long glosses */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {words.map((word) => (
           <Link
             key={word.id}

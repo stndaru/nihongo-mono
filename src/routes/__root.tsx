@@ -43,7 +43,7 @@ function RootShell() {
         <Search className="size-5" />
       </button>
       <footer className="border-t py-3">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 text-xs text-muted-foreground sm:px-4">
+        <div className="mx-auto flex max-w-5xl flex-col gap-1.5 px-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-4">
           <span>nihongo mono — no login, data stays in your browser</span>
           <span className="flex items-center gap-3">
             <Link to="/about" className="underline-offset-2 hover:underline">

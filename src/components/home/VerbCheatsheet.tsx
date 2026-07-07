@@ -189,7 +189,7 @@ export function VerbCheatsheet() {
         </ol>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card accent="godan" glyph="五" title="Godan" tag="五段 ・ u-verbs ・ ~70% of all verbs">
           <Row icon="what" label="What">
             The last kana slides across the five vowel rows — that slide{' '}
