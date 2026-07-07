@@ -1,5 +1,6 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Settings } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,15 +15,12 @@ const NAV = [
   { to: '/verbs', label: 'Verbs' },
 ] as const
 
-const NAV_AFTER = [
-  { to: '/names', label: 'Names' },
-  { to: '/quiz', label: 'Quiz' },
-  { to: '/settings', label: 'Settings' },
-] as const
+const NAV_AFTER = [{ to: '/quiz', label: 'Quiz' }] as const
 
 const VOCAB_ITEMS = [
   { to: '/vocab', label: 'All Vocabulary' },
   { to: '/vocab/antonyms', label: 'Antonyms' },
+  { to: '/names', label: 'Proper Names' },
 ] as const
 
 const linkClass =
@@ -44,7 +42,7 @@ function NavLink({ to, label, exact }: { to: string; label: string; exact?: bool
 
 function VocabDropdown() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const active = pathname.startsWith('/vocab')
+  const active = pathname.startsWith('/vocab') || pathname.startsWith('/names')
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -86,8 +84,13 @@ export function Header() {
             <NavLink key={item.to} {...item} />
           ))}
         </nav>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-0.5">
           <ThemeToggle />
+          <Button variant="ghost" size="icon" asChild title="Settings" aria-label="Settings">
+            <Link to="/settings" activeProps={{ className: 'bg-secondary' }}>
+              <Settings className="size-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </header>
