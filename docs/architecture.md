@@ -416,14 +416,17 @@ regardless of host compression config.
 
 ## App shell & navigation
 
-- **Filter-group labels are clickable** (`ChipGroup`'s `onLabelClick` in
-  `components/ui/chip.tsx`, plus `ToggleAllHeading` on the quiz setup
-  pages): multi-select groups toggle select/deselect-all — Level toggles
-  every JLPT chip while the Beyond chip keeps its own state — and
-  single-select groups clear back to "all". List routes accept
-  `levels=none` in the URL for the all-deselected state (their default
-  kicks in when the param is absent, so empty needs a sentinel); quiz
-  Start buttons disable while any required group is empty.
+- **Filter-group labels are clickable and every group is multi-select**
+  (`ChipGroup`'s `onLabelClick` in `components/ui/chip.tsx`, plus
+  `ToggleAllHeading` on the quiz setup pages): the label toggles
+  select/deselect-all. Level toggles every JLPT chip while the Beyond
+  chip keeps its own state. Type/Ends/Trans./POS/Status are true
+  multi-selects (`VerbFilterState`/`VocabFilterState` carry arrays;
+  empty = no constraint; csv URL params, legacy single-value URLs still
+  parse). Level is the exception where empty means "nothing shown" —
+  levels select content, so list routes accept a `levels=none` URL
+  sentinel for that state. Quiz Start buttons disable while any
+  required group is empty.
 - **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
   (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
   highlights for `/names`) · Kanji · Parser · Quiz · Progress, then

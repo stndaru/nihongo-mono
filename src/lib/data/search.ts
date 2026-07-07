@@ -3,33 +3,48 @@ import { classGroup, type ClassGroup } from '@/lib/conjugation'
 import { deconjugate } from './deconjugate'
 import type { VerbEntry, VocabEntry, VocabPos, WordBase } from './types'
 
+/**
+ * Filter groups are multi-select: an empty (or absent) list means "no
+ * constraint" — the standard chips convention, and what makes the filter
+ * labels' select-all/deselect-all toggle meaningful.
+ */
 export interface VerbFilterState {
-  group?: ClassGroup
+  groups?: ClassGroup[]
   /** 'ru' = dictionary form ends in る, 'other' = it doesn't */
-  ending?: 'ru' | 'other'
-  trans?: 'vt' | 'vi'
+  endings?: ('ru' | 'other')[]
+  trans?: ('vt' | 'vi')[]
   commonOnly?: boolean
+}
+
+/** True when the list actually constrains (non-empty). */
+export function constrains<T>(list: readonly T[] | undefined): list is readonly T[] {
+  return list !== undefined && list.length > 0
 }
 
 export function filterVerbs(verbs: VerbEntry[], f: VerbFilterState): VerbEntry[] {
   return verbs.filter((v) => {
-    if (f.group && classGroup(v.class) !== f.group) return false
-    if (f.ending === 'ru' && !v.kana.endsWith('る')) return false
-    if (f.ending === 'other' && v.kana.endsWith('る')) return false
-    if (f.trans && v.transitivity !== f.trans && v.transitivity !== 'both') return false
+    if (constrains(f.groups) && !f.groups.includes(classGroup(v.class))) return false
+    if (constrains(f.endings) && !f.endings.includes(v.kana.endsWith('る') ? 'ru' : 'other'))
+      return false
+    if (
+      constrains(f.trans) &&
+      v.transitivity !== 'both' &&
+      !f.trans.includes(v.transitivity as 'vt' | 'vi')
+    )
+      return false
     if (f.commonOnly && !v.common) return false
     return true
   })
 }
 
 export interface VocabFilterState {
-  pos?: VocabPos
+  pos?: VocabPos[]
   commonOnly?: boolean
 }
 
 export function filterVocab(words: VocabEntry[], f: VocabFilterState): VocabEntry[] {
   return words.filter((w) => {
-    if (f.pos && w.pos !== f.pos) return false
+    if (constrains(f.pos) && !f.pos.includes(w.pos)) return false
     if (f.commonOnly && !w.common) return false
     return true
   })

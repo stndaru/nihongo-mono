@@ -2,12 +2,29 @@ import { Chip, ChipGroup } from '@/components/ui/chip'
 import type { ClassGroup } from '@/lib/conjugation'
 import type { WordLevel } from '@/lib/data/types'
 
+/**
+ * All chip groups are multi-select; empty = no constraint (everything
+ * shows). Clicking a group's label toggles select/deselect-all — the
+ * site-wide filter convention.
+ */
 export interface VerbListFilters {
   levels: WordLevel[]
-  group?: ClassGroup
-  ending?: 'ru' | 'other'
-  trans?: 'vt' | 'vi'
+  groups: ClassGroup[]
+  endings: ('ru' | 'other')[]
+  trans: ('vt' | 'vi')[]
   common?: boolean
+}
+
+const ALL_GROUPS: ClassGroup[] = ['godan', 'ichidan', 'suru', 'kuru']
+const ALL_ENDINGS = ['ru', 'other'] as const
+const ALL_TRANS = ['vt', 'vi'] as const
+
+function toggleItem<T>(list: T[], item: T): T[] {
+  return list.includes(item) ? list.filter((x) => x !== item) : [...list, item]
+}
+
+function toggleAll<T>(list: T[], all: readonly T[]): T[] {
+  return all.every((x) => list.includes(x)) ? [] : [...all]
 }
 
 export function VerbFilters({
@@ -32,12 +49,6 @@ export function VerbFilters({
     const allOn = jlptAll.every((l) => filters.levels.includes(l))
     const beyond: WordLevel[] = filters.levels.includes(0) ? [0] : []
     onChange({ ...filters, levels: allOn ? beyond : [...jlptAll, ...beyond] })
-  }
-  const toggle = <K extends 'group' | 'ending' | 'trans'>(
-    key: K,
-    value: NonNullable<VerbListFilters[K]>,
-  ) => {
-    onChange({ ...filters, [key]: filters[key] === value ? undefined : value })
   }
 
   return (
@@ -66,49 +77,54 @@ export function VerbFilters({
       </ChipGroup>
       <ChipGroup
         label="Type"
-        onLabelClick={() => onChange({ ...filters, group: undefined })}
-        labelTitle="show all types"
+        onLabelClick={() => onChange({ ...filters, groups: toggleAll(filters.groups, ALL_GROUPS) })}
+        labelTitle="select/deselect all types"
       >
-        <Chip active={filters.group === 'godan'} onClick={() => toggle('group', 'godan')}>
-          Godan
-        </Chip>
-        <Chip active={filters.group === 'ichidan'} onClick={() => toggle('group', 'ichidan')}>
-          Ichidan
-        </Chip>
-        <Chip active={filters.group === 'suru'} onClick={() => toggle('group', 'suru')}>
-          する
-        </Chip>
-        <Chip active={filters.group === 'kuru'} onClick={() => toggle('group', 'kuru')}>
-          来る
-        </Chip>
+        {ALL_GROUPS.map((group) => (
+          <Chip
+            key={group}
+            active={filters.groups.includes(group)}
+            onClick={() => onChange({ ...filters, groups: toggleItem(filters.groups, group) })}
+          >
+            {{ godan: 'Godan', ichidan: 'Ichidan', suru: 'する', kuru: '来る' }[group]}
+          </Chip>
+        ))}
       </ChipGroup>
       <ChipGroup
         label="Ends"
-        onLabelClick={() => onChange({ ...filters, ending: undefined })}
-        labelTitle="show all endings"
+        onLabelClick={() =>
+          onChange({ ...filters, endings: toggleAll(filters.endings, ALL_ENDINGS) })
+        }
+        labelTitle="select/deselect all endings"
       >
-        <Chip active={filters.ending === 'ru'} onClick={() => toggle('ending', 'ru')}>
+        <Chip
+          active={filters.endings.includes('ru')}
+          onClick={() => onChange({ ...filters, endings: toggleItem(filters.endings, 'ru') })}
+        >
           〜る
         </Chip>
-        <Chip active={filters.ending === 'other'} onClick={() => toggle('ending', 'other')}>
+        <Chip
+          active={filters.endings.includes('other')}
+          onClick={() => onChange({ ...filters, endings: toggleItem(filters.endings, 'other') })}
+        >
           Other
         </Chip>
       </ChipGroup>
       <ChipGroup
         label="Trans."
-        onLabelClick={() => onChange({ ...filters, trans: undefined })}
-        labelTitle="show both transitivities"
+        onLabelClick={() => onChange({ ...filters, trans: toggleAll(filters.trans, ALL_TRANS) })}
+        labelTitle="select/deselect both transitivities"
       >
         <Chip
-          active={filters.trans === 'vt'}
-          onClick={() => toggle('trans', 'vt')}
+          active={filters.trans.includes('vt')}
+          onClick={() => onChange({ ...filters, trans: toggleItem(filters.trans, 'vt') })}
           title="transitive"
         >
           VT
         </Chip>
         <Chip
-          active={filters.trans === 'vi'}
-          onClick={() => toggle('trans', 'vi')}
+          active={filters.trans.includes('vi')}
+          onClick={() => onChange({ ...filters, trans: toggleItem(filters.trans, 'vi') })}
           title="intransitive"
         >
           VI

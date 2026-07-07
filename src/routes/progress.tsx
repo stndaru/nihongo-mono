@@ -34,7 +34,6 @@ interface WordRow {
 }
 
 type SortKey = 'weakest' | 'practiced' | 'recent'
-type KindFilter = 'all' | 'verb' | 'vocab'
 
 function sortRows(rows: WordRow[], sort: SortKey): WordRow[] {
   const sorted = [...rows]
@@ -143,21 +142,25 @@ function ProgressPage() {
   // ---- word-table controls --------------------------------------------------
   const [q, setQ] = useState('')
   const [sort, setSort] = useState<SortKey>('weakest')
-  const [kind, setKind] = useState<KindFilter>('all')
-  const [status, setStatus] = useState<WordStatus | null>(null)
+  // multi-select filters; empty = no constraint (site-wide convention)
+  const [kinds, setKinds] = useState<('verb' | 'vocab')[]>([])
+  const [statuses, setStatuses] = useState<WordStatus[]>([])
   const [visible, setVisible] = useState(PAGE)
+
+  const toggleIn = <T,>(list: T[], item: T): T[] =>
+    list.includes(item) ? list.filter((x) => x !== item) : [...list, item]
 
   const filtered = useMemo(() => {
     if (!resolved) return null
     let rows = resolved.rows
-    if (kind !== 'all') rows = rows.filter((r) => (kind === 'verb') === r.isVerb)
-    if (status) rows = rows.filter((r) => r.status === status)
+    if (kinds.length > 0) rows = rows.filter((r) => kinds.includes(r.isVerb ? 'verb' : 'vocab'))
+    if (statuses.length > 0) rows = rows.filter((r) => statuses.includes(r.status))
     if (q) rows = rows.filter((r) => matchesQuery(r.word, q))
     return sortRows(rows, sort)
-  }, [resolved, kind, status, q, sort])
+  }, [resolved, kinds, statuses, q, sort])
 
   // new filter/sort → back to one page
-  useEffect(() => setVisible(PAGE), [q, sort, kind, status])
+  useEffect(() => setVisible(PAGE), [q, sort, kinds, statuses])
 
   const forms = useMemo(() => formBreakdown(progress), [progress])
   const trend = useMemo(() => progress.sessions.slice(-TREND_SESSIONS), [progress.sessions])
@@ -293,29 +296,35 @@ function ProgressPage() {
           </ChipGroup>
           <ChipGroup
             label="Type"
-            onLabelClick={() => setKind('all')}
-            labelTitle="show both types"
+            onLabelClick={() =>
+              setKinds(kinds.length === 2 ? [] : ['verb', 'vocab'])
+            }
+            labelTitle="select/deselect both types"
           >
             <Chip
-              active={kind === 'verb'}
-              onClick={() => setKind(kind === 'verb' ? 'all' : 'verb')}
+              active={kinds.includes('verb')}
+              onClick={() => setKinds(toggleIn(kinds, 'verb'))}
             >
               Verbs
             </Chip>
             <Chip
-              active={kind === 'vocab'}
-              onClick={() => setKind(kind === 'vocab' ? 'all' : 'vocab')}
+              active={kinds.includes('vocab')}
+              onClick={() => setKinds(toggleIn(kinds, 'vocab'))}
             >
               Vocabulary
             </Chip>
           </ChipGroup>
           <ChipGroup
             label="Status"
-            onLabelClick={() => setStatus(null)}
-            labelTitle="show all statuses"
+            onLabelClick={() =>
+              setStatuses(
+                statuses.length === 4 ? [] : ['weak', 'learning', 'solid', 'new'],
+              )
+            }
+            labelTitle="select/deselect all statuses"
           >
             {(['weak', 'learning', 'solid', 'new'] as const).map((s) => (
-              <Chip key={s} active={status === s} onClick={() => setStatus(status === s ? null : s)}>
+              <Chip key={s} active={statuses.includes(s)} onClick={() => setStatuses(toggleIn(statuses, s))}>
                 {STATUS_LABELS[s]}
               </Chip>
             ))}

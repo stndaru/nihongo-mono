@@ -3,7 +3,7 @@ import { classGroup, type VerbClass } from '@/lib/conjugation'
 import { deconjugate } from './deconjugate'
 import { CODE_TO_POS, CODE_TO_TRANS } from './ext-format'
 import { pairFurigana } from './furigana'
-import type { VerbFilterState, VocabFilterState } from './search'
+import { constrains, type VerbFilterState, type VocabFilterState } from './search'
 import type {
   KanjiWordRow,
   VerbEntry,
@@ -201,12 +201,18 @@ export function searchVocabRows(
   f: VocabFilterState,
   limit: number,
 ): ExtResult<VocabEntry> {
-  const posCode = f.pos ? Object.entries(CODE_TO_POS).find(([, p]) => p === f.pos)?.[0] : undefined
+  const posCodes = constrains(f.pos)
+    ? new Set(
+        Object.entries(CODE_TO_POS)
+          .filter(([, p]) => f.pos!.includes(p))
+          .map(([code]) => code),
+      )
+    : null
   return scan(
     rows,
     query,
     limit,
-    (r) => (!posCode || r[4] === posCode) && (!f.commonOnly || r[5] === 1),
+    (r) => (!posCodes || posCodes.has(r[4])) && (!f.commonOnly || r[5] === 1),
     (r) => [r[1], r[2], r[6] ?? r[2], r[3], r[5]],
     matVocab,
   )
@@ -223,10 +229,15 @@ export function searchVerbRows(
     query,
     limit,
     (r) => {
-      if (f.group && classGroup(r[4] as VerbClass) !== f.group) return false
-      if (f.ending === 'ru' && !r[2].endsWith('る')) return false
-      if (f.ending === 'other' && r[2].endsWith('る')) return false
-      if (f.trans && r[5] !== 'b' && r[5] !== (f.trans === 'vt' ? 't' : 'i')) return false
+      if (constrains(f.groups) && !f.groups.includes(classGroup(r[4] as VerbClass))) return false
+      if (constrains(f.endings) && !f.endings.includes(r[2].endsWith('る') ? 'ru' : 'other'))
+        return false
+      if (
+        constrains(f.trans) &&
+        r[5] !== 'b' &&
+        !f.trans.some((t) => r[5] === (t === 'vt' ? 't' : 'i'))
+      )
+        return false
       if (f.commonOnly && r[6] !== 1) return false
       return true
     },

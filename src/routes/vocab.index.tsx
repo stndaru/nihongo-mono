@@ -13,7 +13,8 @@ interface VocabSearch {
   q?: string
   /** e.g. "5,4" — omitted means N5 only; 0 = beyond-JLPT (full JMdict) */
   levels?: string
-  pos?: VocabPos
+  /** csv multi-select — omitted means no constraint (all types shown) */
+  pos?: string
   common?: boolean
 }
 
@@ -45,7 +46,11 @@ export const Route = createFileRoute('/vocab/')({
     // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
     if (levels === 'none' || /^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
-    if (POS_VALUES.includes(search.pos as VocabPos)) out.pos = search.pos as VocabPos
+    const pos = String(search.pos ?? '')
+      .split(',')
+      .filter((x): x is VocabPos => POS_VALUES.includes(x as VocabPos))
+      .join(',')
+    if (pos) out.pos = pos
     if (search.common === true) out.common = true
     return out
   },
@@ -92,9 +97,14 @@ function VocabListPage() {
     }
   }, [beyond, extRows])
 
+  const pos = useMemo(
+    () => (search.pos ? (search.pos.split(',') as VocabPos[]) : []),
+    [search.pos],
+  )
+
   const results = useMemo(() => {
     if (!words) return null
-    const f = { pos: search.pos, commonOnly: search.common }
+    const f = { pos, commonOnly: search.common }
     const ranked = searchWords(filterVocab(words, f), search.q ?? '')
     if (!beyond) return { entries: ranked, total: ranked.length, extLoading: false }
     if (!extRows) return { entries: ranked, total: ranked.length, extLoading: true }
@@ -104,7 +114,7 @@ function VocabListPage() {
       total: ranked.length + ext.total,
       extLoading: false,
     }
-  }, [words, extRows, beyond, search.q, search.pos, search.common])
+  }, [words, extRows, beyond, search.q, pos, search.common])
 
   const setSearch = (patch: Partial<VocabSearch>) =>
     navigate({ search: { ...search, ...patch }, replace: true })
@@ -171,16 +181,23 @@ function VocabListPage() {
         </ChipGroup>
         <ChipGroup
           label="Type"
-          onLabelClick={() => setSearch({ pos: undefined })}
-          labelTitle="show all word types"
+          onLabelClick={() =>
+            setSearch({
+              pos: POS_VALUES.every((p) => pos.includes(p)) ? undefined : POS_VALUES.join(','),
+            })
+          }
+          labelTitle="select/deselect all word types"
         >
-          {POS_VALUES.map((pos) => (
+          {POS_VALUES.map((p) => (
             <Chip
-              key={pos}
-              active={search.pos === pos}
-              onClick={() => setSearch({ pos: search.pos === pos ? undefined : pos })}
+              key={p}
+              active={pos.includes(p)}
+              onClick={() => {
+                const next = pos.includes(p) ? pos.filter((x) => x !== p) : [...pos, p]
+                setSearch({ pos: next.length > 0 ? next.join(',') : undefined })
+              }}
             >
-              {POS_LABELS[pos]}
+              {POS_LABELS[p]}
             </Chip>
           ))}
         </ChipGroup>

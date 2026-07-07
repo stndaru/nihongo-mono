@@ -13,13 +13,18 @@ feedback on many of these — treat them as requirements, not suggestions.
   **follows the system by default** (changed from light-default on
   request); stored 'light'/'dark' are explicit user picks.
 - **Title Case** on buttons and short UI labels ("Show More", "Common Only").
-- **Filter names are controls**: clicking a filter group's label (or a quiz
-  section's heading) toggles select/deselect-all for multi-select groups
-  ("Level" toggles N5–N1) and clears single-select groups back to "all"
-  ("Type" clears the class/POS pick). Beyond chips are excluded from the
-  bulk toggle (they gate heavyweight downloads). Lists allow a true
-  zero-selection (`levels=none` in the URL, an honest 0-result table);
-  quiz Start buttons disable while any required group is empty.
+- **Filter names are controls, and every filter group is multi-select**:
+  clicking a group's label (or a quiz section's heading) toggles
+  select/deselect-all. The first cut made labels of single-select groups
+  merely "clear" — the owner reported that as broken ("clicked Type,
+  nothing happens"), so Type/Ends/Trans./POS/Status were converted to
+  real multi-selects (Godan+Ichidan together, several POS at once; csv
+  URL params, old single-value URLs still valid). Empty selection = no
+  constraint for those groups; Level keeps its "empty = nothing shown"
+  semantics (`levels=none` URL sentinel) because levels select content.
+  Beyond chips are excluded from bulk toggles (they gate heavyweight
+  downloads). Quiz Start buttons disable while any required group is
+  empty. Sort and the Settings groups stay plain labels.
 - Pointer cursor on every clickable element.
 - Quiz answers show **furigana**, not a separate kana line; the answered
   verb links to its detail page (opens in a new tab).
