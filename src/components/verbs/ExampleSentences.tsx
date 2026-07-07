@@ -1,4 +1,25 @@
 import type { ExampleSentence } from '@/lib/data/types'
+import { cn } from '@/lib/utils'
+import { Furigana } from './Furigana'
+
+/** The Japanese line of an example, with ruby when the build produced it. */
+export function ExampleJa({
+  example,
+  className,
+}: {
+  example: ExampleSentence
+  className?: string
+}) {
+  if (example.f) {
+    // sentences must wrap, unlike single-word furigana
+    return <Furigana segments={example.f} className={cn('whitespace-normal', className)} />
+  }
+  return (
+    <span lang="ja" className={className}>
+      {example.ja}
+    </span>
+  )
+}
 
 export function ExampleSentences({ examples }: { examples: ExampleSentence[] }) {
   if (examples.length === 0) return null
@@ -6,8 +27,8 @@ export function ExampleSentences({ examples }: { examples: ExampleSentence[] }) 
     <ul className="space-y-2.5">
       {examples.map((ex, i) => (
         <li key={i} className="rounded-md border p-3 text-sm">
-          <p lang="ja" className="text-base leading-relaxed">
-            {ex.ja}
+          <p className="text-base leading-loose">
+            <ExampleJa example={ex} />
           </p>
           <p className="mt-1 leading-relaxed text-muted-foreground">{ex.en}</p>
         </li>

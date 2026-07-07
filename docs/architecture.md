@@ -102,6 +102,17 @@ regardless of host compression config.
   JLPT entries, prebuilt `hira` field for extended rows).
 - No search library — ranked substring scan is fast enough at this scale
   (~100–220 ms over 204k rows including the 150 ms input debounce).
+- **Conjugated queries deconjugate**: `deconjugate.ts` turns "tabeta" /
+  食べた / "samukatta" into candidate dictionary forms **once per query**
+  (rule-based BFS, over-generating on purpose — bogus candidates match
+  nothing), and both search paths check Set membership per word (score 0.5,
+  between exact and prefix). Never index conjugated forms; that's the
+  data-explosion path. The rule table has its own 58-case test suite.
+- **Command palette** (`src/components/search/CommandPalette.tsx`,
+  Ctrl/Cmd+K or the header Search button): searches all JLPT verbs+vocab
+  with typed result rows (Verb/Noun/な-adj… + level badge), Enter/click
+  opens the detail page. The multi-MB extended indexes join only via the
+  explicit "Include Full Dictionary" footer action.
 - Tables render 100 rows per page (`PAGE` in VerbTable/VocabTable) and reset
   pagination when the result array changes — 500 ruby rows re-rendered per
   keystroke was a real lag source. Keep row rendering cheap; `<ruby>` is

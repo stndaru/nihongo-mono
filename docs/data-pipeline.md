@@ -31,6 +31,7 @@ date, source versions, counts — surfaced on the About page).
 | KRADFILE (`kradzip.zip` from edrdg.org) | `kradfile.txt` | Kanji component decomposition. Ships **EUC-JP** — decoded with `new TextDecoder('euc-jp')` (works in Bun); kradfile + kradfile2 concatenated |
 | `scripts/extra-words.json` | (committed, hand-curated) | Compound words missing from every public JLPT list (小説家, 懐中電灯, 連れて行く…). Format: `["kanji","kana",level]` |
 | `scripts/antonym-overrides.json` | (committed, hand-curated) | Antonym pairs JMdict lacks (~55 pairs: 広い↔狭い…). Format: pairs of `["kanji","kana"]` |
+| kuromoji (npm devDependency, IPADIC) | — | Example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f`). Build scripts must `await initReading()` before building entries |
 
 **Not available (yet):** Jreibun example sentences — the project's data
 download is officially "in preparation" (its sentences on Jisho.org come

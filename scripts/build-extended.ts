@@ -31,6 +31,7 @@ import { buildWordIndex } from './lib/build-common'
 import { buildVerbEntry, buildVocabEntry, type EntryCtx } from './lib/entry'
 import { loadFuriganaIndex } from './lib/furigana'
 import { writeJsonGz } from './lib/gzip-out'
+import { initReading } from './lib/reading'
 import type { JmdictFile } from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
@@ -52,6 +53,7 @@ function jlptIds(dataset: 'verbs' | 'vocab'): Set<string> {
 }
 
 console.log('loading sources…')
+await initReading() // example-sentence furigana (kuromoji)
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
 const furiganaIndex = loadFuriganaIndex(CACHE)
 const index = buildWordIndex(jmdict.words)

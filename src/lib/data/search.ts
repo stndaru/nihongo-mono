@@ -1,5 +1,6 @@
 import { toHiragana } from 'wanakana'
 import { classGroup, type ClassGroup } from '@/lib/conjugation'
+import { deconjugate } from './deconjugate'
 import type { VerbEntry, VocabEntry, VocabPos, WordBase } from './types'
 
 export interface VerbFilterState {
@@ -37,17 +38,28 @@ export function filterVocab(words: VocabEntry[], f: VocabFilterState): VocabEntr
 /**
  * Ranked substring search over kanji/kana/romaji/gloss.
  * Latin queries also match as kana, so "tabe", "たべ", "食べ" and "eat"
- * all find 食べる. Works for any word type (verbs, vocabulary).
+ * all find 食べる — and conjugated queries deconjugate, so "tabeta" and
+ * "samukatta" find 食べる and 寒い. Works for any word type.
  */
 export function searchWords<T extends WordBase>(words: T[], query: string): T[] {
+  return searchWordsScored(words, query).map((s) => s.word)
+}
+
+/** Same, keeping scores — lets callers merge ranked lists (command palette). */
+export function searchWordsScored<T extends WordBase>(
+  words: T[],
+  query: string,
+): { word: T; score: number }[] {
   const q = query.trim().toLowerCase()
-  if (!q) return words
+  if (!q) return words.map((word) => ({ word, score: 0 }))
   // converts romaji → kana and katakana → hiragana in one step
   const qKana = toHiragana(q)
+  // candidate dictionary forms of a conjugated query — computed once
+  const deconj = deconjugate(qKana)
 
   const scored: { word: T; score: number }[] = []
   for (const word of words) {
-    const score = scoreWord(word, q, qKana)
+    const score = scoreWord(word, q, qKana, deconj)
     if (score >= 0) scored.push({ word, score })
   }
   scored.sort(
@@ -56,7 +68,7 @@ export function searchWords<T extends WordBase>(words: T[], query: string): T[] 
       Number(b.word.common) - Number(a.word.common) ||
       a.word.kana.localeCompare(b.word.kana, 'ja'),
   )
-  return scored.map((s) => s.word)
+  return scored
 }
 
 /** Hiragana-normalized readings so katakana words (コピーする) match too. */
@@ -71,10 +83,12 @@ function kanaKey(word: WordBase): string {
   return key
 }
 
-function scoreWord(word: WordBase, q: string, qKana: string): number {
+function scoreWord(word: WordBase, q: string, qKana: string, deconj: Set<string>): number {
   const kana = kanaKey(word)
   // exact
   if (kana === qKana || word.kanji === q || word.romaji === q) return 0
+  // the query is a conjugated form of this word ("tabeta" → 食べる)
+  if (deconj.size > 0 && (deconj.has(kana) || deconj.has(word.kanji))) return 0.5
   // prefix
   if (kana.startsWith(qKana) || word.kanji.startsWith(q) || word.romaji.startsWith(q)) return 1
   // substring

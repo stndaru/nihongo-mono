@@ -1,6 +1,7 @@
 /** Shared helpers for the dataset build scripts. */
 import type { ExampleSentence, WordSense } from '../../src/lib/data/types'
 import { isCommon, type JmdictSense, type JmdictWord } from './jmdict'
+import { sentenceFurigana } from './reading'
 
 export const KANJI_CHAR_RE = /[㐀-鿿豈-﫿]/gu
 
@@ -67,8 +68,14 @@ export function sensesGlosses(senses: JmdictSense[]): string[] {
   return gloss
 }
 
+/** Attaches ruby segments (requires initReading() in the calling script). */
+function withFurigana(ex: { ja: string; en: string }): ExampleSentence {
+  const f = sentenceFurigana(ex.ja)
+  return f ? { ...ex, f } : ex
+}
+
 export function sensesExamples(senses: JmdictSense[]): ExampleSentence[] {
-  const all: ExampleSentence[] = []
+  const all: { ja: string; en: string }[] = []
   for (const s of senses) {
     for (const ex of s.examples) {
       const ja = ex.sentences.find((x) => x.lang === 'jpn')?.text
@@ -78,7 +85,7 @@ export function sensesExamples(senses: JmdictSense[]): ExampleSentence[] {
   }
   // shortest Japanese sentences read easiest in a compact UI
   all.sort((a, b) => a.ja.length - b.ja.length)
-  return all.slice(0, 3)
+  return all.slice(0, 3).map(withFurigana)
 }
 
 export function kanjiCharsOf(kanji: string): string[] {
@@ -98,7 +105,8 @@ export function sensesDetail(senses: JmdictSense[]): WordSense[] {
         en: ex.sentences.find((x) => x.lang === 'eng')?.text ?? '',
       }))
       .filter((e) => e.ja && e.en)
-      .slice(0, 2),
+      .slice(0, 2)
+      .map(withFurigana),
   }))
 }
 

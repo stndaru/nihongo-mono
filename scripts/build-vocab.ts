@@ -11,6 +11,7 @@ import { buildWordIndex, expandRow } from './lib/build-common'
 import { buildVocabEntry, type EntryCtx } from './lib/entry'
 import { loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
+import { initReading } from './lib/reading'
 import { type JmdictFile, type JmdictWord } from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
@@ -18,6 +19,7 @@ const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'vocab')
 const META_PATH = join(import.meta.dirname, '..', 'src', 'data', 'meta.json')
 
 console.log('loading sources…')
+await initReading() // example-sentence furigana (kuromoji)
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
 const furiganaIndex = loadFuriganaIndex(CACHE)
 const jlptRows = loadJlptRows(CACHE)

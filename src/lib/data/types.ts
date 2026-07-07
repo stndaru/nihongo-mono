@@ -14,6 +14,11 @@ export interface FuriganaSegment {
 export interface ExampleSentence {
   ja: string
   en: string
+  /**
+   * Ruby segments for `ja`, from kuromoji morphological analysis at build
+   * time (scripts/lib/reading.ts). Absent for kana-only sentences.
+   */
+  f?: FuriganaSegment[]
 }
 
 /** One dictionary sense: its glosses plus example sentences for that sense. */

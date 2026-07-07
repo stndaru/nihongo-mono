@@ -12,6 +12,7 @@ import { buildVerbEntry, type EntryCtx } from './lib/entry'
 import { loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
 import { UNSUPPORTED_VERB_CLASSES } from './lib/pos'
+import { initReading } from './lib/reading'
 import { displayKanji, type JmdictFile, type JmdictWord } from './lib/jmdict'
 
 const CACHE = join(import.meta.dirname, '.cache')
@@ -19,6 +20,7 @@ const OUT_DIR = join(import.meta.dirname, '..', 'src', 'data', 'verbs')
 const META_PATH = join(import.meta.dirname, '..', 'src', 'data', 'meta.json')
 
 console.log('loading sources…')
+await initReading() // example-sentence furigana (kuromoji)
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
 const furiganaIndex = loadFuriganaIndex(CACHE)
 const jlptRows = loadJlptRows(CACHE)

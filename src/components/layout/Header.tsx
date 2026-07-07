@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { CommandPalette } from '@/components/search/CommandPalette'
 import { cn } from '@/lib/utils'
 import { MobileNav } from './MobileNav'
 import { ThemeToggle } from './ThemeToggle'
@@ -88,6 +89,7 @@ export function Header() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-0.5">
+          <CommandPalette />
           <ThemeToggle />
           <Button variant="ghost" size="icon" asChild title="Settings" aria-label="Settings">
             <Link to="/settings" activeProps={{ className: 'bg-secondary' }}>

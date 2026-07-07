@@ -1,5 +1,6 @@
 import { toHiragana } from 'wanakana'
 import { classGroup, type VerbClass } from '@/lib/conjugation'
+import { deconjugate } from './deconjugate'
 import { CODE_TO_POS, CODE_TO_TRANS } from './ext-format'
 import { pairFurigana } from './furigana'
 import type { VerbFilterState, VocabFilterState } from './search'
@@ -19,15 +20,17 @@ export interface ExtResult<T> {
   total: number
 }
 
-/** Same ranking as searchWords: exact 0 · prefix 1 · substring 2 · gloss 3. */
+/** Same ranking as searchWords: exact 0 · deconjugated 0.5 · prefix 1 · substring 2 · gloss 3. */
 function scoreRow(
   kanji: string,
   hira: string,
   gloss: string,
   q: string,
   qKana: string,
+  deconj: Set<string>,
 ): number {
   if (hira === qKana || kanji === q) return 0
+  if (deconj.size > 0 && (deconj.has(hira) || deconj.has(kanji))) return 0.5
   if (hira.startsWith(qKana) || kanji.startsWith(q)) return 1
   if (hira.includes(qKana) || kanji.includes(q)) return 2
   const lower = gloss.toLowerCase()
@@ -63,11 +66,12 @@ function scan<R, T>(
   }
 
   const qKana = toHiragana(q)
+  const deconj = deconjugate(qKana)
   const scored: { row: R; score: number; common: 0 | 1; kana: string }[] = []
   for (const row of rows) {
     if (!filter(row)) continue
     const [kanji, kana, hira, gloss, common] = read(row)
-    const score = scoreRow(kanji, hira, gloss, q, qKana)
+    const score = scoreRow(kanji, hira, gloss, q, qKana, deconj)
     if (score >= 0) scored.push({ row, score, common, kana })
   }
   scored.sort(
