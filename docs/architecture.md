@@ -366,10 +366,14 @@ regardless of host compression config.
 
 ## Kanji pages
 
-- `/kanji` list (`kanji.index.tsx`): the core file covers the N4–N1 chips —
-  **KANJIDIC2 JLPT tags use the old 4-level scale, there is no N5 kanji
-  list** (103/181/739/1,207 characters). The Beyond chip merges the 16 ext
-  shards (~330 KB, one-time, with a loading note). Search matches the
+- `/kanji` list (`kanji.index.tsx`): the core file covers the N5–N1 chips.
+  **Kanji JLPT tags are the modern five-level community lists**
+  (davidluzgouveia/kanji-data `jlpt_new`, from Jonathan Waller's lists:
+  79/166/367/367/1,232 characters) — build-kanji.ts deliberately ignores
+  KANJIDIC2's own `jlpt` field, which is the pre-2010 four-level scale
+  (no N5; its "N3" was ~181 chars — the owner caught the mislabeling).
+  The Beyond chip merges the 16 ext shards (~330 KB, one-time, with a
+  loading note). Search matches the
   character itself, readings (kana or romaji; okurigana dots stripped
   before comparing), and English meanings, ranked exact reading → prefix →
   meaning. Default order: easiest JLPT level, then newspaper frequency

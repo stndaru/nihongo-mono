@@ -4,7 +4,8 @@
     "elzup/jlpt-word-list": "master",
     "edrdg/kradfile": "kradzip",
     "scriptin/jmdict-simplified": "3.6.2+20260706150322",
-    "KanjiVG/kanjivg": "r20250816"
+    "KanjiVG/kanjivg": "r20250816",
+    "davidluzgouveia/kanji-data": "master"
   },
   "verbCounts": {
     "n5": 137,

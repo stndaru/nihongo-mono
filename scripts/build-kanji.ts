@@ -47,6 +47,23 @@ const kanjidic: { characters: Kanjidic2Character[] } = JSON.parse(
   readFileSync(join(CACHE, 'kanjidic2.json'), 'utf8'),
 )
 
+// Modern 5-level JLPT tags (post-2010). KANJIDIC2's own jlpt field is the
+// OLD 4-level scale (no N5; "N3" there is ~181 chars) — shipping it as-is
+// mislabeled every kanji level. davidluzgouveia/kanji-data carries
+// per-kanji jlpt_new derived from Jonathan Waller's community lists
+// (tanos.co.uk, CC BY — the same source family as our word-level tags):
+// N5 79 · N4 166 · N3 367 · N2 367 · N1 1,232.
+const jlptNew = new Map<string, JlptLevel>()
+{
+  const raw: Record<string, { jlpt_new: number | null }> = JSON.parse(
+    readFileSync(join(CACHE, 'jlpt-kanji.json'), 'utf8'),
+  )
+  for (const [char, v] of Object.entries(raw)) {
+    if (v.jlpt_new !== null) jlptNew.set(char, v.jlpt_new as JlptLevel)
+  }
+  console.log(`jlpt-kanji: ${jlptNew.size} kanji with modern N5–N1 tags`)
+}
+
 // KRADFILE: "亜 : ｜ 一 口" — visual component decomposition per kanji
 const components = new Map<string, string[]>()
 for (const line of readFileSync(join(CACHE, 'kradfile.txt'), 'utf8').split('\n')) {
@@ -72,7 +89,8 @@ for (const ch of kanjidic.characters) {
     ),
     components: components.get(ch.literal),
     strokes: ch.misc.strokeCounts[0] ?? 0,
-    jlpt: (ch.misc.jlptLevel as JlptLevel | null) ?? null,
+    // modern 5-level tag — NOT ch.misc.jlptLevel, which is the old 4-level scale
+    jlpt: jlptNew.get(ch.literal) ?? null,
     grade: ch.misc.grade ?? null,
     freq: ch.misc.frequency ?? null,
   }
@@ -93,5 +111,12 @@ writeFileSync(join(OUT_DIR, 'kanji.json'), JSON.stringify(sorted, null, 2) + '\n
 const metaPath = join(DATA_DIR, 'meta.json')
 const meta: DatasetMeta = JSON.parse(readFileSync(metaPath, 'utf8'))
 meta.kanjiCount = Object.keys(sorted).length
+try {
+  const versions = JSON.parse(readFileSync(join(CACHE, 'versions.json'), 'utf8'))
+  if (versions['davidluzgouveia/kanji-data'])
+    meta.sources['davidluzgouveia/kanji-data'] = versions['davidluzgouveia/kanji-data']
+} catch {
+  // versions.json absent (download step skipped) — keep prior recording
+}
 writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n')
 console.log(`kanji.json: ${meta.kanjiCount} entries`)

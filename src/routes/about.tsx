@@ -49,6 +49,13 @@ const SOURCES = [
     what: 'JLPT level assignment; the yomitan lists add exact JMdict entry ids.',
   },
   {
+    name: 'JLPT kanji levels (davidluzgouveia/kanji-data, based on Jonathan Waller’s lists)',
+    href: 'https://github.com/davidluzgouveia/kanji-data',
+    license: 'MIT / CC BY (tanos.co.uk)',
+    licenseHref: 'https://github.com/davidluzgouveia/kanji-data/blob/master/LICENSE',
+    what: 'Modern five-level (N5–N1) JLPT tags per kanji — KANJIDIC2 itself only carries the pre-2010 four-level scale.',
+  },
+  {
     name: 'KRADFILE',
     href: 'https://www.edrdg.org/krad/kradinf.html',
     license: 'EDRDG licence',

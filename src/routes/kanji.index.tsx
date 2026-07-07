@@ -11,7 +11,7 @@ import { rowClickGuard } from '@/lib/row-click'
 
 interface KanjiSearch {
   q?: string
-  /** e.g. "4,3" — omitted means N4 only; 0 = kanji outside the JLPT lists */
+  /** e.g. "5,4" — omitted means N5 only; 0 = kanji outside the JLPT lists */
   levels?: string
 }
 
@@ -19,11 +19,10 @@ export const Route = createFileRoute('/kanji/')({
   validateSearch: (search: Record<string, unknown>): KanjiSearch => {
     const out: KanjiSearch = {}
     if (typeof search.q === 'string' && search.q) out.q = search.q
-    // ?levels=4 arrives as a number (router JSON-parses params) — normalize.
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize.
     // 'none' = all levels deselected via the Level label toggle.
     const levels = String(search.levels ?? '')
-    // KANJIDIC2 JLPT tags use the old 4-level scale: there is no N5 kanji list
-    if (levels === 'none' || /^[0-4](,[0-4])*$/.test(levels)) out.levels = levels
+    if (levels === 'none' || /^[0-5](,[0-5])*$/.test(levels)) out.levels = levels
     return out
   },
   component: KanjiListPage,
@@ -33,7 +32,7 @@ const PAGE = 100
 
 function parseLevels(levels: string | undefined): WordLevel[] {
   if (levels === 'none') return []
-  if (!levels) return [4]
+  if (!levels) return [5]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as WordLevel[]
 }
 
@@ -81,7 +80,7 @@ function KanjiListPage() {
   const navigate = useNavigate()
   const levels = useMemo(() => parseLevels(search.levels), [search.levels])
 
-  // the core file (JLPT + frequency-ranked) is always enough for N4–N1;
+  // the core file (JLPT + frequency-ranked) is always enough for N5–N1;
   // the ~7.8k rarest characters load from shards only when Beyond is on
   const [core, setCore] = useState<KanjiEntry[] | null>(null)
   useEffect(() => {
@@ -137,7 +136,7 @@ function KanjiListPage() {
       levels:
         sorted.length === 0
           ? 'none'
-          : sorted.length === 1 && sorted[0] === 4
+          : sorted.length === 1 && sorted[0] === 5
             ? undefined
             : sorted.join(','),
     })
@@ -152,7 +151,7 @@ function KanjiListPage() {
 
   // label click: select/deselect all JLPT levels; Beyond keeps its state
   const toggleAllLevels = () => {
-    const jlptAll: WordLevel[] = [4, 3, 2, 1]
+    const jlptAll: WordLevel[] = [5, 4, 3, 2, 1]
     const allOn = jlptAll.every((l) => levels.includes(l))
     const beyond: WordLevel[] = levels.includes(0) ? [0] : []
     setLevels(allOn ? beyond : [...jlptAll, ...beyond])
@@ -179,12 +178,12 @@ function KanjiListPage() {
           onLabelClick={toggleAllLevels}
           labelTitle="select/deselect all JLPT levels"
         >
-          {([4, 3, 2, 1] as const).map((level) => (
+          {([5, 4, 3, 2, 1] as const).map((level) => (
             <Chip
               key={level}
               active={levels.includes(level)}
               onClick={() => toggleLevel(level)}
-              title="kanji JLPT lists use the old 4-level scale"
+              title="community JLPT kanji lists (post-2010 five-level scale)"
             >
               N{level}
             </Chip>

@@ -234,6 +234,19 @@ feedback on many of these — treat them as requirements, not suggestions.
     `ParseSentenceLink` icon (opens `/parser?q=` in a new tab), and the
     default typography flipped serif → sans (see conventions).
 
+30. **Kanji JLPT levels switched to the modern 5-level scale**
+    (owner-reported: "kanji starts at N4 and N3 has only ~180 — in
+    reality kanji starts from N5 and N3 has ~300"). Root cause: the
+    kanji dataset shipped KANJIDIC2's `jlpt` field verbatim, which is
+    the **pre-2010 four-level scale** (old-4 ≈ new N5; the 2010 reform
+    split old-2 into N2+N3), so every level was mislabeled. Fix:
+    build-kanji.ts now tags from davidluzgouveia/kanji-data's
+    `jlpt_new` (MIT; derived from Jonathan Waller's tanos.co.uk lists —
+    the same CC BY source family as the word-level tags): N5 79 ·
+    N4 166 · N3 367 · N2 367 · N1 1,232 (2,211 tagged, all 10,384 of
+    our kanji covered). The kanji list gained its N5 chip (new default
+    level) and lost the old-scale caveats.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
@@ -246,9 +259,11 @@ feedback on many of these — treat them as requirements, not suggestions.
   queries still work via kana conversion.
 - Names have **no detail pages** (a row shows everything JMnedict knows)
   and match by prefix only, on the first character's bucket.
-- **Kanji JLPT levels use the old 4-level scale** (KANJIDIC2 has no N5
-  kanji tag), so the kanji list's level chips are N4–N1 while word lists
-  go to N5 — this asymmetry is data-driven, not a bug.
+- **Kanji JLPT levels are community estimates on the modern 5-level
+  scale** (like the word lists — no official lists exist post-2010).
+  KANJIDIC2's own `jlpt` field is the pre-2010 four-level scale and must
+  never be shipped directly (see decision 30 — it mislabeled every level
+  once).
 - Quizzes deliberately exclude the Beyond tier.
 - **Sentence parser accuracy is bounded by design**: the default engine is
   greedy dictionary matching (JLPT words only, honest caveat box on the

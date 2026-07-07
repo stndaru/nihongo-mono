@@ -111,5 +111,6 @@ for (const raw of sources.raw) {
 }
 await downloadKradfile()
 versions['elzup/jlpt-word-list'] = versions['elzup/jlpt-word-list'] ?? 'master'
+versions['davidluzgouveia/kanji-data'] = versions['davidluzgouveia/kanji-data'] ?? 'master'
 writeFileSync(versionsPath, JSON.stringify(versions, null, 2))
 console.log('done.')
