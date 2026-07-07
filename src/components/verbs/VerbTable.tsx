@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import { rowClickGuard } from '@/lib/row-click'
 import type { VerbEntry } from '@/lib/data/types'
 import { Furigana } from './Furigana'
 import { ClassBadge, LevelBadge, TransBadge } from './VerbBadges'
@@ -9,6 +10,7 @@ import { ClassBadge, LevelBadge, TransBadge } from './VerbBadges'
 const PAGE = 100
 
 export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
+  const navigate = useNavigate()
   const [visible, setVisible] = useState(PAGE)
   // new result set → back to one page, so old Show More clicks don't linger
   useEffect(() => setVisible(PAGE), [verbs])
@@ -39,7 +41,14 @@ export function VerbTable({ verbs }: { verbs: VerbEntry[] }) {
         </thead>
         <tbody>
           {shown.map((verb) => (
-            <tr key={verb.id} className="group border-b border-border/60 hover:bg-muted/50">
+            <tr
+              key={verb.id}
+              className="group cursor-pointer border-b border-border/60 hover:bg-muted/50"
+              onClick={(e) => {
+                if (rowClickGuard(e)) return
+                navigate({ to: '/verbs/$verbId', params: { verbId: verb.id } })
+              }}
+            >
               <td className="py-0 pr-2">
                 <Link
                   to="/verbs/$verbId"

@@ -1,0 +1,71 @@
+import { useState } from 'react'
+import { Link, type LinkProps } from '@tanstack/react-router'
+import { Menu, X } from 'lucide-react'
+import { Dialog as DialogPrimitive } from 'radix-ui'
+import { Button } from '@/components/ui/button'
+
+const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: string }[] = [
+  { to: '/', label: 'Home', exact: true },
+  { to: '/verbs', label: 'Verbs' },
+  { to: '/vocab', label: 'All Vocabulary', section: 'Vocabulary' },
+  { to: '/vocab/antonyms', label: 'Antonyms' },
+  { to: '/names', label: 'Proper Names' },
+  { to: '/quiz', label: 'Quiz', section: 'Practice' },
+  { to: '/settings', label: 'Settings' },
+]
+
+/** Burger-triggered side drawer; phones only (the button is sm:hidden). */
+export function MobileNav() {
+  const [open, setOpen] = useState(false)
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+      <DialogPrimitive.Trigger asChild>
+        <Button variant="ghost" size="icon" className="sm:hidden" aria-label="Open Menu">
+          <Menu className="size-5" />
+        </Button>
+      </DialogPrimitive.Trigger>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 duration-150 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 sm:hidden" />
+        <DialogPrimitive.Content
+          aria-describedby={undefined}
+          className="fixed inset-y-0 left-0 z-50 flex w-60 flex-col border-r bg-background p-3 shadow-lg duration-150 outline-none data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:animate-in data-[state=open]:slide-in-from-left sm:hidden"
+        >
+          <DialogPrimitive.Title className="sr-only">Navigation</DialogPrimitive.Title>
+          <div className="mb-2 flex items-center justify-between pl-2.5">
+            <span className="flex items-baseline gap-1.5 font-semibold">
+              <span lang="ja" className="text-primary">
+                日本語
+              </span>
+              <span className="text-sm text-muted-foreground">mono</span>
+            </span>
+            <DialogPrimitive.Close asChild>
+              <Button variant="ghost" size="icon" aria-label="Close Menu">
+                <X className="size-4" />
+              </Button>
+            </DialogPrimitive.Close>
+          </div>
+          <nav className="flex flex-col text-sm">
+            {ITEMS.map((item) => (
+              <span key={item.to} className="contents">
+                {item.section && (
+                  <span className="mt-3 mb-1 px-2.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    {item.section}
+                  </span>
+                )}
+                <Link
+                  to={item.to}
+                  activeOptions={{ exact: item.exact ?? false }}
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-2.5 py-2 text-muted-foreground transition-colors duration-100 hover:text-foreground"
+                  activeProps={{ className: 'bg-secondary !text-foreground' }}
+                >
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+          </nav>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
+  )
+}

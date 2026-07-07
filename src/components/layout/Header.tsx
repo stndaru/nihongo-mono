@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
+import { MobileNav } from './MobileNav'
 import { ThemeToggle } from './ThemeToggle'
 
 const NAV = [
@@ -66,6 +67,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-12 max-w-5xl items-center gap-1 px-3 sm:px-4">
+        <MobileNav />
         <Link
           to="/"
           className="mr-2 flex items-baseline gap-1.5 font-semibold whitespace-nowrap"
@@ -75,7 +77,8 @@ export function Header() {
           </span>
           <span className="text-sm text-muted-foreground">mono</span>
         </Link>
-        <nav className="flex items-center gap-0.5 text-sm">
+        {/* phones use the burger drawer instead */}
+        <nav className="hidden items-center gap-0.5 text-sm sm:flex">
           {NAV.map((item) => (
             <NavLink key={item.to} {...item} />
           ))}
