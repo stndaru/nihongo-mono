@@ -69,6 +69,12 @@ Playwright gotchas learned the hard way:
   **decoded** body — the dev server serves `.json.gz` with
   Content-Encoding, so bodies look inflated; real wire cost is the .gz
   size on disk.
+- Scroll assertions need a viewport **shorter than the page**: with the
+  default 900-px-tall page and little seeded data, the page fits entirely
+  and `scrollIntoView` is a no-op — the "did it scroll" check times out
+  even though the feature works. Also, a target section near the bottom
+  can never reach the viewport top; assert "scrolled and visible", not
+  "at top".
 
 ## Testing philosophy
 
@@ -90,6 +96,9 @@ Playwright gotchas learned the hard way:
 - Never allow an empty level selection (toggle handlers guard against it).
 - `EXT_LIMIT`, table `PAGE`, shard counts, and the ext wire format all have
   comments explaining their constraints — read them before "simplifying".
+  Shard counts now exist in **three pairs** that must stay in sync with
+  `src/lib/data/loader.ts`: verbs/vocab ext (32/128, `build-extended.ts`),
+  kanji ext (16, `pack-jlpt.ts`), strokes (256, `build-strokes.ts`).
 - **Never import multi-MB JSON through the JS module graph** — fetch it as
   static `.json.gz` (see architecture.md, "Tier 1"). This single mistake
   produced a 230 MB dev page.

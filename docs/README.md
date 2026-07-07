@@ -20,7 +20,9 @@ repo root; it predates everything and still governs scope. Core ideas:
   filterable (kanji / kana / romaji / English), furigana everywhere.
 - **Learning features**: verb conjugation tables (computed at runtime, never
   stored), conjugation & vocabulary quizzes, antonym pairs, adjective
-  inflections, kanji breakdowns.
+  inflections, kanji pages with KanjiVG stroke-order frames, and a progress
+  analytics page (per-word encounters/accuracy/status, per-form accuracy,
+  session trend).
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -68,7 +70,9 @@ palette's "Include Full Dictionary"). Nothing bulky goes through the JS
 module graph (that once produced a 230 MB dev page). Extended data is
 searched as **raw tuple rows** and only the top matches are ever turned
 into objects; materializing the whole index froze the tab once already
-(see decisions-and-caveats.md). Conjugations and adjective inflections are
-never stored — they're computed from the entry's class by
-`src/lib/conjugation/` at render time, and search deconjugates queries
-("tabeta" finds 食べる) instead of indexing conjugated forms.
+(see decisions-and-caveats.md). Kanji follows the same split — a ~127 KB
+core file plus rare-character shards, with KanjiVG stroke paths in their
+own per-codepoint shards fetched one-per-displayed-kanji. Conjugations and
+adjective inflections are never stored — they're computed from the entry's
+class by `src/lib/conjugation/` at render time, and search deconjugates
+queries ("tabeta" finds 食べる) instead of indexing conjugated forms.

@@ -115,3 +115,11 @@ when adding sources. Tatoeba examples are CC BY 2.0 FR; JLPT lists CC BY
 (tanos.co.uk); KanjiVG stroke data is © Ulrich Apel, **CC BY-SA 3.0**. The
 About page must name the sources, licences, and dataset generation date
 (`meta.json`).
+
+The repository itself is dual-licensed to satisfy the share-alike terms:
+**code is MIT (`LICENSE`), generated data stays under its sources'
+licences** — the per-directory breakdown lives in `LICENSE-DATA.md`. The
+EDRDG-derived files (CC BY-SA 4.0) and KanjiVG-derived files (CC BY-SA 3.0)
+are deliberately kept in separate directories so the two share-alike
+licences never mix in one file. When a new source is added, update all
+three places: the About page, `LICENSE-DATA.md`, and the table above.

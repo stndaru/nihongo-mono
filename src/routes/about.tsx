@@ -62,6 +62,13 @@ const SOURCES = [
     licenseHref: 'https://creativecommons.org/licenses/by-sa/3.0/',
     what: 'Kanji stroke-order diagrams (the numbered frame strips on kanji pages).',
   },
+  {
+    name: 'kuromoji.js + IPADIC',
+    href: 'https://github.com/takuyaa/kuromoji.js',
+    license: 'Apache-2.0',
+    licenseHref: 'https://github.com/takuyaa/kuromoji.js/blob/master/LICENSE-2.0.txt',
+    what: 'Build-time morphological analysis that generates the example-sentence furigana. The IPADIC dictionary itself is not redistributed.',
+  },
 ] as const
 
 const FURTHER_REFERENCES = [
@@ -119,8 +126,7 @@ function AboutPage() {
 
       <h2 className="mt-8 text-lg font-semibold">Further references</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Projects consulted for verification, and planned sources for the kanji
-        pages:
+        Projects consulted for verification, and planned future sources:
       </p>
       <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
         {FURTHER_REFERENCES.map((r) => (
@@ -136,6 +142,16 @@ function AboutPage() {
           </li>
         ))}
       </ul>
+
+      <h2 className="mt-8 text-lg font-semibold">This app&apos;s licence</h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        nihongo mono&apos;s source code is MIT-licensed. The generated
+        dictionary data it serves remains under the licences of its sources:
+        CC BY-SA 4.0 (EDRDG licence) for everything derived from JMdict,
+        JMnedict, KANJIDIC2, and KRADFILE, and CC BY-SA 3.0 for the KanjiVG
+        stroke-order data — see the repository&apos;s LICENSE and
+        LICENSE-DATA files for the exact per-directory breakdown.
+      </p>
 
       <h2 className="mt-8 text-lg font-semibold">A note on JLPT levels</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

@@ -133,6 +133,15 @@ feedback on many of these — treat them as requirements, not suggestions.
     "further references" to a full entry in the About sources list. The
     dashboard stat cards became links into `/progress` sections
     (hash-scrolled after data load) in the same round.
+22. **Licensing formalized** (owner asked for a clash audit): the repo had
+    no licence at all, which conflicted with the share-alike terms of the
+    redistributed derived data. Now: **code MIT (`LICENSE`), data under
+    its sources' licences (`LICENSE-DATA.md`)** — CC BY-SA 4.0 (EDRDG) and
+    CC BY-SA 3.0 (KanjiVG) kept in separate directories so the two
+    share-alike licences never mix in one file; CC BY content (Tatoeba,
+    JLPT tags) embeds fine. All npm dependencies are MIT/ISC/Apache-2.0 —
+    no copyleft anywhere in the stack. kuromoji/IPADIC got an About-page
+    credit (build-time analysis; the dictionary is not redistributed).
 
 ## Known limitations / accepted trade-offs
 
@@ -173,7 +182,8 @@ feedback on many of these — treat them as requirements, not suggestions.
 ## Where the authoritative statements live
 
 - Product scope: `Specification.md` (repo root).
-- Licensing text shown to users: `src/routes/about.tsx`.
+- Licensing text shown to users: `src/routes/about.tsx`; repo licences:
+  `LICENSE` (code, MIT) + `LICENSE-DATA.md` (per-directory data licences).
 - Dataset counts/dates: `src/data/meta.json` (generated).
 - The owner's standing preferences that outlive any one feature: this file
   and the "User-set conventions" list above.

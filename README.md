@@ -23,8 +23,18 @@ exported as a file.
   (204,000+ entries).
 - **Proper names** — prefix search over all 743,000+ JMnedict (ENAMDICT)
   surnames, given names, places, companies, and other proper nouns.
-- **Progress** — day streak, accuracy, and per-verb stats in localStorage;
-  export/import as JSON (merge or replace) to move between browsers.
+- **Kanji** — a browsable table (JLPT levels + "Beyond", 10,000+ KANJIDIC2
+  characters) and detail pages with on/kun readings, KRADFILE radical
+  breakdown, KanjiVG stroke-order frames, grade/frequency info, and every
+  JLPT word that uses the character.
+- **Search everywhere** — a Ctrl/Cmd+K command palette plus per-page search;
+  queries match kanji, kana, romaji, English, and **conjugated forms**
+  ("tabeta" finds 食べる).
+- **Progress** — day streak, accuracy, and per-word stats in localStorage,
+  with a dedicated analytics page: encounters and accuracy per word,
+  weak/learning/solid status, per-conjugation-form accuracy, and a session
+  trend chart. Export/import as JSON (merge or replace) to move between
+  browsers.
 
 > **Contributing or taking over?** Start with the handover docs in
 > [`docs/`](docs/README.md) — architecture, data pipeline, development
@@ -41,7 +51,7 @@ wanakana · Vite 8 · Bun.
 ```bash
 bun install
 bun run dev        # dev server
-bun run test       # conjugation engine + streak unit tests (vitest)
+bun run test       # unit tests: conjugation, deconjugation, quiz rules, progress store (vitest)
 bun run lint       # oxlint
 bun run build      # production build (vite build && tsc -b)
 ```
@@ -60,7 +70,7 @@ on demand. Search over the extended index runs on the raw rows and only
 materializes the matches it shows, so enabling "Beyond" stays responsive.
 
 ```bash
-bun run data:download   # fetch JMdict, JMnedict, KANJIDIC2, JmdictFurigana, JLPT lists → scripts/.cache/
+bun run data:download   # fetch JMdict, JMnedict, KANJIDIC2, KRADFILE, JmdictFurigana, KanjiVG, JLPT lists → scripts/.cache/
 bun run data:build      # regenerate src/data/ (JLPT tier) and public/data/ (runtime tiers)
 bun run data:pack       # re-gzip src/data into public/data/jlpt after hand edits
 ```
@@ -74,14 +84,29 @@ Sources: [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html),
 [JMnedict/ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) &
 [KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) via
 [jmdict-simplified](https://github.com/scriptin/jmdict-simplified) (EDRDG
-licence), [JmdictFurigana](https://github.com/Doublevil/JmdictFurigana),
+licence), [KRADFILE](https://www.edrdg.org/krad/kradinf.html) (EDRDG),
+[JmdictFurigana](https://github.com/Doublevil/JmdictFurigana),
+[KanjiVG](https://kanjivg.tagaini.net/) stroke-order data (CC BY-SA 3.0),
 Tanaka Corpus/[Tatoeba](https://tatoeba.org/) examples (CC BY 2.0 FR), and
-community JLPT lists ([elzup/jlpt-word-list](https://github.com/elzup/jlpt-word-list),
-based on Jonathan Waller's lists, CC BY). Full attribution is on the app's
-About page.
+community JLPT lists
+([stephenmk/yomitan-jlpt-vocab](https://github.com/stephenmk/yomitan-jlpt-vocab),
+[elzup/jlpt-word-list](https://github.com/elzup/jlpt-word-list), based on
+Jonathan Waller's lists, CC BY). Full attribution is on the app's About
+page.
 
 ## Deploying
 
 Static hosting only — build and serve `dist/`. SPA fallback rewrites for deep
 links are included for Netlify (`public/_redirects`) and Vercel
 (`vercel.json`); on other hosts, rewrite all paths to `/index.html`.
+
+## Licence
+
+The **source code** is [MIT](LICENSE). The **generated dictionary data**
+(under `src/data/` and `public/data/`) remains under its sources' licences —
+CC BY-SA 4.0 (EDRDG licence) for the JMdict/JMnedict/KANJIDIC2/KRADFILE-derived
+files and CC BY-SA 3.0 for the KanjiVG-derived stroke data, with CC BY
+content (Tatoeba sentences, JLPT tags) embedded. Per-directory breakdown in
+[LICENSE-DATA.md](LICENSE-DATA.md); user-facing attribution on the app's
+About page. All runtime and build dependencies are permissively licensed
+(MIT/ISC/Apache-2.0), so nothing in the stack conflicts with this split.

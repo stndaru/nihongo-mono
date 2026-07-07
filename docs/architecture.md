@@ -161,8 +161,10 @@ regardless of host compression config.
   compounds inflect on よ (かっこいい→かっこよかった) but かわいい is
   regular. Tables render only for `pos === 'adj-i' | 'adj-na'`.
 - **Conjugations are never stored in data files.**
-- The engine's test suite (`conjugate.test.ts` etc., 33 tests) is the
-  highest-value test surface — extend it when touching the engine.
+- The engine's test suite (`conjugate.test.ts` and the adjective/streak
+  suites) is the highest-value test surface — extend it when touching the
+  engine. The full vitest run also covers deconjugation, quiz session
+  rules, and the progress store.
 
 ## Progress & quiz
 
