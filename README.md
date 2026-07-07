@@ -26,6 +26,10 @@ exported as a file.
 - **Progress** — day streak, accuracy, and per-verb stats in localStorage;
   export/import as JSON (merge or replace) to move between browsers.
 
+> **Contributing or taking over?** Start with the handover docs in
+> [`docs/`](docs/README.md) — architecture, data pipeline, development
+> workflow, and the decision/caveat history.
+
 ## Stack
 
 React 19 · TanStack Router (file-based, per-route code splitting) ·
