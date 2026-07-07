@@ -30,6 +30,10 @@ exported as a file.
 - **Search everywhere** — a Ctrl/Cmd+K command palette plus per-page search;
   queries match kanji, kana, romaji, English, and **conjugated forms**
   ("tabeta" finds 食べる).
+- **Sentence parser** — paste a Japanese sentence (kana/kanji, up to 100
+  characters) and get a clickable word-by-word breakdown: conjugated verbs
+  identified with their exact form, tooltips with readings and meanings.
+  Heuristic dictionary matching with an honest accuracy caveat.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session

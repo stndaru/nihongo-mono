@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { BookOpen, Search } from 'lucide-react'
+import { BookOpen, ScanText, Search } from 'lucide-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import { Button } from '@/components/ui/button'
 import { Furigana } from '@/components/verbs/Furigana'
@@ -13,6 +13,7 @@ import {
   loadVocabExtIndex,
   loadVocabLevels,
 } from '@/lib/data/loader'
+import { isJapaneseOnly } from '@/lib/data/parse-sentence'
 import { searchWordsScored } from '@/lib/data/search'
 import type {
   VerbEntry,
@@ -201,9 +202,26 @@ export function CommandPalette() {
             ) : hits === null ? (
               <p className="px-3 py-8 text-center text-sm text-muted-foreground">Loading…</p>
             ) : hits.length === 0 ? (
-              <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-                No matches{ext ? '' : ' among JLPT words'}.
-              </p>
+              <div className="px-3 py-8 text-center text-sm text-muted-foreground">
+                <p>No matches{ext ? '' : ' among JLPT words'}.</p>
+                {/* a whole sentence isn't a dictionary lookup — offer the
+                    parser, but only for pure-Japanese input (romaji or mixed
+                    text would mess with the breakdown) */}
+                {isJapaneseOnly(debounced.trim()) && debounced.trim().length <= 100 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const q = debounced.trim()
+                      setOpen(false)
+                      setQuery('')
+                      navigate({ to: '/parser', search: { q } })
+                    }}
+                    className="mt-3 inline-flex items-center gap-1.5 text-primary underline-offset-2 hover:underline"
+                  >
+                    <ScanText className="size-4" /> Break Down as Sentence
+                  </button>
+                )}
+              </div>
             ) : (
               hits.map((hit, i) => (
                 <button

@@ -19,6 +19,7 @@ const NAV = [
 
 const NAV_AFTER = [
   { to: '/kanji', label: 'Kanji' },
+  { to: '/parser', label: 'Parser' },
   { to: '/quiz', label: 'Quiz' },
   { to: '/progress', label: 'Progress' },
 ] as const

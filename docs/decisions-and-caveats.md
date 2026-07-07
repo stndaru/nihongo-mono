@@ -143,6 +143,15 @@ feedback on many of these — treat them as requirements, not suggestions.
     JLPT tags) embeds fine. All npm dependencies are MIT/ISC/Apache-2.0 —
     no copyleft anywhere in the stack. kuromoji/IPADIC got an About-page
     credit (build-time analysis; the dictionary is not redistributed).
+23. **Sentence parser as dictionary matching, not kuromoji** (owner
+    request for a text-breakdown page): running kuromoji in the browser
+    would mean shipping its ~17 MB IPADIC dictionary, so `/parser` is
+    greedy longest-match over the JLPT lists + the existing deconjugation
+    engine, with an exact-form boundary rule to keep segments honest. The
+    prominent accuracy caveat and the kana-only input filter are explicit
+    owner requirements, as is the palette's "Break Down as Sentence"
+    fallback appearing ONLY for purely-Japanese queries. Known
+    limitation: only JLPT-listed words are recognized.
 
 ## Known limitations / accepted trade-offs
 

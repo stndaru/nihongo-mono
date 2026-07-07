@@ -146,6 +146,38 @@ regardless of host compression config.
   keystroke was a real lag source. Keep row rendering cheap; `<ruby>` is
   expensive.
 
+## Sentence parser (`/parser`, `src/lib/data/parse-sentence.ts`)
+
+- **Not a morphological analyzer** — kuromoji stays build-time only (its
+  IPADIC dictionary is a ~17 MB download). The parser is greedy
+  longest-match segmentation over the JLPT word lists (both surfaces,
+  verbs winning ties), with `deconjugate` recovering dictionary-form
+  candidates for conjugated verbs/い-adjectives.
+- **Honest-boundary rule**: a deconjugation match is accepted only when
+  the surface EXACTLY equals one of the candidate's conjugated forms
+  (`conjugate` / `inflectAdjective` over all forms) — so 食べていた
+  yields 食べて (Te form) + いた rather than a bogus 4-char verb match.
+  The matched form's label is carried as `formLabel` and shown in
+  tooltips and the word list.
+- **Single kana characters only match particles/conjunctions** — every
+  stray か as a noun would be noise. Single kanji match freely.
+- Input is hard-filtered to Japanese scripts + Japanese punctuation
+  (`stripNonJapanese`; full-width latin is rejected too), capped at 100
+  chars. The page shows a prominent accuracy caveat (heuristic matching,
+  kana-only input, JLPT-only coverage) — a direct owner requirement.
+- The sentence lives in `?q=` (`replace: true`): palette hand-offs
+  auto-run, and the breakdown survives clicking through to a word's
+  detail page and coming back.
+- Rendered as spans: matched words are Links wrapped in Radix Tooltip
+  (dotted underline, hover highlight; tooltip shows reading, gloss, POS,
+  level, and the conjugated form when relevant).
+- **Palette fallback**: when a palette query has no hits AND is purely
+  Japanese (≤100 chars), it offers "Break Down as Sentence" → navigates
+  to `/parser?q=`. Deliberately absent for romaji/mixed queries — they'd
+  mess with the breakdown.
+- Unit-tested in `parse-sentence.test.ts` (boundaries, single-kana rule,
+  form labels, sanitizer).
+
 ## Conjugation & inflection engines (`src/lib/conjugation/`)
 
 - 22 `ConjugationForm`s; `conjugate(verb, form)` transforms **kanji and kana
@@ -296,9 +328,9 @@ regardless of host compression config.
 
 - **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
   (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
-  highlights for `/names`) · Kanji · Quiz · Progress, then right-aligned
-  Search (palette trigger with a platform-aware ⌘K/Ctrl K hint), theme
-  toggle, and a Settings **icon** button.
+  highlights for `/names`) · Kanji · Parser · Quiz · Progress, then
+  right-aligned Search (palette trigger with a platform-aware ⌘K/Ctrl K
+  hint), theme toggle, and a Settings **icon** button.
 - **Detail pages carry a smart back control**
   (`components/layout/BackButton.tsx`, top-left on verb/vocab/kanji
   detail): when the tab has in-app history (`useCanGoBack()`), it calls
