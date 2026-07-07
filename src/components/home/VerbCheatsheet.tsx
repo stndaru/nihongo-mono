@@ -59,7 +59,10 @@ function Card({
           </span>
         </div>
       </div>
-      <div className="mt-3 space-y-3 text-sm">{children}</div>
+      {/* separators + breathing room between What / Spot It / Conjugate */}
+      <div className="mt-4 divide-y divide-border/60 text-sm [&>*]:py-3.5 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+        {children}
+      </div>
     </div>
   )
 }
@@ -158,7 +161,7 @@ const TRAPS: [string, string][] = [
 
 export function VerbCheatsheet() {
   return (
-    <section className="space-y-4">
+    <section className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold">Verb Types at a Glance</h2>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -186,7 +189,7 @@ export function VerbCheatsheet() {
         </ol>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card accent="godan" glyph="五" title="Godan" tag="五段 ・ u-verbs ・ ~70% of all verbs">
           <Row icon="what" label="What">
             The last kana slides across the five vowel rows — that slide{' '}

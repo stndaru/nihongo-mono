@@ -65,7 +65,8 @@ function Dashboard() {
   const atRisk = !broken && streakAtRisk(progress.streak)
 
   return (
-    <div className="space-y-8">
+    // roomier than other pages on purpose — the dashboard felt dense
+    <div className="space-y-10">
       <div>
         <h1 className="text-2xl font-semibold">
           <span lang="ja" className="text-primary">
@@ -114,15 +115,12 @@ function Dashboard() {
         />
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2.5">
         <Button size="lg" asChild>
           <Link to="/quiz">Start a Quiz</Link>
         </Button>
         <Button size="lg" variant="outline" asChild>
-          <Link to="/verbs">Browse Verbs</Link>
-        </Button>
-        <Button size="lg" variant="outline" asChild>
-          <Link to="/vocab">Browse Vocabulary</Link>
+          <Link to="/dictionary">Browse Dictionary</Link>
         </Button>
         <Button size="lg" variant="outline" asChild>
           <Link to="/progress">View Progress</Link>

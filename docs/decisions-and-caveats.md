@@ -281,6 +281,11 @@ feedback on many of these — treat them as requirements, not suggestions.
     the dataset). Phone gotcha encoded in a comment: adjacent
     `whitespace-nowrap` spans with no space between them form ONE
     unbreakable run — the trap list is a flex-wrap row instead.
+    Follow-up feedback rounds: card sections got separators + more
+    spacing, titles outweigh content (kanji badge + bold title), the
+    dashboard buttons collapsed to Start a Quiz / Browse Dictionary /
+    View Progress, and the homepage runs roomier (`space-y-10`) than
+    other pages on purpose.
 
 ## Known limitations / accepted trade-offs
 
