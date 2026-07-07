@@ -18,13 +18,15 @@ export function shuffle<T>(items: T[]): T[] {
 /**
  * Multiple-choice options: the correct answer plus 3 other conjugations of
  * the same verb, deduped by surface so no two options read identically.
+ * The dictionary form shown in the prompt is excluded — an option identical
+ * to the word on screen is a free elimination.
  */
 export function buildChoices(
   verb: VerbEntry,
   form: ConjugationForm,
   answer: ConjugatedForm,
 ): ConjugatedForm[] {
-  const seen = new Set([answer.kana])
+  const seen = new Set([answer.kana, verb.kana])
   const pool: ConjugatedForm[] = []
   for (const other of shuffle([...CONJUGATION_FORMS])) {
     if (other === form) continue

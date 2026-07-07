@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Check, X } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ExampleJa } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
@@ -58,17 +59,36 @@ export function VocabAnswerFeedback({
 
       <div className="rounded-md border p-3">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <PosBadge pos={word.pos} />
-          <Link
-            to="/vocab/$wordId"
-            params={{ wordId: word.id }}
-            target="_blank"
-            rel="noopener"
-            className="text-primary underline-offset-2 hover:underline"
-            title="Open word detail in a new tab"
-          >
-            Details
-          </Link>
+          {question.verb ? (
+            <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
+              Verb
+            </Badge>
+          ) : (
+            <PosBadge pos={word.pos} />
+          )}
+          {question.verb ? (
+            <Link
+              to="/verbs/$verbId"
+              params={{ verbId: word.id }}
+              target="_blank"
+              rel="noopener"
+              className="text-primary underline-offset-2 hover:underline"
+              title="Open the verb's detail in a new tab"
+            >
+              Details
+            </Link>
+          ) : (
+            <Link
+              to="/vocab/$wordId"
+              params={{ wordId: word.id }}
+              target="_blank"
+              rel="noopener"
+              className="text-primary underline-offset-2 hover:underline"
+              title="Open word detail in a new tab"
+            >
+              Details
+            </Link>
+          )}
         </div>
         <div className="mt-2 flex flex-wrap items-end gap-x-3">
           <Furigana segments={word.furigana} className="text-3xl leading-normal" />

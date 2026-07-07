@@ -75,6 +75,17 @@ function VocabQuizSetupPage() {
       </section>
 
       <section className="space-y-2">
+        <h2 className="text-sm font-medium">Verbs</h2>
+        <label className="flex cursor-pointer items-center gap-2 text-sm">
+          <Checkbox
+            checked={config.verbs}
+            onCheckedChange={() => setConfig({ ...config, verbs: !config.verbs })}
+          />
+          Include verbs in dictionary form (食べる, 飲む…) as questions
+        </label>
+      </section>
+
+      <section className="space-y-2">
         <h2 className="text-sm font-medium">Answer mode</h2>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           {(

@@ -6,6 +6,8 @@ export interface VocabQuizConfig {
   pos: VocabPos[]
   modes: QuizMode[]
   length: number
+  /** also ask verbs (dictionary form: 食べる, 飲む…) */
+  verbs: boolean
 }
 
 export const ALL_POS: VocabPos[] = ['noun', 'adj-i', 'adj-na', 'adverb']
@@ -15,6 +17,7 @@ export const DEFAULT_VOCAB_CONFIG: VocabQuizConfig = {
   pos: ALL_POS,
   modes: ['input', 'choice'],
   length: 10,
+  verbs: true,
 }
 
 /** Compact query-string shape: /quiz/vocab/session?levels=5&pos=noun&… */
@@ -23,6 +26,7 @@ export interface VocabQuizSearch {
   pos: string
   modes: string
   length: number
+  verbs: 0 | 1
 }
 
 export function serializeVocabConfig(config: VocabQuizConfig): VocabQuizSearch {
@@ -31,6 +35,7 @@ export function serializeVocabConfig(config: VocabQuizConfig): VocabQuizSearch {
     pos: config.pos.join(','),
     modes: config.modes.join(','),
     length: config.length,
+    verbs: config.verbs ? 1 : 0,
   }
 }
 
@@ -52,6 +57,8 @@ export function parseVocabConfig(search: Record<string, unknown>): VocabQuizConf
     pos: parseList(search.pos, ALL_POS, DEFAULT_VOCAB_CONFIG.pos),
     modes: parseList(search.modes, ['input', 'choice'] as const, DEFAULT_VOCAB_CONFIG.modes),
     length: Number.isInteger(length) && length >= 1 && length <= 100 ? length : 10,
+    // ?verbs=0|1 (router JSON-parses to a number)
+    verbs: search.verbs === undefined ? DEFAULT_VOCAB_CONFIG.verbs : String(search.verbs) === '1',
   }
 }
 

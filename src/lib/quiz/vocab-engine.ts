@@ -1,4 +1,4 @@
-import type { VocabEntry } from '@/lib/data/types'
+import type { VerbEntry, VocabEntry } from '@/lib/data/types'
 import { shuffle } from './distractors'
 import type { VocabQuizConfig } from './vocab-config'
 
@@ -12,6 +12,8 @@ export type VocabQuestionKind = 'reading' | 'recall' | 'meaning'
 export interface VocabQuestion {
   word: VocabEntry
   kind: VocabQuestionKind
+  /** the word is a verb (dictionary form); detail links go to the verb page */
+  verb?: boolean
   /** gloss options for 'meaning'; includes the answer, pre-shuffled */
   choices?: string[]
 }
@@ -19,6 +21,27 @@ export interface VocabQuestion {
 /** First gloss is the canonical quiz answer for meaning questions. */
 export function answerGloss(word: VocabEntry): string {
   return word.gloss[0] ?? ''
+}
+
+/**
+ * Verbs (dictionary form: 食べる, 飲む…) as vocabulary-quiz words. Ids stay
+ * the verb's id so progress stats pool with the conjugation quiz.
+ */
+export function verbQuizWords(verbs: VerbEntry[]): VocabEntry[] {
+  return verbs.map((verb) => ({
+    id: verb.id,
+    kanji: verb.kanji,
+    kana: verb.kana,
+    romaji: verb.romaji,
+    furigana: verb.furigana,
+    gloss: verb.gloss,
+    jlpt: verb.jlpt,
+    common: verb.common,
+    examples: verb.examples,
+    senses: [],
+    kanjiChars: [],
+    pos: 'verb',
+  }))
 }
 
 function buildGlossChoices(word: VocabEntry, pool: VocabEntry[]): string[] {
@@ -42,20 +65,32 @@ function buildGlossChoices(word: VocabEntry, pool: VocabEntry[]): string[] {
 
 /**
  * Builds a vocabulary quiz session. Less-seen words are drawn more often
- * (weight 1/(1+seen)); pass `seenCount` from the progress store.
+ * (weight 1/(1+seen)); pass `seenCount` from the progress store. A word is
+ * asked at most once per session — small pools give short sessions instead
+ * of repeats.
  */
 export function generateVocabSession(
   config: VocabQuizConfig,
   words: VocabEntry[],
+  verbWords: VocabEntry[] = [],
   seenCount: (wordId: string) => number = () => 0,
 ): VocabQuestion[] {
-  const pool = words.filter((w) => config.pos.includes(w.pos) && w.gloss.length > 0)
+  type PoolItem = { word: VocabEntry; verb: boolean }
+  const pool: PoolItem[] = [
+    ...words
+      .filter((w) => config.pos.includes(w.pos) && w.gloss.length > 0)
+      .map((word) => ({ word, verb: false })),
+    ...(config.verbs
+      ? verbWords.filter((w) => w.gloss.length > 0).map((word) => ({ word, verb: true }))
+      : []),
+  ]
   if (pool.length === 0) return []
+  const glossPool = pool.map((p) => p.word)
 
-  const weights = pool.map((w) => 1 / (1 + seenCount(w.id)))
+  const weights = pool.map((p) => 1 / (1 + seenCount(p.word.id)))
   const totalWeight = weights.reduce((a, b) => a + b, 0)
 
-  const pickWord = (): VocabEntry => {
+  const pick = (): PoolItem => {
     let r = Math.random() * totalWeight
     for (let i = 0; i < pool.length; i++) {
       r -= weights[i]
@@ -68,8 +103,10 @@ export function generateVocabSession(
   const used = new Set<string>()
   const maxAttempts = config.length * 20
   for (let attempt = 0; questions.length < config.length && attempt < maxAttempts; attempt++) {
-    const word = pickWord()
-    if (used.has(word.id) && used.size < pool.length) continue
+    // never repeat a word within a session — a small pool ends it early
+    if (used.size >= pool.length) break
+    const { word, verb } = pick()
+    if (used.has(word.id)) continue
     used.add(word.id)
     const mode = config.modes[Math.floor(Math.random() * config.modes.length)]
     const kind: VocabQuestionKind =
@@ -77,7 +114,8 @@ export function generateVocabSession(
     questions.push({
       word,
       kind,
-      choices: kind === 'meaning' ? buildGlossChoices(word, pool) : undefined,
+      verb: verb || undefined,
+      choices: kind === 'meaning' ? buildGlossChoices(word, glossPool) : undefined,
     })
   }
   return questions

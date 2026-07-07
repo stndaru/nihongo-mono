@@ -7,14 +7,16 @@ import {
   VocabSessionSummary,
   type VocabQuestionResult,
 } from '@/components/quiz/VocabSessionSummary'
+import { Badge } from '@/components/ui/badge'
 import { Furigana } from '@/components/verbs/Furigana'
 import { PosBadge } from '@/components/vocab/PosBadge'
-import { loadVocabLevels } from '@/lib/data/loader'
+import { loadVerbLevels, loadVocabLevels } from '@/lib/data/loader'
 import type { VocabEntry } from '@/lib/data/types'
 import { useProgress } from '@/lib/progress/context'
 import {
   answerGloss,
   generateVocabSession,
+  verbQuizWords,
   type VocabQuestion,
 } from '@/lib/quiz/vocab-engine'
 import { parseVocabConfig, sanitizeVocabSearch } from '@/lib/quiz/vocab-config'
@@ -76,7 +78,7 @@ function VocabQuizSessionPage() {
   const search = Route.useSearch()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const config = useMemo(() => parseVocabConfig(search), [JSON.stringify(search)])
-  const [words, setWords] = useState<VocabEntry[] | null>(null)
+  const [words, setWords] = useState<{ vocab: VocabEntry[]; verbs: VocabEntry[] } | null>(null)
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
   const { progress, recordSession } = useProgress()
 
@@ -89,10 +91,17 @@ function VocabQuizSessionPage() {
 
   useEffect(() => {
     let alive = true
-    loadVocabLevels(config.levels).then((list) => {
+    Promise.all([
+      loadVocabLevels(config.levels),
+      config.verbs ? loadVerbLevels(config.levels) : Promise.resolve([]),
+    ]).then(([vocab, verbs]) => {
       if (!alive) return
-      setWords(list)
-      dispatch({ type: 'init', questions: generateVocabSession(config, list, seenCount) })
+      const loaded = { vocab, verbs: verbQuizWords(verbs) }
+      setWords(loaded)
+      dispatch({
+        type: 'init',
+        questions: generateVocabSession(config, loaded.vocab, loaded.verbs, seenCount),
+      })
     })
     return () => {
       alive = false
@@ -101,7 +110,10 @@ function VocabQuizSessionPage() {
 
   const retry = useCallback(() => {
     if (words)
-      dispatch({ type: 'init', questions: generateVocabSession(config, words, seenCount) })
+      dispatch({
+        type: 'init',
+        questions: generateVocabSession(config, words.vocab, words.verbs, seenCount),
+      })
   }, [words, config, seenCount])
 
   const onNext = useCallback(() => dispatch({ type: 'next' }), [])
@@ -183,7 +195,13 @@ function VocabQuizSessionPage() {
           <Furigana segments={question.word.furigana} className="text-4xl leading-tight" />
         )}
         <div className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <PosBadge pos={question.word.pos} />
+          {question.verb ? (
+            <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
+              Verb
+            </Badge>
+          ) : (
+            <PosBadge pos={question.word.pos} />
+          )}
           {PROMPTS[question.kind]}
         </div>
       </div>

@@ -48,14 +48,25 @@ export function VocabSessionSummary({
                 key={i}
                 className="flex flex-wrap items-baseline gap-x-3 border-b border-border/60 py-1"
               >
-                <Link
-                  to="/vocab/$wordId"
-                  params={{ wordId: r.question.word.id }}
-                  lang="ja"
-                  className="text-base text-primary underline-offset-2 hover:underline"
-                >
-                  {r.question.word.kanji}
-                </Link>
+                {r.question.verb ? (
+                  <Link
+                    to="/verbs/$verbId"
+                    params={{ verbId: r.question.word.id }}
+                    lang="ja"
+                    className="text-base text-primary underline-offset-2 hover:underline"
+                  >
+                    {r.question.word.kanji}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/vocab/$wordId"
+                    params={{ wordId: r.question.word.id }}
+                    lang="ja"
+                    className="text-base text-primary underline-offset-2 hover:underline"
+                  >
+                    {r.question.word.kanji}
+                  </Link>
+                )}
                 <span lang="ja" className="text-muted-foreground">
                   {r.question.word.kana}
                 </span>

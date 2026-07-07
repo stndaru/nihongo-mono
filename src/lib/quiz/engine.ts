@@ -52,6 +52,12 @@ export function generateSession(
     if (used.has(key) && used.size < pool.length * config.forms.length) continue
     const answer = conjugate(verb, form)
     if (!answer) continue // form doesn't exist for this verb (e.g. ある potential)
+    // never ask for the form already on screen (e.g. non-past = the shown
+    // dictionary form) — the answer would be staring at the user
+    if (answer.kana === verb.kana && answer.kanji === verb.kanji) {
+      used.add(key)
+      continue
+    }
     used.add(key)
     const mode = config.modes[Math.floor(Math.random() * config.modes.length)]
     questions.push({
