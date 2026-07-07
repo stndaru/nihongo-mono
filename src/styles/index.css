@@ -128,6 +128,17 @@
     position: relative;
     top: -2px;
   }
+  /* quiz sessions: smaller ruby, and display preferences set as data
+     attributes by the session pages (see QuizDisplayToggles) */
+  [data-quiz] ruby rt {
+    font-size: 0.45em;
+  }
+  [data-quiz-ruby="hide"] rt {
+    display: none;
+  }
+  [data-quiz-info="hide"] .quiz-info {
+    display: none;
+  }
   ::selection {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);

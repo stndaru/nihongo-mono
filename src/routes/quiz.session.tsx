@@ -4,6 +4,12 @@ import { toHiragana } from 'wanakana'
 import { AnswerFeedback } from '@/components/quiz/AnswerFeedback'
 import { KanaInput } from '@/components/quiz/KanaInput'
 import { MultipleChoice } from '@/components/quiz/MultipleChoice'
+import {
+  QuizDisplayToggles,
+  quizDisplayAttrs,
+  useQuizDisplay,
+} from '@/components/quiz/QuizDisplayToggles'
+import { QuizLeaveGuard } from '@/components/quiz/QuizLeaveGuard'
 import { SessionSummary, type QuestionResult } from '@/components/quiz/SessionSummary'
 import { Furigana } from '@/components/verbs/Furigana'
 import { FORM_LABELS, type ConjugatedForm } from '@/lib/conjugation'
@@ -67,6 +73,7 @@ function QuizSessionPage() {
   const [verbs, setVerbs] = useState<VerbEntry[] | null>(null)
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
   const { progress, recordSession } = useProgress()
+  const [display, setDisplay] = useQuizDisplay()
 
   // latest progress without re-generating the session when it changes
   const progressRef = useRef(progress)
@@ -140,7 +147,9 @@ function QuizSessionPage() {
   const lastResult = state.results[state.results.length - 1]
 
   return (
-    <div className="mx-auto max-w-xl space-y-5">
+    <div className="mx-auto max-w-xl space-y-5" {...quizDisplayAttrs(display)}>
+      {/* leaving mid-session loses progress — confirm first */}
+      <QuizLeaveGuard active />
       {/* progress */}
       <div>
         <div className="flex justify-between text-xs text-muted-foreground">
@@ -154,6 +163,9 @@ function QuizSessionPage() {
             className="h-full bg-primary transition-[width] duration-150"
             style={{ width: `${(state.index / state.questions.length) * 100}%` }}
           />
+        </div>
+        <div className="mt-2 flex justify-end">
+          <QuizDisplayToggles display={display} onChange={setDisplay} />
         </div>
       </div>
 

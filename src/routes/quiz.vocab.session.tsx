@@ -2,6 +2,12 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'r
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { toHiragana } from 'wanakana'
 import { KanaInput } from '@/components/quiz/KanaInput'
+import {
+  QuizDisplayToggles,
+  quizDisplayAttrs,
+  useQuizDisplay,
+} from '@/components/quiz/QuizDisplayToggles'
+import { QuizLeaveGuard } from '@/components/quiz/QuizLeaveGuard'
 import { VocabAnswerFeedback } from '@/components/quiz/VocabAnswerFeedback'
 import {
   VocabSessionSummary,
@@ -81,6 +87,7 @@ function VocabQuizSessionPage() {
   const [words, setWords] = useState<{ vocab: VocabEntry[]; verbs: VocabEntry[] } | null>(null)
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
   const { progress, recordSession } = useProgress()
+  const [display, setDisplay] = useQuizDisplay()
 
   const progressRef = useRef(progress)
   progressRef.current = progress
@@ -165,7 +172,9 @@ function VocabQuizSessionPage() {
   const lastResult = state.results[state.results.length - 1]
 
   return (
-    <div className="mx-auto max-w-xl space-y-5">
+    <div className="mx-auto max-w-xl space-y-5" {...quizDisplayAttrs(display)}>
+      {/* leaving mid-session loses progress — confirm first */}
+      <QuizLeaveGuard active />
       {/* progress */}
       <div>
         <div className="flex justify-between text-xs text-muted-foreground">
@@ -179,6 +188,9 @@ function VocabQuizSessionPage() {
             className="h-full bg-primary transition-[width] duration-150"
             style={{ width: `${(state.index / state.questions.length) * 100}%` }}
           />
+        </div>
+        <div className="mt-2 flex justify-end">
+          <QuizDisplayToggles display={display} onChange={setDisplay} />
         </div>
       </div>
 
@@ -195,13 +207,15 @@ function VocabQuizSessionPage() {
           <Furigana segments={question.word.furigana} className="text-4xl leading-tight" />
         )}
         <div className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          {question.verb ? (
-            <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
-              Verb
-            </Badge>
-          ) : (
-            <PosBadge pos={question.word.pos} />
-          )}
+          <span className="quiz-info">
+            {question.verb ? (
+              <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
+                Verb
+              </Badge>
+            ) : (
+              <PosBadge pos={question.word.pos} />
+            )}
+          </span>
           {PROMPTS[question.kind]}
         </div>
       </div>

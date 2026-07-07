@@ -77,7 +77,7 @@ export function AnswerFeedback({
           segments={pairFurigana(question.answer.kanji, question.answer.kana)}
           className="mt-2 block text-3xl leading-normal"
         />
-        <div className="mt-1 text-sm text-muted-foreground">
+        <div className="quiz-info mt-1 text-sm text-muted-foreground">
           {question.verb.gloss.join('; ')}
         </div>
       </div>

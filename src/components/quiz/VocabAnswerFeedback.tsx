@@ -59,13 +59,15 @@ export function VocabAnswerFeedback({
 
       <div className="rounded-md border p-3">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          {question.verb ? (
-            <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
-              Verb
-            </Badge>
-          ) : (
-            <PosBadge pos={word.pos} />
-          )}
+          <span className="quiz-info">
+            {question.verb ? (
+              <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
+                Verb
+              </Badge>
+            ) : (
+              <PosBadge pos={word.pos} />
+            )}
+          </span>
           {question.verb ? (
             <Link
               to="/verbs/$verbId"
@@ -98,7 +100,9 @@ export function VocabAnswerFeedback({
             </span>
           )}
         </div>
-        <div className="mt-1 text-sm text-muted-foreground">{word.gloss.join('; ')}</div>
+        <div className="quiz-info mt-1 text-sm text-muted-foreground">
+          {word.gloss.join('; ')}
+        </div>
         {word.examples[0] && (
           <div className="mt-2 border-t border-border/60 pt-3 text-sm">
             <p className="text-lg leading-loose">
