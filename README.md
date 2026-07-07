@@ -77,7 +77,7 @@ Parsing mode) · Vite 8 · Bun.
 ```bash
 bun install
 bun run dev        # dev server (first copies the kuromoji dict into public/)
-bun run test       # unit tests: conjugation, deconjugation, quiz rules, progress store, sentence parser (vitest)
+bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser (vitest)
 bun run lint       # oxlint
 bun run build      # production build (vite build && tsc -b)
 ```

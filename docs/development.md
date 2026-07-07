@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, quiz rules, progress store, sentence parser (147 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser (153 tests)
 bun run lint            # oxlint
 bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
