@@ -467,8 +467,8 @@ regardless of host compression config.
   sentinel for that state. Quiz Start buttons disable while any
   required group is empty.
 - **Header** (`components/layout/Header.tsx`): Home · Dictionary · Kanji ·
-  **Language** (dropdown: Verbs / Vocabulary / Antonyms / Proper Names) ·
-  **Tools** (dropdown: Sentence Parser / Quiz / Progress), then
+  **Language** (dropdown: Verbs / Vocabulary / Antonyms / Proper Names /
+  Resources) · **Tools** (dropdown: Sentence Parser / Quiz / Progress), then
   right-aligned Search (palette trigger with a platform-aware ⌘K/Ctrl K
   hint), theme toggle, and a Settings **icon** button. The dropdowns are
   **Linear-style panels** (owner request, from a screenshot; refined by a

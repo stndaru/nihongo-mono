@@ -31,6 +31,7 @@ const LANGUAGE_ITEMS: MenuEntry[] = [
   { to: '/vocab', label: 'Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs' },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places' },
+  { to: '/resources', label: 'Resources', description: 'Hand-picked sites for learning Japanese' },
 ]
 
 const TOOLS_ITEMS: MenuEntry[] = [
@@ -146,7 +147,7 @@ export function Header() {
           <NavDropdown
             label="Language"
             items={LANGUAGE_ITEMS}
-            activePrefixes={['/verbs', '/vocab', '/names']}
+            activePrefixes={['/verbs', '/vocab', '/names', '/resources']}
           />
           <NavDropdown
             label="Tools"

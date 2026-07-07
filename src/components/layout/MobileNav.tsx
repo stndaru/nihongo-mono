@@ -12,6 +12,7 @@ const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: st
   { to: '/vocab', label: 'All Vocabulary' },
   { to: '/vocab/antonyms', label: 'Antonyms' },
   { to: '/names', label: 'Proper Names' },
+  { to: '/resources', label: 'Resources' },
   { to: '/parser', label: 'Sentence Parser', section: 'Tools' },
   { to: '/quiz', label: 'Quiz' },
   { to: '/progress', label: 'Progress' },
