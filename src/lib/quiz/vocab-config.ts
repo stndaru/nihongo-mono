@@ -41,10 +41,11 @@ function parseList<T extends string>(raw: unknown, valid: readonly T[], fallback
 }
 
 export function parseVocabConfig(search: Record<string, unknown>): VocabQuizConfig {
-  const levels =
-    typeof search.levels === 'string' && /^[1-5](,[1-5])*$/.test(search.levels)
-      ? ([...new Set(search.levels.split(',').map(Number))] as JlptLevel[])
-      : DEFAULT_VOCAB_CONFIG.levels
+  // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+  const rawLevels = String(search.levels ?? '')
+  const levels = /^[1-5](,[1-5])*$/.test(rawLevels)
+    ? ([...new Set(rawLevels.split(',').map(Number))] as JlptLevel[])
+    : DEFAULT_VOCAB_CONFIG.levels
   const length = Number(search.length)
   return {
     levels,

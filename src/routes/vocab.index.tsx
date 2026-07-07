@@ -22,8 +22,9 @@ export const Route = createFileRoute('/vocab/')({
   validateSearch: (search: Record<string, unknown>): VocabSearch => {
     const out: VocabSearch = {}
     if (typeof search.q === 'string' && search.q) out.q = search.q
-    if (typeof search.levels === 'string' && /^[1-5](,[1-5])*$/.test(search.levels))
-      out.levels = search.levels
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+    const levels = String(search.levels ?? '')
+    if (/^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
     if (POS_VALUES.includes(search.pos as VocabPos)) out.pos = search.pos as VocabPos
     if (search.common === true) out.common = true
     return out

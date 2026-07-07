@@ -7,22 +7,23 @@ import { loadVocabLevels } from '@/lib/data/loader'
 import type { JlptLevel, VocabEntry } from '@/lib/data/types'
 
 interface AntonymsSearch {
-  /** e.g. "5,4" — omitted means N5 only */
+  /** e.g. "5,4" — omitted means all levels, so no pair is hidden by level */
   levels?: string
 }
 
 export const Route = createFileRoute('/vocab/antonyms')({
   validateSearch: (search: Record<string, unknown>): AntonymsSearch => {
     const out: AntonymsSearch = {}
-    if (typeof search.levels === 'string' && /^[1-5](,[1-5])*$/.test(search.levels))
-      out.levels = search.levels
+    // ?levels=5 arrives as a number (router JSON-parses params) — normalize
+    const levels = String(search.levels ?? '')
+    if (/^[1-5](,[1-5])*$/.test(levels)) out.levels = levels
     return out
   },
   component: AntonymsPage,
 })
 
 function parseLevels(levels: string | undefined): JlptLevel[] {
-  if (!levels) return [5]
+  if (!levels) return [5, 4, 3, 2, 1]
   return [...new Set(levels.split(',').map(Number))].sort((a, b) => b - a) as JlptLevel[]
 }
 
@@ -93,9 +94,7 @@ function AntonymsPage() {
     if (next.length === 0) return
     const sorted = next.sort((a, b) => b - a)
     navigate({
-      search: {
-        levels: sorted.length === 1 && sorted[0] === 5 ? undefined : sorted.join(','),
-      },
+      search: { levels: sorted.length === 5 ? undefined : sorted.join(',') },
       replace: true,
     })
   }

@@ -116,7 +116,6 @@ for (const row of jlptRows) {
 
 // resolve antonym/synonym xrefs to ids of words that exist in the dataset,
 // so every reference the UI renders is clickable
-let antCount = 0
 for (const entry of byId.values()) {
   const raw = rawXrefs.get(entry.id)
   if (!raw) continue
@@ -129,13 +128,46 @@ for (const entry of byId.values()) {
   ]
   const antonyms = resolve(raw.ant)
   const synonyms = resolve(raw.syn)
-  if (antonyms.length > 0) {
-    entry.antonyms = antonyms
-    antCount++
-  }
+  if (antonyms.length > 0) entry.antonyms = antonyms
   if (synonyms.length > 0) entry.synonyms = synonyms
 }
-console.log(`${antCount} words with in-dataset antonyms`)
+
+// curated pairs JMdict lacks (hand-editable; see antonym-overrides.json)
+const overrides: { pairs: [string, string][][] } = JSON.parse(
+  readFileSync(join(import.meta.dirname, 'antonym-overrides.json'), 'utf8'),
+)
+const overrideMisses: string[] = []
+for (const [a, b] of overrides.pairs) {
+  const idA = index.find(a[0], a[1])?.id
+  const idB = index.find(b[0], b[1])?.id
+  if (!idA || !idB || !byId.has(idA) || !byId.has(idB)) {
+    overrideMisses.push(`${a[0]} ↔ ${b[0]}`)
+    continue
+  }
+  const entryA = byId.get(idA)!
+  if (!entryA.antonyms?.includes(idB)) entryA.antonyms = [...(entryA.antonyms ?? []), idB]
+}
+
+// relations are mutual: if A lists B, B lists A (JMdict xrefs are often one-way)
+function symmetrize(key: 'antonyms' | 'synonyms') {
+  for (const entry of byId.values()) {
+    for (const otherId of entry[key] ?? []) {
+      const other = byId.get(otherId)
+      if (other && !other[key]?.includes(entry.id)) {
+        other[key] = [...(other[key] ?? []), entry.id]
+      }
+    }
+  }
+}
+symmetrize('antonyms')
+symmetrize('synonyms')
+
+const antCount = [...byId.values()].filter((e) => e.antonyms?.length).length
+console.log(
+  `${antCount} words with antonyms | ${overrideMisses.length} override pairs unresolved${
+    overrideMisses.length ? ': ' + overrideMisses.join(', ') : ''
+  }`,
+)
 
 mkdirSync(OUT_DIR, { recursive: true })
 const vocabCounts = {} as NonNullable<DatasetMeta['vocabCounts']>
