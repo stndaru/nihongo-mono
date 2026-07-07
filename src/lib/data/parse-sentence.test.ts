@@ -214,6 +214,54 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].word?.entry.id).toBe('w1')
   })
 
+  it('links variant kanji spellings through the reading (温かい → 暖かい)', () => {
+    // JMdict keys spelling variants by the primary form only
+    const dicts = buildParserDicts([], [word('warm', '暖かい', 'あたたかい', 'adj-i')])
+    const segs = tokensToSegments(
+      [tok('温かい', '形容詞', '自立', '温かい', 'アタタカイ')],
+      dicts,
+    )
+    expect(segs[0].word?.entry.id).toBe('warm')
+    // the surface IS the token's dictionary form — no conjugation label
+    expect(segs[0].word?.formLabel).toBeNull()
+  })
+
+  it('labels conjugated variant spellings via the token spelling (温かかった)', () => {
+    const dicts = buildParserDicts([], [word('warm', '暖かい', 'あたたかい', 'adj-i')])
+    const segs = tokensToSegments(
+      [
+        tok('温かかっ', '形容詞', '自立', '温かい', 'アタタカカッ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      dicts,
+    )
+    expect(segs[0].word?.entry.id).toBe('warm')
+    expect(segs[0].word?.formLabel).toBe('Past')
+  })
+
+  it('links nouns through the reading, but never across word class', () => {
+    const dicts = buildParserDicts(
+      [verb('kaeru', '帰る', 'かえる', 'v5r')],
+      [word('fukin', '付近', 'ふきん')],
+    )
+    // 附近 misses by spelling, links via フキン
+    const fukin = tokensToSegments([tok('附近', '名詞', '一般', '附近', 'フキン')], dicts)
+    expect(fukin[0].word?.entry.id).toBe('fukin')
+    // 蛙 the noun must NOT link to 帰る the verb just because both read かえる
+    const frog = tokensToSegments([tok('蛙', '名詞', '一般', '蛙', 'カエル')], dicts)
+    expect(frog[0].word).toBeUndefined()
+  })
+
+  it('includes reading candidates in the Beyond surface collection', () => {
+    const segs = tokensToSegments(
+      [tok('温かい', '形容詞', '自立', '温かい', 'アタタカイ')],
+      buildParserDicts([], []),
+    )
+    const { words } = collectUnlinkedSurfaces(segs)
+    expect(words.has('温かい')).toBe(true)
+    expect(words.has('あたたかい')).toBe(true)
+  })
+
   it('prefers the common/easier entry among homographs, in any insert order', () => {
     // こと must resolve to 事 "thing" (N5, common), never 琴 the zither (N3)
     const koto = word('thing', '事', 'こと')
@@ -307,7 +355,9 @@ describe('Beyond linking', () => {
       DICTS,
     )
     const { verbs, words } = collectUnlinkedSurfaces(segs)
-    expect([...words]).toEqual(['渦潮']) // を is a particle, 食べた is linked
+    // を is a particle, 食べた is linked; the reading rides along as a
+    // fallback candidate for variant spellings
+    expect([...words]).toEqual(['渦潮', 'うずしお'])
     expect(verbs.size).toBe(0)
   })
 

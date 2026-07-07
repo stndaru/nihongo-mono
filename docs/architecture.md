@@ -206,6 +206,16 @@ regardless of host compression config.
   is 事 "thing" (N5), not 琴 the zither (N3), which insertion order once
   picked. Particle/auxiliary tokens additionally refuse to link to
   content words that merely share their kana (で ≠ 出).
+- **Reading fallback for variant spellings**: JMdict (and every index
+  built from it) keys spelling variants by the PRIMARY kanji form only —
+  温かい can never match by surface because the entry is written 暖かい.
+  So verb/adjective/noun lookups fall back to the token's reading
+  (あたたかい, from kuromoji; ≥2 kana, and never across word class so
+  蛙 doesn't become 帰る), and conjugated surfaces deconjugate their
+  reading first (`baseCandidates`). Form labels stay honest for variant
+  spellings by conjugating the TOKEN's own spelling
+  (`identifyVerbFormAs`/`identifyAdjFormAs`) — 温かかった is "Past",
+  and dictionary-form 温かい gets no bogus "Inflected" label.
 - **Beyond linking (smart mode)**: content-word tokens the JLPT maps
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —

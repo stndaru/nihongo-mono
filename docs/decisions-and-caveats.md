@@ -182,6 +182,17 @@ feedback on many of these — treat them as requirements, not suggestions.
     link as lite entries with the Beyond badge — an explicit owner
     request. Scrollbars restyled to a thin theme-aware pill (webkit
     pseudos + Firefox standard props behind a -moz guard).
+27. **Reading fallback for variant kanji spellings** (owner-reported:
+    温かい showed "no dictionary entry" despite being findable — JMdict
+    keys spelling variants by the primary form 暖かい, so surface lookups
+    miss every variant spelling in BOTH tiers). Verb/adjective/noun
+    lookups now fall back to the token's kuromoji reading (≥2 kana,
+    never across word class), conjugated surfaces deconjugate their
+    reading first, and form labels are computed against the token's own
+    spelling so variant-spelled conjugations still get named forms. The
+    owner framed it as "enable full dictionary search on break down" —
+    the full-dictionary pass already ran; the actual gap was
+    spelling-variant resolution, fixed at the candidate level.
 
 ## Known limitations / accepted trade-offs
 

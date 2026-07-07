@@ -144,6 +144,24 @@ function identifyVerbForm(verb: VerbEntry, surface: string): string | null {
   return null
 }
 
+/**
+ * Same check, but conjugating the TOKEN's own spelling — needed when a
+ * variant-kanji surface (温かかった) linked to an entry written with the
+ * primary form (暖かい): the entry's surfaces can never reproduce it.
+ */
+function identifyVerbFormAs(
+  base: string,
+  cls: VerbEntry['class'],
+  surface: string,
+): string | null {
+  const pseudo = { kanji: base, kana: base, class: cls }
+  for (const form of CONJUGATION_FORMS) {
+    const c = conjugate(pseudo, form)
+    if (c && (c.kanji === surface || c.kana === surface)) return FORM_LABELS[form].label
+  }
+  return null
+}
+
 function identifyAdjForm(adj: VocabEntry, surface: string): string | null {
   for (const form of ADJECTIVE_FORMS) {
     const c = inflectAdjective(adj, 'adj-i', form)
@@ -152,6 +170,39 @@ function identifyAdjForm(adj: VocabEntry, surface: string): string | null {
     }
   }
   return null
+}
+
+function identifyAdjFormAs(base: string, surface: string): string | null {
+  for (const form of ADJECTIVE_FORMS) {
+    const c = inflectAdjective({ kanji: base, kana: base }, 'adj-i', form)
+    if (c && (c.kanji === surface || c.kana === surface)) {
+      return ADJECTIVE_FORM_LABELS[form].label
+    }
+  }
+  return null
+}
+
+/**
+ * Dictionary-form lookup candidates for a token, best first: the written
+ * base, then reading-based forms. JMdict (and therefore every index here)
+ * keys variant kanji spellings by their PRIMARY form only, so a surface
+ * like 温かい misses by spelling and must fall back to its reading
+ * あたたかい to find the 暖かい entry. Conjugated surfaces don't carry a
+ * base reading, so the surface reading is deconjugated instead.
+ */
+function baseCandidates(
+  base: string,
+  surface: string,
+  reading: string | undefined,
+): string[] {
+  const out = [base]
+  if (!reading || reading.length < 2) return out
+  if (surface === base) {
+    if (reading !== base) out.push(reading)
+  } else {
+    out.push(...deconjugate(reading))
+  }
+  return out
 }
 
 /**
@@ -326,13 +377,22 @@ function joinReading(tokens: JaToken[], from: number, to: number): string | unde
   return toHiragana(s)
 }
 
-/** Link a token to a JLPT entry by surface first, then dictionary form. */
+/** Link a token to a JLPT entry: surface, dictionary form, then reading. */
 function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
-  const hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
+  let hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
+  const functionWord = t.pos === '助詞' || t.pos === '助動詞'
+  if (!hit && !functionWord && t.reading) {
+    const reading = toHiragana(t.reading)
+    if (reading.length >= 2 && reading !== t.surface_form) {
+      const byReading = dicts.lookup.get(reading)
+      // a reading hit must not jump word class (蛙 the noun ≠ 帰る the verb)
+      if (byReading && !byReading.isVerb) hit = byReading
+    }
+  }
   if (!hit) return null
   // respect kuromoji's POS: a particle/auxiliary token must not link to a
   // content word that merely shares its kana (で the particle ≠ 出 the noun)
-  if (t.pos === '助詞' || t.pos === '助動詞') {
+  if (functionWord) {
     const pos = (hit.entry as VocabEntry).pos
     if (hit.isVerb || (pos !== 'particle' && pos !== 'conjunction')) return null
   }
@@ -351,10 +411,19 @@ function verbSegment(
   const reading = joinReading(tokens, i, j)
   if (reading) info.reading = reading
   if (base !== surface) info.baseForm = base
-  const verb = dicts.verbs.get(base)
+  let verb: VerbEntry | undefined
+  for (const cand of baseCandidates(base, surface, reading)) {
+    verb = dicts.verbs.get(cand)
+    if (verb) break
+  }
   if (!verb) return { text: surface, token: info }
-  const isDictForm = surface === verb.kanji || surface === verb.kana
-  const formLabel = isDictForm ? null : (identifyVerbForm(verb, surface) ?? 'Conjugated')
+  // surface === base covers variant-spelling links (温かい → 暖かい entry)
+  const isDictForm = surface === base || surface === verb.kanji || surface === verb.kana
+  const formLabel = isDictForm
+    ? null
+    : (identifyVerbForm(verb, surface) ??
+      identifyVerbFormAs(base, verb.class, surface) ??
+      'Conjugated')
   return {
     text: surface,
     token: info,
@@ -412,10 +481,16 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
       if (reading) info.reading = reading
       const base = baseOf(t)
       if (base !== surface) info.baseForm = base
-      const adj = dicts.adjectives.get(base)
+      let adj: VocabEntry | undefined
+      for (const cand of baseCandidates(base, surface, reading)) {
+        adj = dicts.adjectives.get(cand)
+        if (adj) break
+      }
       if (adj) {
-        const isDictForm = surface === adj.kanji || surface === adj.kana
-        const formLabel = isDictForm ? null : (identifyAdjForm(adj, surface) ?? 'Inflected')
+        const isDictForm = surface === base || surface === adj.kanji || surface === adj.kana
+        const formLabel = isDictForm
+          ? null
+          : (identifyAdjForm(adj, surface) ?? identifyAdjFormAs(base, surface) ?? 'Inflected')
         segments.push({
           text: surface,
           token: info,
@@ -443,6 +518,21 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
 // Content-word tokens the JLPT maps missed get a second chance against the
 // extended indexes, so 渦潮 links to its JMdict entry marked "Beyond".
 
+/** Lookup candidates for one unlinked segment, best first. */
+function beyondCandidates(seg: ParsedSegment): string[] {
+  const token = seg.token!
+  const base = token.baseForm ?? seg.text
+  if (token.pos === 'verb' || token.pos === 'adjective') {
+    return baseCandidates(base, seg.text, token.reading)
+  }
+  const out = [seg.text]
+  if (base !== seg.text) out.push(base)
+  if (token.reading && token.reading.length >= 2 && token.reading !== seg.text) {
+    out.push(token.reading)
+  }
+  return out
+}
+
 /** Surfaces worth querying against the extended indexes. */
 export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   verbs: Set<string>
@@ -453,13 +543,8 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   for (const seg of segments) {
     if (seg.word || !seg.token) continue
     if (seg.token.pos === 'particle' || seg.token.pos === 'other') continue
-    const base = seg.token.baseForm ?? seg.text
-    if (seg.token.pos === 'verb') {
-      verbs.add(base)
-    } else {
-      words.add(seg.text)
-      if (base !== seg.text) words.add(base)
-    }
+    const target = seg.token.pos === 'verb' ? verbs : words
+    for (const cand of beyondCandidates(seg)) target.add(cand)
   }
   return { verbs, words }
 }
@@ -472,20 +557,38 @@ export function linkBeyondWords(
 ): ParsedSegment[] {
   return segments.map((seg) => {
     if (seg.word || !seg.token) return seg
+    if (seg.token.pos === 'particle' || seg.token.pos === 'other') return seg
     const base = seg.token.baseForm ?? seg.text
     if (seg.token.pos === 'verb') {
-      const verb = verbEntries.get(base)
+      let verb: VerbEntry | undefined
+      for (const cand of beyondCandidates(seg)) {
+        verb = verbEntries.get(cand)
+        if (verb) break
+      }
       if (!verb) return seg
-      const isDictForm = seg.text === verb.kanji || seg.text === verb.kana
-      const formLabel = isDictForm ? null : (identifyVerbForm(verb, seg.text) ?? 'Conjugated')
+      const isDictForm =
+        seg.text === base || seg.text === verb.kanji || seg.text === verb.kana
+      const formLabel = isDictForm
+        ? null
+        : (identifyVerbForm(verb, seg.text) ??
+          identifyVerbFormAs(base, verb.class, seg.text) ??
+          'Conjugated')
       return { ...seg, word: { entry: verb, isVerb: true, surface: seg.text, formLabel } }
     }
-    const entry = vocabEntries.get(seg.text) ?? vocabEntries.get(base)
+    let entry: VocabEntry | undefined
+    for (const cand of beyondCandidates(seg)) {
+      entry = vocabEntries.get(cand)
+      if (entry) break
+    }
     if (!entry) return seg
-    const formLabel =
-      entry.pos === 'adj-i' && seg.text !== entry.kanji && seg.text !== entry.kana
-        ? (identifyAdjForm(entry, seg.text) ?? 'Inflected')
-        : null
+    const inflected =
+      entry.pos === 'adj-i' &&
+      seg.text !== base &&
+      seg.text !== entry.kanji &&
+      seg.text !== entry.kana
+    const formLabel = inflected
+      ? (identifyAdjForm(entry, seg.text) ?? identifyAdjFormAs(base, seg.text) ?? 'Inflected')
+      : null
     return { ...seg, word: { entry, isVerb: false, surface: seg.text, formLabel } }
   })
 }
