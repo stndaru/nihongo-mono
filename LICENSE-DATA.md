@@ -26,7 +26,13 @@ licences, compatible with inclusion in the CC BY-SA files):
   Jonathan Waller's lists — [CC BY](http://www.tanos.co.uk/jlpt/sharing/).
 - **Example-sentence furigana** was generated at build time with
   [kuromoji](https://github.com/takuyaa/kuromoji.js) (Apache-2.0) and its
-  bundled IPADIC dictionary; the dictionary itself is not redistributed.
+  bundled IPADIC dictionary. The sentence parser's optional "Accurate
+  Parsing" mode additionally serves that IPADIC dictionary to the browser
+  (copied from the npm package into `public/kuromoji/` by
+  `scripts/copy-kuromoji.ts`; gitignored here, shipped by deployments).
+  IPADIC is distributed under its own permissive licence — the required
+  notice travels with the data at `public/kuromoji/NOTICE.md` and is
+  linked from the About page.
 
 The EDRDG-derived files and the KanjiVG-derived files are kept in separate
 files/directories precisely so each stays under its own share-alike licence

@@ -148,11 +148,43 @@ regardless of host compression config.
 
 ## Sentence parser (`/parser`, `src/lib/data/parse-sentence.ts`)
 
-- **Not a morphological analyzer** — kuromoji stays build-time only (its
-  IPADIC dictionary is a ~17 MB download). The parser is greedy
-  longest-match segmentation over the JLPT word lists (both surfaces,
-  verbs winning ties), with `deconjugate` recovering dictionary-form
-  candidates for conjugated verbs/い-adjectives.
+- **Two engines.** The default is greedy longest-match segmentation over
+  the JLPT word lists (both surfaces, verbs winning ties), with
+  `deconjugate` recovering dictionary-form candidates for conjugated
+  verbs/い-adjectives — zero extra downloads. The opt-in **"Accurate
+  Parsing" toggle** switches to kuromoji (a real morphological analyzer):
+  clicking it opens a confirm dialog stating the one-time ~17 MB IPADIC
+  download; on confirm the preference persists
+  (`nihongo-mono:parser-accurate`) and the download starts immediately.
+  This mirrors the palette's "Include Full Dictionary" opt-in — an owner
+  requirement: never download the analyzer implicitly.
+- **Kuromoji loading** (`src/lib/data/kuromoji.ts`): the stock
+  `kuromoji.builder` is bypassed on purpose — its loader needs Node's
+  `path` module (unpolyfilled by Vite) and its zlibjs gunzip breaks when
+  a host serves `.dat.gz` with Content-Encoding (Vite dev does). Instead
+  we deep-import `DynamicDictionaries` + `Tokenizer` (dynamic import →
+  own lazy chunk, ~1.7 KB gz; `optimizeDeps.include` pre-bundles them so
+  dev doesn't reload mid-session) and fetch the 12 dictionary files
+  ourselves via `fetchBufferGz` (magic-byte tolerant) with per-file
+  progress. Singleton promise; a failed download clears the cache so it
+  can be retried, and the page **falls back to the greedy engine** with a
+  notice. The dictionary itself is copied from node_modules into
+  `public/kuromoji/` by `scripts/copy-kuromoji.ts` (runs in front of
+  `dev`/`build`; gitignored — the npm package is the source of truth).
+- **Token mapping** (`tokensToSegments`): kuromoji emits morphemes, so a
+  verb/adjective is merged with its ending chain (助動詞, connective
+  て/で, non-independent verbs) into one segment — 食べませんでした is a
+  single segment with base 食べる, and サ変 noun + する becomes the
+  noun+する verb entry. Form labels come from the same
+  `identifyVerbForm`/`identifyAdjForm` exact-match, with a generic
+  "Conjugated form" label when the chain isn't one of the named forms.
+  Every non-punctuation token carries a `TokenInfo` (hiragana reading,
+  POS bucket + label, base form) whether or not a JLPT entry links it.
+- **Accurate-mode UI**: whole-word furigana from token readings,
+  POS-colored dotted underlines (verb/noun/adjective/adverb + legend;
+  faded tint = analyzed but not JLPT-listed, gray = particles/endings),
+  and tooltips on *every* token — non-JLPT words show reading, POS, and
+  dictionary form but aren't clickable.
 - **Honest-boundary rule**: a deconjugation match is accepted only when
   the surface EXACTLY equals one of the candidate's conjugated forms
   (`conjugate` / `inflectAdjective` over all forms) — so 食べていた
@@ -392,4 +424,4 @@ regardless of host compression config.
 `progress:v1` (per-word stats incl. kind/run, per-form tallies, sessions,
 streak) · `theme` · `font-text` / `font-ja` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
-toggles).
+toggles) · `parser-accurate` (sticky Accurate Parsing opt-in).

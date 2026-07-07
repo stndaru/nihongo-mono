@@ -152,6 +152,16 @@ feedback on many of these — treat them as requirements, not suggestions.
     owner requirements, as is the palette's "Break Down as Sentence"
     fallback appearing ONLY for purely-Japanese queries. Known
     limitation: only JLPT-listed words are recognized.
+24. **Accurate Parsing (kuromoji) as an explicit opt-in** — the owner
+    first considered auto-downloading on the first Break Down, then
+    **changed the plan**: the greedy engine stays the default, and
+    kuromoji sits behind an "Accurate Parsing" toggle whose confirm
+    dialog states the ~17 MB one-time download before anything fetches.
+    Don't make the analyzer implicit. The preference persists; a failed
+    download falls back to greedy with a notice. Shipping IPADIC to
+    browsers made its licence notice a requirement —
+    `public/kuromoji/NOTICE.md` travels with the dictionary and the
+    About page links it.
 
 ## Known limitations / accepted trade-offs
 

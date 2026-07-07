@@ -5,7 +5,9 @@ import {
   isJapaneseOnly,
   parseSentence,
   stripNonJapanese,
+  tokensToSegments,
   uniqueWords,
+  type JaToken,
 } from './parse-sentence'
 
 const verb = (id: string, kanji: string, kana: string, cls: VerbEntry['class']): VerbEntry => ({
@@ -127,6 +129,105 @@ describe('parseSentence', () => {
     const [seg] = parseSentence('たべた', DICTS)
     expect(seg.word?.entry.id).toBe('v1')
     expect(seg.word?.formLabel).toBe('Past')
+  })
+})
+
+const tok = (
+  surface: string,
+  pos: string,
+  detail = '*',
+  basic = surface,
+  reading?: string,
+): JaToken => ({
+  surface_form: surface,
+  pos,
+  pos_detail_1: detail,
+  basic_form: basic,
+  reading,
+})
+
+describe('tokensToSegments (accurate mode)', () => {
+  const SU_DICTS = buildParserDicts(
+    [
+      verb('v1', '食べる', 'たべる', 'v1'),
+      verb('v3', '勉強する', 'べんきょうする', 'vs'),
+    ],
+    [word('w1', '旅行', 'りょこう'), word('w4', '楽しい', 'たのしい', 'adj-i')],
+  )
+
+  it('merges a verb with its ending chain and names the form', () => {
+    const segs = tokensToSegments(
+      [
+        tok('食べ', '動詞', '自立', '食べる', 'タベ'),
+        tok('ませ', '助動詞', '*', 'ます', 'マセ'),
+        tok('ん', '助動詞', '*', 'ん', 'ン'),
+        tok('でし', '助動詞', '*', 'です', 'デシ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      SU_DICTS,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].text).toBe('食べませんでした')
+    expect(segs[0].word?.entry.id).toBe('v1')
+    expect(segs[0].word?.formLabel).toBe('Past negative polite')
+    expect(segs[0].token?.reading).toBe('たべませんでした')
+    expect(segs[0].token?.baseForm).toBe('食べる')
+  })
+
+  it('joins サ変 nouns with する into the compound verb', () => {
+    const segs = tokensToSegments(
+      [
+        tok('勉強', '名詞', 'サ変接続', '勉強', 'ベンキョウ'),
+        tok('し', '動詞', '自立', 'する', 'シ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      SU_DICTS,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].text).toBe('勉強した')
+    expect(segs[0].word?.entry.id).toBe('v3')
+    expect(segs[0].word?.formLabel).toBe('Past')
+  })
+
+  it('merges い-adjective endings', () => {
+    const segs = tokensToSegments(
+      [tok('楽しかっ', '形容詞', '自立', '楽しい', 'タノシカッ'), tok('た', '助動詞', '*', 'た', 'タ')],
+      SU_DICTS,
+    )
+    expect(segs[0].text).toBe('楽しかった')
+    expect(segs[0].word?.entry.id).toBe('w4')
+    expect(segs[0].word?.formLabel).toBe('Past')
+  })
+
+  it('annotates non-JLPT tokens with reading/POS but no link', () => {
+    const segs = tokensToSegments([tok('東京', '名詞', '固有名詞', '東京', 'トウキョウ')], SU_DICTS)
+    expect(segs[0].word).toBeUndefined()
+    expect(segs[0].token).toEqual({ pos: 'noun', posLabel: 'Noun', reading: 'とうきょう' })
+  })
+
+  it('links plain tokens found in the JLPT lists', () => {
+    const segs = tokensToSegments([tok('旅行', '名詞', '一般', '旅行', 'リョコウ')], SU_DICTS)
+    expect(segs[0].word?.entry.id).toBe('w1')
+  })
+
+  it('labels unidentified conjugations generically instead of dropping them', () => {
+    // 食べている isn't one of the 22 forms — still one segment, still linked
+    const segs = tokensToSegments(
+      [
+        tok('食べ', '動詞', '自立', '食べる', 'タベ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('いる', '動詞', '非自立', 'いる', 'イル'),
+      ],
+      SU_DICTS,
+    )
+    expect(segs[0].text).toBe('食べている')
+    expect(segs[0].word?.entry.id).toBe('v1')
+    expect(segs[0].word?.formLabel).toBe('Conjugated')
+  })
+
+  it('passes punctuation through as plain text', () => {
+    const segs = tokensToSegments([tok('。', '記号', '句点')], SU_DICTS)
+    expect(segs[0]).toEqual({ text: '。' })
   })
 })
 

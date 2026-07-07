@@ -19,4 +19,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  optimizeDeps: {
+    // deep CJS imports, loaded lazily on the parser's "Accurate Parsing"
+    // opt-in — pre-bundle them so the first use doesn't trigger a dev-server
+    // re-optimization reload
+    include: ['kuromoji/src/dict/DynamicDictionaries.js', 'kuromoji/src/Tokenizer.js'],
+  },
 })

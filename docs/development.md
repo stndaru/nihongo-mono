@@ -4,7 +4,7 @@
 
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
-bun run dev             # Vite dev server (localhost:5173)
+bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
 bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, quiz rules, progress store (112 tests)
 bun run lint            # oxlint
 bun run build           # vite build && tsc -b  (this order — routeTree.gen.ts must exist before tsc)
@@ -108,6 +108,11 @@ Playwright gotchas learned the hard way:
   cursor comes free from base CSS, animations ≤150 ms.
 - After hand-editing anything under `src/data/`, run `bun run data:pack` —
   the app serves the packed copies, not the pretty files.
+- `public/kuromoji/` is **gitignored** — `scripts/copy-kuromoji.ts` (run by
+  `dev`/`build`) copies it from node_modules. A deploy built without that
+  step breaks Accurate Parsing (it degrades to the greedy engine with a
+  notice, but still). The deep kuromoji imports are pinned in
+  `vite.config.ts` `optimizeDeps.include`.
 
 ## Deploying
 

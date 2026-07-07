@@ -6,6 +6,7 @@
  * of conjugated verbs/い-adjectives and the conjugation engines naming the
  * exact form. Heuristic by design — the page carries an accuracy caveat.
  */
+import { toHiragana } from 'wanakana'
 import {
   ADJECTIVE_FORMS,
   ADJECTIVE_FORM_LABELS,
@@ -50,10 +51,25 @@ export interface ParsedWord {
   formLabel: string | null
 }
 
+/** Broad POS bucket — drives the breakdown's underline colors. */
+export type PosKey = 'verb' | 'noun' | 'adjective' | 'adverb' | 'particle' | 'other'
+
+/** What kuromoji knows about a token, JLPT-listed or not. */
+export interface TokenInfo {
+  pos: PosKey
+  posLabel: string
+  /** hiragana reading (absent for words kuromoji couldn't read) */
+  reading?: string
+  /** dictionary form, when it differs from the surface */
+  baseForm?: string
+}
+
 export interface ParsedSegment {
   text: string
   /** present when this run of text matched a dictionary word */
   word?: ParsedWord
+  /** kuromoji annotation (absent for punctuation and heuristic-mode parses) */
+  token?: TokenInfo
 }
 
 interface DictHit {
@@ -182,6 +198,196 @@ export function parseSentence(text: string, dicts: ParserDicts): ParsedSegment[]
     }
   }
   flush()
+  return segments
+}
+
+// --- kuromoji-backed segmentation (the opt-in "Accurate Parsing" mode) ------
+
+/** Minimal shape of a kuromoji IPADIC token (see @types/kuromoji). */
+export interface JaToken {
+  surface_form: string
+  pos: string
+  pos_detail_1: string
+  basic_form: string
+  reading?: string
+}
+
+const POS_KEYS: Record<string, PosKey> = {
+  動詞: 'verb',
+  名詞: 'noun',
+  形容詞: 'adjective',
+  副詞: 'adverb',
+  助詞: 'particle',
+}
+
+const POS_LABELS_EN: Record<string, string> = {
+  動詞: 'Verb',
+  名詞: 'Noun',
+  形容詞: 'Adjective',
+  副詞: 'Adverb',
+  助詞: 'Particle',
+  助動詞: 'Auxiliary',
+  接続詞: 'Conjunction',
+  連体詞: 'Adnominal',
+  感動詞: 'Interjection',
+  接頭詞: 'Prefix',
+  フィラー: 'Filler',
+}
+
+function baseOf(t: JaToken): string {
+  return t.basic_form && t.basic_form !== '*' ? t.basic_form : t.surface_form
+}
+
+function tokenInfo(t: JaToken): TokenInfo {
+  const naAdj = t.pos === '名詞' && t.pos_detail_1 === '形容動詞語幹'
+  const info: TokenInfo = {
+    pos: naAdj ? 'adjective' : (POS_KEYS[t.pos] ?? 'other'),
+    posLabel: naAdj ? 'な-adjective' : (POS_LABELS_EN[t.pos] ?? 'Other'),
+  }
+  if (t.reading) info.reading = toHiragana(t.reading)
+  if (baseOf(t) !== t.surface_form) info.baseForm = baseOf(t)
+  return info
+}
+
+/**
+ * A verb/adjective plus the endings glued onto it (た, ます, て + helper
+ * verbs…) reads as one word — merge them so 食べませんでした is a single
+ * segment whose base form is 食べる.
+ */
+function isEnding(t: JaToken): boolean {
+  return (
+    t.pos === '助動詞' ||
+    (t.pos === '助詞' &&
+      t.pos_detail_1 === '接続助詞' &&
+      ['て', 'で', 'ちゃ', 'じゃ'].includes(t.surface_form)) ||
+    (t.pos === '動詞' && t.pos_detail_1 === '非自立')
+  )
+}
+
+function chainEnd(tokens: JaToken[], start: number): number {
+  let j = start + 1
+  while (j < tokens.length && isEnding(tokens[j])) j += 1
+  return j
+}
+
+function joinSurface(tokens: JaToken[], from: number, to: number): string {
+  let s = ''
+  for (let k = from; k < to; k += 1) s += tokens[k].surface_form
+  return s
+}
+
+function joinReading(tokens: JaToken[], from: number, to: number): string | undefined {
+  let s = ''
+  for (let k = from; k < to; k += 1) {
+    if (!tokens[k].reading) return undefined
+    s += tokens[k].reading
+  }
+  return toHiragana(s)
+}
+
+/** Link a token to a JLPT entry by surface first, then dictionary form. */
+function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
+  const hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
+  if (!hit) return null
+  return { entry: hit.entry, isVerb: hit.isVerb, surface: t.surface_form, formLabel: null }
+}
+
+function verbSegment(
+  tokens: JaToken[],
+  i: number,
+  j: number,
+  base: string,
+  dicts: ParserDicts,
+): ParsedSegment {
+  const surface = joinSurface(tokens, i, j)
+  const info: TokenInfo = { pos: 'verb', posLabel: 'Verb' }
+  const reading = joinReading(tokens, i, j)
+  if (reading) info.reading = reading
+  if (base !== surface) info.baseForm = base
+  const verb = dicts.verbs.get(base)
+  if (!verb) return { text: surface, token: info }
+  const isDictForm = surface === verb.kanji || surface === verb.kana
+  const formLabel = isDictForm ? null : (identifyVerbForm(verb, surface) ?? 'Conjugated')
+  return {
+    text: surface,
+    token: info,
+    word: { entry: verb, isVerb: true, surface, formLabel },
+  }
+}
+
+/**
+ * Turns kuromoji tokens into the same ParsedSegment shape the greedy parser
+ * emits, so the page renders both engines identically — with `token`
+ * annotations (reading/POS/base form) on everything kuromoji analyzed.
+ */
+export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedSegment[] {
+  const segments: ParsedSegment[] = []
+  let i = 0
+  while (i < tokens.length) {
+    const t = tokens[i]
+
+    if (t.pos === '記号') {
+      segments.push({ text: t.surface_form })
+      i += 1
+      continue
+    }
+
+    // main verb + its ending chain
+    if (t.pos === '動詞' && t.pos_detail_1 === '自立') {
+      const j = chainEnd(tokens, i)
+      segments.push(verbSegment(tokens, i, j, baseOf(t), dicts))
+      i = j
+      continue
+    }
+
+    // サ変 noun + する → the noun+する verb entry (勉強しました → 勉強する)
+    if (
+      t.pos === '名詞' &&
+      t.pos_detail_1 === 'サ変接続' &&
+      tokens[i + 1]?.pos === '動詞' &&
+      baseOf(tokens[i + 1]) === 'する' &&
+      dicts.verbs.has(t.surface_form + 'する')
+    ) {
+      const j = chainEnd(tokens, i + 1)
+      segments.push(verbSegment(tokens, i, j, t.surface_form + 'する', dicts))
+      i = j
+      continue
+    }
+
+    // い-adjective + its ending chain (楽しかっ+た)
+    if (t.pos === '形容詞' && t.pos_detail_1 === '自立') {
+      let j = i + 1
+      while (j < tokens.length && tokens[j].pos === '助動詞') j += 1
+      const surface = joinSurface(tokens, i, j)
+      const info: TokenInfo = { pos: 'adjective', posLabel: 'Adjective' }
+      const reading = joinReading(tokens, i, j)
+      if (reading) info.reading = reading
+      const base = baseOf(t)
+      if (base !== surface) info.baseForm = base
+      const adj = dicts.adjectives.get(base)
+      if (adj) {
+        const isDictForm = surface === adj.kanji || surface === adj.kana
+        const formLabel = isDictForm ? null : (identifyAdjForm(adj, surface) ?? 'Inflected')
+        segments.push({
+          text: surface,
+          token: info,
+          word: { entry: adj, isVerb: false, surface, formLabel },
+        })
+      } else {
+        segments.push({ text: surface, token: info })
+      }
+      i = j
+      continue
+    }
+
+    // everything else is a single token: annotate, link when JLPT-listed
+    segments.push({
+      text: t.surface_form,
+      token: tokenInfo(t),
+      word: linkToken(t, dicts) ?? undefined,
+    })
+    i += 1
+  }
   return segments
 }
 
