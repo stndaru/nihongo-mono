@@ -35,18 +35,19 @@ export interface WordBase {
   common: boolean
   /** Up to 3, from the Tanaka corpus via JMdict. */
   examples: ExampleSentence[]
+  /** Unique kanji characters used — keys into the kanji dataset. */
+  kanjiChars: string[]
 }
 
 export interface VerbEntry extends WordBase {
   class: VerbClass
   transitivity: 'vt' | 'vi' | 'both' | null
-  /** Unique kanji characters used — keys into the kanji dataset. */
-  kanjiChars: string[]
 }
 
-/** Planned vocabulary feature; the pipeline doesn't generate these yet. */
+export type VocabPos = 'noun' | 'adj-i' | 'adj-na' | 'adverb'
+
 export interface VocabEntry extends WordBase {
-  pos: 'noun' | 'adj-i' | 'adj-na' | 'adverb'
+  pos: VocabPos
 }
 
 export interface KanjiEntry {
@@ -68,5 +69,6 @@ export interface DatasetMeta {
   generated: string
   sources: Record<string, string>
   verbCounts: Record<`n${JlptLevel}`, number>
+  vocabCounts?: Record<`n${JlptLevel}`, number>
   kanjiCount: number
 }

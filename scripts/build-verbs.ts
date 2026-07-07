@@ -8,7 +8,15 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { toRomaji } from 'wanakana'
 import type { VerbClass } from '../src/lib/conjugation'
-import type { DatasetMeta, ExampleSentence, JlptLevel, VerbEntry } from '../src/lib/data/types'
+import type { DatasetMeta, JlptLevel, VerbEntry } from '../src/lib/data/types'
+import {
+  buildWordIndex,
+  expandRow,
+  kanjiCharsOf,
+  sensesGlosses,
+  sensesExamples,
+  usuallyKana,
+} from './lib/build-common'
 import { furiganaFor, loadFuriganaIndex } from './lib/furigana'
 import { loadJlptRows } from './lib/jlpt'
 import {
@@ -32,7 +40,6 @@ const VERB_CLASSES: ReadonlySet<string> = new Set([
 /** Verb-like classes we deliberately don't support yet. */
 const SKIPPED_CLASSES = new Set(['vs-s', 'vs-c', 'vn', 'vr', 'vz', 'v5uru', 'v4r', 'v4h', 'v4k', 'v4s', 'v4t', 'v4b', 'v4m', 'v4g', 'v4n'])
 
-const KANJI_CHAR_RE = /[㐀-鿿豈-﫿]/gu
 
 console.log('loading sources…')
 const jmdict: JmdictFile = JSON.parse(readFileSync(join(CACHE, 'jmdict.json'), 'utf8'))
@@ -43,61 +50,14 @@ const versions: Record<string, string> = JSON.parse(
 )
 console.log(`jmdict ${jmdict.words.length} words, jlpt ${jlptRows.length} rows`)
 
-// --- indexes ---------------------------------------------------------------
-const byKanjiText = new Map<string, JmdictWord[]>()
-const byKanaText = new Map<string, JmdictWord[]>()
-for (const word of jmdict.words) {
-  for (const k of word.kanji) {
-    const list = byKanjiText.get(k.text)
-    if (list) list.push(word)
-    else byKanjiText.set(k.text, [word])
-  }
-  for (const k of word.kana) {
-    const list = byKanaText.get(k.text)
-    if (list) list.push(word)
-    else byKanaText.set(k.text, [word])
-  }
-}
-
-function findWord(expression: string, reading: string): JmdictWord | undefined {
-  const hasKanji = KANJI_CHAR_RE.test(expression)
-  KANJI_CHAR_RE.lastIndex = 0
-  const candidates =
-    (hasKanji ? byKanjiText.get(expression) : byKanaText.get(expression)) ?? []
-  if (candidates.length === 0) return undefined
-  const readingMatches = candidates.filter((w) => w.kana.some((k) => k.text === reading))
-  const pool = readingMatches.length > 0 ? readingMatches : candidates
-  return pool.find(isCommon) ?? pool[0]
-}
+const index = buildWordIndex(jmdict.words)
 
 // --- entry builders --------------------------------------------------------
 const furiganaMisses: string[] = []
 const unmatched: string[] = []
 const skipped: string[] = []
 
-function sensesGlosses(senses: JmdictSense[]): string[] {
-  const gloss: string[] = []
-  for (const s of senses) {
-    const text = s.gloss[0]?.text
-    if (text && !gloss.includes(text)) gloss.push(text)
-    if (gloss.length === 3) break
-  }
-  return gloss
-}
 
-function sensesExamples(senses: JmdictSense[]): ExampleSentence[] {
-  const all: ExampleSentence[] = []
-  for (const s of senses) {
-    for (const ex of s.examples) {
-      const ja = ex.sentences.find((x) => x.lang === 'jpn')?.text
-      const en = ex.sentences.find((x) => x.lang === 'eng')?.text
-      if (ja && en) all.push({ ja, en })
-    }
-  }
-  // shortest Japanese sentences read easiest in a compact UI
-  all.sort((a, b) => a.ja.length - b.ja.length)
-  return all.slice(0, 3)
-}
 
 function transitivityOf(senses: JmdictSense[]): VerbEntry['transitivity'] {
   const pos = new Set(senses.flatMap((s) => s.partOfSpeech))
@@ -109,9 +69,6 @@ function transitivityOf(senses: JmdictSense[]): VerbEntry['transitivity'] {
   return null
 }
 
-function kanjiCharsOf(kanji: string): string[] {
-  return [...new Set(kanji.match(KANJI_CHAR_RE) ?? [])]
-}
 
 function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
   // senses that describe a supported verb class
@@ -124,9 +81,6 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
   const kanaForm = displayKana(word, kanjiForm?.text)
   if (!kanaForm) return null
   const kana = kanaForm.text
-  // Only the primary sense decides kana-only display: 行く has a rare
-  // uk-tagged later sense but is normally written in kanji.
-  const usuallyKana = (senses: JmdictSense[]) => senses[0]?.misc.includes('uk') ?? false
 
   if (verbSenses.length > 0) {
     const pos = verbSenses[0].partOfSpeech
@@ -181,26 +135,14 @@ function buildEntry(word: JmdictWord, level: JlptLevel): VerbEntry | null {
 
 // --- main ------------------------------------------------------------------
 
-/**
- * Normalizes a raw list row into one or more (expression, reading) pairs:
- * strips parenthetical usage hints, expands "在る; 有る" / "回る、回す"
- * multi-variant cells, and drops 〜/～ pattern rows (auxiliaries, not verbs).
- */
-function expandRow(expression: string, reading: string): [string, string][] {
-  if (/[~～〜]/.test(expression)) return []
-  const clean = (s: string) => s.replace(/[（(][^）)]*[）)]/g, '').trim()
-  const exprs = clean(expression).split(/\s*[;、,]\s*/).filter(Boolean)
-  const readings = clean(reading).split(/\s*[;、,]\s*/).filter(Boolean)
-  return exprs.map((e, i) => [e, readings[i] ?? readings[0] ?? e])
-}
 
 const byId = new Map<string, VerbEntry>()
 for (const row of jlptRows) {
   for (const [expression, reading] of expandRow(row.expression, row.reading)) {
-    let word = findWord(expression, reading)
+    let word = index.find(expression, reading)
     // "コピーする" rows list the noun+する compound; JMdict holds the noun
     if (!word && expression.endsWith('する')) {
-      word = findWord(expression.slice(0, -2), reading.replace(/する$/, ''))
+      word = index.find(expression.slice(0, -2), reading.replace(/する$/, ''))
     }
     if (!word) {
       // only verb-ish rows are interesting in the miss log
@@ -235,8 +177,10 @@ const meta: DatasetMeta = {
   kanjiCount: 0, // filled by build-kanji.ts
 }
 try {
-  // preserve kanjiCount if build-kanji ran before on this dataset
-  meta.kanjiCount = (JSON.parse(readFileSync(META_PATH, 'utf8')) as DatasetMeta).kanjiCount
+  // preserve what the other build scripts contributed
+  const prev = JSON.parse(readFileSync(META_PATH, 'utf8')) as DatasetMeta
+  meta.kanjiCount = prev.kanjiCount
+  meta.vocabCounts = prev.vocabCounts
 } catch {
   /* first run */
 }

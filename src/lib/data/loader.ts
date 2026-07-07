@@ -1,15 +1,27 @@
-import type { JlptLevel, KanjiEntry, VerbEntry } from './types'
+import type { JlptLevel, KanjiEntry, VerbEntry, VocabEntry } from './types'
 
-const levelCache = new Map<JlptLevel, Promise<VerbEntry[]>>()
+const verbCache = new Map<JlptLevel, Promise<VerbEntry[]>>()
+const vocabCache = new Map<JlptLevel, Promise<VocabEntry[]>>()
 
 /** Lazy-loads one JLPT level's verbs; each level is its own Vite chunk. */
 export function loadVerbLevel(level: JlptLevel): Promise<VerbEntry[]> {
-  let cached = levelCache.get(level)
+  let cached = verbCache.get(level)
   if (!cached) {
     cached = import(`../../data/verbs/n${level}.json`).then(
       (m: { default: VerbEntry[] }) => m.default,
     )
-    levelCache.set(level, cached)
+    verbCache.set(level, cached)
+  }
+  return cached
+}
+
+export function loadVocabLevel(level: JlptLevel): Promise<VocabEntry[]> {
+  let cached = vocabCache.get(level)
+  if (!cached) {
+    cached = import(`../../data/vocab/n${level}.json`).then(
+      (m: { default: VocabEntry[] }) => m.default,
+    )
+    vocabCache.set(level, cached)
   }
   return cached
 }
@@ -18,6 +30,12 @@ export function loadVerbLevel(level: JlptLevel): Promise<VerbEntry[]> {
 export async function loadVerbLevels(levels: readonly JlptLevel[]): Promise<VerbEntry[]> {
   const sorted = [...levels].sort((a, b) => b - a)
   const lists = await Promise.all(sorted.map(loadVerbLevel))
+  return lists.flat()
+}
+
+export async function loadVocabLevels(levels: readonly JlptLevel[]): Promise<VocabEntry[]> {
+  const sorted = [...levels].sort((a, b) => b - a)
+  const lists = await Promise.all(sorted.map(loadVocabLevel))
   return lists.flat()
 }
 
@@ -35,6 +53,15 @@ export async function findVerb(id: string): Promise<VerbEntry | undefined> {
   for (const level of [5, 4, 3, 2, 1] as const) {
     const verbs = await loadVerbLevel(level)
     const hit = verbs.find((v) => v.id === id)
+    if (hit) return hit
+  }
+  return undefined
+}
+
+export async function findVocab(id: string): Promise<VocabEntry | undefined> {
+  for (const level of [5, 4, 3, 2, 1] as const) {
+    const words = await loadVocabLevel(level)
+    const hit = words.find((v) => v.id === id)
     if (hit) return hit
   }
   return undefined

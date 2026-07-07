@@ -87,7 +87,7 @@ export function VerbFilters({
         active={filters.common === true}
         onClick={() => onChange({ ...filters, common: filters.common ? undefined : true })}
       >
-        Common only
+        Common Only
       </Chip>
     </div>
   )

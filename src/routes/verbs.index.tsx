@@ -5,7 +5,7 @@ import { VerbFilters, type VerbListFilters } from '@/components/verbs/VerbFilter
 import { VerbTable } from '@/components/verbs/VerbTable'
 import type { ClassGroup } from '@/lib/conjugation'
 import { loadVerbLevels } from '@/lib/data/loader'
-import { filterVerbs, searchVerbs } from '@/lib/data/search'
+import { filterVerbs, searchWords } from '@/lib/data/search'
 import type { JlptLevel, VerbEntry } from '@/lib/data/types'
 
 interface VerbsSearch {
@@ -64,7 +64,7 @@ function VerbListPage() {
       trans: search.trans,
       commonOnly: search.common,
     })
-    return searchVerbs(filtered, search.q ?? '')
+    return searchWords(filtered, search.q ?? '')
   }, [verbs, search.q, search.group, search.ending, search.trans, search.common])
 
   const filters: VerbListFilters = {

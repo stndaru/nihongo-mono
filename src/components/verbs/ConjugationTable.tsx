@@ -23,7 +23,7 @@ export function ConjugationTable({ verb }: { verb: VerbEntry }) {
       <div className="flex items-center gap-2">
         <Chip active={showPolite} onClick={() => setShowPolite((v) => !v)}>
           <Sparkles className="mr-1 inline size-3" />
-          Polite forms
+          Polite Forms
         </Chip>
         <span className="flex items-center gap-3 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">

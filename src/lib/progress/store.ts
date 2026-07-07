@@ -14,6 +14,8 @@ export interface SessionRecord {
   total: number
   correct: number
   forms: ConjugationForm[]
+  /** absent on records from before the vocabulary quiz existed → 'verb' */
+  kind?: 'verb' | 'vocab'
 }
 
 export interface ProgressData {
@@ -61,8 +63,10 @@ export function saveProgress(data: ProgressData): void {
 }
 
 export interface SessionResultInput {
+  /** JMdict sequence id — verbs and vocabulary share the stat pool */
   answers: { verbId: string; correct: boolean }[]
   forms: ConjugationForm[]
+  kind?: 'verb' | 'vocab'
 }
 
 /** Pure update — the context provider persists the returned object. */
@@ -83,6 +87,7 @@ export function applySession(data: ProgressData, input: SessionResultInput): Pro
     total: input.answers.length,
     correct: input.answers.filter((a) => a.correct).length,
     forms: [...new Set(input.forms)],
+    kind: input.kind ?? 'verb',
   }
   return {
     version: 1,

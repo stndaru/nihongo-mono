@@ -29,13 +29,18 @@ interface Kanjidic2Character {
 }
 
 const usedChars = new Set<string>()
-for (const level of [5, 4, 3, 2, 1]) {
-  const verbs: VerbEntry[] = JSON.parse(
-    readFileSync(join(DATA_DIR, 'verbs', `n${level}.json`), 'utf8'),
-  )
-  for (const verb of verbs) for (const c of verb.kanjiChars) usedChars.add(c)
+for (const dataset of ['verbs', 'vocab']) {
+  for (const level of [5, 4, 3, 2, 1]) {
+    let words: VerbEntry[]
+    try {
+      words = JSON.parse(readFileSync(join(DATA_DIR, dataset, `n${level}.json`), 'utf8'))
+    } catch {
+      continue // dataset not generated yet
+    }
+    for (const word of words) for (const c of word.kanjiChars) usedChars.add(c)
+  }
 }
-console.log(`${usedChars.size} distinct kanji used by verbs`)
+console.log(`${usedChars.size} distinct kanji used by verbs + vocab`)
 
 const kanjidic: { characters: Kanjidic2Character[] } = JSON.parse(
   readFileSync(join(CACHE, 'kanjidic2.json'), 'utf8'),

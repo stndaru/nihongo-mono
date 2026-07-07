@@ -4,6 +4,7 @@ import { ThemeToggle } from './ThemeToggle'
 const NAV = [
   { to: '/', label: 'Home', exact: true },
   { to: '/verbs', label: 'Verbs' },
+  { to: '/vocab', label: 'Vocab' },
   { to: '/quiz', label: 'Quiz' },
   { to: '/settings', label: 'Settings' },
 ] as const

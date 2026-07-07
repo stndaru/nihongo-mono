@@ -1,6 +1,6 @@
 import { toHiragana } from 'wanakana'
 import { classGroup, type ClassGroup } from '@/lib/conjugation'
-import type { VerbEntry } from './types'
+import type { VerbEntry, VocabEntry, VocabPos, WordBase } from './types'
 
 export interface VerbFilterState {
   group?: ClassGroup
@@ -21,53 +21,66 @@ export function filterVerbs(verbs: VerbEntry[], f: VerbFilterState): VerbEntry[]
   })
 }
 
+export interface VocabFilterState {
+  pos?: VocabPos
+  commonOnly?: boolean
+}
+
+export function filterVocab(words: VocabEntry[], f: VocabFilterState): VocabEntry[] {
+  return words.filter((w) => {
+    if (f.pos && w.pos !== f.pos) return false
+    if (f.commonOnly && !w.common) return false
+    return true
+  })
+}
+
 /**
  * Ranked substring search over kanji/kana/romaji/gloss.
  * Latin queries also match as kana, so "tabe", "たべ", "食べ" and "eat"
- * all find 食べる.
+ * all find 食べる. Works for any word type (verbs, vocabulary).
  */
-export function searchVerbs(verbs: VerbEntry[], query: string): VerbEntry[] {
+export function searchWords<T extends WordBase>(words: T[], query: string): T[] {
   const q = query.trim().toLowerCase()
-  if (!q) return verbs
+  if (!q) return words
   // converts romaji → kana and katakana → hiragana in one step
   const qKana = toHiragana(q)
 
-  const scored: { verb: VerbEntry; score: number }[] = []
-  for (const verb of verbs) {
-    const score = scoreVerb(verb, q, qKana)
-    if (score >= 0) scored.push({ verb, score })
+  const scored: { word: T; score: number }[] = []
+  for (const word of words) {
+    const score = scoreWord(word, q, qKana)
+    if (score >= 0) scored.push({ word, score })
   }
   scored.sort(
     (a, b) =>
       a.score - b.score ||
-      Number(b.verb.common) - Number(a.verb.common) ||
-      a.verb.kana.localeCompare(b.verb.kana, 'ja'),
+      Number(b.word.common) - Number(a.word.common) ||
+      a.word.kana.localeCompare(b.word.kana, 'ja'),
   )
-  return scored.map((s) => s.verb)
+  return scored.map((s) => s.word)
 }
 
-/** Hiragana-normalized readings so katakana verbs (コピーする) match too. */
-const kanaKeys = new WeakMap<VerbEntry, string>()
+/** Hiragana-normalized readings so katakana words (コピーする) match too. */
+const kanaKeys = new WeakMap<WordBase, string>()
 
-function kanaKey(verb: VerbEntry): string {
-  let key = kanaKeys.get(verb)
+function kanaKey(word: WordBase): string {
+  let key = kanaKeys.get(word)
   if (key === undefined) {
-    key = toHiragana(verb.kana)
-    kanaKeys.set(verb, key)
+    key = toHiragana(word.kana)
+    kanaKeys.set(word, key)
   }
   return key
 }
 
-function scoreVerb(verb: VerbEntry, q: string, qKana: string): number {
-  const kana = kanaKey(verb)
+function scoreWord(word: WordBase, q: string, qKana: string): number {
+  const kana = kanaKey(word)
   // exact
-  if (kana === qKana || verb.kanji === q || verb.romaji === q) return 0
+  if (kana === qKana || word.kanji === q || word.romaji === q) return 0
   // prefix
-  if (kana.startsWith(qKana) || verb.kanji.startsWith(q) || verb.romaji.startsWith(q)) return 1
+  if (kana.startsWith(qKana) || word.kanji.startsWith(q) || word.romaji.startsWith(q)) return 1
   // substring
-  if (kana.includes(qKana) || verb.kanji.includes(q) || verb.romaji.includes(q)) return 2
+  if (kana.includes(qKana) || word.kanji.includes(q) || word.romaji.includes(q)) return 2
   // meaning
-  for (const g of verb.gloss) {
+  for (const g of word.gloss) {
     const lower = g.toLowerCase()
     if (lower === q || lower === `to ${q}`) return 1
     if (lower.includes(q)) return 3

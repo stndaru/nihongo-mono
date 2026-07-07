@@ -84,7 +84,7 @@ function Dashboard() {
         />
         <StatCard
           icon={BookOpen}
-          label="Verbs practiced"
+          label="Words practiced"
           value={String(verbsSeen)}
         />
         <StatCard
@@ -96,10 +96,13 @@ function Dashboard() {
 
       <div className="flex flex-wrap gap-2">
         <Button size="lg" asChild>
-          <Link to="/quiz">Start a quiz</Link>
+          <Link to="/quiz">Start a Quiz</Link>
         </Button>
         <Button size="lg" variant="outline" asChild>
-          <Link to="/verbs">Browse verbs</Link>
+          <Link to="/verbs">Browse Verbs</Link>
+        </Button>
+        <Button size="lg" variant="outline" asChild>
+          <Link to="/vocab">Browse Vocabulary</Link>
         </Button>
       </div>
     </div>

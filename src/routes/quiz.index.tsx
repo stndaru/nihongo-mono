@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Chip, ChipGroup } from '@/components/ui/chip'
+import { QuizTabs } from '@/components/quiz/QuizTabs'
 import {
   CONJUGATION_FORMS,
   FORM_GROUPS,
@@ -51,6 +52,7 @@ function QuizSetupPage() {
 
   return (
     <div className="max-w-2xl space-y-6">
+      <QuizTabs active="/quiz" />
       <div>
         <h1 className="text-2xl font-semibold">Conjugation quiz</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -96,7 +98,7 @@ function QuizSetupPage() {
               active={config.forms.length === CONJUGATION_FORMS.length}
               onClick={() => setForms([...CONJUGATION_FORMS])}
             >
-              Select all
+              Select All
             </Chip>
             <Chip
               active={
@@ -105,7 +107,7 @@ function QuizSetupPage() {
               }
               onClick={() => setForms([...DEFAULT_FORMS])}
             >
-              Basic only
+              Basic Only
             </Chip>
           </div>
         </div>
@@ -191,7 +193,7 @@ function QuizSetupPage() {
       </section>
 
       <Button size="lg" onClick={start} disabled={config.forms.length === 0}>
-        Start quiz
+        Start Quiz
       </Button>
     </div>
   )

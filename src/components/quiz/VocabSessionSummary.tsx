@@ -1,21 +1,26 @@
 import { useEffect, useRef } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { FORM_LABELS, type ConjugationForm } from '@/lib/conjugation'
 import { enter } from '@/lib/animate'
-import type { Question } from '@/lib/quiz/engine'
+import { answerGloss, type VocabQuestion } from '@/lib/quiz/vocab-engine'
 
-export interface QuestionResult {
-  question: Question
+export interface VocabQuestionResult {
+  question: VocabQuestion
   given: string
   correct: boolean
 }
 
-export function SessionSummary({
+const KIND_LABELS = {
+  reading: 'Reading',
+  recall: 'Recall',
+  meaning: 'Meaning',
+} as const
+
+export function VocabSessionSummary({
   results,
   onRetry,
 }: {
-  results: QuestionResult[]
+  results: VocabQuestionResult[]
   onRetry: () => void
 }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -23,14 +28,6 @@ export function SessionSummary({
 
   const correct = results.filter((r) => r.correct).length
   const pct = results.length > 0 ? Math.round((correct / results.length) * 100) : 0
-
-  const byForm = new Map<ConjugationForm, { correct: number; total: number }>()
-  for (const r of results) {
-    const s = byForm.get(r.question.form) ?? { correct: 0, total: 0 }
-    s.total += 1
-    if (r.correct) s.correct += 1
-    byForm.set(r.question.form, s)
-  }
   const missed = results.filter((r) => !r.correct)
 
   return (
@@ -42,37 +39,28 @@ export function SessionSummary({
         </div>
       </div>
 
-      <section>
-        <h2 className="mb-2 text-sm font-medium">By conjugation</h2>
-        <ul className="space-y-1 text-sm">
-          {[...byForm.entries()].map(([form, s]) => (
-            <li key={form} className="flex items-center justify-between border-b border-border/60 py-1">
-              <span>{FORM_LABELS[form].label}</span>
-              <span className="text-muted-foreground">
-                {s.correct}/{s.total}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {missed.length > 0 && (
         <section>
           <h2 className="mb-2 text-sm font-medium">Worth reviewing</h2>
           <ul className="space-y-1 text-sm">
             {missed.map((r, i) => (
-              <li key={i} className="flex flex-wrap items-baseline gap-x-3 border-b border-border/60 py-1">
+              <li
+                key={i}
+                className="flex flex-wrap items-baseline gap-x-3 border-b border-border/60 py-1"
+              >
                 <Link
-                  to="/verbs/$verbId"
-                  params={{ verbId: r.question.verb.id }}
+                  to="/vocab/$wordId"
+                  params={{ wordId: r.question.word.id }}
                   lang="ja"
                   className="text-base text-primary underline-offset-2 hover:underline"
                 >
-                  {r.question.verb.kanji}
+                  {r.question.word.kanji}
                 </Link>
+                <span lang="ja" className="text-muted-foreground">
+                  {r.question.word.kana}
+                </span>
                 <span className="text-muted-foreground">
-                  {FORM_LABELS[r.question.form].label} →{' '}
-                  <span lang="ja">{r.question.answer.kanji}</span>
+                  {KIND_LABELS[r.question.kind]} → {answerGloss(r.question.word)}
                 </span>
               </li>
             ))}
@@ -83,7 +71,7 @@ export function SessionSummary({
       <div className="flex flex-wrap gap-2">
         <Button onClick={onRetry}>Same Settings Again</Button>
         <Button variant="outline" asChild>
-          <Link to="/quiz">Change Settings</Link>
+          <Link to="/quiz/vocab">Change Settings</Link>
         </Button>
       </div>
     </div>

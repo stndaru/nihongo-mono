@@ -117,10 +117,10 @@ function SettingsPage() {
         </p>
         <div className="flex flex-wrap gap-2 pt-1">
           <Button variant="outline" onClick={() => downloadProgress(progress)}>
-            Export progress
+            Export Progress
           </Button>
           <Button variant="outline" onClick={() => fileRef.current?.click()}>
-            Import progress…
+            Import Progress…
           </Button>
           <input
             ref={fileRef}
@@ -144,7 +144,7 @@ function SettingsPage() {
       <section className="space-y-2">
         <h2 className="text-sm font-medium">Danger zone</h2>
         <Button variant="destructive" onClick={() => setConfirmReset(true)}>
-          Reset all progress
+          Reset All Progress
         </Button>
       </section>
 
@@ -172,7 +172,7 @@ function SettingsPage() {
       <Dialog open={confirmReset} onOpenChange={setConfirmReset}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Reset all progress?</DialogTitle>
+            <DialogTitle>Reset All Progress?</DialogTitle>
             <DialogDescription>
               This deletes your streak, accuracy, and per-verb stats from this browser.
               It cannot be undone — consider exporting first.

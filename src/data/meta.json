@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-06",
+  "generated": "2026-07-07",
   "sources": {
     "elzup/jlpt-word-list": "master"
   },
@@ -10,5 +10,12 @@
     "n2": 495,
     "n1": 1100
   },
-  "kanjiCount": 1139
+  "kanjiCount": 1887,
+  "vocabCounts": {
+    "n5": 510,
+    "n4": 458,
+    "n3": 1647,
+    "n2": 1263,
+    "n1": 2207
+  }
 }
