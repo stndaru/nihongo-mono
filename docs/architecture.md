@@ -234,6 +234,16 @@ regardless of host compression config.
   spellings by conjugating the TOKEN's own spelling
   (`identifyVerbFormAs`/`identifyAdjFormAs`) — 温かかった is "Past",
   and dictionary-form 温かい gets no bogus "Inflected" label.
+- **Kuromoji's reading disambiguates homograph surfaces** (owner-reported:
+  頃 read ころ linked to the 頃/けい entry, "qing, Chinese land unit").
+  When a surface hit contradicts the token's reading (`entryReadsAs`,
+  uninflected non-verb tokens only — inflected readings never equal the
+  dictionary kana), the resolution order is: a reading-consistent JLPT
+  entry (kana-keyed lookup), then the Beyond pass (`misreadLink` feeds
+  wrong-reading links into `collectUnlinkedSurfaces`, and
+  `linkBeyondWords` swaps only if the ext entry actually reads that way),
+  and finally the original closest match stands. The same
+  reading-preference applies when Beyond-linking unlinked tokens.
 - **Beyond linking (smart mode)**: content-word tokens the JLPT maps
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —

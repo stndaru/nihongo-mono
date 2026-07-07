@@ -418,9 +418,9 @@ function ParserPage() {
             value={text}
             onChange={(e) => onInput(e.target.value)}
             lang="ja"
-            rows={2}
+            rows={4}
             placeholder="旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。"
-            className="min-h-16 w-full resize-y rounded-md border bg-transparent px-3 py-2 text-lg outline-none placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            className="min-h-32 w-full resize-y rounded-md border bg-transparent px-3 py-2 text-lg outline-none placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">

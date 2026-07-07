@@ -377,12 +377,35 @@ function joinReading(tokens: JaToken[], from: number, to: number): string | unde
   return toHiragana(s)
 }
 
+/** True when the entry can plausibly be read as `reading` (no reading = trust). */
+function entryReadsAs(entry: VerbEntry | VocabEntry, reading: string | undefined): boolean {
+  if (!reading || reading.length < 2) return true
+  return toHiragana(entry.kana) === reading
+}
+
 /** Link a token to a JLPT entry: surface, dictionary form, then reading. */
 function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
   let hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
   const functionWord = t.pos === '助詞' || t.pos === '助動詞'
-  if (!hit && !functionWord && t.reading) {
-    const reading = toHiragana(t.reading)
+  const reading = t.reading ? toHiragana(t.reading) : undefined
+  // kuromoji's reading disambiguates homograph surfaces: 頃 read ころ must
+  // not link to the けい entry (the Chinese land unit). When the surface hit
+  // contradicts the reading, prefer a reading-consistent JLPT entry; if
+  // none exists the Beyond pass gets a chance (misreadLink), and failing
+  // that the closest match below stands.
+  if (
+    hit &&
+    !functionWord &&
+    reading &&
+    t.surface_form === baseOf(t) &&
+    !entryReadsAs(hit.entry, reading)
+  ) {
+    const byReading = reading.length >= 2 ? dicts.lookup.get(reading) : undefined
+    if (byReading && !byReading.isVerb && entryReadsAs(byReading.entry, reading)) {
+      hit = byReading
+    }
+  }
+  if (!hit && !functionWord && reading) {
     if (reading.length >= 2 && reading !== t.surface_form) {
       const byReading = dicts.lookup.get(reading)
       // a reading hit must not jump word class (蛙 the noun ≠ 帰る the verb)
@@ -533,6 +556,18 @@ function beyondCandidates(seg: ParsedSegment): string[] {
   return out
 }
 
+/**
+ * A linked, uninflected, non-verb segment whose entry contradicts kuromoji's
+ * reading (頃 read ころ linked to the けい entry) — returns the reading so
+ * the Beyond pass can look for a better-reading entry to swap in.
+ */
+function misreadLink(seg: ParsedSegment): string | undefined {
+  const reading = seg.token?.reading
+  if (!seg.word || seg.word.isVerb || !reading || reading.length < 2) return undefined
+  if (seg.token!.baseForm) return undefined // inflected: reading ≠ dict form by nature
+  return entryReadsAs(seg.word.entry, reading) ? undefined : reading
+}
+
 /** Surfaces worth querying against the extended indexes. */
 export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   verbs: Set<string>
@@ -541,7 +576,16 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   const verbs = new Set<string>()
   const words = new Set<string>()
   for (const seg of segments) {
-    if (seg.word || !seg.token) continue
+    if (!seg.token) continue
+    if (seg.word) {
+      // wrong-reading links also go to the ext lookup (repair candidates)
+      const reading = misreadLink(seg)
+      if (reading) {
+        words.add(seg.text)
+        words.add(reading)
+      }
+      continue
+    }
     if (seg.token.pos === 'particle' || seg.token.pos === 'other') continue
     const target = seg.token.pos === 'verb' ? verbs : words
     for (const cand of beyondCandidates(seg)) target.add(cand)
@@ -556,6 +600,21 @@ export function linkBeyondWords(
   vocabEntries: Map<string, VocabEntry>,
 ): ParsedSegment[] {
   return segments.map((seg) => {
+    // wrong-reading repair: swap the link only when a Beyond entry actually
+    // reads the way kuromoji says — otherwise the closest match stands
+    const misread = seg.token ? misreadLink(seg) : undefined
+    if (misread) {
+      for (const cand of [seg.text, misread]) {
+        const better = vocabEntries.get(cand)
+        if (better && entryReadsAs(better, misread)) {
+          return {
+            ...seg,
+            word: { entry: better, isVerb: false, surface: seg.text, formLabel: null },
+          }
+        }
+      }
+      return seg
+    }
     if (seg.word || !seg.token) return seg
     if (seg.token.pos === 'particle' || seg.token.pos === 'other') return seg
     const base = seg.token.baseForm ?? seg.text
@@ -575,11 +634,21 @@ export function linkBeyondWords(
           'Conjugated')
       return { ...seg, word: { entry: verb, isVerb: true, surface: seg.text, formLabel } }
     }
+    // prefer the candidate whose entry matches kuromoji's reading (only
+    // meaningful for uninflected tokens); otherwise first hit wins
+    const wantReading = seg.token.baseForm ? undefined : seg.token.reading
     let entry: VocabEntry | undefined
+    let closest: VocabEntry | undefined
     for (const cand of beyondCandidates(seg)) {
-      entry = vocabEntries.get(cand)
-      if (entry) break
+      const e = vocabEntries.get(cand)
+      if (!e) continue
+      if (entryReadsAs(e, wantReading)) {
+        entry = e
+        break
+      }
+      closest ??= e
     }
+    entry ??= closest
     if (!entry) return seg
     const inflected =
       entry.pos === 'adj-i' &&

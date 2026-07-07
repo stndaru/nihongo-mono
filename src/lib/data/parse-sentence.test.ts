@@ -386,6 +386,60 @@ describe('Beyond linking', () => {
   })
 })
 
+describe('reading-mismatch handling (頃 read ころ, not けい)', () => {
+  // the real-world failure: JLPT lists carry 頃/けい (the Chinese land
+  // unit) but not 頃/ころ, so the surface lookup returns the wrong homograph
+  const KEI = word('kei', '頃', 'けい')
+  const koroToken = tok('頃', '名詞', '一般', '頃', 'コロ')
+
+  it('prefers a reading-consistent JLPT entry over the surface hit', () => {
+    const dicts = buildParserDicts(
+      [],
+      [KEI, word('koro', 'ころ', 'ころ')], // ころ listed kana-only
+    )
+    const [seg] = tokensToSegments([koroToken], dicts)
+    expect(seg.word?.entry.id).toBe('koro')
+  })
+
+  it('collects wrong-reading links for the Beyond pass', () => {
+    const dicts = buildParserDicts([], [KEI])
+    const segs = tokensToSegments([koroToken], dicts)
+    expect(segs[0].word?.entry.id).toBe('kei') // no better JLPT option yet
+    const { verbs, words } = collectUnlinkedSurfaces(segs)
+    expect([...words]).toEqual(['頃', 'ころ'])
+    expect(verbs.size).toBe(0)
+  })
+
+  it('swaps in a Beyond entry that matches the reading', () => {
+    const dicts = buildParserDicts([], [KEI])
+    const segs = tokensToSegments([koroToken], dicts)
+    const koroExt = word('e-koro', '頃', 'ころ')
+    koroExt.jlpt = 0 as never
+    const linked = linkBeyondWords(segs, new Map(), new Map([['頃', koroExt]]))
+    expect(linked[0].word?.entry.id).toBe('e-koro')
+    expect(linked[0].word?.formLabel).toBeNull()
+  })
+
+  it('keeps the closest match when no Beyond entry reads correctly', () => {
+    const dicts = buildParserDicts([], [KEI])
+    const segs = tokensToSegments([koroToken], dicts)
+    const stillWrong = word('e-kei', '頃', 'けい')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['頃', stillWrong]]))
+    expect(linked[0].word?.entry.id).toBe('kei') // original JLPT link stands
+  })
+
+  it('never flags inflected or verb links as misread', () => {
+    const dicts = buildParserDicts([verb('v1', '食べる', 'たべる', 'v1')], [])
+    const segs = tokensToSegments(
+      [tok('食べ', '動詞', '自立', '食べる', 'タベ'), tok('た', '助動詞', '*', 'た', 'タ')],
+      dicts,
+    )
+    expect(segs[0].word?.entry.id).toBe('v1')
+    const { words } = collectUnlinkedSurfaces(segs)
+    expect(words.size).toBe(0)
+  })
+})
+
 describe('uniqueWords', () => {
   it('dedupes by entry and surface, keeps first-appearance order', () => {
     const segs = parseSentence('旅行の旅行を食べる食べた', DICTS)

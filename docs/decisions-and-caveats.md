@@ -262,6 +262,15 @@ feedback on many of these — treat them as requirements, not suggestions.
     apply while their parent type is off, ext searches reuse the shared
     cached indexes.
 
+32. **Parser links validate against kuromoji's reading** (owner-reported:
+    頃 with furigana ころ linked to the JLPT N1 頃/けい entry — "qing,
+    Chinese unit of land area"). Homograph surfaces now resolve in the
+    owner-specified order: JLPT entry matching the token's reading
+    first, then a Beyond entry that reads correctly, else the original
+    closest match stands. Applies only to uninflected non-verb tokens
+    (inflected surfaces never read like their dictionary form). Same
+    round: the parser textarea grew to four lines by default.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
