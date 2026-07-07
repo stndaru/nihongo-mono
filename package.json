@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "data:download": "bun scripts/download.ts",
-    "data:build": "bun scripts/build-verbs.ts && bun scripts/build-vocab.ts && bun scripts/build-kanji.ts && bun scripts/build-extended.ts && bun scripts/build-names.ts"
+    "data:build": "bun scripts/build-verbs.ts && bun scripts/build-vocab.ts && bun scripts/build-kanji.ts && bun scripts/build-extended.ts && bun scripts/build-names.ts",
+    "start-vps": "serve -s dist -l 4050"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.17",
