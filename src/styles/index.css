@@ -118,11 +118,13 @@
   [lang="ja"] {
     font-family: var(--font-ja);
   }
-  /* furigana: keep rows compact but readable */
+  /* furigana: keep rows compact but readable; lifted slightly off the base
+     glyphs so readings don't touch them */
   ruby rt {
     font-size: 0.55em;
     color: var(--color-muted-foreground);
     user-select: none;
+    transform: translateY(-2px);
   }
   ::selection {
     background-color: var(--color-primary);

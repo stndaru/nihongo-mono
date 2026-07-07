@@ -54,7 +54,7 @@ export function MeaningsAccordion({ senses }: { senses: WordSense[] }) {
                 <div className="space-y-3 px-3 pt-2 pb-3 pl-9">
                   {sense.examples.map((ex, j) => (
                     <div key={j} className="text-sm">
-                      <p className="text-base leading-loose">
+                      <p className="text-lg leading-loose">
                         <ExampleJa example={ex} />
                       </p>
                       <p className="mt-0.5 leading-relaxed text-muted-foreground">{ex.en}</p>

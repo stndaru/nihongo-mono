@@ -27,7 +27,7 @@ export function ExampleSentences({ examples }: { examples: ExampleSentence[] }) 
     <ul className="space-y-2.5">
       {examples.map((ex, i) => (
         <li key={i} className="rounded-md border p-3 pt-4 text-sm">
-          <p className="text-lg leading-loose">
+          <p className="text-xl leading-loose">
             <ExampleJa example={ex} />
           </p>
           <p className="mt-1 text-[0.95rem] leading-relaxed text-muted-foreground">{ex.en}</p>
