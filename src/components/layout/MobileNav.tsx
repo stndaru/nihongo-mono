@@ -28,10 +28,11 @@ export function MobileNav() {
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 duration-150 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 sm:hidden" />
         <DialogPrimitive.Content
           aria-describedby={undefined}
-          className="fixed inset-y-0 left-0 z-50 flex w-60 flex-col border-r bg-background p-3 shadow-lg duration-150 outline-none data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:animate-in data-[state=open]:slide-in-from-left sm:hidden"
+          className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r bg-background px-4 py-4 shadow-lg duration-150 outline-none data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:animate-in data-[state=open]:slide-in-from-left sm:hidden"
         >
           <DialogPrimitive.Title className="sr-only">Navigation</DialogPrimitive.Title>
-          <div className="mb-2 flex items-center justify-between pl-2.5">
+          {/* link/label padding of 8px + container 16px = 24px from the edge */}
+          <div className="mb-3 flex items-center justify-between pl-2">
             <span className="flex items-baseline gap-1.5 font-semibold">
               <span lang="ja" className="text-primary">
                 日本語
@@ -48,7 +49,8 @@ export function MobileNav() {
             {ITEMS.map((item) => (
               <span key={item.to} className="contents">
                 {item.section && (
-                  <span className="mt-3 mb-1 px-2.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  // deliberately tiny and faint — a group caption, not a link
+                  <span className="mt-6 mb-1.5 px-2 text-[10px] font-semibold tracking-widest text-muted-foreground/60 uppercase select-none">
                     {item.section}
                   </span>
                 )}
@@ -56,7 +58,7 @@ export function MobileNav() {
                   to={item.to}
                   activeOptions={{ exact: item.exact ?? false }}
                   onClick={() => setOpen(false)}
-                  className="rounded-md px-2.5 py-2 text-muted-foreground transition-colors duration-100 hover:text-foreground"
+                  className="rounded-md px-2 py-2 text-muted-foreground transition-colors duration-100 hover:text-foreground"
                   activeProps={{ className: 'bg-secondary !text-foreground' }}
                 >
                   {item.label}
