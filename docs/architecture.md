@@ -151,13 +151,17 @@ regardless of host compression config.
 - **Two engines.** The default is greedy longest-match segmentation over
   the JLPT word lists (both surfaces, verbs winning ties), with
   `deconjugate` recovering dictionary-form candidates for conjugated
-  verbs/い-adjectives — zero extra downloads. The opt-in **"Accurate
+  verbs/い-adjectives — zero extra downloads. The opt-in **"Smart
   Parsing" toggle** switches to kuromoji (a real morphological analyzer):
   clicking it opens a confirm dialog stating the one-time ~17 MB IPADIC
   download; on confirm the preference persists
-  (`nihongo-mono:parser-accurate`) and the download starts immediately.
-  This mirrors the palette's "Include Full Dictionary" opt-in — an owner
-  requirement: never download the analyzer implicitly.
+  (`nihongo-mono:parser-smart`; the pre-rename `parser-accurate` key is
+  still read) and the download starts immediately. The dialog exists to
+  announce the download, so it's **skipped** when the tokenizer is already
+  loaded this session or the user confirmed before (the files sit in the
+  HTTP cache) — toggling then enables directly. This mirrors the palette's
+  "Include Full Dictionary" opt-in — an owner requirement: never download
+  the analyzer implicitly.
 - **Kuromoji loading** (`src/lib/data/kuromoji.ts`): the stock
   `kuromoji.builder` is bypassed on purpose — its loader needs Node's
   `path` module (unpolyfilled by Vite) and its zlibjs gunzip breaks when
@@ -173,18 +177,29 @@ regardless of host compression config.
   `dev`/`build`; gitignored — the npm package is the source of truth).
 - **Token mapping** (`tokensToSegments`): kuromoji emits morphemes, so a
   verb/adjective is merged with its ending chain (助動詞, connective
-  て/で, non-independent verbs) into one segment — 食べませんでした is a
-  single segment with base 食べる, and サ変 noun + する becomes the
-  noun+する verb entry. Form labels come from the same
+  て/で) into one segment — 食べませんでした is a single segment with
+  base 食べる, and サ変 noun + する becomes the noun+する verb entry.
+  **Non-independent verbs (動詞・非自立) merge only after a て/で
+  connective** (食べて+いる, 食べて+しまう); straight after a masu-stem
+  they are compound-verb tails and stay separate — 遊び始めた is
+  遊び (Stem of 遊ぶ) + 始めた (Past of 始める), an owner-reported bug
+  in the first merge rule. Form labels come from the same
   `identifyVerbForm`/`identifyAdjForm` exact-match, with a generic
   "Conjugated form" label when the chain isn't one of the named forms.
   Every non-punctuation token carries a `TokenInfo` (hiragana reading,
   POS bucket + label, base form) whether or not a JLPT entry links it.
-- **Accurate-mode UI**: whole-word furigana from token readings,
+- **Smart-mode UI**: whole-word furigana from token readings,
   POS-colored dotted underlines (verb/noun/adjective/adverb + legend;
   faded tint = analyzed but not JLPT-listed, gray = particles/endings),
   and tooltips on *every* token — non-JLPT words show reading, POS, and
   dictionary form but aren't clickable.
+- **Clicking a linked word opens a summary popup**, not the detail page
+  (`components/parser/WordSummary.tsx`) — the breakdown must stay put.
+  It shows the word with furigana, the conjugation in this sentence +
+  its dictionary form, meanings, the kanji used (cards linking to
+  `/kanji/$char` in a new tab), and an "Open Detail Page" button that
+  opens the verb/vocab page in a **new tab**. The Words Found rows open
+  the same popup. Hover tooltips remain for quick glances.
 - **Honest-boundary rule**: a deconjugation match is accepted only when
   the surface EXACTLY equals one of the candidate's conjugated forms
   (`conjugate` / `inflectAdjective` over all forms) — so 食べていた
@@ -424,4 +439,5 @@ regardless of host compression config.
 `progress:v1` (per-word stats incl. kind/run, per-form tallies, sessions,
 streak) · `theme` · `font-text` / `font-ja` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
-toggles) · `parser-accurate` (sticky Accurate Parsing opt-in).
+toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
+`parser-accurate` key is still read as a fallback).

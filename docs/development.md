@@ -110,7 +110,7 @@ Playwright gotchas learned the hard way:
   the app serves the packed copies, not the pretty files.
 - `public/kuromoji/` is **gitignored** — `scripts/copy-kuromoji.ts` (run by
   `dev`/`build`) copies it from node_modules. A deploy built without that
-  step breaks Accurate Parsing (it degrades to the greedy engine with a
+  step breaks Smart Parsing (it degrades to the greedy engine with a
   notice, but still). The deep kuromoji imports are pinned in
   `vite.config.ts` `optimizeDeps.include`.
 

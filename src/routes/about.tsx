@@ -67,7 +67,7 @@ const SOURCES = [
     href: 'https://github.com/takuyaa/kuromoji.js',
     license: 'Apache-2.0 + IPADIC licence',
     licenseHref: '/kuromoji/NOTICE.md',
-    what: 'Morphological analysis: example-sentence furigana at build time, and the sentence parser’s optional "Accurate Parsing" mode (the IPADIC dictionary downloads on first use; its licence notice ships alongside it).',
+    what: 'Morphological analysis: example-sentence furigana at build time, and the sentence parser’s optional "Smart Parsing" mode (the IPADIC dictionary downloads on first use; its licence notice ships alongside it).',
   },
 ] as const
 

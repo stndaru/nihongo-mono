@@ -253,20 +253,36 @@ function tokenInfo(t: JaToken): TokenInfo {
  * A verb/adjective plus the endings glued onto it (た, ます, て + helper
  * verbs…) reads as one word — merge them so 食べませんでした is a single
  * segment whose base form is 食べる.
+ *
+ * Non-independent verbs (動詞・非自立) are absorbed ONLY after a て/で
+ * connective (食べて+いる, 食べて+しまう). Directly after a masu-stem they
+ * are compound-verb tails and must stay their own word: 遊び始めた is
+ * 遊び (stem of 遊ぶ) + 始めた (past of 始める), not one 遊ぶ blob.
  */
-function isEnding(t: JaToken): boolean {
-  return (
-    t.pos === '助動詞' ||
-    (t.pos === '助詞' &&
-      t.pos_detail_1 === '接続助詞' &&
-      ['て', 'で', 'ちゃ', 'じゃ'].includes(t.surface_form)) ||
-    (t.pos === '動詞' && t.pos_detail_1 === '非自立')
-  )
-}
-
 function chainEnd(tokens: JaToken[], start: number): number {
   let j = start + 1
-  while (j < tokens.length && isEnding(tokens[j])) j += 1
+  let sawConnective = false
+  while (j < tokens.length) {
+    const t = tokens[j]
+    if (t.pos === '助動詞') {
+      j += 1
+      continue
+    }
+    if (
+      t.pos === '助詞' &&
+      t.pos_detail_1 === '接続助詞' &&
+      ['て', 'で', 'ちゃ', 'じゃ'].includes(t.surface_form)
+    ) {
+      sawConnective = true
+      j += 1
+      continue
+    }
+    if (t.pos === '動詞' && t.pos_detail_1 === '非自立' && sawConnective) {
+      j += 1
+      continue
+    }
+    break
+  }
   return j
 }
 
@@ -289,6 +305,12 @@ function joinReading(tokens: JaToken[], from: number, to: number): string | unde
 function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
   const hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
   if (!hit) return null
+  // respect kuromoji's POS: a particle/auxiliary token must not link to a
+  // content word that merely shares its kana (で the particle ≠ 出 the noun)
+  if (t.pos === '助詞' || t.pos === '助動詞') {
+    const pos = (hit.entry as VocabEntry).pos
+    if (hit.isVerb || (pos !== 'particle' && pos !== 'conjunction')) return null
+  }
   return { entry: hit.entry, isVerb: hit.isVerb, surface: t.surface_form, formLabel: null }
 }
 
@@ -332,8 +354,9 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
       continue
     }
 
-    // main verb + its ending chain
-    if (t.pos === '動詞' && t.pos_detail_1 === '自立') {
+    // a verb + its ending chain; 非自立 verbs land here too when they head
+    // their own chain (the 始め of 遊び+始めた)
+    if (t.pos === '動詞') {
       const j = chainEnd(tokens, i)
       segments.push(verbSegment(tokens, i, j, baseOf(t), dicts))
       i = j

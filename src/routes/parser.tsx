@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { ScanText, Sparkles, TriangleAlert } from 'lucide-react'
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
+import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Chip } from '@/components/ui/chip'
@@ -34,7 +35,9 @@ import type { VocabEntry } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
 
 const MAX_LEN = 100
-const ACCURATE_KEY = 'nihongo-mono:parser-accurate'
+const SMART_KEY = 'nihongo-mono:parser-smart'
+/** pre-rename key ("Accurate Parsing") — still read so early opt-ins stick */
+const LEGACY_SMART_KEY = 'nihongo-mono:parser-accurate'
 
 interface ParserSearch {
   /** pre-filled sentence (the palette's "Break Down as Sentence" hand-off) */
@@ -87,12 +90,6 @@ function wordPosKey(word: ParsedWord): PosKey {
   return 'other'
 }
 
-function wordLink(word: ParsedWord) {
-  return word.isVerb
-    ? ({ to: '/verbs/$verbId', params: { verbId: word.entry.id } } as const)
-    : ({ to: '/vocab/$wordId', params: { wordId: word.entry.id } } as const)
-}
-
 /** Surface text, with whole-word ruby when kuromoji supplied a reading. */
 function SegText({ text, token }: { text: string; token?: TokenInfo }) {
   if (token?.reading && token.reading !== text && HAS_KANJI.test(text)) {
@@ -129,20 +126,29 @@ function TooltipShell({
   )
 }
 
-/** A JLPT-linked word: POS-colored underline, tooltip, click-through. */
-function WordSpan({ word, token }: { word: ParsedWord; token?: TokenInfo }) {
+/** A JLPT-linked word: POS-colored underline, hover tooltip, click → summary popup. */
+function WordSpan({
+  word,
+  token,
+  onSelect,
+}: {
+  word: ParsedWord
+  token?: TokenInfo
+  onSelect: (word: ParsedWord) => void
+}) {
   return (
     <TooltipShell
       trigger={
-        <Link
-          {...wordLink(word)}
+        <button
+          type="button"
+          onClick={() => onSelect(word)}
           className={cn(
             'rounded-sm underline decoration-dotted underline-offset-4 transition-colors duration-100 hover:bg-primary/15 focus-visible:bg-primary/15',
             POS_DECOR[wordPosKey(word)],
           )}
         >
           <SegText text={word.surface} token={token} />
-        </Link>
+        </button>
       }
     >
       <div className="flex items-baseline gap-2" lang="ja">
@@ -239,14 +245,15 @@ function ParserPage() {
     engine: 'accurate' | 'basic'
   } | null>(null)
 
-  // "Accurate Parsing" is a sticky opt-in (~17 MB analyzer download) —
+  // "Smart Parsing" is a sticky opt-in (~17 MB analyzer download) —
   // confirmed once via the dialog, remembered like Include Full Dictionary
-  const [accurate, setAccurate] = useState(
-    () => localStorage.getItem(ACCURATE_KEY) === '1',
+  const [smart, setSmart] = useState(
+    () => (localStorage.getItem(SMART_KEY) ?? localStorage.getItem(LEGACY_SMART_KEY)) === '1',
   )
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
+  const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
 
   const onInput = (raw: string) => {
     const clean = stripNonJapanese(raw).slice(0, MAX_LEN)
@@ -265,7 +272,7 @@ function ParserPage() {
     if (!q || !dicts) return
     let alive = true
     setText(q)
-    if (!accurate) {
+    if (!smart) {
       setResult({ segments: parseSentence(q, dicts), engine: 'basic' })
       return
     }
@@ -288,22 +295,12 @@ function ParserPage() {
     return () => {
       alive = false
     }
-  }, [q, dicts, accurate])
+  }, [q, dicts, smart])
 
-  const toggleAccurate = () => {
-    if (accurate) {
-      setAccurate(false)
-      localStorage.setItem(ACCURATE_KEY, '0')
-    } else {
-      setConfirmOpen(true)
-    }
-  }
-
-  const confirmAccurate = () => {
-    setConfirmOpen(false)
-    localStorage.setItem(ACCURATE_KEY, '1')
+  const enableSmart = () => {
+    localStorage.setItem(SMART_KEY, '1')
     setAnalyzerFailed(false)
-    setAccurate(true) // re-runs the parse effect when a sentence is present
+    setSmart(true) // re-runs the parse effect when a sentence is present
     // start the download right away — the user just approved it
     if (!tokenizerReady()) {
       setDownload({ done: 0, total: 12 })
@@ -314,6 +311,27 @@ function ParserPage() {
           setAnalyzerFailed(true)
         })
     }
+  }
+
+  const toggleSmart = () => {
+    if (smart) {
+      setSmart(false)
+      localStorage.setItem(SMART_KEY, '0')
+      return
+    }
+    // the confirm dialog exists to announce the download — skip it when the
+    // analyzer is already loaded this session or was confirmed before
+    // (the dictionary sits in the browser's HTTP cache)
+    const confirmedBefore =
+      localStorage.getItem(SMART_KEY) !== null ||
+      localStorage.getItem(LEGACY_SMART_KEY) !== null
+    if (tokenizerReady() || confirmedBefore) enableSmart()
+    else setConfirmOpen(true)
+  }
+
+  const confirmSmart = () => {
+    setConfirmOpen(false)
+    enableSmart()
   }
 
   const words = useMemo(() => (result ? uniqueWords(result.segments) : []), [result])
@@ -340,7 +358,7 @@ function ParserPage() {
               The default breakdown is heuristic dictionary matching, not a full
               grammar analyzer — incoherent sentences, typos, or unusual
               spellings will produce an inaccurate breakdown. Turning on{' '}
-              <span className="font-medium">Accurate Parsing</span> (a one-time
+              <span className="font-medium">Smart Parsing</span> (a one-time
               ~17&nbsp;MB download) switches to a proper morphological analyzer,
               which is much better but still not infallible.
             </li>
@@ -350,7 +368,7 @@ function ParserPage() {
               <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
             </li>
             <li>
-              Only JLPT-listed words are clickable; with Accurate Parsing, other
+              Only JLPT-listed words are clickable; with Smart Parsing, other
               words still show their reading and part of speech on hover.
             </li>
           </ul>
@@ -376,12 +394,12 @@ function ParserPage() {
             </p>
             <div className="flex items-center gap-2">
               <Chip
-                active={accurate}
-                onClick={toggleAccurate}
+                active={smart}
+                onClick={toggleSmart}
                 title="segment with the kuromoji morphological analyzer (one-time ~17 MB download)"
               >
                 <span className="flex items-center gap-1">
-                  <Sparkles className="size-3" /> Accurate Parsing
+                  <Sparkles className="size-3" /> Smart Parsing
                 </span>
               </Chip>
               <Button onClick={breakDown} disabled={!dicts || !text.trim()}>
@@ -408,12 +426,13 @@ function ParserPage() {
             <section>
               <h2 className="mb-2 text-lg font-semibold">Breakdown</h2>
               <p className="mb-3 text-xs text-muted-foreground">
-                Dotted words are recognized — hover for a summary, click to open.
+                Dotted words are recognized — hover for a quick look, click for a
+                summary popup.
               </p>
               <p lang="ja" className="rounded-lg border p-4 text-2xl/loose">
                 {result.segments.map((seg, i) =>
                   seg.word ? (
-                    <WordSpan key={i} word={seg.word} token={seg.token} />
+                    <WordSpan key={i} word={seg.word} token={seg.token} onSelect={setSelectedWord} />
                   ) : seg.token ? (
                     <TokenSpan key={i} text={seg.text} token={seg.token} />
                   ) : (
@@ -434,9 +453,9 @@ function ParserPage() {
                   <span>· faded underline = not JLPT-listed · gray = particles &amp; endings</span>
                 </div>
               ) : (
-                !accurate && (
+                !smart && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    Tip: enable Accurate Parsing for analyzer-grade segmentation,
+                    Tip: enable Smart Parsing for analyzer-grade segmentation,
                     furigana on every word, and hover info for non-JLPT words.
                   </p>
                 )
@@ -455,10 +474,11 @@ function ParserPage() {
               ) : (
                 <div className="grid gap-1.5">
                   {words.map((word) => (
-                    <Link
+                    <button
                       key={`${word.entry.id}:${word.surface}`}
-                      {...wordLink(word)}
-                      className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 rounded-md border p-2.5 transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
+                      type="button"
+                      onClick={() => setSelectedWord(word)}
+                      className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 rounded-md border p-2.5 text-left transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
                     >
                       <Furigana segments={word.entry.furigana} className="shrink-0 text-base" />
                       {word.formLabel && (
@@ -485,7 +505,7 @@ function ParserPage() {
                         <PosBadge pos={(word.entry as VocabEntry).pos} />
                       )}
                       <LevelBadge level={word.entry.jlpt} />
-                    </Link>
+                    </button>
                   ))}
                 </div>
               )}
@@ -501,10 +521,12 @@ function ParserPage() {
           </p>
         )}
 
+        <WordSummaryDialog word={selectedWord} onClose={() => setSelectedWord(null)} />
+
         <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Enable Accurate Parsing?</DialogTitle>
+              <DialogTitle>Enable Smart Parsing?</DialogTitle>
               <DialogDescription>
                 This downloads the kuromoji morphological analyzer and its IPADIC
                 dictionary — a one-time download of about 17&nbsp;MB, cached by
@@ -518,7 +540,7 @@ function ParserPage() {
               <Button variant="outline" onClick={() => setConfirmOpen(false)}>
                 Cancel
               </Button>
-              <Button onClick={confirmAccurate}>Download &amp; Enable</Button>
+              <Button onClick={confirmSmart}>Download &amp; Enable</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

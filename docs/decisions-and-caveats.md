@@ -152,16 +152,27 @@ feedback on many of these — treat them as requirements, not suggestions.
     owner requirements, as is the palette's "Break Down as Sentence"
     fallback appearing ONLY for purely-Japanese queries. Known
     limitation: only JLPT-listed words are recognized.
-24. **Accurate Parsing (kuromoji) as an explicit opt-in** — the owner
+24. **Smart Parsing (kuromoji) as an explicit opt-in** — the owner
     first considered auto-downloading on the first Break Down, then
     **changed the plan**: the greedy engine stays the default, and
-    kuromoji sits behind an "Accurate Parsing" toggle whose confirm
+    kuromoji sits behind a "Smart Parsing" toggle whose confirm
     dialog states the ~17 MB one-time download before anything fetches.
     Don't make the analyzer implicit. The preference persists; a failed
     download falls back to greedy with a notice. Shipping IPADIC to
     browsers made its licence notice a requirement —
     `public/kuromoji/NOTICE.md` travels with the dictionary and the
     About page links it.
+25. **Parser polish round** (owner feedback on the first Smart Parsing
+    build): renamed "Accurate Parsing" → **"Smart Parsing"** (storage key
+    `parser-smart`, legacy key still read); the confirm dialog appears
+    **only when a download is actually pending** — already loaded this
+    session or previously confirmed → the toggle enables directly;
+    clicking a parsed word or a Words Found row opens a **summary popup**
+    (conjugation + dictionary form, meanings, kanji used, "Open Detail
+    Page" in a new tab) instead of navigating away from the breakdown;
+    and a real merge-rule bug was fixed — compound verbs were being glued
+    (遊び始めた rendered as one 遊ぶ), now 非自立 verbs merge only after
+    a て/で connective, so it splits into 遊び (Stem) + 始めた (Past).
 
 ## Known limitations / accepted trade-offs
 

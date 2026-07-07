@@ -34,7 +34,7 @@ exported as a file.
   characters) and get a clickable word-by-word breakdown: conjugated verbs
   identified with their exact form, tooltips with readings and meanings.
   Heuristic dictionary matching by default (honest accuracy caveat); an
-  opt-in **Accurate Parsing** mode downloads the kuromoji morphological
+  opt-in **Smart Parsing** mode downloads the kuromoji morphological
   analyzer (~17 MB one-time) for analyzer-grade segmentation, furigana on
   every word, and hover info even for words outside the JLPT lists.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,

@@ -151,6 +151,8 @@ describe('tokensToSegments (accurate mode)', () => {
     [
       verb('v1', '食べる', 'たべる', 'v1'),
       verb('v3', '勉強する', 'べんきょうする', 'vs'),
+      verb('v4', '遊ぶ', 'あそぶ', 'v5b'),
+      verb('v5', '始める', 'はじめる', 'v1'),
     ],
     [word('w1', '旅行', 'りょこう'), word('w4', '楽しい', 'たのしい', 'adj-i')],
   )
@@ -210,6 +212,16 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].word?.entry.id).toBe('w1')
   })
 
+  it('never links a particle token to a content word sharing its kana', () => {
+    // で the particle must not become 出 (で) the noun
+    const dicts = buildParserDicts([], [word('w9', '出', 'で'), word('w5', 'の', 'の', 'particle')])
+    const particle = tokensToSegments([tok('で', '助詞', '格助詞', 'で', 'デ')], dicts)
+    expect(particle[0].word).toBeUndefined()
+    expect(particle[0].token?.pos).toBe('particle')
+    const no = tokensToSegments([tok('の', '助詞', '連体化', 'の', 'ノ')], dicts)
+    expect(no[0].word?.entry.id).toBe('w5')
+  })
+
   it('labels unidentified conjugations generically instead of dropping them', () => {
     // 食べている isn't one of the 22 forms — still one segment, still linked
     const segs = tokensToSegments(
@@ -228,6 +240,39 @@ describe('tokensToSegments (accurate mode)', () => {
   it('passes punctuation through as plain text', () => {
     const segs = tokensToSegments([tok('。', '記号', '句点')], SU_DICTS)
     expect(segs[0]).toEqual({ text: '。' })
+  })
+
+  it('keeps compound-verb tails separate (遊び + 始めた, not one 遊ぶ blob)', () => {
+    // a 非自立 verb straight after a masu-stem is a compound tail — kuromoji
+    // splits it correctly; the merge rule must not glue it back
+    const segs = tokensToSegments(
+      [
+        tok('遊び', '動詞', '自立', '遊ぶ', 'アソビ'),
+        tok('始め', '動詞', '非自立', '始める', 'ハジメ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      SU_DICTS,
+    )
+    expect(segs.map((s) => s.text)).toEqual(['遊び', '始めた'])
+    expect(segs[0].word?.entry.id).toBe('v4')
+    expect(segs[0].word?.formLabel).toBe('Stem')
+    expect(segs[1].word?.entry.id).toBe('v5')
+    expect(segs[1].word?.formLabel).toBe('Past')
+  })
+
+  it('still merges 非自立 helpers after a て connective (食べてしまった)', () => {
+    const segs = tokensToSegments(
+      [
+        tok('食べ', '動詞', '自立', '食べる', 'タベ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('しまっ', '動詞', '非自立', 'しまう', 'シマッ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      SU_DICTS,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].text).toBe('食べてしまった')
+    expect(segs[0].word?.entry.id).toBe('v1')
   })
 })
 

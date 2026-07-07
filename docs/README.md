@@ -45,7 +45,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
-| `/parser` | Sentence parser: paste kana/kanji text (≤100 chars), get a clickable word-by-word breakdown with tooltips; greedy matching by default, opt-in kuromoji "Accurate Parsing" (~17 MB, confirm-gated); carries an accuracy caveat |
+| `/parser` | Sentence parser: paste kana/kanji text (≤100 chars), get a clickable word-by-word breakdown with tooltips; greedy matching by default, opt-in kuromoji "Smart Parsing" (~17 MB, confirm-gated); carries an accuracy caveat |
 | `/kanji` | Kanji table — old-scale JLPT levels N4–N1 + "Beyond", searchable by character, reading, or meaning |
 | `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
