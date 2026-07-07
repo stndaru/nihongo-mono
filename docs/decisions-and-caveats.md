@@ -247,6 +247,21 @@ feedback on many of these — treat them as requirements, not suggestions.
     our kanji covered). The kanji list gained its N5 chip (new default
     level) and lost the old-scale caveats.
 
+31. **Combined Dictionary page + nav restructure** (owner request, with a
+    Linear screenshot as the dropdown reference): the header became
+    Home · Dictionary · Kanji · Language · Tools, where Language holds
+    Verbs + the old Vocab dropdown items and Tools holds Parser/Quiz/
+    Progress — dropdown items show a muted name over a bold one-line
+    description, in a two-column panel. `/dictionary` merges both JLPT
+    datasets into one table ({word, isVerb} rows — ids collide across
+    datasets, so the flag rides along) with the two-layer filter system
+    the owner specified: types + Level by default, contextual
+    sub-filters behind "More Filters" (verb filters only while Verb is
+    selected, い/な only while Adjective is). Perf hygiene: 100-row
+    paging, one Intl.Collator for the merge sort, sub-filters never
+    apply while their parent type is off, ext searches reuse the shared
+    cached indexes.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

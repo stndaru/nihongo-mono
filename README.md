@@ -6,6 +6,11 @@ exported as a file.
 
 **Features**
 
+- **Dictionary** — every verb and vocabulary word in one combined table,
+  with layered filters: word type (verb/noun/adjective/adverb/other) and
+  JLPT level up front, contextual sub-filters (verb class, ending,
+  transitivity; い/な adjectives) behind a "More Filters" toggle, and the
+  full JMdict via the "Beyond" level.
 - **Verb list** — 2,800+ JLPT-tagged verbs in a dense, spreadsheet-style table.
   Search by kanji, kana, romaji, or English; filter by level, verb class
   (godan/ichidan/する/来る), る-ending, transitivity, and commonness. The

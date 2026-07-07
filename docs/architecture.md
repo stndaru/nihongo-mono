@@ -141,10 +141,26 @@ regardless of host compression config.
   Dictionary" footer action. External openers dispatch the
   `OPEN_PALETTE_EVENT` window event (that's how the mobile floating button
   in `__root.tsx` works) — one palette instance, no lifted state.
-- Tables render 100 rows per page (`PAGE` in VerbTable/VocabTable) and reset
-  pagination when the result array changes — 500 ruby rows re-rendered per
-  keystroke was a real lag source. Keep row rendering cheap; `<ruby>` is
-  expensive.
+- Tables render 100 rows per page (`PAGE` in VerbTable/VocabTable/
+  DictionaryTable) and reset pagination when the result array changes —
+  500 ruby rows re-rendered per keystroke was a real lag source. Keep row
+  rendering cheap; `<ruby>` is expensive.
+- **The Dictionary page** (`/dictionary`, `dictionary.tsx` +
+  `components/dictionary/DictionaryTable.tsx`) merges verbs and vocab into
+  one table: rows are `{word, isVerb}` pairs (ids can collide across the
+  two datasets — 勉強/勉強する — so the flag must travel with the row).
+  Both pools are filtered, ranked with `searchWordsScored` separately,
+  then merge-sorted score → easiest level → common → kana (one
+  `Intl.Collator('ja')` instance — per-call `localeCompare` was too slow
+  for ~9.6k rows). Filters are two-layer: top word types
+  (Verb/Noun/Adjective/Adverb/Other) always visible next to Level, with
+  contextual sub-filters behind a "More Filters" toggle — verb
+  class/ending/transitivity appear only while Verb is selected, い/な only
+  while Adjective is (a sub-filter never applies while its parent type is
+  deselected, so stale URL state can't silently filter; the collapsed
+  toggle shows a hidden-active count). Beyond works like the other lists:
+  both ext indexes, `EXT_LIMIT` cap per list, type selections mapped to a
+  `VocabPos` whitelist for the ext row scan.
 
 ## Sentence parser (`/parser`, `src/lib/data/parse-sentence.ts`)
 
@@ -431,11 +447,15 @@ regardless of host compression config.
   levels select content, so list routes accept a `levels=none` URL
   sentinel for that state. Quiz Start buttons disable while any
   required group is empty.
-- **Header** (`components/layout/Header.tsx`): Home · Verbs · Vocab
-  (dropdown: All Vocabulary / Antonyms / Proper Names — the trigger also
-  highlights for `/names`) · Kanji · Parser · Quiz · Progress, then
+- **Header** (`components/layout/Header.tsx`): Home · Dictionary · Kanji ·
+  **Language** (dropdown: Verbs / Vocabulary / Antonyms / Proper Names) ·
+  **Tools** (dropdown: Sentence Parser / Quiz / Progress), then
   right-aligned Search (palette trigger with a platform-aware ⌘K/Ctrl K
-  hint), theme toggle, and a Settings **icon** button.
+  hint), theme toggle, and a Settings **icon** button. The dropdowns are
+  **Linear-style panels** (owner request, from a screenshot): a two-column
+  grid where each item shows its name as a small muted caption with a bold
+  one-line value description under it (`NavDropdown`); triggers highlight
+  when the current path starts with any of the group's routes.
 - **Detail pages carry a smart back control**
   (`components/layout/BackButton.tsx`, top-left on verb/vocab/kanji
   detail): when the tab has in-app history (`useCanGoBack()`), it calls

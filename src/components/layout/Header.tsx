@@ -1,4 +1,4 @@
-import { Link, useRouterState } from '@tanstack/react-router'
+import { Link, useRouterState, type LinkProps } from '@tanstack/react-router'
 import { ChevronDown, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,21 +14,29 @@ import { ThemeToggle } from './ThemeToggle'
 
 const NAV = [
   { to: '/', label: 'Home', exact: true },
-  { to: '/verbs', label: 'Verbs' },
-] as const
-
-const NAV_AFTER = [
+  { to: '/dictionary', label: 'Dictionary' },
   { to: '/kanji', label: 'Kanji' },
-  { to: '/parser', label: 'Parser' },
-  { to: '/quiz', label: 'Quiz' },
-  { to: '/progress', label: 'Progress' },
 ] as const
 
-const VOCAB_ITEMS = [
-  { to: '/vocab', label: 'All Vocabulary' },
-  { to: '/vocab/antonyms', label: 'Antonyms' },
-  { to: '/names', label: 'Proper Names' },
-] as const
+interface MenuEntry {
+  to: LinkProps['to']
+  label: string
+  description: string
+}
+
+/** Grouped nav dropdowns (Linear-style: name above, value line bold below). */
+const LANGUAGE_ITEMS: MenuEntry[] = [
+  { to: '/verbs', label: 'Verbs', description: 'Every conjugation of every JLPT verb' },
+  { to: '/vocab', label: 'Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
+  { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs' },
+  { to: '/names', label: 'Proper Names', description: 'Search 743k names and places' },
+]
+
+const TOOLS_ITEMS: MenuEntry[] = [
+  { to: '/parser', label: 'Sentence Parser', description: 'Break a sentence into its words' },
+  { to: '/quiz', label: 'Quiz', description: 'Practice conjugations and vocabulary' },
+  { to: '/progress', label: 'Progress', description: 'Streaks, accuracy, and weak spots' },
+]
 
 const linkClass =
   'rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors duration-100 hover:text-foreground'
@@ -47,21 +55,32 @@ function NavLink({ to, label, exact }: { to: string; label: string; exact?: bool
   )
 }
 
-function VocabDropdown() {
+function NavDropdown({
+  label,
+  items,
+  activePrefixes,
+}: {
+  label: string
+  items: MenuEntry[]
+  activePrefixes: string[]
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const active = pathname.startsWith('/vocab') || pathname.startsWith('/names')
+  const active = activePrefixes.some((p) => pathname.startsWith(p))
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(linkClass, 'flex items-center gap-0.5', active && activeClass)}
       >
-        Vocab
+        {label}
         <ChevronDown className="size-3" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        {VOCAB_ITEMS.map((item) => (
-          <DropdownMenuItem key={item.to} asChild>
-            <Link to={item.to}>{item.label}</Link>
+      <DropdownMenuContent align="start" className="grid w-[26rem] grid-cols-2 gap-1 p-2">
+        {items.map((item) => (
+          <DropdownMenuItem key={item.to} asChild className="items-start">
+            <Link to={item.to} className="flex h-full flex-col gap-0.5 rounded-md p-2.5">
+              <span className="text-xs text-muted-foreground">{item.label}</span>
+              <span className="text-sm leading-snug font-medium">{item.description}</span>
+            </Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -88,10 +107,16 @@ export function Header() {
           {NAV.map((item) => (
             <NavLink key={item.to} {...item} />
           ))}
-          <VocabDropdown />
-          {NAV_AFTER.map((item) => (
-            <NavLink key={item.to} {...item} />
-          ))}
+          <NavDropdown
+            label="Language"
+            items={LANGUAGE_ITEMS}
+            activePrefixes={['/verbs', '/vocab', '/names']}
+          />
+          <NavDropdown
+            label="Tools"
+            items={TOOLS_ITEMS}
+            activePrefixes={['/parser', '/quiz', '/progress']}
+          />
         </nav>
         <div className="ml-auto flex items-center gap-0.5">
           <CommandPalette />

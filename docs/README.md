@@ -40,6 +40,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | Route | Purpose |
 | --- | --- |
 | `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections) |
+| `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
 | `/verbs` | Verb list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |
 | `/vocab` | Vocabulary list — same level model, 14 part-of-speech filters |
@@ -54,11 +55,13 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/settings` | Theme, font toggles, progress export/import/reset |
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
-Navigation: desktop header (Vocab dropdown holds All Vocabulary / Antonyms /
-Proper Names; Kanji, Quiz, Progress follow; Settings is the gear icon at far
-right); phones get a burger side-drawer and a floating search button. Detail
-pages have a back control that returns to the exact previous page (or the
-section's table when opened directly / in a new tab).
+Navigation: desktop header is Home · Dictionary · Kanji · **Language**
+(Linear-style dropdown: Verbs / Vocabulary / Antonyms / Proper Names, each
+with a one-line description) · **Tools** (Sentence Parser / Quiz /
+Progress); Settings is the gear icon at far right. Phones get a burger
+side-drawer (same Language/Tools sections) and a floating search button.
+Detail pages have a back control that returns to the exact previous page
+(or the section's table when opened directly / in a new tab).
 
 ## The one-paragraph mental model
 
