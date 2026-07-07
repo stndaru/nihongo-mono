@@ -3,7 +3,7 @@ import { classGroup, type VerbClass } from '@/lib/conjugation'
 import { deconjugate } from './deconjugate'
 import { CODE_TO_POS, CODE_TO_TRANS } from './ext-format'
 import { pairFurigana } from './furigana'
-import { constrains, type VerbFilterState, type VocabFilterState } from './search'
+import { constrains, normalizeQuery, type VerbFilterState, type VocabFilterState } from './search'
 import type {
   KanjiWordRow,
   VerbEntry,
@@ -57,7 +57,7 @@ function scan<R, T>(
   read: (row: R) => [kanji: string, kana: string, hira: string, gloss: string, common: 0 | 1],
   materialize: (row: R) => T,
 ): ExtResult<T> {
-  const q = query.trim().toLowerCase()
+  const q = normalizeQuery(query)
 
   if (!q) {
     // no query: rows are pre-sorted common-first at build time

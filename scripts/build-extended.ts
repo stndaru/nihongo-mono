@@ -5,9 +5,9 @@
  * bundled by Vite — it's written minified to public/data and fetched lazily:
  *
  *   public/data/verbs-ext/index.json     compact search rows (VerbIndexRow[])
- *   public/data/verbs-ext/words-{n}.json full entries, sharded by id % 32
+ *   public/data/verbs-ext/words-{n}.json full entries, sharded by id % 128
  *   public/data/vocab-ext/index.json     compact search rows (VocabIndexRow[])
- *   public/data/vocab-ext/words-{n}.json full entries, sharded by id % 128
+ *   public/data/vocab-ext/words-{n}.json full entries, sharded by id % 512
  *
  * Run build-verbs.ts and build-vocab.ts first (their output defines what is
  * "already covered"). Usage: bun scripts/build-extended.ts
@@ -38,8 +38,10 @@ const CACHE = join(import.meta.dirname, '.cache')
 const DATA_DIR = join(import.meta.dirname, '..', 'src', 'data')
 const PUB_DIR = join(import.meta.dirname, '..', 'public', 'data')
 
-export const VERB_SHARDS = 32
-export const VOCAB_SHARDS = 128
+// Keep in sync with VERB_EXT_SHARDS / VOCAB_EXT_SHARDS in src/lib/data/loader.ts.
+// Sized so one detail-page shard is a ~20-40 KB fetch, not ~150-260 KB.
+export const VERB_SHARDS = 128
+export const VOCAB_SHARDS = 512
 
 function jlptIds(dataset: 'verbs' | 'vocab'): Set<string> {
   const ids = new Set<string>()

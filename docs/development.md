@@ -99,7 +99,7 @@ Playwright gotchas learned the hard way:
 - `EXT_LIMIT`, table `PAGE`, shard counts, and the ext wire format all have
   comments explaining their constraints — read them before "simplifying".
   Shard counts now exist in **four pairs** that must stay in sync with
-  `src/lib/data/loader.ts`: verbs/vocab ext (32/128, `build-extended.ts`),
+  `src/lib/data/loader.ts`: verbs/vocab ext (128/512, `build-extended.ts`),
   kanji ext (16) + kanji-words (64) (both `pack-jlpt.ts`), strokes (256,
   `build-strokes.ts`).
 - **Never import multi-MB JSON through the JS module graph** — fetch it as

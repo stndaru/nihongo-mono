@@ -113,7 +113,7 @@ function KanjiListPage() {
     const wanted = new Set(levels)
     const all = beyond && ext ? [...core, ...ext] : core
     const pool = all.filter((e) => wanted.has((e.jlpt ?? 0) as WordLevel))
-    const q = (search.q ?? '').trim()
+    const q = (search.q ?? '').normalize('NFKC').trim()
     if (!q) return pool.sort(compareKanji)
     const hira = toHiragana(q)
     const kata = toKatakana(q)

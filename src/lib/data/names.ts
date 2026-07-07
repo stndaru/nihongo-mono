@@ -62,7 +62,7 @@ export interface NameSearchOutcome {
 const LIMIT = 300
 
 export async function searchNames(query: string): Promise<NameSearchOutcome> {
-  const q = query.trim()
+  const q = query.normalize('NFKC').trim() // no lowercase: kanji prefix search is case-free
   if (!q) return { results: [], total: 0 }
   const first = [...q][0]
 

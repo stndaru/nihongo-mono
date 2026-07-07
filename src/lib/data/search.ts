@@ -21,6 +21,16 @@ export function constrains<T>(list: readonly T[] | undefined): list is readonly 
   return list !== undefined && list.length > 0
 }
 
+/**
+ * Query normalization shared by every search entry point. NFKC folds
+ * full-width latin (ＴＡＢＥＲＵ — a common leftover from typing with the
+ * IME on) and half-width katakana into the forms the indexes store;
+ * wanakana alone converts neither.
+ */
+export function normalizeQuery(query: string): string {
+  return query.normalize('NFKC').trim().toLowerCase()
+}
+
 export function filterVerbs(verbs: VerbEntry[], f: VerbFilterState): VerbEntry[] {
   return verbs.filter((v) => {
     if (constrains(f.groups) && !f.groups.includes(classGroup(v.class))) return false
@@ -65,7 +75,7 @@ export function searchWordsScored<T extends WordBase>(
   words: T[],
   query: string,
 ): { word: T; score: number }[] {
-  const q = query.trim().toLowerCase()
+  const q = normalizeQuery(query)
   if (!q) return words.map((word) => ({ word, score: 0 }))
   // converts romaji → kana and katakana → hiragana in one step
   const qKana = toHiragana(q)

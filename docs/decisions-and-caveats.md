@@ -301,6 +301,24 @@ feedback on many of these — treat them as requirements, not suggestions.
     new grid whose cells can hold long text. Same round: the footer
     stacks vertically on phones (`flex-col`, `sm:flex-row`).
 
+35. **Full audit round (tests, perf, network), 2026-07-08.** A full
+    functional sweep (29 routes × 2 viewports, list/detail/parser/quiz/
+    settings interactions, hostile inputs) found one real bug: queries in
+    full-width latin or half-width katakana matched nothing — fixed by
+    NFKC normalization at every search entry point (`normalizeQuery`).
+    Browser perf (4× CPU throttle, event-timing + longtask observers):
+    no interaction over ~56 ms — typing is clean; leave as-is. Network
+    audit findings → two structural fixes: (a) `jlpt/ids.json.gz` id→level
+    map so detail pages fetch one file instead of scanning N5→N1 (cold N1
+    deep link ~700 KB→236 KB; cold Beyond verb ~1.2 MB→64 KB); (b) ext
+    detail shards resized 32/128 → 128/512 (~20–70 KB per fetch, was up
+    to 263 KB). Deliberately NOT optimized: the 5.5 MB vocab-ext index
+    (gloss avg 20 chars — already tight; columnar would save only ~15%
+    for major scan-code churn), the names written-form fan-out (a kanji
+    search like 田中 pulls ~20 reading buckets / ~3 MB once, then
+    HTTP-cached — a dedicated written-form index would duplicate the
+    ~8 MB dataset), and kuromoji's 17 MB (already confirm-gated).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

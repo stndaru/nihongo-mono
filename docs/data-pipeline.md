@@ -94,7 +94,9 @@ page only (spec says no proper nouns in vocab).
   and emits the **per-kanji word index** (`public/data/kanji-words/`,
   64 codepoint shards of pre-sorted `KanjiWordRow` tuples, ~6 KB each) so
   the kanji detail page's "Words Using" table never fetches the level
-  files. Keep `KANJI_EXT_SHARDS` and `KANJI_WORDS_SHARDS` in sync with
+  files, and the **id → level map** (`jlpt/ids.json.gz`, ~26 KB) that lets
+  detail pages fetch exactly one level file instead of scanning N5→N1.
+  Keep `KANJI_EXT_SHARDS` and `KANJI_WORDS_SHARDS` in sync with
   `src/lib/data/loader.ts`. Runs last in `data:build`; **must be re-run
   after any hand edit to `src/data`** (`bun run data:pack`).
 - `copy-kuromoji.ts` — not part of `data:build`; runs in front of

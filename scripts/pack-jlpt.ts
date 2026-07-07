@@ -35,14 +35,21 @@ interface PackedWord {
 
 let count = 0
 const allWords: { word: PackedWord; isVerb: boolean }[] = []
+const idLevels: Record<'verbs' | 'vocab', Record<string, number[]>> = { verbs: {}, vocab: {} }
 for (const dataset of ['verbs', 'vocab'] as const) {
   for (const level of [5, 4, 3, 2, 1]) {
     const data = JSON.parse(readFileSync(join(DATA_DIR, dataset, `n${level}.json`), 'utf8'))
     writeJsonGz(join(OUT_DIR, `${dataset}-n${level}.json.gz`), data)
     for (const word of data as PackedWord[]) allWords.push({ word, isVerb: dataset === 'verbs' })
+    idLevels[dataset][level] = (data as PackedWord[]).map((w) => Number(w.id)).sort((a, b) => a - b)
     count++
   }
 }
+
+// id → level routing map (~17 KB): detail pages resolve any word id with one
+// level-file (or ext-shard) fetch instead of scanning N5→N1. An id missing
+// from this map is extended-tier. Shape mirrors loadIdLevels in loader.ts.
+writeJsonGz(join(OUT_DIR, 'ids.json.gz'), idLevels)
 
 // "Words using this kanji" index for the kanji detail page: precomputed here
 // so the page fetches one small codepoint shard instead of all ten level

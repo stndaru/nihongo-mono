@@ -68,9 +68,9 @@ and `scripts/build-names.ts` into `public/data/`, **pre-gzipped**
 
 ```
 public/data/verbs-ext/index.json.gz      compact search rows (VerbIndexRow[])
-public/data/verbs-ext/words-{0..31}.json.gz   full entries, sharded by id % 32
+public/data/verbs-ext/words-{0..127}.json.gz  full entries, sharded by id % 128
 public/data/vocab-ext/index.json.gz      compact search rows (VocabIndexRow[])
-public/data/vocab-ext/words-{0..127}.json.gz  full entries, sharded by id % 128
+public/data/vocab-ext/words-{0..511}.json.gz  full entries, sharded by id % 512
 public/data/names/manifest.json.gz       counts
 public/data/names/kanji-map.json.gz      first kanji char → bucket keys
 public/data/names/u{hex}.json.gz         NameRow[] per first-kana bucket
@@ -94,8 +94,10 @@ regardless of host compression config.
    `VocabIndexRow` / `VerbIndexRow` tuples in `src/lib/data/types.ts`; rows
    carry a pre-computed hiragana key **only when the reading is katakana**,
    so the browser never kana-converts 200k rows.
-3. **Shard counts (32 / 128) must match** between `scripts/build-extended.ts`
+3. **Shard counts (128 / 512) must match** between `scripts/build-extended.ts`
    and `src/lib/data/loader.ts` (`VERB_EXT_SHARDS` / `VOCAB_EXT_SHARDS`).
+   Sized so a detail-page shard is a ~20–70 KB fetch — at 32/128 a single
+   Beyond detail page pulled ~150–260 KB per shard.
 4. `nameBucketKey` in `scripts/build-names.ts` and `bucketKey` in
    `src/lib/data/names.ts` must apply the same normalization
    (`toHiragana(firstChar)` → hex codepoint).
@@ -110,8 +112,13 @@ regardless of host compression config.
   at 1,000 with a "showing the best matches" note. Search ranking is the
   same in both paths: exact 0 · prefix 1 · substring 2 · gloss 3, then
   common-first, then Japanese collation.
-- Detail routes (`findVerb` / `findVocab`) look through JLPT levels first,
-  then fetch the one `words-{id % shards}.json.gz` shard.
+- Detail routes (`findVerb` / `findVocab`) route through
+  `jlpt/ids.json.gz` (~26 KB map of every JLPT-listed id → level, written
+  by `pack-jlpt.ts`): one fetch of exactly the right level file, or
+  straight to the `words-{id % shards}.json.gz` ext shard when the id
+  isn't in the map. (The previous N5→N1 scan made a cold deep link to an
+  N1/Beyond word download every level file — ~1.2 MB over five serial
+  round-trips.) If the map fetch fails they fall back to that scan.
 - List rows from the extended tier are "lite" entries (empty
   senses/examples/kanjiChars, furigana derived by `pairFurigana`); the
   detail page always has the full entry from its shard.
@@ -122,6 +129,11 @@ regardless of host compression config.
   `toHiragana`, so `tabe` / `たべ` / `食べ` / `eat` all find 食べる.
   Katakana words match via hiragana-normalized keys (WeakMap-cached for
   JLPT entries, prebuilt `hira` field for extended rows).
+- Every query entry point NFKC-normalizes first (`normalizeQuery` in
+  search.ts; names/kanji pages inline it) — full-width latin
+  (ＴＡＢＥＲＵ, a common leftover from typing with the IME on) and
+  half-width katakana matched nothing before, because wanakana converts
+  neither.
 - No search library — ranked substring scan is fast enough at this scale
   (~100–220 ms over 204k rows including the input debounce).
 - **Search inputs debounce at 250 ms** (`SEARCH_DEBOUNCE_MS` in
