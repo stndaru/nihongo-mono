@@ -5,7 +5,7 @@ over the project. Read in this order:
 
 | Doc | What it covers |
 | --- | --- |
-| [architecture.md](architecture.md) | Stack, routing, the two-tier data model, search/deconjugation/palette, quiz session rules & UI, app shell/navigation, theming & branding, localStorage keys |
+| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
 | [data-pipeline.md](data-pipeline.md) | Every data source, the build scripts, file formats, licensing obligations, how to regenerate |
 | [development.md](development.md) | Commands, environment quirks (Bun, Windows, Playwright), testing, the browser-verification workflow |
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
@@ -20,9 +20,10 @@ repo root; it predates everything and still governs scope. Core ideas:
   filterable (kanji / kana / romaji / English), furigana everywhere.
 - **Learning features**: verb conjugation tables (computed at runtime, never
   stored), conjugation & vocabulary quizzes, antonym pairs, adjective
-  inflections, kanji pages with KanjiVG stroke-order frames, and a progress
-  analytics page (per-word encounters/accuracy/status, per-form accuracy,
-  session trend).
+  inflections, kanji pages with KanjiVG stroke-order frames, a sentence
+  parser (greedy by default, opt-in kuromoji "Smart Parsing"), and a
+  progress analytics page (per-word encounters/accuracy/status, per-form
+  accuracy, session trend).
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -45,7 +46,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Vocab dropdown) |
-| `/parser` | Sentence parser: paste kana/kanji text (≤100 chars), get a clickable word-by-word breakdown with tooltips; greedy matching by default, opt-in kuromoji "Smart Parsing" (~17 MB, confirm-gated); carries an accuracy caveat |
+| `/parser` | Sentence parser: paste kana/kanji text (≤100 chars) for a word-by-word breakdown. Greedy matching by default; confirm-gated "Smart Parsing" opt-in (~17 MB kuromoji) adds furigana, POS-colored underlines, Beyond-tier links, and a reading fallback for variant spellings. Clicking a word opens a summary popup (detail pages open in a new tab); carries an accuracy caveat |
 | `/kanji` | Kanji table — old-scale JLPT levels N4–N1 + "Beyond", searchable by character, reading, or meaning |
 | `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |

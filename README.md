@@ -32,11 +32,15 @@ exported as a file.
   ("tabeta" finds 食べる).
 - **Sentence parser** — paste a Japanese sentence (kana/kanji, up to 100
   characters) and get a clickable word-by-word breakdown: conjugated verbs
-  identified with their exact form, tooltips with readings and meanings.
-  Heuristic dictionary matching by default (honest accuracy caveat); an
-  opt-in **Smart Parsing** mode downloads the kuromoji morphological
-  analyzer (~17 MB one-time) for analyzer-grade segmentation, furigana on
-  every word, and hover info even for words outside the JLPT lists.
+  identified with their exact form, hover tooltips, and a summary popup per
+  word (meanings, conjugation + dictionary form, the kanji used, detail
+  page in a new tab). Heuristic dictionary matching by default (honest
+  accuracy caveat); an opt-in **Smart Parsing** mode downloads the kuromoji
+  morphological analyzer (~17 MB one-time, confirm-gated) for
+  analyzer-grade segmentation, furigana on every word, POS-colored
+  underlines, links to full-dictionary entries beyond the JLPT lists
+  (marked "Beyond"), and reading-based matching of variant kanji spellings
+  (温かい finds the 暖かい entry).
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session
@@ -51,14 +55,15 @@ exported as a file.
 
 React 19 · TanStack Router (file-based, per-route code splitting) ·
 Tailwind CSS v4 · shadcn/ui · Anime.js v4 (animations capped at 150 ms) ·
-wanakana · Vite 8 · Bun.
+wanakana · kuromoji (build-time furigana + the parser's lazy-loaded Smart
+Parsing mode) · Vite 8 · Bun.
 
 ## Development
 
 ```bash
 bun install
-bun run dev        # dev server
-bun run test       # unit tests: conjugation, deconjugation, quiz rules, progress store (vitest)
+bun run dev        # dev server (first copies the kuromoji dict into public/)
+bun run test       # unit tests: conjugation, deconjugation, quiz rules, progress store, sentence parser (vitest)
 bun run lint       # oxlint
 bun run build      # production build (vite build && tsc -b)
 ```
@@ -113,7 +118,10 @@ The **source code** is [MIT](LICENSE). The **generated dictionary data**
 (under `src/data/` and `public/data/`) remains under its sources' licences —
 CC BY-SA 4.0 (EDRDG licence) for the JMdict/JMnedict/KANJIDIC2/KRADFILE-derived
 files and CC BY-SA 3.0 for the KanjiVG-derived stroke data, with CC BY
-content (Tatoeba sentences, JLPT tags) embedded. Per-directory breakdown in
-[LICENSE-DATA.md](LICENSE-DATA.md); user-facing attribution on the app's
-About page. All runtime and build dependencies are permissively licensed
-(MIT/ISC/Apache-2.0), so nothing in the stack conflicts with this split.
+content (Tatoeba sentences, JLPT tags) embedded. Deployments also serve the
+kuromoji IPADIC dictionary (for the parser's Smart Parsing mode) — its
+licence notice ships alongside it at `public/kuromoji/NOTICE.md`.
+Per-directory breakdown in [LICENSE-DATA.md](LICENSE-DATA.md); user-facing
+attribution on the app's About page. All runtime and build dependencies are
+permissively licensed (MIT/ISC/Apache-2.0), so nothing in the stack
+conflicts with this split.

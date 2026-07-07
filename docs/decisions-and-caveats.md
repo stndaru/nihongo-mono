@@ -151,7 +151,8 @@ feedback on many of these — treat them as requirements, not suggestions.
     prominent accuracy caveat and the kana-only input filter are explicit
     owner requirements, as is the palette's "Break Down as Sentence"
     fallback appearing ONLY for purely-Japanese queries. Known
-    limitation: only JLPT-listed words are recognized.
+    limitation at the time: only JLPT-listed words were recognized
+    (lifted for smart mode by entry 26's Beyond linking).
 24. **Smart Parsing (kuromoji) as an explicit opt-in** — the owner
     first considered auto-downloading on the first Break Down, then
     **changed the plan**: the greedy engine stays the default, and
@@ -210,6 +211,13 @@ feedback on many of these — treat them as requirements, not suggestions.
   kanji tag), so the kanji list's level chips are N4–N1 while word lists
   go to N5 — this asymmetry is data-driven, not a bug.
 - Quizzes deliberately exclude the Beyond tier.
+- **Sentence parser accuracy is bounded by design**: the default engine is
+  greedy dictionary matching (JLPT words only, honest caveat box on the
+  page); smart mode is kuromoji + heuristic linking, where homographs
+  resolve by frequency (never context) and the reading fallback can in
+  principle link a same-reading homophone. Word-by-word breakdowns of
+  incoherent input stay unreliable in both engines — that's disclosed, not
+  fixable at this scope.
 - Archaic verb classes (二段/四段, vs-s, vz…) are vocab entries
   (`pos: 'verb'`, badge "Verb (archaic)") — the engine doesn't conjugate
   them.

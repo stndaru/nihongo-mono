@@ -32,7 +32,7 @@ date, source versions, counts — surfaced on the About page).
 | KRADFILE (`kradzip.zip` from edrdg.org) | `kradfile.txt` | Kanji component decomposition. Ships **EUC-JP** — decoded with `new TextDecoder('euc-jp')` (works in Bun); kradfile + kradfile2 concatenated |
 | `scripts/extra-words.json` | (committed, hand-curated) | Compound words missing from every public JLPT list (小説家, 懐中電灯, 連れて行く…). Format: `["kanji","kana",level]` |
 | `scripts/antonym-overrides.json` | (committed, hand-curated) | Antonym pairs JMdict lacks (~55 pairs: 広い↔狭い…). Format: pairs of `["kanji","kana"]` |
-| kuromoji (npm devDependency, IPADIC) | — | Example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f` as a compact `｜base[reading]` bracket string; see architecture.md). Build scripts must `await initReading()` before building entries |
+| kuromoji (npm dependency, IPADIC) | — | Two uses: example-sentence furigana at build time (`scripts/lib/reading.ts` → `ExampleSentence.f` as a compact `｜base[reading]` bracket string; build scripts must `await initReading()` first), and the parser's opt-in Smart Parsing mode in the browser (the dictionary is copied to `public/kuromoji/` by `scripts/copy-kuromoji.ts` — see architecture.md) |
 | [KanjiVG](https://kanjivg.tagaini.net/) single-XML release | `kanjivg.xml.gz` (~3.5 MB) | Stroke-order diagrams. Only the SVG path `d` strings are kept (stroke order = document order); the client renders the frames itself. **CC BY-SA 3.0** — credited in the About sources list |
 
 **Not available (yet):** Jreibun example sentences — the project's data
@@ -93,6 +93,10 @@ page only (spec says no proper nouns in vocab).
   — keep `KANJI_EXT_SHARDS` in sync with `src/lib/data/loader.ts`. Runs
   last in `data:build`; **must be re-run after any hand edit to
   `src/data`** (`bun run data:pack`).
+- `copy-kuromoji.ts` — not part of `data:build`; runs in front of
+  `dev`/`build` instead. Copies the kuromoji IPADIC dictionary
+  (12 `.dat.gz` files, ~17 MB) + its licence NOTICE from node_modules into
+  `public/kuromoji/` (gitignored) for the parser's Smart Parsing mode.
 
 Review logs land in `scripts/.cache/`: `furigana-misses*.txt`,
 `unmatched-verbish.txt`, `skipped-classes.txt` — check them after a rebuild.
