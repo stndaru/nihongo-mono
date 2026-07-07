@@ -1,4 +1,6 @@
 import { Link } from '@tanstack/react-router'
+import { Eye, Lightbulb, Repeat } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 /**
  * The homepage verb-type cheatsheet: what the three types are, how to spot
@@ -17,35 +19,84 @@ function R({ k, r }: { k: string; r: string }) {
   )
 }
 
+/** Per-card accent (kanji badge + label tint) so the three types scan apart. */
+const ACCENTS = {
+  godan: 'bg-primary/10 text-primary',
+  ichidan: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+  irregular: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+} as const
+
 function Card({
+  accent,
+  glyph,
   title,
   tag,
   children,
 }: {
+  accent: keyof typeof ACCENTS
+  glyph: string
   title: string
   tag: string
   children: React.ReactNode
 }) {
   return (
     <div className="rounded-lg border p-4">
-      <div className="flex items-baseline gap-2">
-        <h3 className="font-semibold">{title}</h3>
-        <span lang="ja" className="text-sm text-muted-foreground">
-          {tag}
+      <div className="flex items-center gap-2.5">
+        <span
+          lang="ja"
+          aria-hidden
+          className={cn(
+            'flex size-9 shrink-0 items-center justify-center rounded-md text-lg font-bold',
+            ACCENTS[accent],
+          )}
+        >
+          {glyph}
         </span>
+        <div className="min-w-0">
+          <h3 className="text-base leading-tight font-bold">{title}</h3>
+          <span lang="ja" className="text-xs text-muted-foreground">
+            {tag}
+          </span>
+        </div>
       </div>
-      <dl className="mt-2.5 space-y-2.5 text-sm">{children}</dl>
+      <div className="mt-3 space-y-3 text-sm">{children}</div>
     </div>
   )
 }
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+const SECTION_ICONS = {
+  what: Lightbulb,
+  spot: Eye,
+  conjugate: Repeat,
+} as const
+
+function Row({
+  icon,
+  label,
+  children,
+}: {
+  icon: keyof typeof SECTION_ICONS
+  label: string
+  children: React.ReactNode
+}) {
+  const Icon = SECTION_ICONS[icon]
   return (
     <div>
-      <dt className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+      <div className="flex items-center gap-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
+        <Icon className="size-3" />
         {label}
-      </dt>
-      <dd className="mt-0.5 leading-relaxed">{children}</dd>
+      </div>
+      <div className="mt-1 leading-relaxed">{children}</div>
+    </div>
+  )
+}
+
+/** One aligned "form → result" line — far more skimmable than ・-chains. */
+function Formula({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className="w-16 shrink-0 text-xs text-muted-foreground">{label}</span>
+      <span lang="ja">{children}</span>
     </div>
   )
 }
@@ -112,66 +163,103 @@ export function VerbCheatsheet() {
         <h2 className="text-lg font-semibold">Verb Types at a Glance</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Every Japanese verb is one of three types, and the type decides every
-          conjugation. Spot the type in this order:{' '}
-          <span className="text-foreground">
-            1 · する or <span lang="ja">来る</span>? → irregular&ensp;2 ·{' '}
-            <span lang="ja">る</span> with an i/e sound before it? → ichidan
-            (mind the trap list)&ensp;3 · everything else → godan.
-          </span>
+          conjugation. Spot the type in this order:
         </p>
+        <ol className="mt-2 flex flex-col gap-1.5 text-sm sm:flex-row sm:flex-wrap sm:gap-x-5">
+          {(
+            [
+              [<span key="1">する or <span lang="ja">来る</span>?</span>, 'irregular'],
+              [<span key="2"><span lang="ja">る</span> after an i/e sound?</span>, 'ichidan'],
+              [<span key="3">everything else</span>, 'godan'],
+            ] as const
+          ).map(([q, a], i) => (
+            <li key={i} className="flex items-center gap-2">
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                {i + 1}
+              </span>
+              <span>
+                {q} <span className="text-muted-foreground">→</span>{' '}
+                <span className="font-semibold">{a}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
       </div>
 
       <div className="grid gap-3 md:grid-cols-3">
-        <Card title="Godan" tag="五段 ・ u-verbs">
-          <Row label="What">
-            The biggest group (~70% of verbs). The final kana slides across the
-            five vowel rows a・i・u・e・o — that slide <em>is</em> the
-            conjugation (五段 = &ldquo;five steps&rdquo;).
+        <Card accent="godan" glyph="五" title="Godan" tag="五段 ・ u-verbs ・ ~70% of all verbs">
+          <Row icon="what" label="What">
+            The last kana slides across the five vowel rows — that slide{' '}
+            <em>is</em> the conjugation.
           </Row>
-          <Row label="Spot it">
-            Doesn&apos;t end in <span lang="ja">る</span> (
-            <span lang="ja"><R k="書" r="か" />く・<R k="飲" r="の" />む・<R k="話" r="はな" />す</span>
-            ) — or ends in <span lang="ja">る</span> with an a/u/o sound before
-            it (<span lang="ja"><R k="分" r="わ" />かる・<R k="作" r="つく" />る・<R k="乗" r="の" />る</span>).
+          <Row icon="spot" label="Spot it">
+            <ul className="list-disc space-y-1 pl-4">
+              <li>
+                Doesn&apos;t end in <span lang="ja">る</span>:{' '}
+                <span lang="ja"><R k="書" r="か" />く・<R k="飲" r="の" />む・<R k="話" r="はな" />す</span>
+              </li>
+              <li>
+                Or <span lang="ja">る</span> after an a/u/o sound:{' '}
+                <span lang="ja"><R k="分" r="わ" />かる・<R k="乗" r="の" />る</span>
+              </li>
+            </ul>
           </Row>
-          <Row label="Conjugate">
-            Slide the last kana, then attach:{' '}
-            <span lang="ja"><R k="書" r="か" />か+ない・<R k="書" r="か" />き+ます・<R k="書" r="か" />け+る・<R k="書" r="か" />こ+う</span>
-            . Te/ta contract by ending:{' '}
-            <span lang="ja">く→いて ・ ぐ→いで ・ す→して ・ うつる→って ・ ぬぶむ→んで</span>{' '}
-            (one exception: <span lang="ja"><R k="行" r="い" />く→<R k="行" r="い" />って</span>).
-          </Row>
-        </Card>
-
-        <Card title="Ichidan" tag="一段 ・ ru-verbs">
-          <Row label="What">
-            One-step verbs: the stem never changes (一段 = &ldquo;one
-            step&rdquo;). Conjugate one and you can conjugate them all.
-          </Row>
-          <Row label="Spot it">
-            Ends in <span lang="ja">る</span> with an i/e sound right before it:{' '}
-            <span lang="ja"><R k="食" r="た" />べる・<R k="見" r="み" />る・<R k="起" r="お" />きる・<R k="寝" r="ね" />る</span>.
-          </Row>
-          <Row label="Conjugate">
-            Drop <span lang="ja">る</span>, attach the ending:{' '}
-            <span lang="ja"><R k="食" r="た" />べ+ない・<R k="食" r="た" />べ+ます・<R k="食" r="た" />べ+て・<R k="食" r="た" />べ+られる・<R k="食" r="た" />べ+よう</span>.
+          <Row icon="conjugate" label="Conjugate — slide, then attach">
+            <div className="space-y-1">
+              <Formula label="ない"><R k="書" r="か" />か + ない</Formula>
+              <Formula label="ます"><R k="書" r="か" />き + ます</Formula>
+              <Formula label="Potential"><R k="書" r="か" />け + る</Formula>
+              <Formula label="Volitional"><R k="書" r="か" />こ + う</Formula>
+              <Formula label="て / た">く→いて ・ ぐ→いで ・ す→して</Formula>
+              <Formula label="">う つ る→って ・ ぬ ぶ む→んで</Formula>
+              <Formula label="Exception"><R k="行" r="い" />く → <R k="行" r="い" />って</Formula>
+            </div>
           </Row>
         </Card>
 
-        <Card title="Irregular" tag="する ・ 来る">
-          <Row label="What">
-            Just two verbs — memorize them. <span lang="ja">する</span> also
-            powers thousands of noun+<span lang="ja">する</span> verbs:{' '}
-            <span lang="ja"><R k="勉強" r="べんきょう" />する</span> conjugates
+        <Card accent="ichidan" glyph="一" title="Ichidan" tag="一段 ・ ru-verbs">
+          <Row icon="what" label="What">
+            One step: the stem never changes. Conjugate one and you can
+            conjugate them all.
+          </Row>
+          <Row icon="spot" label="Spot it">
+            <ul className="list-disc space-y-1 pl-4">
+              <li>
+                Ends in <span lang="ja">る</span> after an i/e sound:{' '}
+                <span lang="ja"><R k="食" r="た" />べる・<R k="見" r="み" />る・<R k="起" r="お" />きる・<R k="寝" r="ね" />る</span>
+              </li>
+            </ul>
+          </Row>
+          <Row icon="conjugate" label="Conjugate — drop る, attach">
+            <div className="space-y-1">
+              <Formula label="ない"><R k="食" r="た" />べ + ない</Formula>
+              <Formula label="ます"><R k="食" r="た" />べ + ます</Formula>
+              <Formula label="て"><R k="食" r="た" />べ + て</Formula>
+              <Formula label="Potential"><R k="食" r="た" />べ + られる</Formula>
+              <Formula label="Volitional"><R k="食" r="た" />べ + よう</Formula>
+            </div>
+          </Row>
+        </Card>
+
+        <Card accent="irregular" glyph="不" title="Irregular" tag="する ・ 来る — just these two">
+          <Row icon="what" label="What">
+            Memorize both. Noun+<span lang="ja">する</span> compounds (
+            <span lang="ja"><R k="勉強" r="べんきょう" />する</span>) conjugate
             exactly like <span lang="ja">する</span>.
           </Row>
-          <Row label="する">
-            <span lang="ja">しない・します・して・した</span> — potential is its
-            own word: <span lang="ja">できる</span>.
+          <Row icon="conjugate" label="する">
+            <div className="space-y-1">
+              <Formula label="ない・ます">しない ・ します</Formula>
+              <Formula label="て・た">して ・ した</Formula>
+              <Formula label="Potential">できる（its own word）</Formula>
+            </div>
           </Row>
-          <Row label="来る">
-            The kanji never changes but the reading does:{' '}
-            <span lang="ja"><R k="来" r="こ" />ない・<R k="来" r="き" />ます・<R k="来" r="き" />て・<R k="来" r="こ" />られる</span>.
+          <Row icon="conjugate" label="来る — reading changes, kanji doesn't">
+            <div className="space-y-1">
+              <Formula label="ない"><R k="来" r="こ" />ない</Formula>
+              <Formula label="ます・て"><R k="来" r="き" />ます ・ <R k="来" r="き" />て</Formula>
+              <Formula label="Potential"><R k="来" r="こ" />られる</Formula>
+            </div>
           </Row>
         </Card>
       </div>
