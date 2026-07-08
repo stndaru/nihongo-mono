@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, X } from 'lucide-react'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
+import { FeedbackAccordion } from '@/components/quiz/FeedbackAccordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ExampleJa, ParseSentenceLink } from '@/components/verbs/ExampleSentences'
@@ -8,7 +9,7 @@ import { Furigana } from '@/components/verbs/Furigana'
 import { PosBadge } from '@/components/vocab/PosBadge'
 import { enter } from '@/lib/animate'
 import type { ParsedWord } from '@/lib/data/parse-sentence'
-import type { VocabQuestion } from '@/lib/quiz/vocab-engine'
+import { answerGloss, type VocabQuestion } from '@/lib/quiz/vocab-engine'
 import { cn } from '@/lib/utils'
 
 export function VocabAnswerFeedback({
@@ -112,11 +113,54 @@ export function VocabAnswerFeedback({
         )}
       </div>
 
+      {(question.kind === 'meaning' || question.kind === 'word') && (
+        <FeedbackAccordion title="The Other Options">
+          <OtherVocabOptions question={question} given={given} />
+        </FeedbackAccordion>
+      )}
+
       <Button onClick={onNext} size="lg" className="w-full">
         {isLast ? 'Finish' : 'Next'} <span className="ml-1 text-xs opacity-70">(Enter)</span>
       </Button>
 
       <WordSummaryDialog word={summary} onClose={() => setSummary(null)} />
     </div>
+  )
+}
+
+/**
+ * What the unchosen options actually were — each distractor's own word and
+ * meaning, from data already in the session (no fetches).
+ */
+function OtherVocabOptions({ question, given }: { question: VocabQuestion; given: string }) {
+  const rows =
+    question.kind === 'meaning'
+      ? (question.choices ?? [])
+          .map((gloss, i) => ({ word: question.choiceWords?.[i], picked: given === gloss }))
+          .filter((r): r is { word: NonNullable<typeof r.word>; picked: boolean } => !!r.word)
+          .filter((r) => r.word.id !== question.word.id)
+      : (question.wordChoices ?? [])
+          .filter((w) => w.id !== question.word.id)
+          .map((word) => ({ word, picked: given === word.kanji }))
+  return (
+    <ul className="space-y-1.5 text-sm">
+      {rows.map(({ word, picked }) => (
+        <li
+          key={word.id}
+          className="flex flex-wrap items-baseline gap-x-2 border-b border-border/60 py-1 last:border-b-0"
+        >
+          <span lang="ja" className="text-lg">
+            {word.kanji}
+          </span>
+          {word.kanji !== word.kana && (
+            <span lang="ja" className="text-xs text-muted-foreground">
+              {word.kana}
+            </span>
+          )}
+          <span className="text-muted-foreground">{answerGloss(word)}</span>
+          {picked && <span className="text-xs text-destructive">your answer</span>}
+        </li>
+      ))}
+    </ul>
   )
 }

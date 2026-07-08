@@ -208,12 +208,17 @@ function ProgressPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Progress</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Every quizzed word, tracked in this browser. Weakest first — that's
-          what to review next.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold">Progress</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Every quizzed word, tracked in this browser. Weakest first — that's
+            what to review next.
+          </p>
+        </div>
+        <Button asChild>
+          <Link to="/quiz">Start a Quiz</Link>
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">

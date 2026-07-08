@@ -406,6 +406,18 @@ regardless of host compression config.
 - `AnswerFeedback` ignores Enter for its first **200 ms** so the Enter that
   submitted an answer can't skip the feedback (also trips up automated
   tests — see development.md).
+- **Multiple-choice feedback has a "The Other Options" accordion**
+  (`FeedbackAccordion.tsx`, closed by default; children render only while
+  open) explaining what each unchosen option was: the conjugation quiz
+  re-derives each distractor's form(s) by matching surfaces against
+  `conjugate()` (a few in-memory calls, nothing stored); the vocab quiz
+  shows each option's word + meaning — meaning questions carry
+  `VocabQuestion.choiceWords` (source word per gloss, same order as
+  `choices`) for this. The option the user wrongly picked is marked
+  "your answer". Zero network in all cases.
+- **Cross-links**: both session summaries have a "View Progress" button,
+  and the progress page header has a "Start a Quiz" button back to
+  `/quiz` (the empty state already had quiz links).
 
 ### Session UI
 

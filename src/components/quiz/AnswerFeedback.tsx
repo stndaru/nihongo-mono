@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, X } from 'lucide-react'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
+import { FeedbackAccordion } from '@/components/quiz/FeedbackAccordion'
 import { Button } from '@/components/ui/button'
 import { Furigana } from '@/components/verbs/Furigana'
 import { RuleCheatsheet } from '@/components/verbs/RuleCheatsheet'
-import { FORM_LABELS } from '@/lib/conjugation'
+import { CONJUGATION_FORMS, conjugate, FORM_LABELS } from '@/lib/conjugation'
 import { enter } from '@/lib/animate'
 import { pairFurigana } from '@/lib/data/furigana'
 import type { ParsedWord } from '@/lib/data/parse-sentence'
@@ -102,6 +103,12 @@ export function AnswerFeedback({
         </div>
       </div>
 
+      {question.choices && question.choices.length > 1 && (
+        <FeedbackAccordion title="The Other Options">
+          <OtherConjugationOptions question={question} given={given} />
+        </FeedbackAccordion>
+      )}
+
       <RuleCheatsheet form={question.form} verbClass={question.verb.class} />
 
       <Button onClick={onNext} size="lg" className="w-full">
@@ -110,5 +117,35 @@ export function AnswerFeedback({
 
       <WordSummaryDialog word={summary} onClose={() => setSummary(null)} />
     </div>
+  )
+}
+
+/**
+ * What the unchosen options actually were: each distractor is another
+ * conjugation of the same verb, so name its form(s) by re-deriving them
+ * (a few in-memory conjugate calls — renders only while the accordion is
+ * open, no stored data or network involved).
+ */
+function OtherConjugationOptions({ question, given }: { question: Question; given: string }) {
+  const others = (question.choices ?? []).filter((c) => c.kana !== question.answer.kana)
+  return (
+    <ul className="space-y-1.5 text-sm">
+      {others.map((c) => {
+        const labels = CONJUGATION_FORMS.filter(
+          (f) => conjugate(question.verb, f)?.kana === c.kana,
+        ).map((f) => FORM_LABELS[f].label)
+        const picked = given === c.kana || given === c.kanji
+        return (
+          <li key={c.kana} className="flex flex-wrap items-baseline gap-x-2 border-b border-border/60 py-1 last:border-b-0">
+            <Furigana segments={pairFurigana(c.kanji, c.kana)} className="text-lg" />
+            <span className="text-muted-foreground">
+              {labels.length > 0 ? labels.join(' / ') : 'another form'} of{' '}
+              <span lang="ja">{question.verb.kanji}</span>
+            </span>
+            {picked && <span className="text-xs text-destructive">your answer</span>}
+          </li>
+        )
+      })}
+    </ul>
   )
 }

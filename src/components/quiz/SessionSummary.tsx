@@ -85,6 +85,9 @@ export function SessionSummary({
         <Button variant="outline" asChild>
           <Link to="/quiz">Change Settings</Link>
         </Button>
+        <Button variant="outline" asChild>
+          <Link to="/progress">View Progress</Link>
+        </Button>
       </div>
     </div>
   )

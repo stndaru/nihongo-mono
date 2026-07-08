@@ -17,6 +17,9 @@ export interface VocabQuestion {
   verb?: boolean
   /** gloss options for 'meaning'; includes the answer, pre-shuffled */
   choices?: string[]
+  /** source word per gloss in `choices` (same order) — lets the feedback
+   *  explain which word each distractor meaning belongs to */
+  choiceWords?: VocabEntry[]
   /** word options for 'word'; includes the answer, pre-shuffled */
   wordChoices?: VocabEntry[]
 }
@@ -73,10 +76,13 @@ function buildWordChoices(word: VocabEntry, pool: VocabEntry[]): VocabEntry[] {
   return shuffle([word, ...distractors])
 }
 
-function buildGlossChoices(word: VocabEntry, pool: VocabEntry[]): string[] {
+function buildGlossChoices(
+  word: VocabEntry,
+  pool: VocabEntry[],
+): { gloss: string; source: VocabEntry }[] {
   const answer = answerGloss(word)
   const seen = new Set([answer.toLowerCase()])
-  const distractors: string[] = []
+  const distractors: { gloss: string; source: VocabEntry }[] = []
   // prefer distractors of the same part of speech, fall back to any word
   const ordered = [
     ...shuffle(pool.filter((w) => w.pos === word.pos && w.id !== word.id)),
@@ -86,10 +92,10 @@ function buildGlossChoices(word: VocabEntry, pool: VocabEntry[]): string[] {
     const gloss = answerGloss(other)
     if (!gloss || seen.has(gloss.toLowerCase())) continue
     seen.add(gloss.toLowerCase())
-    distractors.push(gloss)
+    distractors.push({ gloss, source: other })
     if (distractors.length === 3) break
   }
-  return shuffle([answer, ...distractors])
+  return shuffle([{ gloss: answer, source: word }, ...distractors])
 }
 
 /**
@@ -146,11 +152,13 @@ export function generateVocabSession(
           : word.kanji !== word.kana
             ? 'reading'
             : 'recall'
+    const glossChoices = kind === 'meaning' ? buildGlossChoices(word, glossPool) : undefined
     questions.push({
       word,
       kind,
       verb: verb || undefined,
-      choices: kind === 'meaning' ? buildGlossChoices(word, glossPool) : undefined,
+      choices: glossChoices?.map((c) => c.gloss),
+      choiceWords: glossChoices?.map((c) => c.source),
       wordChoices: kind === 'word' ? buildWordChoices(word, glossPool) : undefined,
     })
   }

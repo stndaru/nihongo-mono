@@ -473,6 +473,20 @@ feedback on many of these — treat them as requirements, not suggestions.
     card, back fallback) for symmetry with Non-Verb Vocabulary; quiz
     labels again unchanged.
 
+45. **Quiz cross-links + option-explainer accordion, 2026-07-08.** (1)
+    Session summaries gained "View Progress"; the progress header gained
+    "Start a Quiz" (plain `Link`s, no new data). (2) Multiple-choice
+    feedback (both quizzes) gained a closed-by-default "The Other
+    Options" accordion explaining each unchosen option. Efficiency by
+    construction: the conjugation quiz *re-derives* each distractor's
+    form by matching its surface against `conjugate()` over the ~22
+    forms instead of storing form names in the engine (an ambiguous
+    surface honestly lists all matching forms, e.g. ichidan
+    potential/passive); the vocab engine now keeps the *source word* per
+    meaning option (`choiceWords`, index-aligned with `choices`) — data
+    already in memory, so the accordion adds zero fetches and its rows
+    render only while open (`FeedbackAccordion` mounts children lazily).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

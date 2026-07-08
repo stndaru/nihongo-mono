@@ -158,4 +158,26 @@ describe('generateVocabSession', () => {
       expect(new Set(options.map((o) => o.gloss[0])).size).toBe(4)
     }
   })
+
+  it("choice: 'meaning' questions carry the source word per gloss option, aligned", () => {
+    const pool = [
+      ...WORDS,
+      word('d', '空', 'そら'),
+      word('e', '海', 'うみ'),
+      word('f', '花', 'はな'),
+    ]
+    const questions = generateVocabSession(vocabConfig({ modes: ['choice'] }), pool)
+    expect(questions.length).toBe(6)
+    for (const q of questions) {
+      expect(q.kind).toBe('meaning')
+      expect(q.choices).toHaveLength(4)
+      expect(q.choiceWords).toHaveLength(4)
+      // choiceWords[i] is the word whose first gloss is choices[i]
+      q.choices!.forEach((gloss, i) => {
+        expect(q.choiceWords![i].gloss[0]).toBe(gloss)
+      })
+      // the asked word itself backs exactly one option — the correct answer
+      expect(q.choiceWords!.filter((w) => w.id === q.word.id)).toHaveLength(1)
+    }
+  })
 })
