@@ -14,6 +14,7 @@ import { QuizLeaveGuard } from '@/components/quiz/QuizLeaveGuard'
 import { SessionSummary, type QuestionResult } from '@/components/quiz/SessionSummary'
 import { Furigana } from '@/components/verbs/Furigana'
 import { FORM_LABELS, type ConjugatedForm } from '@/lib/conjugation'
+import { pairFurigana } from '@/lib/data/furigana'
 import { loadVerbLevels } from '@/lib/data/loader'
 import type { VerbEntry } from '@/lib/data/types'
 import { useProgress } from '@/lib/progress/context'
@@ -179,9 +180,18 @@ function QuizSessionPage() {
         </div>
       </div>
 
-      {/* the question */}
+      {/* the question — with randomShown the prompt may be a conjugated
+          form (the build-time furigana only covers the dictionary form,
+          so conjugated surfaces pair kanji/kana at runtime) */}
       <div className="rounded-lg border p-5 text-center">
-        <Furigana segments={question.verb.furigana} className="text-4xl leading-tight" />
+        <Furigana
+          segments={
+            question.shownForm === 'non-past'
+              ? question.verb.furigana
+              : pairFurigana(question.shown.kanji, question.shown.kana)
+          }
+          className="text-4xl leading-tight"
+        />
         <div className="mt-3 text-sm text-muted-foreground">
           <span className="font-medium text-foreground">
             {FORM_LABELS[question.form].label}

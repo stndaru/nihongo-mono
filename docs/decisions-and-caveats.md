@@ -368,6 +368,22 @@ feedback on many of these — treat them as requirements, not suggestions.
     baseline on the base text (0px spread measured); unsupported
     browsers fall back to `vertical-align: bottom`.
 
+38. **Quiz round (4 features), 2026-07-08.** (1) Feedback "Details" (and
+    the conjugation quiz's verb link) opens the parser's
+    `WordSummaryDialog` instead of a new tab — mid-session the page must
+    stay put; the popup still offers "Open Detail Page". Enter-to-advance
+    is suppressed while the popup is open (`summaryOpen` guard) or Enter
+    would advance the question underneath it. (2) Next/Finish is
+    full-width. (3) Vocab quiz gained `choice-ja` (English shown → pick
+    the Japanese word; kind `word`); word options dedupe by surface AND
+    gloss, and every session rule (no word repeats, verb inclusion,
+    least-seen weighting) applies unchanged. (4) Conjugation quiz gained
+    `randomShown` (`?shown=1`): the prompt may be a conjugated form drawn
+    from the selected forms + dictionary form. The old "never ask the
+    form on screen" rule generalized from the dictionary form to
+    whatever is shown; distractors likewise exclude the shown surface.
+    All four engine invariants are unit-tested (157 tests).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

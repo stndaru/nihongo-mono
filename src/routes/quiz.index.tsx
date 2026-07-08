@@ -202,6 +202,24 @@ function QuizSetupPage() {
       </section>
 
       <section className="space-y-2">
+        <h2 className="text-sm font-medium">Shown verb</h2>
+        <label className="flex cursor-pointer items-start gap-2 text-sm">
+          <Checkbox
+            className="mt-0.5"
+            checked={config.randomShown}
+            onCheckedChange={() =>
+              setConfig({ ...config, randomShown: !config.randomShown })
+            }
+          />
+          <span>
+            Randomize the shown form — the verb may appear conjugated (
+            <span lang="ja">食べた</span>) instead of in dictionary form (
+            <span lang="ja">食べる</span>), drawn from your selected conjugations
+          </span>
+        </label>
+      </section>
+
+      <section className="space-y-2">
         <h2 className="text-sm font-medium">Questions</h2>
         <ChipGroup label="">
           {QUIZ_LENGTHS.map((n) => (

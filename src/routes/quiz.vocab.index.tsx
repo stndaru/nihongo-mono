@@ -7,13 +7,15 @@ import { QuizTabs } from '@/components/quiz/QuizTabs'
 import { toggleAll, ToggleAllHeading } from '@/components/quiz/ToggleAllHeading'
 import { POS_LABELS } from '@/components/vocab/PosBadge'
 import type { JlptLevel, VocabPos } from '@/lib/data/types'
-import { QUIZ_LENGTHS, type QuizMode } from '@/lib/quiz/config'
+import { QUIZ_LENGTHS } from '@/lib/quiz/config'
 import {
   ALL_POS,
+  ALL_VOCAB_MODES,
   loadLastVocabConfig,
   saveLastVocabConfig,
   serializeVocabConfig,
   type VocabQuizConfig,
+  type VocabQuizMode,
 } from '@/lib/quiz/vocab-config'
 
 export const Route = createFileRoute('/quiz/vocab/')({
@@ -40,8 +42,8 @@ function VocabQuizSetupPage() {
       <div>
         <h1 className="text-2xl font-semibold">Vocabulary quiz</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Type the reading of a word, or pick its meaning — depending on the answer
-          mode drawn for each question.
+          Type the reading of a word, pick its meaning, or pick the word for an
+          English meaning — depending on the answer mode drawn for each question.
         </p>
       </div>
 
@@ -99,20 +101,18 @@ function VocabQuizSetupPage() {
       <section className="space-y-2">
         <ToggleAllHeading
           onClick={() =>
-            setConfig({
-              ...config,
-              modes: toggleAll(config.modes, ['input', 'choice'] as QuizMode[]),
-            })
+            setConfig({ ...config, modes: toggleAll(config.modes, ALL_VOCAB_MODES) })
           }
         >
           Answer mode
         </ToggleAllHeading>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <div className="flex flex-col gap-y-2 text-sm">
           {(
             [
               ['input', 'Type the reading (romaji auto-converts to kana)'],
-              ['choice', 'Pick the meaning (multiple choice)'],
-            ] as [QuizMode, string][]
+              ['choice', 'Shown the Japanese word — pick the English meaning'],
+              ['choice-ja', 'Shown the English meaning — pick the Japanese word'],
+            ] as [VocabQuizMode, string][]
           ).map(([mode, label]) => (
             <label key={mode} className="flex cursor-pointer items-center gap-2">
               <Checkbox
@@ -125,9 +125,9 @@ function VocabQuizSetupPage() {
             </label>
           ))}
         </div>
-        {config.modes.length === 2 && (
+        {config.modes.length > 1 && (
           <p className="text-xs text-muted-foreground">
-            Both selected — the mode is picked at random per question.
+            Multiple selected — the mode is picked at random per question.
           </p>
         )}
       </section>

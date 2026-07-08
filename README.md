@@ -20,8 +20,13 @@ exported as a file.
   breakdown.
 - **Conjugation quiz** — pick levels, forms, verb types, session length, and
   answer mode: typed input (romaji auto-converts to kana via wanakana) and/or
-  multiple choice. Instant feedback with the conjugation rule for that verb
-  class. Least-practiced verbs appear more often.
+  multiple choice; optionally randomize the shown form so the prompt may be
+  a conjugated verb (食べた) instead of the dictionary form. Instant feedback
+  with the conjugation rule for that verb class, plus a word-summary popup.
+  Least-practiced verbs appear more often.
+- **Vocabulary quiz** — three answer modes, mixable per question: type the
+  reading, pick the English meaning for a Japanese word, or pick the
+  Japanese word for an English meaning. No word repeats within a session.
 - **Vocabulary** — 6,800+ JLPT-tagged words (nouns, adjectives, adverbs,
   expressions…) with meanings, examples, antonym pairs, and adjective
   inflections; the "Beyond" level extends the list to the full JMdict

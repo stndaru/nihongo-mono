@@ -13,6 +13,9 @@ export interface QuizConfig {
   groups: ClassGroup[]
   modes: QuizMode[]
   length: number
+  /** show a random conjugated form (drawn from `forms`) instead of the
+   *  dictionary form — e.g. show 食べた, ask for the volitional */
+  randomShown: boolean
 }
 
 export const QUIZ_LENGTHS = [10, 25, 50] as const
@@ -34,6 +37,7 @@ export const DEFAULT_CONFIG: QuizConfig = {
   groups: ALL_GROUPS,
   modes: ['input', 'choice'],
   length: 10,
+  randomShown: false,
 }
 
 /** Compact query-string shape: /quiz/session?levels=5,4&forms=te,past&… */
@@ -43,6 +47,7 @@ export interface QuizSearch {
   groups: string
   modes: string
   length: number
+  shown: 0 | 1
 }
 
 export function serializeConfig(config: QuizConfig): QuizSearch {
@@ -52,6 +57,7 @@ export function serializeConfig(config: QuizConfig): QuizSearch {
     groups: config.groups.join(','),
     modes: config.modes.join(','),
     length: config.length,
+    shown: config.randomShown ? 1 : 0,
   }
 }
 
@@ -78,6 +84,8 @@ export function parseConfig(search: Record<string, unknown>): QuizConfig {
     groups: parseList(search.groups, ALL_GROUPS, DEFAULT_CONFIG.groups),
     modes: parseList(search.modes, ['input', 'choice'] as const, DEFAULT_CONFIG.modes),
     length: Number.isInteger(length) && length >= 1 && length <= 100 ? length : 10,
+    // ?shown=0|1 (router JSON-parses to a number)
+    randomShown: String(search.shown) === '1',
   }
 }
 

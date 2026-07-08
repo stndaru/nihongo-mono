@@ -361,10 +361,29 @@ regardless of host compression config.
   and share the verb's id so stats pool with the conjugation quiz. This was
   originally scoped as ます-stems and **corrected by the owner to
   dictionary form** — don't reintroduce stems.
+- **Vocabulary quiz has three answer modes** (`VocabQuizMode`, csv URL
+  `modes=`): `input` (type the reading), `choice` (JA shown → pick the
+  English meaning) and `choice-ja` (English shown → pick the Japanese
+  word, question kind `word`). Selecting several draws one at random per
+  question. `buildWordChoices` dedupes options by surface AND gloss so no
+  two options look like or mean the same thing; option words render with
+  `Furigana`, governed by the session Furigana toggle.
 - **Conjugation quiz never asks for the form already on screen**: answers
-  whose surface equals the shown dictionary form are skipped (so a
-  non-past-only setup is legitimately empty), and multiple-choice
-  distractors exclude the displayed dictionary form (a free elimination).
+  whose surface equals the SHOWN surface are skipped (so a non-past-only
+  setup is legitimately empty), and multiple-choice distractors exclude
+  the shown surface (a free elimination).
+- **Conjugation quiz can randomize the shown form** (config
+  `randomShown`, URL `?shown=0|1`, setup checkbox): the prompt shows a
+  conjugated form (drawn from the user's selected forms + dictionary
+  form, never the answer's surface) — e.g. shows 食べた, asks for the
+  volitional. `Question.shown`/`shownForm` always exist ('non-past' =
+  dictionary form); conjugated prompts pair furigana at runtime via
+  `pairFurigana`, and feedback adds a "shown as 食べた (Past)" note.
+- **Feedback "Details" opens the parser's `WordSummaryDialog`** (both
+  quizzes; the conjugation quiz's verb link too) instead of navigating —
+  the session stays put, and the popup's "Open Detail Page" still goes to
+  a new tab. Enter-to-advance is suppressed while the popup is open. The
+  Next/Finish button is full-width (owner request).
 - `AnswerFeedback` ignores Enter for its first **200 ms** so the Enter that
   submitted an answer can't skip the feedback (also trips up automated
   tests — see development.md).

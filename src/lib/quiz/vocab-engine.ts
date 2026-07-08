@@ -6,8 +6,9 @@ import type { VocabQuizConfig } from './vocab-config'
  * - reading: kanji word shown (no furigana), type the kana reading
  * - recall:  English meaning shown (kana-only word), type the word
  * - meaning: word shown with furigana, pick the English meaning
+ * - word:    English meaning shown, pick the Japanese word
  */
-export type VocabQuestionKind = 'reading' | 'recall' | 'meaning'
+export type VocabQuestionKind = 'reading' | 'recall' | 'meaning' | 'word'
 
 export interface VocabQuestion {
   word: VocabEntry
@@ -16,6 +17,8 @@ export interface VocabQuestion {
   verb?: boolean
   /** gloss options for 'meaning'; includes the answer, pre-shuffled */
   choices?: string[]
+  /** word options for 'word'; includes the answer, pre-shuffled */
+  wordChoices?: VocabEntry[]
 }
 
 /** First gloss is the canonical quiz answer for meaning questions. */
@@ -42,6 +45,32 @@ export function verbQuizWords(verbs: VerbEntry[]): VocabEntry[] {
     kanjiChars: [],
     pos: 'verb',
   }))
+}
+
+/**
+ * Options for 'word' (English shown, pick the Japanese word): the answer
+ * plus 3 distractor words, same part of speech preferred, deduped by both
+ * surface and gloss so no option looks like — or means — the same thing.
+ */
+function buildWordChoices(word: VocabEntry, pool: VocabEntry[]): VocabEntry[] {
+  const seenSurface = new Set([word.kanji, word.kana])
+  const seenGloss = new Set([answerGloss(word).toLowerCase()])
+  const distractors: VocabEntry[] = []
+  const ordered = [
+    ...shuffle(pool.filter((w) => w.pos === word.pos && w.id !== word.id)),
+    ...shuffle(pool.filter((w) => w.pos !== word.pos)),
+  ]
+  for (const other of ordered) {
+    const gloss = answerGloss(other).toLowerCase()
+    if (!gloss || seenSurface.has(other.kanji) || seenSurface.has(other.kana) || seenGloss.has(gloss))
+      continue
+    seenSurface.add(other.kanji)
+    seenSurface.add(other.kana)
+    seenGloss.add(gloss)
+    distractors.push(other)
+    if (distractors.length === 3) break
+  }
+  return shuffle([word, ...distractors])
 }
 
 function buildGlossChoices(word: VocabEntry, pool: VocabEntry[]): string[] {
@@ -110,12 +139,19 @@ export function generateVocabSession(
     used.add(word.id)
     const mode = config.modes[Math.floor(Math.random() * config.modes.length)]
     const kind: VocabQuestionKind =
-      mode === 'choice' ? 'meaning' : word.kanji !== word.kana ? 'reading' : 'recall'
+      mode === 'choice'
+        ? 'meaning'
+        : mode === 'choice-ja'
+          ? 'word'
+          : word.kanji !== word.kana
+            ? 'reading'
+            : 'recall'
     questions.push({
       word,
       kind,
       verb: verb || undefined,
       choices: kind === 'meaning' ? buildGlossChoices(word, glossPool) : undefined,
+      wordChoices: kind === 'word' ? buildWordChoices(word, glossPool) : undefined,
     })
   }
   return questions

@@ -1,10 +1,19 @@
 import type { JlptLevel, VocabPos } from '@/lib/data/types'
-import type { QuizMode } from './config'
+
+/**
+ * - input:     type the reading (or the word, for kana-only entries)
+ * - choice:    shown the Japanese word, pick the English meaning
+ * - choice-ja: shown the English meaning, pick the Japanese word
+ * Selecting several draws one at random per question.
+ */
+export type VocabQuizMode = 'input' | 'choice' | 'choice-ja'
+
+export const ALL_VOCAB_MODES: VocabQuizMode[] = ['input', 'choice', 'choice-ja']
 
 export interface VocabQuizConfig {
   levels: JlptLevel[]
   pos: VocabPos[]
-  modes: QuizMode[]
+  modes: VocabQuizMode[]
   length: number
   /** also ask verbs (dictionary form: 食べる, 飲む…) */
   verbs: boolean
@@ -55,7 +64,7 @@ export function parseVocabConfig(search: Record<string, unknown>): VocabQuizConf
   return {
     levels,
     pos: parseList(search.pos, ALL_POS, DEFAULT_VOCAB_CONFIG.pos),
-    modes: parseList(search.modes, ['input', 'choice'] as const, DEFAULT_VOCAB_CONFIG.modes),
+    modes: parseList(search.modes, ALL_VOCAB_MODES, DEFAULT_VOCAB_CONFIG.modes),
     length: Number.isInteger(length) && length >= 1 && length <= 100 ? length : 10,
     // ?verbs=0|1 (router JSON-parses to a number)
     verbs: search.verbs === undefined ? DEFAULT_VOCAB_CONFIG.verbs : String(search.verbs) === '1',

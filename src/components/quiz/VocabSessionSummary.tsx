@@ -14,6 +14,7 @@ const KIND_LABELS = {
   reading: 'Reading',
   recall: 'Recall',
   meaning: 'Meaning',
+  word: 'Word Match',
 } as const
 
 export function VocabSessionSummary({

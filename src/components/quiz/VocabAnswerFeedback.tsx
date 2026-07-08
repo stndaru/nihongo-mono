@@ -1,12 +1,13 @@
-import { useEffect, useRef } from 'react'
-import { Link } from '@tanstack/react-router'
+import { useEffect, useRef, useState } from 'react'
 import { Check, X } from 'lucide-react'
+import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ExampleJa, ParseSentenceLink } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { PosBadge } from '@/components/vocab/PosBadge'
 import { enter } from '@/lib/animate'
+import type { ParsedWord } from '@/lib/data/parse-sentence'
 import type { VocabQuestion } from '@/lib/quiz/vocab-engine'
 import { cn } from '@/lib/utils'
 
@@ -26,16 +27,20 @@ export function VocabAnswerFeedback({
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => enter(ref.current), [])
 
+  // summary popup (same one the sentence parser uses) — the session stays put
+  const [summary, setSummary] = useState<ParsedWord | null>(null)
+  const summaryOpen = summary !== null
+
   // Enter advances — ignore the first ~200ms so the Enter that submitted
-  // the answer can't skip the feedback.
+  // the answer can't skip the feedback, and don't advance under the popup.
   useEffect(() => {
     const mountedAt = performance.now()
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && performance.now() - mountedAt > 200) onNext()
+      if (e.key === 'Enter' && !summaryOpen && performance.now() - mountedAt > 200) onNext()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onNext])
+  }, [onNext, summaryOpen])
 
   const { word } = question
   return (
@@ -68,29 +73,21 @@ export function VocabAnswerFeedback({
               <PosBadge pos={word.pos} />
             )}
           </span>
-          {question.verb ? (
-            <Link
-              to="/verbs/$verbId"
-              params={{ verbId: word.id }}
-              target="_blank"
-              rel="noopener"
-              className="text-primary underline-offset-2 hover:underline"
-              title="Open the verb's detail in a new tab"
-            >
-              Details
-            </Link>
-          ) : (
-            <Link
-              to="/vocab/$wordId"
-              params={{ wordId: word.id }}
-              target="_blank"
-              rel="noopener"
-              className="text-primary underline-offset-2 hover:underline"
-              title="Open word detail in a new tab"
-            >
-              Details
-            </Link>
-          )}
+          <button
+            type="button"
+            className="cursor-pointer text-primary underline-offset-2 hover:underline"
+            title="Word summary"
+            onClick={() =>
+              setSummary({
+                entry: word,
+                isVerb: !!question.verb,
+                surface: word.kanji,
+                formLabel: null,
+              })
+            }
+          >
+            Details
+          </button>
         </div>
         <div className="mt-2 flex flex-wrap items-end gap-x-3">
           <Furigana segments={word.furigana} className="text-3xl leading-normal" />
@@ -115,9 +112,11 @@ export function VocabAnswerFeedback({
         )}
       </div>
 
-      <Button onClick={onNext} size="lg" className="w-full sm:w-auto">
+      <Button onClick={onNext} size="lg" className="w-full">
         {isLast ? 'Finish' : 'Next'} <span className="ml-1 text-xs opacity-70">(Enter)</span>
       </Button>
+
+      <WordSummaryDialog word={summary} onClose={() => setSummary(null)} />
     </div>
   )
 }
