@@ -67,7 +67,8 @@ exported as a file.
 
 > **Contributing or taking over?** Start with the handover docs in
 > [`docs/`](docs/README.md) — architecture, data pipeline, development
-> workflow, and the decision/caveat history.
+> workflow, and the decision/caveat history. AI agents: the operating
+> checklist is [`AGENTS.md`](AGENTS.md).
 
 ## Stack
 

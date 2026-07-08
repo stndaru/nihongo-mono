@@ -1,7 +1,9 @@
 # nihongo mono — developer handover docs
 
 This folder is the onboarding path for a new developer (human or AI) taking
-over the project. Read in this order:
+over the project. The condensed per-feature operating checklist (gates,
+verification, doc updates, performance rules) is [`AGENTS.md`](../AGENTS.md)
+at the repo root. Read in this order:
 
 | Doc | What it covers |
 | --- | --- |
