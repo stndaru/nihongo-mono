@@ -32,6 +32,9 @@ const LIMIT = 20
 const EXT_LIMIT = 8
 const ALL_LEVELS = [5, 4, 3, 2, 1] as const
 
+/** Sticky "Include Full Dictionary" opt-in — survives reloads. */
+const PALETTE_EXT_KEY = 'nihongo-mono:palette-ext'
+
 /** Dispatch this window event to open the palette (mobile floating button). */
 export const OPEN_PALETTE_EVENT = 'nihongo-mono:open-palette'
 
@@ -138,10 +141,24 @@ export function CommandPalette() {
   const loadFullDictionary = () => {
     if (ext || extLoading) return
     setExtLoading(true)
+    localStorage.setItem(PALETTE_EXT_KEY, '1')
     Promise.all([loadVerbExtIndex(), loadVocabExtIndex()])
       .then(([verbs, vocab]) => setExt({ verbs, vocab }))
+      .catch(() => {}) // offline etc. — the button stays available to retry
       .finally(() => setExtLoading(false))
   }
+
+  // Sticky opt-in: once the user has included the full dictionary, reloads
+  // re-include it automatically on first open. The multi-MB indexes come
+  // back from the HTTP cache, so this doesn't re-pay the download — and it
+  // only runs when the palette opens, never on cold page load.
+  const autoLoadTried = useRef(false)
+  useEffect(() => {
+    if (!open || ext || extLoading || autoLoadTried.current) return
+    if (localStorage.getItem(PALETTE_EXT_KEY) !== '1') return
+    autoLoadTried.current = true
+    loadFullDictionary()
+  })
 
   const onInputKey = (e: React.KeyboardEvent) => {
     if (!hits || hits.length === 0) return
@@ -251,7 +268,12 @@ export function CommandPalette() {
           </div>
           <div className="flex items-center justify-between border-t px-3 py-2 text-xs text-muted-foreground">
             <span>↑↓ to navigate · Enter to open</span>
-            {!ext && (
+            {ext ? (
+              <span className="flex items-center gap-1">
+                <BookOpen className="size-3.5" />
+                Full dictionary included
+              </span>
+            ) : (
               <button
                 type="button"
                 onClick={loadFullDictionary}

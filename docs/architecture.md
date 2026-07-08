@@ -157,9 +157,14 @@ regardless of host compression config.
   JLPT verbs+vocab with typed result rows (Verb/Noun/な-adj… + level
   badge), arrow-key navigation, Enter/click opens the detail page. The
   multi-MB extended indexes join only via the explicit "Include Full
-  Dictionary" footer action. External openers dispatch the
-  `OPEN_PALETTE_EVENT` window event (that's how the mobile floating button
-  in `__root.tsx` works) — one palette instance, no lifted state.
+  Dictionary" footer action. That opt-in is **sticky**
+  (`nihongo-mono:palette-ext`): after a reload the palette re-includes the
+  indexes automatically on its first open — served from the HTTP cache
+  (~0 KB over the wire), never on cold page load, and the footer shows
+  "Full dictionary included". Clearing the key restores the opt-in button.
+  External openers dispatch the `OPEN_PALETTE_EVENT` window event (that's
+  how the mobile floating button in `__root.tsx` works) — one palette
+  instance, no lifted state.
 - Tables render 100 rows per page (`PAGE` in VerbTable/VocabTable/
   DictionaryTable) and reset pagination when the result array changes —
   500 ruby rows re-rendered per keystroke was a real lag source. Keep row
@@ -586,4 +591,5 @@ regardless of host compression config.
 streak) · `theme` · `font-text` / `font-ja` / `font-size` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
 toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
-`parser-accurate` key is still read as a fallback).
+`parser-accurate` key is still read as a fallback) · `palette-ext`
+(sticky "Include Full Dictionary" palette opt-in).
