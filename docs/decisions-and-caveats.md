@@ -391,9 +391,10 @@ feedback on many of these — treat them as requirements, not suggestions.
     drawer). The component stays `components/home/VerbCheatsheet.tsx`
     (unchanged; only its mount moved). In its old spot the homepage now
     shows **quick-access shortcut cards** (`components/home/
-    QuickAccess.tsx`) mirroring the navbar's two menus — **Tools first,
-    then Language** (owner-specified order), icon tile + label +
-    one-line description per card. Keep the card entries in sync with
+    QuickAccess.tsx`) — **Essentials (Dictionary, Kanji — the two main
+    features; the Kanji tile is a 漢 glyph) first, then Tools, then
+    Language** (owner-specified order), icon tile + label + one-line
+    description per card. Keep the Tools/Language entries in sync with
     `Header.tsx`'s `LANGUAGE_ITEMS`/`TOOLS_ITEMS` when menus change.
 
 ## Known limitations / accepted trade-offs

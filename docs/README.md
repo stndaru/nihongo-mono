@@ -42,7 +42,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards mirroring the navbar's Tools and Language menus (Tools first) |
+| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards — Essentials (Dictionary, Kanji) first, then the navbar's Tools and Language menus |
 | `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — currently the Japanese Verb Summary |
 | `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) — used to live on the homepage |
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |

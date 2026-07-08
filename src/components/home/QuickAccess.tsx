@@ -2,6 +2,7 @@ import { Link, type LinkProps } from '@tanstack/react-router'
 import {
   ArrowLeftRight,
   BookA,
+  BookOpenText,
   ChartNoAxesColumn,
   Globe,
   GraduationCap,
@@ -13,16 +14,33 @@ import {
 } from 'lucide-react'
 
 /**
- * Homepage shortcut cards mirroring the navbar's Tools and Language
- * dropdowns (Tools first — owner-specified order), so everything is
- * reachable without opening the navbar menus.
+ * Homepage shortcut cards: Essentials (the two main features), then the
+ * navbar's Tools and Language dropdowns (in that owner-specified order),
+ * so everything is reachable without opening the navbar menus.
  */
 interface Entry {
   to: LinkProps['to']
   label: string
   description: string
-  icon: LucideIcon
+  icon?: LucideIcon
+  /** a Japanese glyph tile instead of a lucide icon */
+  glyph?: string
 }
+
+const ESSENTIALS: Entry[] = [
+  {
+    to: '/dictionary',
+    label: 'Dictionary',
+    description: 'Every verb and vocabulary word in one searchable table',
+    icon: BookOpenText,
+  },
+  {
+    to: '/kanji',
+    label: 'Kanji',
+    description: 'Readings, meanings, and stroke order by JLPT level',
+    glyph: '漢',
+  },
+]
 
 const TOOLS: Entry[] = [
   { to: '/parser', label: 'Sentence Parser', description: 'Break a sentence into its words', icon: ScanText },
@@ -44,14 +62,20 @@ function CardGrid({ title, entries }: { title: string; entries: Entry[] }) {
     <section>
       <h2 className="mb-2.5 text-lg font-semibold">{title}</h2>
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-        {entries.map(({ to, label, description, icon: Icon }) => (
+        {entries.map(({ to, label, description, icon: Icon, glyph }) => (
           <Link
             key={to}
             to={to}
             className="flex items-center gap-3 rounded-lg border p-3.5 transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
           >
             <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-              <Icon className="size-4.5" />
+              {Icon ? (
+                <Icon className="size-4.5" />
+              ) : (
+                <span lang="ja" className="text-lg leading-none font-medium">
+                  {glyph}
+                </span>
+              )}
             </span>
             <span className="min-w-0">
               <span className="block text-sm font-medium">{label}</span>
@@ -67,6 +91,7 @@ function CardGrid({ title, entries }: { title: string; entries: Entry[] }) {
 export function QuickAccess() {
   return (
     <div className="space-y-8">
+      <CardGrid title="Essentials" entries={ESSENTIALS} />
       <CardGrid title="Tools" entries={TOOLS} />
       <CardGrid title="Language" entries={LANGUAGE} />
     </div>
