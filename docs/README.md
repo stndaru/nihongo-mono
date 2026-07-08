@@ -11,6 +11,7 @@ at the repo root. Read in this order:
 | [data-pipeline.md](data-pipeline.md) | Every data source, the build scripts, file formats, licensing obligations, how to regenerate |
 | [development.md](development.md) | Commands, environment quirks (Bun, Windows, Playwright), testing, the browser-verification workflow |
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
+| [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — re-measure and update after big data or route changes |
 
 ## What this project is
 

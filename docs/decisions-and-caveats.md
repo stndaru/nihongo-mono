@@ -415,6 +415,15 @@ feedback on many of these — treat them as requirements, not suggestions.
     dictionary page's 3.6 s LCP (the fetched table *is* the content;
     CLS 0.077 is within "good").
 
+41. **Measured performance baseline, 2026-07-08.** `docs/
+    performance-report.md` records a full-feature 38-action tour at commit
+    `7ed5f6f`: 28.92 MB total with every opt-in enabled vs ~2.4 MB
+    without; worst spike 16.98 MB (Smart Parsing, confirm-gated); peak
+    tour heap 111.7 MB; worst long task 149 ms; repeat visit 3.2 KB;
+    0 page errors. The owner wants this snapshot as *proof of
+    lightweightness* — when data or routes change materially, re-run the
+    methodology in that file and update it rather than letting it rot.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
