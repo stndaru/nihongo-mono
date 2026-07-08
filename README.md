@@ -53,10 +53,11 @@ exported as a file.
   (marked "Beyond"), and reading-based matching of variant kanji spellings
   (温かい finds the 暖かい entry). Every example sentence in the app links
   into the parser (small icon, opens a new tab).
-- **Verb-type cheatsheet** — the homepage carries a skimmable summary of
-  the three verb types (godan/ichidan/する・来る): how to spot each
-  (including the 帰る/走る ichidan-lookalike trap list) and how each
-  conjugates, with a side-by-side form table.
+- **Cheatsheets** — an in-app cheatsheet section (under Language),
+  starting with the Japanese Verb Summary: the three verb types
+  (godan/ichidan/する・来る), how to spot each (including the 帰る/走る
+  ichidan-lookalike trap list) and how each conjugates, with a
+  side-by-side form table.
 - **Resources** — a curated page of external learning sites (dictionaries,
   grammar guides, JLPT practice) with short descriptions, under the
   Language menu.

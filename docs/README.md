@@ -25,8 +25,8 @@ repo root; it predates everything and still governs scope. Core ideas:
   inflections, kanji pages with KanjiVG stroke-order frames, a sentence
   parser (greedy by default, opt-in kuromoji "Smart Parsing"), a progress
   analytics page (per-word encounters/accuracy/status, per-form accuracy,
-  session trend), a homepage verb-type cheatsheet, and a curated
-  external-resources page.
+  session trend), an in-app cheatsheet section (currently the Japanese
+  verb summary), and a curated external-resources page.
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -42,7 +42,9 @@ repo root; it predates everything and still governs scope. Core ideas:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus a skimmable verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) |
+| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards mirroring the navbar's Tools and Language menus (Tools first) |
+| `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — currently the Japanese Verb Summary |
+| `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) — used to live on the homepage |
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
 | `/verbs` | Verb list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |
@@ -60,9 +62,10 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**
-(Linear-style dropdown: Verbs / Vocabulary / Antonyms / Proper Names, each
-with a one-line description) · **Tools** (Sentence Parser / Quiz /
-Progress); Settings is the gear icon at far right. Phones get a burger
+(Linear-style dropdown: Verbs / Vocabulary / Antonyms / Proper Names /
+Cheatsheet / Resources, each with a one-line description) · **Tools**
+(Sentence Parser / Quiz / Progress); Settings is the gear icon at far
+right. The homepage repeats both menus as quick-access shortcut cards. Phones get a burger
 side-drawer (same Language/Tools sections) and a floating search button.
 Detail pages have a back control that returns to the exact previous page
 (or the section's table when opened directly / in a new tab).

@@ -384,6 +384,18 @@ feedback on many of these — treat them as requirements, not suggestions.
     whatever is shown; distractors likewise exclude the shown surface.
     All four engine invariants are unit-tested (157 tests).
 
+39. **Homescreen restructure, 2026-07-08.** The verb-type cheatsheet moved
+    off the homepage to its own page (`/cheatsheet/verbs`, "Japanese Verb
+    Summary") under a new Resources-style **Cheatsheet** list page
+    (`/cheatsheet`, in the Language menu — desktop dropdown + mobile
+    drawer). The component stays `components/home/VerbCheatsheet.tsx`
+    (unchanged; only its mount moved). In its old spot the homepage now
+    shows **quick-access shortcut cards** (`components/home/
+    QuickAccess.tsx`) mirroring the navbar's two menus — **Tools first,
+    then Language** (owner-specified order), icon tile + label +
+    one-line description per card. Keep the card entries in sync with
+    `Header.tsx`'s `LANGUAGE_ITEMS`/`TOOLS_ITEMS` when menus change.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

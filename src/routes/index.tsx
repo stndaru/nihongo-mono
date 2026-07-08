@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, Flame, ListChecks, Target } from 'lucide-react'
-import { VerbCheatsheet } from '@/components/home/VerbCheatsheet'
+import { QuickAccess } from '@/components/home/QuickAccess'
 import { Button } from '@/components/ui/button'
 import { useProgress } from '@/lib/progress/context'
 import { streakAtRisk, streakBroken } from '@/lib/progress/streak'
@@ -130,7 +130,8 @@ function Dashboard() {
 
       <hr className="border-border" />
 
-      <VerbCheatsheet />
+      {/* the verb cheatsheet that used to live here moved to /cheatsheet/verbs */}
+      <QuickAccess />
     </div>
   )
 }
