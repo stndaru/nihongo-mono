@@ -24,8 +24,9 @@ bun run data:build   # full dataset regen (needs scripts/.cache/)
    `bunx vite preview --port 4173`: zero `pageerror`/console errors,
    assert on visible content, screenshot.
 3. No horizontal page overflow at 390 px and 640–900 px widths, including
-   with `localStorage nihongo-mono:font-size = "xxlarge"`. Wide content
-   scrolls inside its own `overflow-x-auto` container.
+   with the font-size keys (`nihongo-mono:font-size` / `font-ja-size` /
+   `font-furigana-size`) at `"xxlarge"`. Wide content scrolls inside its
+   own `overflow-x-auto` container.
 4. Update docs in the same commit:
    - behavior/features → `docs/architecture.md`; data formats/scripts →
      `docs/data-pipeline.md`; workflow/gotchas → `docs/development.md`

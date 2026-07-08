@@ -463,7 +463,8 @@ feedback on many of these — treat them as requirements, not suggestions.
 
 ## Where the authoritative statements live
 
-- Product scope: `Specification.md` (repo root).
+- Product scope: the README feature list plus this file — the founding
+  spec was the owner's original project brief and was never committed.
 - Licensing text shown to users: `src/routes/about.tsx`; repo licences:
   `LICENSE` (code, MIT) + `LICENSE-DATA.md` (per-directory data licences).
 - Dataset counts/dates: `src/data/meta.json` (generated).

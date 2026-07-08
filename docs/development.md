@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser (153 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser (157 tests)
 bun run lint            # oxlint
 bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
@@ -32,11 +32,12 @@ Every feature round ended with all of:
 1. `bunx tsc -b` clean, `bun run lint` clean, `bun run test` green.
 2. `bun run build` succeeds.
 3. **Browser verification with a Playwright script** (run under node)
-   against the dev server: navigate the changed pages, assert on visible
-   text/selectors, collect `pageerror` events (must be none), and take
-   screenshots for visual review. Past scripts live in the session
-   scratchpad (`ext-check.mjs`, `perf-check.mjs` patterns) — write a fresh
-   one per round; it's ~40 lines.
+   against the production build (`bunx vite preview --port 4173`):
+   navigate the changed pages, assert on visible text/selectors, collect
+   `pageerror` events (must be none), and take screenshots for visual
+   review. Past scripts live in the session scratchpad (`ext-check.mjs`,
+   `perf-check.mjs` patterns) — write a fresh one per round; it's ~40
+   lines.
 4. Conventional commit on `main` with a body explaining *why*.
 
 Playwright gotchas learned the hard way:
@@ -69,6 +70,12 @@ Playwright gotchas learned the hard way:
   **decoded** body — the dev server serves `.json.gz` with
   Content-Encoding, so bodies look inflated; real wire cost is the .gz
   size on disk.
+- **Lighthouse also runs under node** (installed in the session
+  scratchpad, same as Playwright) against the preview server. On this
+  box it always exits 1 with an `EPERM ... Temp\lighthouse.*` error —
+  that's Chrome temp-dir cleanup noise *after* the audit; the JSON
+  report is written fine, so check for the output file before
+  re-running.
 - Scroll assertions need a viewport **shorter than the page**: with the
   default 900-px-tall page and little seeded data, the page fits entirely
   and `scrollIntoView` is a no-op — the "did it scroll" check times out

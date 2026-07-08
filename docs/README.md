@@ -15,8 +15,9 @@ at the repo root. Read in this order:
 ## What this project is
 
 A **lightweight, no-login Japanese learning web app** — a fast dictionary +
-trainer, not a SaaS. The product spec lives in `Specification.md` at the
-repo root; it predates everything and still governs scope. Core ideas:
+trainer, not a SaaS. The founding spec was the owner's original project
+brief (never committed); scope is captured by the README feature list and
+the decision log. Core ideas:
 
 - **Dictionary-like density**: high-density lists, everything searchable and
   filterable (kanji / kana / romaji / English), furigana everywhere.
