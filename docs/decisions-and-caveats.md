@@ -487,6 +487,18 @@ feedback on many of these — treat them as requirements, not suggestions.
     already in memory, so the accordion adds zero fetches and its rows
     render only while open (`FeedbackAccordion` mounts children lazily).
 
+46. **Verb cheatsheet conjugation guide, 2026-07-08.** `/cheatsheet/verbs`
+    gained "How to Build Each Conjugation"
+    (`components/home/ConjugationGuide.tsx`): one closed-by-default
+    accordion row per form (all 22), each showing the godan / ichidan /
+    する / 来る rule with pattern, explanation, exceptions, and a live
+    example (書く・食べる・する・来る conjugated at render via minimal
+    fixtures — `conjugate()` only reads kanji/kana/class). Rules are the
+    same `getRule()` cards the quiz and detail pages use — one source of
+    truth, no new content to keep in sync. The example line is hidden
+    when the pattern is already concrete (する/来る patterns embed their
+    own example). Static/no-fetch; row bodies render only while open.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

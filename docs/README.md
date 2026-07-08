@@ -50,7 +50,7 @@ the decision log. Core ideas:
 | --- | --- |
 | `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards — Essentials (Dictionary, Kanji) first, then the navbar's Tools and Language menus |
 | `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — currently the Japanese Verb Summary |
-| `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) — used to live on the homepage |
+| `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) plus a per-form "How to Build Each Conjugation" accordion guide (all 22 forms × 4 verb types, rule + example each, from the shared `getRule()` cards) — used to live on the homepage |
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
 | `/verbs` | Verb Vocabulary list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |

@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Eye, Lightbulb, Repeat } from 'lucide-react'
+import { ConjugationGuide } from '@/components/home/ConjugationGuide'
 import { cn } from '@/lib/utils'
 
 /**
@@ -316,6 +317,8 @@ export function VerbCheatsheet() {
           </tbody>
         </table>
       </div>
+
+      <ConjugationGuide />
 
       <p className="text-xs text-muted-foreground">
         Every verb&apos;s detail page has the full 22-form table with
