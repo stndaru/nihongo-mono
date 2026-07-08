@@ -468,6 +468,10 @@ feedback on many of these — treat them as requirements, not suggestions.
     **mobile drawer** also gained an **Essentials** caption grouping
     Dictionary + Kanji (mirroring the homepage's Essentials cards);
     the desktop header deliberately keeps them as top-level links.
+    Follow-up the same day: `/verbs` likewise renamed **"Verb
+    Vocabulary"** (same surfaces: h1, dropdown, drawer, quick-access
+    card, back fallback) for symmetry with Non-Verb Vocabulary; quiz
+    labels again unchanged.
 
 ## Known limitations / accepted trade-offs
 

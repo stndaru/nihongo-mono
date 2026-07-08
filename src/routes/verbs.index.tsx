@@ -146,7 +146,7 @@ function VerbListPage() {
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Verbs</h1>
+        <h1 className="text-2xl font-semibold">Verb Vocabulary</h1>
         {results && (
           <span className="text-xs text-muted-foreground">
             {results.total.toLocaleString()} verb{results.total === 1 ? '' : 's'}

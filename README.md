@@ -11,7 +11,7 @@ exported as a file.
   JLPT level up front, contextual sub-filters (verb class, ending,
   transitivity; い/な adjectives) behind a "More Filters" toggle, and the
   full JMdict via the "Beyond" level.
-- **Verb list** — 2,800+ JLPT-tagged verbs in a dense, spreadsheet-style table.
+- **Verb Vocabulary** — 2,800+ JLPT-tagged verbs in a dense, spreadsheet-style table.
   Search by kanji, kana, romaji, or English; filter by level, verb class
   (godan/ichidan/する/来る), る-ending, transitivity, and commonness. The
   "Beyond" level adds every other conjugatable JMdict verb (23,000+).

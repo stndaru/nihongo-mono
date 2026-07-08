@@ -8,7 +8,7 @@ const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: st
   { to: '/', label: 'Home', exact: true },
   { to: '/dictionary', label: 'Dictionary', section: 'Essentials' },
   { to: '/kanji', label: 'Kanji' },
-  { to: '/verbs', label: 'Verbs', section: 'Language' },
+  { to: '/verbs', label: 'Verb Vocabulary', section: 'Language' },
   { to: '/vocab', label: 'Non-Verb Vocabulary' },
   { to: '/vocab/antonyms', label: 'Antonyms' },
   { to: '/names', label: 'Proper Names' },

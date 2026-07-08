@@ -36,7 +36,7 @@ function VerbDetailPage() {
     <div className="space-y-8">
       <header>
         <div className="mb-2">
-          <BackButton fallback="/verbs" label="Verbs" />
+          <BackButton fallback="/verbs" label="Verb Vocabulary" />
         </div>
         <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
           <Furigana segments={verb.furigana} className="text-4xl leading-tight" />

@@ -52,7 +52,7 @@ the decision log. Core ideas:
 | `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — currently the Japanese Verb Summary |
 | `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) — used to live on the homepage |
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
-| `/verbs` | Verb list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
+| `/verbs` | Verb Vocabulary list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |
 | `/vocab` | Non-Verb Vocabulary list — same level model, 14 part-of-speech filters (renamed from "Vocabulary" to avoid confusion with the combined Dictionary) |
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
@@ -68,8 +68,8 @@ the decision log. Core ideas:
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**
-(Linear-style dropdown: Verbs / Non-Verb Vocabulary / Antonyms / Proper
-Names / Cheatsheet / Resources, each with a one-line description) ·
+(Linear-style dropdown: Verb Vocabulary / Non-Verb Vocabulary / Antonyms /
+Proper Names / Cheatsheet / Resources, each with a one-line description) ·
 **Tools** (Sentence Parser / Quiz / Progress); Settings is the gear icon
 at far right. The homepage repeats both menus as quick-access shortcut cards. Phones get a burger
 side-drawer (Essentials — Dictionary + Kanji, grouped only on mobile —
