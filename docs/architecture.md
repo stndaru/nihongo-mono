@@ -569,10 +569,18 @@ regardless of host compression config.
     POS color travels as `--pos-line` and an **unlayered**
     `.parser-underline` rule (it must beat the layered `underline`
     utility) redraws the line as a dotted border in that mode. The flex
-    stack also sets its own tight line-heights (1.15 base / 1.05 rt) —
-    inheriting the paragraph's (parser is `/loose` = 2.0) inflated both
-    rows, floated the underline far below the glyphs, and let one line's
-    reading collide with the line above.
+    stack also sets its own tight line-heights (1.15 base / 1.05 rt;
+    `.parser-underline` gets 1.15 too) — inheriting the paragraph's
+    (parser is `/loose` = 2.0) inflated both rows, floated the underline
+    far below the glyphs, and let one line's reading collide with the
+    line above. And the stack needs `baseline-source: last`
+    (`@supports`-guarded, fallback `vertical-align: bottom`): Chrome
+    synthesizes a column flex container's first baseline from the TOP
+    row — the reading — regardless of DOM/`order`, which sank ruby words
+    exactly one reading-row below their plain-text neighbors.
+    `column-reverse` keeps the base DOM-first at the bottom;
+    `baseline-source: last` hands the container baseline to it (0px
+    spread measured vs adjacent plain text).
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't

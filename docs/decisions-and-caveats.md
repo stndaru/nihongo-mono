@@ -360,6 +360,13 @@ feedback on many of these — treat them as requirements, not suggestions.
     stack, floated the underline ~mid-leading, and collided readings
     with the line above. Verified by a collision sweep (rt vs every
     other ruby/word box) across 8 ruby-heavy pages × 3 size combos.
+    Third follow-up: the stack needs `baseline-source: last` — Chrome
+    synthesizes a column flex container's baseline from the top row
+    (the reading) regardless of DOM order or `order:-1`, so ruby words
+    sat exactly one reading-row lower than adjacent plain text.
+    `column-reverse` + `baseline-source: last` puts the container
+    baseline on the base text (0px spread measured); unsupported
+    browsers fall back to `vertical-align: bottom`.
 
 ## Known limitations / accepted trade-offs
 

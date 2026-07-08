@@ -155,6 +155,9 @@
   text-decoration: none;
   border-bottom: 2px dotted var(--pos-line, currentColor);
   padding-bottom: 1px;
+  /* hug the glyphs: with the paragraph's /loose line-height the inline
+     box (and so the border) would sit ~12px below the baseline */
+  line-height: 1.15;
 }
 
 [lang="ja"] {
@@ -212,17 +215,29 @@
      line instead of overlapping it. The default size keeps native ruby. */
   :root[data-font-furigana-size] ruby {
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* base (DOM-first) at the bottom */
     align-items: center;
-    vertical-align: bottom;
     /* the stack must NOT inherit the paragraph's line-height (parser uses
        /loose = 2.0): it inflated both rows, pushed the underline far below
        the glyphs, and let line N's reading collide with line N-1 */
     line-height: 1.15;
+    /* fallback alignment where baseline-source is unsupported */
+    vertical-align: bottom;
+  }
+  /* The word must sit on the line's baseline like its plain-text
+     neighbors. Chrome synthesizes a column flex container's FIRST
+     baseline from the top row — the reading — regardless of DOM/order
+     (measured: bases sank 25px below adjacent text with plain
+     vertical-align). baseline-source: last picks the bottom row (the
+     base text) instead — 0px delta measured. */
+  @supports (baseline-source: last) {
+    :root[data-font-furigana-size] ruby {
+      vertical-align: baseline;
+      baseline-source: last;
+    }
   }
   :root[data-font-furigana-size] ruby rt {
     display: block;
-    order: -1; /* reading above the base */
     top: 0; /* the -2px nudge is native-ruby geometry */
     line-height: 1.05;
   }
