@@ -204,6 +204,12 @@ regardless of host compression config.
   HTTP cache) — toggling then enables directly. This mirrors the palette's
   "Include Full Dictionary" opt-in — an owner requirement: never download
   the analyzer implicitly.
+- **The greedy dictionary loads on intent, not on page view.** The ten
+  JLPT files (~1.9 MB) start fetching on first textarea focus/keystroke
+  or a `?q=` deep link (`dictsWanted` in `parser.tsx`) — just visiting
+  `/parser` fetches nothing (mobile Lighthouse LCP/TTI was 12.6 s when it
+  loaded on mount; 2.5 s after). The Break Down button shows "Loading
+  dictionary…" only while a load is actually pending.
 - **Kuromoji loading** (`src/lib/data/kuromoji.ts`): the stock
   `kuromoji.builder` is bypassed on purpose — its loader needs Node's
   `path` module (unpolyfilled by Vite) and its zlibjs gunzip breaks when

@@ -397,6 +397,24 @@ feedback on many of these — treat them as requirements, not suggestions.
     description per card. Keep the Tools/Language entries in sync with
     `Header.tsx`'s `LANGUAGE_ITEMS`/`TOOLS_ITEMS` when menus change.
 
+40. **Lighthouse round, 2026-07-08.** Two fixes from a mobile Lighthouse
+    audit (homepage 96/100/100/91 before): (1) `public/robots.txt` added —
+    without it the SPA fallback (`serve -s`, `vite preview`) returns
+    index.html for `/robots.txt`, which Lighthouse parses as an invalid
+    robots file (82 "syntax not understood" errors, SEO 91). Now SEO 100.
+    (2) The parser's JLPT dictionary load (~1.9 MB over ten files) is
+    **intent-gated** (`dictsWanted`): it starts on first textarea
+    focus/keystroke or a `?q=` deep link instead of on page view. Parser
+    mobile Lighthouse went perf 72 → 95 (LCP/TTI 12.6 s → 2.5 s) and a
+    passive visit fetches zero data. Deliberately **left alone**: the
+    entry chunk's ~63 KiB "unused JS" (react-dom/Radix/router/wanakana
+    interaction paths — wanakana is eager because the always-mounted
+    palette needs romaji search on the first keystroke; lazy-loading
+    would add latency to core interactions), the single render-blocking
+    stylesheet (~12 KiB; inlining critical CSS risks FOUC), and the
+    dictionary page's 3.6 s LCP (the fetched table *is* the content;
+    CLS 0.077 is within "good").
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

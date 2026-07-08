@@ -243,7 +243,15 @@ function ParserPage() {
   const navigate = Route.useNavigate()
 
   const [dicts, setDicts] = useState<ParserDicts | null>(null)
+  // the JLPT dictionary (~1.9 MB over ten files) loads on intent — first
+  // touch of the textarea, or a ?q= deep link — not on page view, so just
+  // reading the page costs nothing
+  const [dictsWanted, setDictsWanted] = useState(() => !!q)
   useEffect(() => {
+    if (q) setDictsWanted(true)
+  }, [q])
+  useEffect(() => {
+    if (!dictsWanted) return
     let alive = true
     Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])]).then(
       ([verbs, vocab]) => {
@@ -253,7 +261,7 @@ function ParserPage() {
     return () => {
       alive = false
     }
-  }, [])
+  }, [dictsWanted])
 
   const [text, setText] = useState(q ?? '')
   const [blocked, setBlocked] = useState(false)
@@ -274,6 +282,7 @@ function ParserPage() {
   const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
 
   const onInput = (raw: string) => {
+    setDictsWanted(true)
     const clean = stripNonJapanese(raw).slice(0, MAX_LEN)
     setBlocked(clean.length !== raw.length)
     setText(clean)
@@ -426,6 +435,7 @@ function ParserPage() {
           <textarea
             value={text}
             onChange={(e) => onInput(e.target.value)}
+            onFocus={() => setDictsWanted(true)}
             lang="ja"
             rows={4}
             placeholder="旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。"
@@ -451,7 +461,7 @@ function ParserPage() {
                 </span>
               </Chip>
               <Button onClick={breakDown} disabled={!dicts || !text.trim()}>
-                {dicts ? 'Break Down' : 'Loading dictionary…'}
+                {dicts || !dictsWanted ? 'Break Down' : 'Loading dictionary…'}
               </Button>
             </div>
           </div>
