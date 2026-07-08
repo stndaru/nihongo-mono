@@ -266,11 +266,17 @@ regardless of host compression config.
   opens the verb/vocab page in a **new tab**. The Words Found rows open
   the same popup. Hover tooltips remain for quick glances.
 - **Homographs resolve by preference, never insertion order**
-  (`hitScore` in `buildParserDicts`): verbs beat vocab on shared
-  surfaces, then common words, then the easier JLPT level — kana こと
-  is 事 "thing" (N5), not 琴 the zither (N3), which insertion order once
-  picked. Particle/auxiliary tokens additionally refuse to link to
-  content words that merely share their kana (で ≠ 出).
+  (`hitScore` in `buildParserDicts`): a key that IS the entry's display
+  form (kanji field; equals kana for kana-native words) counts as much
+  as being a verb, then common words, then the easier JLPT level — kana
+  こと is 事 "thing" (N5), not 琴 the zither (N3), which insertion order
+  once picked; and bare よう is the kana-native N4 noun ("way /
+  appearing"), not 酔う "to get drunk" (N3 verb, kana よう), which the
+  old unconditional verb bonus picked (owner-reported, どのように). A
+  kanji verb's bare kana reading only wins when it's the more elementary
+  claim — 帰る (N5) still beats any rarer native かえる. Particle/
+  auxiliary tokens additionally refuse to link to content words that
+  merely share their kana (で ≠ 出).
 - **Reading fallback for variant spellings**: JMdict (and every index
   built from it) keys spelling variants by the PRIMARY kanji form only —
   温かい can never match by surface because the entry is written 暖かい.
@@ -418,7 +424,13 @@ regardless of host compression config.
   shows each option's word + meaning — meaning questions carry
   `VocabQuestion.choiceWords` (source word per gloss, same order as
   `choices`) for this. The option the user wrongly picked is marked
-  "your answer". Zero network in all cases.
+  "your answer", and every row has a **Details button opening the word
+  summary popup** (the parser's `WordSummaryDialog`): the vocab quiz
+  passes the distractor's own entry (verb shims carry `pos: 'verb'` and
+  the real verb id, so the popup's detail link goes to `/verbs`); the
+  conjugation quiz passes its verb with that option's surface + form
+  label, so the popup explains "Here it appears as 食べましょう — the
+  volitional polite of 食べる". Zero network in all cases.
 - **Cross-links**: both session summaries have a "View Progress" button,
   and the progress page header has a "Start a Quiz" button back to
   `/quiz` (the empty state already had quiz links).

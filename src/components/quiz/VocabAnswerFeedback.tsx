@@ -111,7 +111,7 @@ export function VocabAnswerFeedback({
 
       {(question.kind === 'meaning' || question.kind === 'word') && (
         <FeedbackAccordion title="The Other Options">
-          <OtherVocabOptions question={question} given={given} />
+          <OtherVocabOptions question={question} given={given} onShowWord={setSummary} />
         </FeedbackAccordion>
       )}
 
@@ -126,9 +126,19 @@ export function VocabAnswerFeedback({
 
 /**
  * What the unchosen options actually were — each distractor's own word and
- * meaning, from data already in the session (no fetches).
+ * meaning, from data already in the session (no fetches). Each row opens
+ * the word summary popup for that distractor (detail pages stay a new-tab
+ * link inside the popup, so the session never navigates away).
  */
-function OtherVocabOptions({ question, given }: { question: VocabQuestion; given: string }) {
+function OtherVocabOptions({
+  question,
+  given,
+  onShowWord,
+}: {
+  question: VocabQuestion
+  given: string
+  onShowWord: (word: ParsedWord) => void
+}) {
   const rows =
     question.kind === 'meaning'
       ? (question.choices ?? [])
@@ -155,6 +165,23 @@ function OtherVocabOptions({ question, given }: { question: VocabQuestion; given
           )}
           <span className="text-muted-foreground">{answerGloss(word)}</span>
           {picked && <span className="text-xs text-destructive">your answer</span>}
+          <button
+            type="button"
+            title="Word summary"
+            className="ml-auto cursor-pointer text-xs text-primary underline-offset-2 hover:underline"
+            onClick={() =>
+              onShowWord({
+                entry: word,
+                // verbs join the vocab quiz as pos:'verb' shims keeping the
+                // verb's id — the popup's detail link must go to /verbs
+                isVerb: word.pos === 'verb',
+                surface: word.kanji,
+                formLabel: null,
+              })
+            }
+          >
+            Details
+          </button>
         </li>
       ))}
     </ul>

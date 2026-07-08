@@ -132,6 +132,31 @@ describe('parseSentence', () => {
     expect(seg.word?.entry.id).toBe('v1')
     expect(seg.word?.formLabel).toBe('Past')
   })
+
+  it('kana-native words beat a kanji verb’s kana reading (どのよう ≠ 酔う)', () => {
+    // real-world failure: bare よう linked to 酔う "to get drunk" (N3 verb,
+    // kana よう) instead of the kana-native N4 noun よう "way / appearing"
+    const you = word('you', 'よう', 'よう')
+    you.jlpt = 4
+    const drunk = verb('drunk', '酔う', 'よう', 'v5u')
+    drunk.jlpt = 3
+    const dicts = buildParserDicts([drunk], [you])
+    const segs = parseSentence('どのように', dicts)
+    const seg = segs.find((s) => s.text === 'よう')
+    expect(seg?.word?.entry.id).toBe('you')
+    // the verb still owns its own written form
+    const [drunkSeg] = parseSentence('酔う', dicts)
+    expect(drunkSeg.word?.entry.id).toBe('drunk')
+  })
+
+  it('a common easy verb still beats a rarer kana-native homograph (かえる)', () => {
+    const kaeru = verb('kaeru', '帰る', 'かえる', 'v5r') // N5, common
+    const frog = word('frog', 'かえる', 'かえる')
+    frog.jlpt = 2
+    const dicts = buildParserDicts([kaeru], [frog])
+    const [seg] = parseSentence('かえる', dicts)
+    expect(seg.word?.entry.id).toBe('kaeru')
+  })
 })
 
 const tok = (

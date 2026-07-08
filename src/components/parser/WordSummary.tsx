@@ -96,7 +96,9 @@ export function WordSummaryDialog({
 
               {formLabel && (
                 <p className="text-muted-foreground">
-                  In this sentence it appears as{' '}
+                  {/* "Here", not "in this sentence" — the popup also serves
+                      quiz-feedback option rows */}
+                  Here it appears as{' '}
                   <span lang="ja" className="text-foreground">
                     {word.surface}
                   </span>{' '}

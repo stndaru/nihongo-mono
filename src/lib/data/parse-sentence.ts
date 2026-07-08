@@ -87,18 +87,29 @@ export interface ParserDicts {
 }
 
 /**
- * Homograph tie-break for surfaces claimed by several entries: verbs first
- * (existing behavior for surfaces that are both), then common words, then
- * the easier JLPT level — so kana こと resolves to 事 (N5, common), not
- * 琴 the zither (N3). Insertion order must never decide.
+ * Homograph tie-break for surfaces claimed by several entries. A key that
+ * IS the entry's display form (`kanji`; equals `kana` for kana-native words
+ * like よう "way/appearing") is a strong claim, worth as much as being a
+ * verb — a kanji-written verb's bare kana reading must not outrank a
+ * kana-native word of similar frequency (よう in どのように is the N4
+ * noun, never 酔う the N3 verb), while 帰る (N5) still beats any rarer
+ * native claimant of かえる. Then common words, then the easier JLPT
+ * level — so kana こと resolves to 事 (N5, common), not 琴 the zither
+ * (N3). The +1 on native claims keeps exact cross-type ties from being
+ * decided by insertion order, which must never decide.
  */
-function hitScore(entry: VerbEntry | VocabEntry, isVerb: boolean): number {
-  return (isVerb ? 100 : 0) + (entry.common ? 10 : 0) + entry.jlpt
+function hitScore(entry: VerbEntry | VocabEntry, isVerb: boolean, key: string): number {
+  return (
+    (key === entry.kanji ? 101 : 0) +
+    (isVerb ? 100 : 0) +
+    (entry.common ? 10 : 0) +
+    entry.jlpt
+  )
 }
 
 function setPreferring(map: Map<string, DictHit>, key: string, hit: DictHit): void {
   const prev = map.get(key)
-  if (!prev || hitScore(hit.entry, hit.isVerb) > hitScore(prev.entry, prev.isVerb)) {
+  if (!prev || hitScore(hit.entry, hit.isVerb, key) > hitScore(prev.entry, prev.isVerb, key)) {
     map.set(key, hit)
   }
 }
@@ -109,7 +120,7 @@ function setPreferringT<T extends VerbEntry | VocabEntry>(
   entry: T,
 ): void {
   const prev = map.get(key)
-  if (!prev || hitScore(entry, false) > hitScore(prev, false)) map.set(key, entry)
+  if (!prev || hitScore(entry, false, key) > hitScore(prev, false, key)) map.set(key, entry)
 }
 
 export function buildParserDicts(verbs: VerbEntry[], vocab: VocabEntry[]): ParserDicts {

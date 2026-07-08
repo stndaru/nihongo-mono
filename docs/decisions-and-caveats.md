@@ -566,6 +566,32 @@ feedback on many of these — treat them as requirements, not suggestions.
     horizontal overflow at 390/640/900 px with all font-size keys at
     xxlarge).
 
+49. **Parser homograph fix (よう ≠ 酔う) + quiz option Details popups,
+    2026-07-09.** (1) Owner-reported: in どのようにしていますか the
+    parser linked よう to 酔う "to get drunk" (N3 verb, kana よう)
+    instead of the kana-native N4 noun よう "way / appearing" — the
+    `hitScore` tie-break gave verbs an unconditional +100, so a
+    kanji-written verb's bare kana reading outranked everything. Fix: a
+    key that IS the entry's **display form** (`key === entry.kanji`;
+    kana-native words qualify) now scores +101, verbs +100, common +10,
+    + JLPT level. Consequences to keep in mind: the two bonuses are
+    deliberately near-equal so common/level decides between a native
+    kana word and a kanji verb's reading — よう(N4) beats 酔う(N3), but
+    帰る (N5) still beats any rarer native かえる; the +1 keeps exact
+    cross-type ties off insertion order (the こと/琴 test loops both
+    orders). The verb keeps its own written surface (酔う still links
+    to 酔う — browser-verified). Both engines benefit (greedy `matchAt`
+    and kuromoji `linkToken` share the lookup map). Unit tests cover
+    the よう and かえる cases.
+    (2) "The Other Options" feedback rows (both quizzes) got a per-row
+    **Details button** opening `WordSummaryDialog` — vocab quiz passes
+    the distractor's entry (`isVerb` from the `pos === 'verb'` shim so
+    verb links go to `/verbs`), conjugation quiz passes its verb with
+    that option's surface + form label. The dialog's conjugation prose
+    was reworded "In this sentence it appears as…" → "**Here** it
+    appears as…" because the popup now also serves quiz rows, not just
+    the parser.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

@@ -101,7 +101,7 @@ export function AnswerFeedback({
 
       {question.choices && question.choices.length > 1 && (
         <FeedbackAccordion title="The Other Options">
-          <OtherConjugationOptions question={question} given={given} />
+          <OtherConjugationOptions question={question} given={given} onShowWord={setSummary} />
         </FeedbackAccordion>
       )}
 
@@ -120,9 +120,18 @@ export function AnswerFeedback({
  * What the unchosen options actually were: each distractor is another
  * conjugation of the same verb, so name its form(s) by re-deriving them
  * (a few in-memory conjugate calls — renders only while the accordion is
- * open, no stored data or network involved).
+ * open, no stored data or network involved). Each row opens the word
+ * summary popup carrying that option's surface + form.
  */
-function OtherConjugationOptions({ question, given }: { question: Question; given: string }) {
+function OtherConjugationOptions({
+  question,
+  given,
+  onShowWord,
+}: {
+  question: Question
+  given: string
+  onShowWord: (word: ParsedWord) => void
+}) {
   const others = (question.choices ?? []).filter((c) => c.kana !== question.answer.kana)
   return (
     <ul className="space-y-1.5 text-sm">
@@ -139,6 +148,21 @@ function OtherConjugationOptions({ question, given }: { question: Question; give
               <span lang="ja">{question.verb.kanji}</span>
             </span>
             {picked && <span className="text-xs text-destructive">your answer</span>}
+            <button
+              type="button"
+              title="Word summary"
+              className="ml-auto cursor-pointer text-xs text-primary underline-offset-2 hover:underline"
+              onClick={() =>
+                onShowWord({
+                  entry: question.verb,
+                  isVerb: true,
+                  surface: c.kanji,
+                  formLabel: labels.length > 0 ? labels.join(' / ') : 'Conjugated',
+                })
+              }
+            >
+              Details
+            </button>
           </li>
         )
       })}
