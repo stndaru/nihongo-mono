@@ -54,7 +54,7 @@ repo root; it predates everything and still governs scope. Core ideas:
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz and vocabulary quiz (JLPT levels only, by design; vocab quiz can include dictionary-form verbs). Sessions have furigana/word-info toggles, an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/resources` | Hand-picked external learning sites (dictionaries, grammar guides, JLPT practice) — name, description, outbound link per card |
-| `/settings` | Theme, font toggles, progress export/import/reset |
+| `/settings` | Theme, font toggles, overall font size (Default–Largest), progress export/import/reset |
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**

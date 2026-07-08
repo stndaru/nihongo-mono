@@ -70,7 +70,9 @@ function ResourcesPage() {
               rel="noopener noreferrer"
               className="block rounded-lg border p-4 transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
             >
-              <div className="flex items-baseline justify-between gap-3">
+              {/* wrap: name + a long hostname overflow narrow phones at the
+                  larger font-size settings */}
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
                 <span className="font-semibold">{r.name}</span>
                 <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
                   {new URL(r.href).hostname.replace(/^www\./, '')}

@@ -45,6 +45,34 @@ export function setFontPref(kind: FontKind, choice: FontChoice): void {
   else delete el.dataset[FONT_ATTRS[kind]]
 }
 
+/**
+ * Overall font scale. Everything in the UI is rem-based, so scaling the
+ * root font-size scales the whole app. 'default' (100%) is the smallest —
+ * the sizes only go up from the original design.
+ */
+export type FontSize = 'default' | 'large' | 'xlarge' | 'xxlarge'
+
+export const FONT_SIZES: { value: FontSize; label: string }[] = [
+  { value: 'default', label: 'Default' },
+  { value: 'large', label: 'Large' },
+  { value: 'xlarge', label: 'Extra Large' },
+  { value: 'xxlarge', label: 'Largest' },
+]
+
+const FONT_SIZE_KEY = 'nihongo-mono:font-size'
+
+export function getFontSizePref(): FontSize {
+  const v = localStorage.getItem(FONT_SIZE_KEY)
+  return v === 'large' || v === 'xlarge' || v === 'xxlarge' ? v : 'default'
+}
+
+export function setFontSizePref(size: FontSize): void {
+  localStorage.setItem(FONT_SIZE_KEY, size)
+  // default = no attribute, like the font-family prefs
+  if (size === 'default') delete document.documentElement.dataset.fontSize
+  else document.documentElement.dataset.fontSize = size
+}
+
 /** Keep the UI in sync when the OS theme changes while in 'system' mode. */
 export function watchSystemTheme(): () => void {
   const mq = window.matchMedia('(prefers-color-scheme: dark)')

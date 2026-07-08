@@ -319,6 +319,20 @@ feedback on many of these — treat them as requirements, not suggestions.
     HTTP-cached — a dedicated written-form index would duplicate the
     ~8 MB dataset), and kuromoji's 17 MB (already confirm-gated).
 
+36. **Font-size setting (Settings → Typography), 2026-07-08.** Four steps —
+    Default 100% / Large 110% / Extra Large 120% / Largest 130% — applied
+    as `:root[data-font-size]` bumping the root font-size (the UI is
+    rem-based, so everything scales). The **default is the smallest**;
+    sizes only go up from the original design (owner requirement). Same
+    persistence pattern as the font choices: `nihongo-mono:font-size`,
+    attribute set pre-paint in `index.html`, chips restored from
+    localStorage on the Settings page. Verifying at the larger scales
+    exposed a **pre-existing header overflow** (the nav's intrinsic width
+    overflowed 640–720px viewports even at 100%) — fixed by making the
+    header `<nav>` `min-w-0 overflow-x-auto` so it scrolls in place, and
+    the Resources card title/hostname row got `flex-wrap`. All 24
+    width × size combos verified overflow-free.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

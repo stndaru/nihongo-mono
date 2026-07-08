@@ -102,6 +102,19 @@
     "Noto Serif JP", serif;
 }
 
+/* User font-size setting (Settings → Typography): the UI is rem-based, so
+   scaling the root font-size scales everything. No attribute = 100%, the
+   smallest size; set pre-paint in index.html like the font choices. */
+:root[data-font-size="large"] {
+  font-size: 110%;
+}
+:root[data-font-size="xlarge"] {
+  font-size: 120%;
+}
+:root[data-font-size="xxlarge"] {
+  font-size: 130%;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);

@@ -47,6 +47,10 @@
             document.documentElement.dataset.fontText = 'serif'
           if (localStorage.getItem('nihongo-mono:font-ja') === 'serif')
             document.documentElement.dataset.fontJa = 'serif'
+          // font size (default 100% is the smallest; bigger is opt-in)
+          var fs = localStorage.getItem('nihongo-mono:font-size')
+          if (fs === 'large' || fs === 'xlarge' || fs === 'xxlarge')
+            document.documentElement.dataset.fontSize = fs
         } catch (e) {}
       })()
     </script>

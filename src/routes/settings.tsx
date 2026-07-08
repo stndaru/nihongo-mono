@@ -14,11 +14,15 @@ import { useProgress } from '@/lib/progress/context'
 import { mergeProgress, parseImported, type ProgressData } from '@/lib/progress/store'
 import { downloadProgress, readFileText } from '@/lib/progress/transfer'
 import {
+  FONT_SIZES,
   getFontPref,
+  getFontSizePref,
   getTheme,
   setFontPref,
+  setFontSizePref,
   setTheme,
   type FontChoice,
+  type FontSize,
   type Theme,
 } from '@/lib/theme'
 
@@ -45,6 +49,12 @@ function SettingsPage() {
     setFontPref(kind, choice)
     if (kind === 'ja') setFontJa(choice)
     else setFontText(choice)
+  }
+
+  const [fontSize, setFontSizeState] = useState<FontSize>(() => getFontSizePref())
+  const pickFontSize = (size: FontSize) => {
+    setFontSizePref(size)
+    setFontSizeState(size)
   }
 
   const onFile = async (file: File | undefined) => {
@@ -96,6 +106,13 @@ function SettingsPage() {
             {(['serif', 'sans'] as const).map((c) => (
               <Chip key={c} active={fontText === c} onClick={() => pickFont('text', c)}>
                 {c === 'serif' ? 'Serif' : 'Sans-serif'}
+              </Chip>
+            ))}
+          </ChipGroup>
+          <ChipGroup label="Font size">
+            {FONT_SIZES.map(({ value, label }) => (
+              <Chip key={value} active={fontSize === value} onClick={() => pickFontSize(value)}>
+                {label}
               </Chip>
             ))}
           </ChipGroup>

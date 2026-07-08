@@ -491,7 +491,12 @@ regardless of host compression config.
   the pointer leaves** trigger + panel (controlled open state,
   `modal={false}` — without it Radix blocks outside pointer events and
   hover-away close can't work). Triggers highlight when the current
-  path starts with any of the group's routes.
+  path starts with any of the group's routes. The `<nav>` is
+  `min-w-0 overflow-x-auto` (scrollbar hidden): when the row is tight —
+  mid-size viewports, larger font-size settings — the nav scrolls in
+  place instead of propagating its intrinsic width to the page. Without
+  this the header overflowed 640–720px viewports even at the default
+  font size.
 - **Detail pages carry a smart back control**
   (`components/layout/BackButton.tsx`, top-left on verb/vocab/kanji
   detail): when the tab has in-app history (`useCanGoBack()`), it calls
@@ -527,6 +532,17 @@ regardless of host compression config.
   attributes on `<html>`, set **pre-paint** by an inline script in
   `index.html` (same script applies the theme; **system is the default**,
   stored 'light'/'dark' are explicit picks).
+- **Font size setting** (Settings → Typography): the whole UI is rem-based,
+  so `:root[data-font-size]` scales everything by bumping the root
+  font-size — Default 100% / Large 110% / Extra Large 120% / Largest 130%.
+  Default is deliberately the smallest (the sizes only go up from the
+  original design — owner requirement). Same pattern as the font choices:
+  `nihongo-mono:font-size` in localStorage, attribute set pre-paint in
+  `index.html`, helpers in `theme.ts` (`getFontSizePref`/`setFontSizePref`,
+  chip labels from `FONT_SIZES`). Tailwind breakpoints are em-based on the
+  *initial* font size, so scaling never shifts responsive layouts — but it
+  does widen content, so wide-content containers must scroll internally
+  (see the header nav note below).
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't
@@ -567,7 +583,7 @@ regardless of host compression config.
 ## localStorage keys (all `nihongo-mono:` prefixed)
 
 `progress:v1` (per-word stats incl. kind/run, per-form tallies, sessions,
-streak) · `theme` · `font-text` / `font-ja` · `last-quiz-config` /
+streak) · `theme` · `font-text` / `font-ja` / `font-size` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
 toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
 `parser-accurate` key is still read as a fallback).

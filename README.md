@@ -55,6 +55,10 @@ exported as a file.
 - **Resources** — a curated page of external learning sites (dictionaries,
   grammar guides, JLPT practice) with short descriptions, under the
   Language menu.
+- **Personalization** — light/dark/system theme, serif/sans toggles for
+  Japanese and Latin text, and an overall font-size setting (four steps,
+  from the compact default up to 130%). All preferences persist in the
+  browser and apply before first paint.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
   weak/learning/solid status, per-conjugation-form accuracy, and a session

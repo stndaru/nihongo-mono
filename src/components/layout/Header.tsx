@@ -139,8 +139,12 @@ export function Header() {
           </span>
           <span className="text-sm text-muted-foreground">mono</span>
         </Link>
-        {/* phones use the burger drawer instead */}
-        <nav className="hidden items-center gap-0.5 text-sm sm:flex">
+        {/* phones use the burger drawer instead. min-w-0 + overflow-x-auto:
+            when the row is tight (mid-size viewports, larger font-size
+            settings) the nav scrolls in place instead of forcing the whole
+            page wider — the header's intrinsic width used to overflow
+            640–720px viewports even at the default size */}
+        <nav className="hidden min-w-0 items-center gap-0.5 overflow-x-auto text-sm whitespace-nowrap [scrollbar-width:none] sm:flex">
           {NAV.map((item) => (
             <NavLink key={item.to} {...item} />
           ))}
