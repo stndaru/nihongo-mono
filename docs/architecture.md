@@ -522,8 +522,8 @@ regardless of host compression config.
   sentinel for that state. Quiz Start buttons disable while any
   required group is empty.
 - **Header** (`components/layout/Header.tsx`): Home · Dictionary · Kanji ·
-  **Language** (dropdown: Verbs / Vocabulary / Antonyms / Proper Names /
-  Cheatsheet / Resources) · **Tools** (dropdown: Sentence Parser / Quiz /
+  **Language** (dropdown: Verbs / Non-Verb Vocabulary / Antonyms / Proper
+  Names / Cheatsheet / Resources) · **Tools** (dropdown: Sentence Parser / Quiz /
   Progress), then
   right-aligned Search (palette trigger with a platform-aware ⌘K/Ctrl K
   hint), theme toggle, and a Settings **icon** button. The dropdowns are
@@ -548,11 +548,14 @@ regardless of host compression config.
   filters and all (table, progress review, another detail page). With no
   history — a direct link, or the `target="_blank"` links quiz feedback
   uses so a running session is never navigated away — it renders a
-  "Back to Verbs/Vocabulary/Kanji" fallback link to the section's list.
+  "Back to Verbs / Non-Verb Vocabulary / Kanji" fallback link to the
+  section's list.
 - **Phones (< sm)**: the inline nav hides; a burger opens a left slide-in
   drawer (`MobileNav.tsx`, Radix Dialog, 150 ms) with tiny faint section
-  captions (Vocabulary / Practice) that must stay visually distinct from
-  the links. A floating terracotta search button (bottom-right, 24px
+  captions (Essentials / Language / Tools — the drawer groups Dictionary
+  and Kanji under Essentials while the desktop header keeps them as
+  top-level links, an owner request) that must stay visually distinct
+  from the links. A floating terracotta search button (bottom-right, 24px
   insets) opens the palette via `OPEN_PALETTE_EVENT`.
 - **Footer**: attribution line, the About & licences link, and a GitHub
   icon link to github.com/stndaru/nihongo-mono (inline SVG in

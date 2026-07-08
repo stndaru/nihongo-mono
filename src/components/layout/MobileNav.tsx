@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button'
 
 const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: string }[] = [
   { to: '/', label: 'Home', exact: true },
-  { to: '/dictionary', label: 'Dictionary' },
+  { to: '/dictionary', label: 'Dictionary', section: 'Essentials' },
   { to: '/kanji', label: 'Kanji' },
   { to: '/verbs', label: 'Verbs', section: 'Language' },
-  { to: '/vocab', label: 'All Vocabulary' },
+  { to: '/vocab', label: 'Non-Verb Vocabulary' },
   { to: '/vocab/antonyms', label: 'Antonyms' },
   { to: '/names', label: 'Proper Names' },
   { to: '/cheatsheet', label: 'Cheatsheet' },

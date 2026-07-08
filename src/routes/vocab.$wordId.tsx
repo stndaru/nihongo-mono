@@ -48,7 +48,7 @@ function VocabDetailPage() {
     <div className="space-y-8">
       <header>
         <div className="mb-2">
-          <BackButton fallback="/vocab" label="Vocabulary" />
+          <BackButton fallback="/vocab" label="Non-Verb Vocabulary" />
         </div>
         <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
           <Furigana segments={word.furigana} className="text-4xl leading-tight" />

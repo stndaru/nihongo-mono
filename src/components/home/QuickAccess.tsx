@@ -50,7 +50,7 @@ const TOOLS: Entry[] = [
 
 const LANGUAGE: Entry[] = [
   { to: '/verbs', label: 'Verbs', description: 'Every conjugation of every JLPT verb', icon: BookA },
-  { to: '/vocab', label: 'Vocabulary', description: 'Nouns, adjectives, adverbs, and more', icon: Library },
+  { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more', icon: Library },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs', icon: ArrowLeftRight },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places', icon: Users },
   { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries of the essentials', icon: NotebookText },

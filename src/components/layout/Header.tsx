@@ -28,7 +28,7 @@ interface MenuEntry {
 /** Grouped nav dropdowns (Linear-style: name above, value line bold below). */
 const LANGUAGE_ITEMS: MenuEntry[] = [
   { to: '/verbs', label: 'Verbs', description: 'Every conjugation of every JLPT verb' },
-  { to: '/vocab', label: 'Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
+  { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs' },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places' },
   { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries of the essentials' },

@@ -54,7 +54,7 @@ the decision log. Core ideas:
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
 | `/verbs` | Verb list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |
-| `/vocab` | Vocabulary list — same level model, 14 part-of-speech filters |
+| `/vocab` | Non-Verb Vocabulary list — same level model, 14 part-of-speech filters (renamed from "Vocabulary" to avoid confusion with the combined Dictionary) |
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Language dropdown) |
@@ -68,11 +68,12 @@ the decision log. Core ideas:
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) |
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**
-(Linear-style dropdown: Verbs / Vocabulary / Antonyms / Proper Names /
-Cheatsheet / Resources, each with a one-line description) · **Tools**
-(Sentence Parser / Quiz / Progress); Settings is the gear icon at far
-right. The homepage repeats both menus as quick-access shortcut cards. Phones get a burger
-side-drawer (same Language/Tools sections) and a floating search button.
+(Linear-style dropdown: Verbs / Non-Verb Vocabulary / Antonyms / Proper
+Names / Cheatsheet / Resources, each with a one-line description) ·
+**Tools** (Sentence Parser / Quiz / Progress); Settings is the gear icon
+at far right. The homepage repeats both menus as quick-access shortcut cards. Phones get a burger
+side-drawer (Essentials — Dictionary + Kanji, grouped only on mobile —
+plus the same Language/Tools sections) and a floating search button.
 Detail pages have a back control that returns to the exact previous page
 (or the section's table when opened directly / in a new tab).
 

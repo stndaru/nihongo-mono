@@ -27,7 +27,7 @@ exported as a file.
 - **Vocabulary quiz** — three answer modes, mixable per question: type the
   reading, pick the English meaning for a Japanese word, or pick the
   Japanese word for an English meaning. No word repeats within a session.
-- **Vocabulary** — 6,800+ JLPT-tagged words (nouns, adjectives, adverbs,
+- **Non-Verb Vocabulary** — 6,800+ JLPT-tagged words (nouns, adjectives, adverbs,
   expressions…) with meanings, examples, antonym pairs, and adjective
   inflections; the "Beyond" level extends the list to the full JMdict
   (204,000+ entries).

@@ -457,6 +457,18 @@ feedback on many of these — treat them as requirements, not suggestions.
     to the default height). The textarea is `resize-none` now — don't
     re-add the native grip.
 
+44. **"Non-Verb Vocabulary" rename + mobile Essentials group,
+    2026-07-08.** The `/vocab` page was renamed from "Vocabulary" to
+    **"Non-Verb Vocabulary"** everywhere it's user-visible (page h1,
+    desktop Language dropdown, mobile drawer, homepage quick-access
+    card, detail-page "Back to" fallback) — owner request, to stop it
+    reading as the same thing as the combined Dictionary. Quiz labels
+    ("Vocabulary quiz" etc.) intentionally keep the old word — the vocab
+    quiz can include verbs, so "non-verb" would be wrong there. The
+    **mobile drawer** also gained an **Essentials** caption grouping
+    Dictionary + Kanji (mirroring the homepage's Essentials cards);
+    the desktop header deliberately keeps them as top-level links.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
