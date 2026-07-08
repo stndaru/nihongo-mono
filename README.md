@@ -88,9 +88,9 @@ exported as a file.
 ## Stack
 
 React 19 · TanStack Router (file-based, per-route code splitting) ·
-Tailwind CSS v4 · shadcn/ui · Anime.js v4 (animations capped at 150 ms) ·
-wanakana · kuromoji (build-time furigana + the parser's lazy-loaded Smart
-Parsing mode) · Vite 8 · Bun.
+Tailwind CSS v4 · shadcn/ui · CSS-only motion (no JS animation library;
+≤150 ms, reduced-motion aware) · wanakana · kuromoji (build-time furigana +
+the parser's lazy-loaded Smart Parsing mode) · Vite 8 · Bun.
 
 ## Development
 

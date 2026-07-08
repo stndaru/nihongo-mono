@@ -162,9 +162,10 @@ function QuizSessionPage() {
           <span>{state.results.filter((r) => r.correct).length} correct</span>
         </div>
         <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
+          {/* scaleX, not width: transform stays off the layout/paint path */}
           <div
-            className="h-full bg-primary transition-[width] duration-150"
-            style={{ width: `${(state.index / state.questions.length) * 100}%` }}
+            className="h-full w-full origin-left bg-primary transition-transform duration-150 ease-snap"
+            style={{ transform: `scaleX(${state.index / state.questions.length})` }}
           />
         </div>
         <div className="mt-2 flex items-center justify-between">

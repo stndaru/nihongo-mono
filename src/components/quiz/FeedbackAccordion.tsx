@@ -19,7 +19,7 @@ export function FeedbackAccordion({ title, children }: { title: string; children
         {title}
         <ChevronDown
           className={cn(
-            'ml-auto size-4 shrink-0 text-muted-foreground transition-transform duration-150',
+            'ml-auto size-4 shrink-0 text-muted-foreground transition-transform duration-100',
             open && 'rotate-180',
           )}
         />

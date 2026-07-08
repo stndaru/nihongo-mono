@@ -80,6 +80,21 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* strong ease-out for deliberate UI motion (utility: ease-snap) —
+     the built-in CSS easings are too weak to read as intentional */
+  --ease-snap: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Quiz feedback/summary entrance — pure CSS so it runs off the main
+   thread (replaced the per-answer anime.js call; see decision log). */
+@keyframes quiz-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.quiz-enter {
+  animation: quiz-enter 100ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /*
@@ -257,6 +272,20 @@
   ::selection {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
+  }
+  /* Reduced motion: every animation/transition becomes near-instant —
+     state changes still happen, they just don't travel. Covers the Radix
+     enter/exit keyframes and all hover/press transitions in one place.
+     iteration-count 1 keeps infinite animations (skeleton pulse) from
+     spinning at 0.01ms. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
   /* Tailwind v4 resets buttons to cursor: default — clickable things should
      read as clickable */

@@ -133,7 +133,7 @@ function TooltipShell({
       <TooltipPrimitive.Portal>
         <TooltipPrimitive.Content
           sideOffset={6}
-          className="z-50 max-w-72 rounded-md border bg-background p-3 text-sm shadow-md duration-100 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0"
+          className="z-50 max-w-72 origin-(--radix-tooltip-content-transform-origin) rounded-md border bg-background p-3 text-sm shadow-md duration-100 ease-snap data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95"
         >
           {children}
           <TooltipPrimitive.Arrow className="fill-border" />
@@ -440,7 +440,7 @@ function ParserPage() {
             <TriangleAlert className="size-4 shrink-0" /> Important Notice
             <ChevronDown
               className={cn(
-                'ml-auto size-4 shrink-0 transition-transform duration-150',
+                'ml-auto size-4 shrink-0 transition-transform duration-100',
                 noticeOpen && 'rotate-180',
               )}
             />

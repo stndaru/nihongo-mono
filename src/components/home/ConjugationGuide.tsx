@@ -48,7 +48,7 @@ function FormRow({ form }: { form: ConjugationForm }) {
         <span className="hidden text-xs text-muted-foreground sm:inline">· {label.hint}</span>
         <ChevronDown
           className={cn(
-            'ml-auto size-4 shrink-0 self-center text-muted-foreground transition-transform duration-150',
+            'ml-auto size-4 shrink-0 self-center text-muted-foreground transition-transform duration-100',
             open && 'rotate-180',
           )}
         />

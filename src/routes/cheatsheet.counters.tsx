@@ -217,7 +217,7 @@ function CounterTable({ rows, withNotes }: { rows: CounterRow[]; withNotes?: boo
                         className="flex size-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
                       >
                         <ChevronDown
-                          className={cn('size-4 transition-transform duration-150', isOpen && 'rotate-180')}
+                          className={cn('size-4 transition-transform duration-100', isOpen && 'rotate-180')}
                         />
                       </button>
                     )}

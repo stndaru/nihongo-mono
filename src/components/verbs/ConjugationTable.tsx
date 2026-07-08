@@ -88,7 +88,7 @@ export function ConjugationTable({ verb }: { verb: VerbEntry }) {
                         <td className="w-8 py-2 text-right">
                           <ChevronDown
                             className={cn(
-                              'ml-auto size-4 text-muted-foreground transition-transform duration-150',
+                              'ml-auto size-4 text-muted-foreground transition-transform duration-100',
                               isOpen && 'rotate-180',
                             )}
                           />

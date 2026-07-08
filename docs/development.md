@@ -53,9 +53,10 @@ Playwright gotchas learned the hard way:
   behavior so the submitting Enter can't skip feedback). Scripts must wait
   ~300 ms after feedback appears before pressing Enter, or the session
   looks "frozen" on question 1 — this burned a whole debugging session.
-- Radix dialogs/drawers animate for 150 ms and unmount only after the exit
-  animation — screenshot or count elements ~300 ms after open/close, not
-  immediately.
+- Radix dialogs/drawers animate (150 ms in / 100 ms out) and unmount only
+  after the exit animation — screenshot or count elements ~300 ms after
+  open/close, not immediately. The Ctrl+K palette is the exception: it has
+  no animation at all, by design.
 - Vite dev **hot-reloads while you edit** — a Playwright run started right
   after file edits can hit mid-reload states. Re-run before diagnosing.
 - To drive a quiz session from a script, go straight to
@@ -115,7 +116,9 @@ Playwright gotchas learned the hard way:
 - CSS transforms don't apply to `rt` (ruby text) — use relative
   positioning to nudge furigana.
 - New UI text: Title Case buttons, `lang="ja"` on Japanese text, pointer
-  cursor comes free from base CSS, animations ≤150 ms.
+  cursor comes free from base CSS. Motion: CSS-only (no JS animation lib),
+  `transform`/`opacity` only, ≤150 ms (exits 100 ms), `ease-snap` for
+  deliberate motion, none on keyboard-summoned surfaces — see decision 48.
 - After hand-editing anything under `src/data/`, run `bun run data:pack` —
   the app serves the packed copies, not the pretty files.
 - `public/kuromoji/` is **gitignored** — `scripts/copy-kuromoji.ts` (run by

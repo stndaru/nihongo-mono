@@ -65,7 +65,10 @@ bun run data:build   # full dataset regen (needs scripts/.cache/)
 - Settings: localStorage `nihongo-mono:*`, applied pre-paint by the inline
   script in `index.html`; default = no attribute; helpers in `src/lib/theme.ts`.
 - Search queries: NFKC-normalize (`normalizeQuery`) at every new entry point.
-- UI: Title Case buttons; `lang="ja"` on Japanese text; animations ≤150 ms;
+- UI: Title Case buttons; `lang="ja"` on Japanese text; motion is CSS-only
+  (no JS animation lib), ≤150 ms with 100 ms exits, `transform`/`opacity`
+  only, never on keyboard-summoned surfaces (palette), reduced-motion
+  clamped globally in `index.css`;
   `<ruby>` for furigana (CSS transforms don't work on `rt`; `<rt>` text
   pollutes `textContent` — assert on glosses in tests).
 

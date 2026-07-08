@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, X } from 'lucide-react'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { FeedbackAccordion } from '@/components/quiz/FeedbackAccordion'
@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Furigana } from '@/components/verbs/Furigana'
 import { RuleCheatsheet } from '@/components/verbs/RuleCheatsheet'
 import { CONJUGATION_FORMS, conjugate, FORM_LABELS } from '@/lib/conjugation'
-import { enter } from '@/lib/animate'
 import { pairFurigana } from '@/lib/data/furigana'
 import type { ParsedWord } from '@/lib/data/parse-sentence'
 import type { Question } from '@/lib/quiz/engine'
@@ -25,9 +24,6 @@ export function AnswerFeedback({
   isLast: boolean
   onNext: () => void
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => enter(ref.current), [])
-
   // summary popup (same one the sentence parser uses) — the session stays put
   const [summary, setSummary] = useState<ParsedWord | null>(null)
 
@@ -44,7 +40,7 @@ export function AnswerFeedback({
   }, [onNext, summaryOpen])
 
   return (
-    <div ref={ref} className="space-y-3">
+    <div className="quiz-enter space-y-3">
       <div
         className={cn(
           'flex items-center gap-2 rounded-md p-3 text-sm font-medium',

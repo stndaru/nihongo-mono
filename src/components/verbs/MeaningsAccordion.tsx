@@ -43,7 +43,7 @@ export function MeaningsAccordion({ senses }: { senses: WordSense[] }) {
                 {expandable && (
                   <ChevronDown
                     className={cn(
-                      'size-4 shrink-0 self-center text-muted-foreground transition-transform duration-150',
+                      'size-4 shrink-0 self-center text-muted-foreground transition-transform duration-100',
                       isOpen && 'rotate-180',
                     )}
                   />

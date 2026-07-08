@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.17",
-    "animejs": "^4.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "kuromoji": "^0.1.2",

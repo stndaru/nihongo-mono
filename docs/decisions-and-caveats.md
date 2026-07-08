@@ -532,6 +532,40 @@ feedback on many of these — treat them as requirements, not suggestions.
     overflow clip and silently widens the page (fixed with `relative`
     on the `<th>`).
 
+48. **Motion audit → CSS-only animation, Anime.js dropped, 2026-07-09.**
+    A full-site animation review (Emil Kowalski craft bar, owner asked
+    for "as short as possible") found and fixed: (1) the **Ctrl/Cmd+K
+    palette animated** — keyboard-summoned surfaces read any motion as
+    input latency, so its open/close animation was removed entirely
+    (Raycast precedent); (2) Button used **`transition-all`** → explicit
+    `color/background-color/border-color/box-shadow/transform` list at
+    100 ms, plus `motion-safe:active:scale-[0.98]` press feedback;
+    (3) the quiz **progress bars animated `width`** (layout+paint every
+    frame) → `w-full origin-left` + `scaleX()` transform; (4) the
+    per-answer quiz-feedback entrance ran through **anime.js on the main
+    thread** → a 100 ms CSS keyframe (`.quiz-enter` in `index.css`), and
+    since `shake()` was dead code that made `src/lib/animate.ts` and the
+    **animejs dependency removable outright** (decision 1's stack line is
+    historic); (5) dialogs ran 200 ms, over the site's own 150 ms cap →
+    **150 ms in / 100 ms out** with a strong ease-out
+    (`--ease-snap: cubic-bezier(0.23,1,0.32,1)`, a Tailwind `@theme`
+    utility) — the same asymmetric exit + ease applied to the drawer,
+    selects and dropdowns (exits are system responses: snap them);
+    (6) the parser tooltip entered as a pure fade from nowhere → fade +
+    `zoom-in-95` scaling from `--radix-tooltip-content-transform-origin`;
+    (7) **nothing honored `prefers-reduced-motion`** except the deleted
+    JS helper → a global clamp in `index.css` (`animation/transition-
+    duration: 0.01ms`, `animation-iteration-count: 1` so the skeleton
+    pulse can't spin) covers every Radix keyframe and hover transition
+    in one place; (8) chevron rotations and table-row hovers standardized
+    at 100 ms. Chevrons stay CSS *transitions* (interruptible,
+    retargetable mid-toggle) — don't convert them to keyframes.
+    Browser-verified (31 Playwright checks incl. palette
+    `animationName === 'none'`, `.quiz-enter` at 0.1s, reduced-motion
+    clamp at 1e-05s, drawer open/close, zero console errors, no
+    horizontal overflow at 390/640/900 px with all font-size keys at
+    xxlarge).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

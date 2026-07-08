@@ -17,8 +17,12 @@
 - **Tailwind CSS v4** (CSS-first: `@theme inline`, `@custom-variant dark`,
   oklch colors in `src/styles/index.css`) + **shadcn/ui** components in
   `src/components/ui/`.
-- **Anime.js v4** via `src/lib/animate.ts` — animations capped at 150 ms,
-  reduced-motion guarded (spec requirement).
+- **Motion is pure CSS** (no JS animation library — Anime.js was dropped in
+  decision 48): all animation/transition runs off the main thread, capped at
+  150 ms (exits 100 ms), with one strong ease-out curve exposed as the
+  `ease-snap` utility and a global `prefers-reduced-motion` clamp — all in
+  `src/styles/index.css`. The Ctrl/Cmd+K palette deliberately has **no**
+  open/close animation (keyboard-summoned surfaces must feel instant).
 - **wanakana** — quiz IME (`bind(el, {IMEMode: true})`) and all
   romaji→kana / katakana→hiragana normalization.
 - vitest (unit tests), oxlint (lint).
