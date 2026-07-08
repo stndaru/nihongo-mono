@@ -348,7 +348,13 @@ feedback on many of these — treat them as requirements, not suggestions.
     stack (width = max(base, reading)). Verified: exact scale math at
     every step, no rt overlap across three ruby-heavy pages × three
     sizes, quiz furigana-hide still wins, 36-combo overflow matrix at
-    all-max.
+    all-max. Follow-up fix: the flex-stack ruby is an atomic inline box,
+    so text-decoration stopped propagating into it and the parser's
+    dotted POS underlines disappeared at non-default furigana sizes —
+    the POS color now travels as a `--pos-line` custom property and an
+    unlayered `.parser-underline` rule (must beat the layered
+    `underline` utility) redraws the line as a dotted border in that
+    mode; native decoration is untouched at the default size.
 
 ## Known limitations / accepted trade-offs
 

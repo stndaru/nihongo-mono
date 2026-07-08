@@ -563,7 +563,12 @@ regardless of host compression config.
     support. The flex stack makes the container width = max(base,
     reading), so wide readings pad the line instead. The quiz
     furigana-hide rule needs the extra `:root[data-font-furigana-size]`
-    selector to keep outranking the flex-stack `rt` rule.
+    selector to keep outranking the flex-stack `rt` rule. Same root
+    cause, parser side: text-decoration can't propagate into the atomic
+    flex-ruby box, so the parser's dotted POS underlines vanished — the
+    POS color travels as `--pos-line` and an **unlayered**
+    `.parser-underline` rule (it must beat the layered `underline`
+    utility) redraws the line as a dotted border in that mode.
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't

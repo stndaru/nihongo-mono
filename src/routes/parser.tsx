@@ -63,23 +63,31 @@ export const Route = createFileRoute('/parser')({
 
 const HAS_KANJI = /[㐀-䶿一-鿿]/u
 
-/** Underline color per POS bucket; second map is the faded not-in-JLPT tint. */
+/**
+ * Underline color per POS bucket, carried as a custom property so the same
+ * value drives text-decoration-color normally AND border-bottom-color when
+ * the flex-stack ruby is active (non-default furigana size) — decorations
+ * can't propagate into that atomic inline box, so `.parser-underline` in
+ * index.css redraws the line as a border. Second map: faded not-in-JLPT tint.
+ */
 const POS_DECOR: Record<PosKey, string> = {
-  verb: 'decoration-primary',
-  noun: 'decoration-sky-500/80',
-  adjective: 'decoration-amber-500/90',
-  adverb: 'decoration-violet-500/80',
-  particle: 'decoration-muted-foreground/50',
-  other: 'decoration-muted-foreground/50',
+  verb: '[--pos-line:var(--color-primary)]',
+  noun: '[--pos-line:color-mix(in_oklab,var(--color-sky-500)_80%,transparent)]',
+  adjective: '[--pos-line:color-mix(in_oklab,var(--color-amber-500)_90%,transparent)]',
+  adverb: '[--pos-line:color-mix(in_oklab,var(--color-violet-500)_80%,transparent)]',
+  particle: '[--pos-line:color-mix(in_oklab,var(--color-muted-foreground)_50%,transparent)]',
+  other: '[--pos-line:color-mix(in_oklab,var(--color-muted-foreground)_50%,transparent)]',
 }
 const POS_DECOR_FADED: Record<PosKey, string> = {
-  verb: 'decoration-primary/40',
-  noun: 'decoration-sky-500/35',
-  adjective: 'decoration-amber-500/40',
-  adverb: 'decoration-violet-500/35',
+  verb: '[--pos-line:color-mix(in_oklab,var(--color-primary)_40%,transparent)]',
+  noun: '[--pos-line:color-mix(in_oklab,var(--color-sky-500)_35%,transparent)]',
+  adjective: '[--pos-line:color-mix(in_oklab,var(--color-amber-500)_40%,transparent)]',
+  adverb: '[--pos-line:color-mix(in_oklab,var(--color-violet-500)_35%,transparent)]',
   particle: '',
   other: '',
 }
+
+const UNDERLINE = 'parser-underline underline decoration-dotted decoration-(--pos-line) underline-offset-4'
 
 const LEGEND: { key: PosKey; label: string; swatch: string }[] = [
   { key: 'verb', label: 'Verb', swatch: 'bg-primary' },
@@ -151,7 +159,8 @@ function WordSpan({
           type="button"
           onClick={() => onSelect(word)}
           className={cn(
-            'rounded-sm underline decoration-dotted underline-offset-4 transition-colors duration-100 hover:bg-primary/15 focus-visible:bg-primary/15',
+            'rounded-sm transition-colors duration-100 hover:bg-primary/15 focus-visible:bg-primary/15',
+            UNDERLINE,
             POS_DECOR[wordPosKey(word)],
           )}
         >
@@ -198,7 +207,7 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
           className={cn(
             'rounded-sm transition-colors duration-100 hover:bg-muted',
             contentWord
-              ? cn('underline decoration-dotted underline-offset-4', POS_DECOR_FADED[token.pos])
+              ? cn(UNDERLINE, POS_DECOR_FADED[token.pos])
               : 'text-muted-foreground',
           )}
         >

@@ -146,6 +146,17 @@
       multiplies exactly what the utility would have set (the line-height
       vars are unitless ratios and follow along automatically);
    2. inherit-sized: the base [lang="ja"] font-size rule in @layer base. */
+/* Parser word underlines: text-decoration can't propagate into the
+   flex-stack ruby (atomic inline box), so the dotted POS underline
+   vanished at non-default furigana sizes — redraw it as a border,
+   colored by the same --pos-line the decoration utilities use. Unlayered
+   on purpose: it must override the `underline` utility (layered). */
+:root[data-font-furigana-size] .parser-underline {
+  text-decoration: none;
+  border-bottom: 2px dotted var(--pos-line, currentColor);
+  padding-bottom: 1px;
+}
+
 [lang="ja"] {
   --text-xs: calc(0.75rem * var(--ja-scale));
   --text-sm: calc(0.875rem * var(--ja-scale));
