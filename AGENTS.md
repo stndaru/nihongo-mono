@@ -48,6 +48,9 @@ bun run data:build   # full dataset regen (needs scripts/.cache/)
 - Measure, don't guess: CDP `encodedDataLength` per action; event-timing +
   longtask observers at 4× CPU throttle. If already optimal, leave it and
   log why in `decisions-and-caveats.md`.
+- Third-party runtime endpoints (so far only the parser's translation
+  providers) must chain a fallback and degrade to something useful
+  offline; log the provider choice in `decisions-and-caveats.md`.
 
 ## Conventions
 

@@ -7,7 +7,7 @@ at the repo root. Read in this order:
 
 | Doc | What it covers |
 | --- | --- |
-| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
+| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing + auto translation), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
 | [data-pipeline.md](data-pipeline.md) | Every data source, the build scripts, file formats, licensing obligations, how to regenerate |
 | [development.md](development.md) | Commands, environment quirks (Bun, Windows, Playwright), testing, the browser-verification workflow |
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
@@ -25,13 +25,17 @@ the decision log. Core ideas:
 - **Learning features**: verb conjugation tables (computed at runtime, never
   stored), conjugation & vocabulary quizzes, antonym pairs, adjective
   inflections, kanji pages with KanjiVG stroke-order frames, a sentence
-  parser (greedy by default, opt-in kuromoji "Smart Parsing"), a progress
+  parser (greedy by default, opt-in kuromoji "Smart Parsing", automatic
+  English translation of the parsed sentence), a progress
   analytics page (per-word encounters/accuracy/status, per-form accuracy,
   session trend), an in-app cheatsheet section (currently the Japanese
   verb summary), and a curated external-resources page.
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
+  The one runtime third-party call is the parser's sentence translation
+  (Google gtx → MyMemory, decision 42) — it degrades to an external link
+  when unreachable.
 - **Coverage**: JLPT-tagged core + the *entire* JMdict and JMnedict as an
   opt-in extended tier — all served as pre-gzipped static files, fetched on
   demand — see architecture.md, this split is the most important design in
