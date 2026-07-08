@@ -1,0 +1,21 @@
+name: Deploy to VPS (Self-Hosted)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    # This tells GitHub to look for your VPS instead of using their own servers
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull latest code and restart service
+      run: |
+        cd /home/valinx/nihongo-mono/nihongo-mono
+        git fetch origin master
+        git reset --hard origin/master
+        bun install
+        bun run build
+        sudo systemctl restart nihongo-mono
