@@ -513,6 +513,24 @@ feedback on many of these — treat them as requirements, not suggestions.
     `min-w-*` so they scroll in place on phones. Readings are plain
     kana columns, not ruby — easier to scan in a table (and ruby rt
     text pollutes `textContent`, bit the verify script again).
+    Same-day follow-up (owner feedback): "How Counters Work" was a wall
+    of text → now three skimmable cards (sentence patterns / asking how
+    many / fallback) with the number-systems background demoted to a
+    closed **trivia accordion**; and counter rows **expand into a
+    generated counting sequence** (1–25, 30, 50, 70, 100) via
+    `src/lib/counters.ts` — `countWith(rule, n)` composes kango numbers
+    with the counter's sound-change class (`k/s/t` gemination, `hb` =
+    p on 1/6/8/10/100 + b on 3 like 本, `hp` = p after ん/っ and never
+    b like 分 — the earlier box wrongly implied さんぶん), plus
+    per-counter specials (ひとり/ふたり, よ for 4 on 人/年/時間, はたち,
+    さんがい). 52 unit fixtures. Rows stay unexpandable where kango
+    counting would mislead (wago-preferred ひと口/ひと皿, calendar
+    日/月/時). Measured: the page costs 12.6 KB on the wire; opening
+    every expander + the accordion = 0 requests, 0 long tasks, ~10 MB
+    heap. Caveat learned: Tailwind `sr-only` is `position:absolute` —
+    inside a scrolling table with no positioned ancestor it escapes the
+    overflow clip and silently widens the page (fixed with `relative`
+    on the `<th>`).
 
 ## Known limitations / accepted trade-offs
 
