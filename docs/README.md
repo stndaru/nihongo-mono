@@ -28,8 +28,8 @@ the decision log. Core ideas:
   parser (greedy by default, opt-in kuromoji "Smart Parsing", automatic
   English translation of the parsed sentence), a progress
   analytics page (per-word encounters/accuracy/status, per-form accuracy,
-  session trend), an in-app cheatsheet section (currently the Japanese
-  verb summary), and a curated external-resources page.
+  session trend), an in-app cheatsheet section (verb summary, counters),
+  and a curated external-resources page.
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -49,8 +49,9 @@ the decision log. Core ideas:
 | Route | Purpose |
 | --- | --- |
 | `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards — Essentials (Dictionary, Kanji) first, then the navbar's Tools and Language menus |
-| `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — currently the Japanese Verb Summary |
+| `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — Japanese Verb Summary, Japanese Counters |
 | `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) plus a per-form "How to Build Each Conjugation" accordion guide (all 22 forms × 4 verb types, rule + example each, from the shared `getRule()` cards) — used to live on the homepage |
+| `/cheatsheet/counters` | Counters cheatsheet: how counters work (grammar patterns, wago vs kango numbers, asking how many), the universal つ series, must-know and common counter tables, sound-change rules, irregular dates — content based on Tofugu's counters guide + list (credited on the page) |
 | `/dictionary` | Combined dictionary — every JLPT verb + vocabulary word in one table (+ Beyond on demand). Two-layer filters: word types (Verb/Noun/Adjective/Adverb/Other) + Level always visible; contextual sub-filters (verb class/ending/transitivity, い/な adjectives) and Common Only behind a "More Filters" toggle |
 | `/verbs` | Verb Vocabulary list — levels N5–N1 + "Beyond", class/ending/transitivity/common filters |
 | `/verbs/$verbId` | Verb detail: meanings accordion, example sentences, full conjugation table with rule cards, kanji breakdown |

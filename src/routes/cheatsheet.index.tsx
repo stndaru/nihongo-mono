@@ -12,6 +12,11 @@ const CHEATSHEETS: { name: string; to: LinkProps['to']; what: string }[] = [
     to: '/cheatsheet/verbs',
     what: 'The three verb types (godan / ichidan / irregular): what they are, how to spot them — including the る-trap lookalikes — and how each conjugates, with a side-by-side form table.',
   },
+  {
+    name: 'Japanese Counters',
+    to: '/cheatsheet/counters',
+    what: 'How counting words work — the grammar, the two number systems, asking how many — plus tables of the universal つ series, the must-know counters, and the common tier, with the sound changes to expect.',
+  },
 ]
 
 function CheatsheetIndexPage() {

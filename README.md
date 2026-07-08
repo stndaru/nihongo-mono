@@ -56,13 +56,16 @@ exported as a file.
   (marked "Beyond"), and reading-based matching of variant kanji spellings
   (温かい finds the 暖かい entry). Every example sentence in the app links
   into the parser (small icon, opens a new tab).
-- **Cheatsheets** — an in-app cheatsheet section (under Language),
-  starting with the Japanese Verb Summary: the three verb types
+- **Cheatsheets** — an in-app cheatsheet section (under Language). The
+  Japanese Verb Summary covers the three verb types
   (godan/ichidan/する・来る), how to spot each (including the 帰る/走る
   ichidan-lookalike trap list) and how each conjugates, with a
   side-by-side form table and a per-form "how to build it" guide
   covering all 22 conjugations with rules and examples for every verb
-  type.
+  type. Japanese Counters covers how counting words work (grammar,
+  number systems, asking "how many") with tables of the universal つ
+  series and the must-know and common counters, sound-change rules,
+  and the irregular dates.
 - **Resources** — a curated page of external learning sites (dictionaries,
   grammar guides, JLPT practice) with short descriptions, under the
   Language menu.

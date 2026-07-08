@@ -499,6 +499,21 @@ feedback on many of these — treat them as requirements, not suggestions.
     when the pattern is already concrete (する/来る patterns embed their
     own example). Static/no-fetch; row bodies render only while open.
 
+47. **Counters cheatsheet, 2026-07-08.** `/cheatsheet/counters` — static
+    content like the verb summary, written for this app but **scoped and
+    grouped after Tofugu's counters guide + 350-counter list** (owner-
+    provided sources, both credited with links at the bottom of the
+    page). Structure: "How Counters Work" prose (the two sentence
+    patterns and their nuance, wago vs kango numbers incl. the
+    よん/なな/きゅう avoidance readings, 何+counter / いくつ), the つ
+    series 1–10, a 17-row must-know table with irregular-reading notes,
+    an amber sound-change box (h-row → p/b, k/s/t gemination, はたち,
+    the ついたち…とおか dates), and a ~45-row common-counter table.
+    Tables follow the repo pattern: `overflow-x-auto` wrapper +
+    `min-w-*` so they scroll in place on phones. Readings are plain
+    kana columns, not ruby — easier to scan in a table (and ruby rt
+    text pollutes `textContent`, bit the verify script again).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
