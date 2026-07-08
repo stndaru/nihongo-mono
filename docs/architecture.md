@@ -568,7 +568,11 @@ regardless of host compression config.
     flex-ruby box, so the parser's dotted POS underlines vanished — the
     POS color travels as `--pos-line` and an **unlayered**
     `.parser-underline` rule (it must beat the layered `underline`
-    utility) redraws the line as a dotted border in that mode.
+    utility) redraws the line as a dotted border in that mode. The flex
+    stack also sets its own tight line-heights (1.15 base / 1.05 rt) —
+    inheriting the paragraph's (parser is `/loose` = 2.0) inflated both
+    rows, floated the underline far below the glyphs, and let one line's
+    reading collide with the line above.
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't

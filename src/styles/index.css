@@ -215,11 +215,16 @@
     flex-direction: column;
     align-items: center;
     vertical-align: bottom;
+    /* the stack must NOT inherit the paragraph's line-height (parser uses
+       /loose = 2.0): it inflated both rows, pushed the underline far below
+       the glyphs, and let line N's reading collide with line N-1 */
+    line-height: 1.15;
   }
   :root[data-font-furigana-size] ruby rt {
     display: block;
     order: -1; /* reading above the base */
     top: 0; /* the -2px nudge is native-ruby geometry */
+    line-height: 1.05;
   }
   /* quiz sessions: smaller ruby, and display preferences set as data
      attributes by the session pages (see QuizDisplayToggles) */

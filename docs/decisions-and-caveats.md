@@ -354,7 +354,12 @@ feedback on many of these — treat them as requirements, not suggestions.
     the POS color now travels as a `--pos-line` custom property and an
     unlayered `.parser-underline` rule (must beat the layered
     `underline` utility) redraws the line as a dotted border in that
-    mode; native decoration is untouched at the default size.
+    mode; native decoration is untouched at the default size. Second
+    follow-up: the flex stack must set its own tight line-heights
+    (1.15/1.05) — inheriting the paragraph's `/loose` 2.0 inflated the
+    stack, floated the underline ~mid-leading, and collided readings
+    with the line above. Verified by a collision sweep (rt vs every
+    other ruby/word box) across 8 ruby-heavy pages × 3 size combos.
 
 ## Known limitations / accepted trade-offs
 
