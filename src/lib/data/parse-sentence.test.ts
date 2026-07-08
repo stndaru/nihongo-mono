@@ -366,6 +366,200 @@ describe('tokensToSegments (accurate mode)', () => {
   })
 })
 
+describe('compound merging (smart mode)', () => {
+  it('merges 非常+に into the listed 非常に adverb, with parts', () => {
+    const dicts = buildParserDicts(
+      [],
+      [
+        word('hijou', '非常', 'ひじょう'),
+        word('hijouni', '非常に', 'ひじょうに', 'adverb'),
+        word('ni', 'に', 'に', 'particle'),
+      ],
+    )
+    const segs = tokensToSegments(
+      [tok('非常', '名詞', '形容動詞語幹', '非常', 'ヒジョウ'), tok('に', '助詞', '格助詞', 'に', 'ニ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].text).toBe('非常に')
+    expect(segs[0].word?.entry.id).toBe('hijouni')
+    expect(segs[0].word?.formLabel).toBeNull()
+    expect(segs[0].token?.reading).toBe('ひじょうに')
+    expect(segs[0].token?.pos).toBe('adverb')
+    const parts = segs[0].word?.parts
+    expect(parts?.map((p) => p.word?.entry.id)).toEqual(['hijou', 'ni'])
+  })
+
+  it('never merges a 非自立 head (よう+に stays split — decision 49)', () => {
+    const dicts = buildParserDicts(
+      [],
+      [word('you', 'よう', 'よう'), word('youni', 'ように', 'ように', 'adverb')],
+    )
+    const segs = tokensToSegments(
+      [tok('よう', '名詞', '非自立', 'よう', 'ヨウ'), tok('に', '助詞', '格助詞', 'に', 'ニ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(2)
+    expect(segs[0].word?.entry.id).toBe('you')
+  })
+
+  it('never merges an ordinary noun with a case particle (学校+に)', () => {
+    // even a (hypothetical) 学校に entry must not attract the merge — に
+    // after a 一般 noun is grammar, not vocabulary
+    const dicts = buildParserDicts(
+      [],
+      [word('gakkou', '学校', 'がっこう'), word('gakkouni', '学校に', 'がっこうに', 'adverb')],
+    )
+    const segs = tokensToSegments(
+      [tok('学校', '名詞', '一般', '学校', 'ガッコウ'), tok('に', '助詞', '格助詞', 'に', 'ニ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(2)
+    expect(segs[0].word?.entry.id).toBe('gakkou')
+  })
+
+  it('merges noun+suffix when the compound is listed (旅行+者)', () => {
+    const dicts = buildParserDicts(
+      [],
+      [word('ryokou', '旅行', 'りょこう'), word('ryokousha', '旅行者', 'りょこうしゃ')],
+    )
+    const segs = tokensToSegments(
+      [tok('旅行', '名詞', '一般', '旅行', 'リョコウ'), tok('者', '名詞', '接尾', '者', 'シャ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].word?.entry.id).toBe('ryokousha')
+    const parts = segs[0].word?.parts
+    expect(parts?.[0].word?.entry.id).toBe('ryokou')
+    expect(parts?.[1].word).toBeUndefined() // 者 alone isn't listed here
+  })
+
+  it('rejects a merge whose reading contradicts the tokens', () => {
+    const dicts = buildParserDicts(
+      [],
+      [word('ryokou', '旅行', 'りょこう'), word('ryokousha', '旅行者', 'りょこうしゃ')],
+    )
+    // 者 read モノ: joined りょこうもの ≠ entry りょこうしゃ → stays split
+    const segs = tokensToSegments(
+      [tok('旅行', '名詞', '一般', '旅行', 'リョコウ'), tok('者', '名詞', '接尾', '者', 'モノ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(2)
+    expect(segs[0].word?.entry.id).toBe('ryokou')
+    expect(segs[0].compound).toBeDefined() // still a Beyond candidate
+  })
+
+  it('records a Beyond candidate for unlisted compounds (参加+者)', () => {
+    const dicts = buildParserDicts([], [word('sanka', '参加', 'さんか')])
+    const segs = tokensToSegments(
+      [tok('参加', '名詞', 'サ変接続', '参加', 'サンカ'), tok('者', '名詞', '接尾', '者', 'シャ')],
+      dicts,
+    )
+    expect(segs).toHaveLength(2)
+    expect(segs[0].word?.entry.id).toBe('sanka') // head keeps its JLPT link
+    expect(segs[0].compound?.options[0]).toEqual({
+      surface: '参加者',
+      reading: 'さんかしゃ',
+      span: 2,
+    })
+    const { words, readings } = collectUnlinkedSurfaces(segs)
+    expect(words.has('参加者')).toBe(true)
+    expect(readings.get('参加者')).toBe('さんかしゃ')
+  })
+
+  it('Beyond pass merges the candidate and enriches parts', () => {
+    const dicts = buildParserDicts([], [word('sanka', '参加', 'さんか')])
+    const segs = tokensToSegments(
+      [tok('参加', '名詞', 'サ変接続', '参加', 'サンカ'), tok('者', '名詞', '接尾', '者', 'シャ')],
+      dicts,
+    )
+    const compound = word('e-sankasha', '参加者', 'さんかしゃ')
+    compound.jlpt = 0 as never
+    const sha = word('e-sha', '者', 'しゃ')
+    sha.jlpt = 0 as never
+    const linked = linkBeyondWords(
+      segs,
+      new Map(),
+      new Map([
+        ['参加者', compound],
+        ['者', sha],
+      ]),
+    )
+    expect(linked).toHaveLength(1)
+    expect(linked[0].text).toBe('参加者')
+    expect(linked[0].word?.entry.id).toBe('e-sankasha')
+    expect(linked[0].word?.entry.jlpt).toBe(0)
+    const parts = linked[0].word?.parts
+    expect(parts?.[0].word?.entry.id).toBe('sanka') // kept from the JLPT tier
+    expect(parts?.[1].word?.entry.id).toBe('e-sha') // enriched from the ext hits
+    // Words Found lists the compound once, never its parts
+    expect(uniqueWords(linked).map((w) => w.entry.id)).toEqual(['e-sankasha'])
+  })
+
+  it('ext miss leaves the split exactly as today', () => {
+    const dicts = buildParserDicts([], [word('sanka', '参加', 'さんか')])
+    const segs = tokensToSegments(
+      [tok('参加', '名詞', 'サ変接続', '参加', 'サンカ'), tok('者', '名詞', '接尾', '者', 'シャ')],
+      dicts,
+    )
+    const linked = linkBeyondWords(segs, new Map(), new Map())
+    expect(linked).toHaveLength(2)
+    expect(linked[0].word?.entry.id).toBe('sanka')
+    expect(linked[1].word).toBeUndefined()
+  })
+
+  it('rejects a Beyond compound whose reading contradicts the tokens', () => {
+    const dicts = buildParserDicts([], [word('sanka', '参加', 'さんか')])
+    const segs = tokensToSegments(
+      [tok('参加', '名詞', 'サ変接続', '参加', 'サンカ'), tok('者', '名詞', '接尾', '者', 'シャ')],
+      dicts,
+    )
+    const wrong = word('bad', '参加者', 'さんかもの')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['参加者', wrong]]))
+    expect(linked).toHaveLength(2)
+    expect(linked[0].word?.entry.id).toBe('sanka')
+  })
+
+  it('merges plain noun+noun runs from the ext index (質疑+応答)', () => {
+    const dicts = buildParserDicts([], [])
+    const segs = tokensToSegments(
+      [
+        tok('質疑', '名詞', '一般', '質疑', 'シツギ'),
+        tok('応答', '名詞', 'サ変接続', '応答', 'オウトウ'),
+      ],
+      dicts,
+    )
+    expect(segs[0].compound?.options[0].surface).toBe('質疑応答')
+    const compound = word('e-shitsugi', '質疑応答', 'しつぎおうとう')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['質疑応答', compound]]))
+    expect(linked).toHaveLength(1)
+    expect(linked[0].word?.entry.id).toBe('e-shitsugi')
+  })
+
+  it('a failed head still lets an inner candidate merge (企業内+勉強会 shape)', () => {
+    const dicts = buildParserDicts([], [])
+    const segs = tokensToSegments(
+      [
+        tok('企業', '名詞', '一般', '企業', 'キギョウ'),
+        tok('内', '名詞', '接尾', '内', 'ナイ'),
+        tok('勉強', '名詞', 'サ変接続', '勉強', 'ベンキョウ'),
+        tok('会', '名詞', '接尾', '会', 'カイ'),
+      ],
+      dicts,
+    )
+    const linked = linkBeyondWords(
+      segs,
+      new Map(),
+      new Map([
+        ['企業内', word('e-kigyounai', '企業内', 'きぎょうない')],
+        ['勉強会', word('e-benkyoukai', '勉強会', 'べんきょうかい')],
+      ]),
+    )
+    expect(linked.map((s) => s.text)).toEqual(['企業内', '勉強会'])
+    expect(linked.map((s) => s.word?.entry.id)).toEqual(['e-kigyounai', 'e-benkyoukai'])
+  })
+})
+
 describe('Beyond linking', () => {
   const DICTS = buildParserDicts([verb('v1', '食べる', 'たべる', 'v1')], [])
 

@@ -615,6 +615,40 @@ feedback on many of these — treat them as requirements, not suggestions.
     屋/や "shop" (Suffix + Beyond badges). Unit tests cover the
     lookup preference and the reject-contradiction path.
 
+51. **Compound merging in smart mode (非常に, 参加者), 2026-07-09.**
+    Owner-reported on 様々な講師の…非常に充実した回となった。: IPADIC
+    tokenizes more granularly than JMdict lexemes, so smart mode split
+    非常に into 非常 (mislinked to "emergency") + に and 参加者 into
+    参加+者 — while greedy mode's longest-match already got 非常に
+    right (it's a listed N4 adverb). Fix: `scanCompound` re-joins two
+    bounded POS patterns, **triple-gated** (pattern + exact dictionary
+    entry for the joined surface + entry kana equals the joined
+    kuromoji reading — the honest-boundary rule of decisions 23/25
+    applied to merging; the 83 listed expressions / 54 に-final entries
+    can't over-merge because the pattern gate runs first). P1 noun runs
+    (≤3 tokens, ≤16 chars; 接尾 continues but never starts; noun+noun
+    included deliberately — 質疑応答 needs it and the dictionary gate
+    bounds it). P2 adverbial に only after 形容動詞語幹/副詞可能 stems
+    (学校に never merges; 非自立 excluded everywhere so よう in
+    どのように keeps decision 49's behavior). JLPT compounds merge
+    synchronously; unlisted ones ride as `CompoundCandidate`s and
+    `linkBeyondWords` merges them when the ext index has a
+    reading-consistent entry — on a miss nothing changes (参加 keeps
+    its JLPT link; never trade a real link for a blob). Owner display
+    choice: merged word + a **Parts** section in the summary dialog
+    (each component with its own link, clickable — swaps the dialog,
+    Back returns; internal state, so the quiz parents are untouched).
+    Consequence: a merged Beyond compound replaces its component in
+    Words Found (参加 folds into 参加者's Parts) — intended. な-merging
+    deliberately omitted (様々な renders correctly as a な-adjective).
+    Perf/network measured (CDP): repeat Break Down adds 0 wire bytes;
+    the vocab ext index is fetched exactly once (a candidate can now
+    trigger that fetch on sentences that previously had no misses —
+    accepted: smart mode is already the multi-MB opt-in and the index
+    is cached); zero long tasks on a re-parse at 4× CPU throttle.
+    Verified on the owner's sentence: 参加者・勉強会・質疑応答・非常に
+    all merge with correct furigana and glosses; greedy mode unchanged.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

@@ -54,8 +54,10 @@ exported as a file.
   morphological analyzer (~17 MB one-time, confirm-gated) for
   analyzer-grade segmentation, furigana on every word, POS-colored
   underlines, links to full-dictionary entries beyond the JLPT lists
-  (marked "Beyond"), and reading-based matching of variant kanji spellings
-  (温かい finds the 暖かい entry). Every example sentence in the app links
+  (marked "Beyond"), reading-based matching of variant kanji spellings
+  (温かい finds the 暖かい entry), and dictionary-validated compound
+  merging (参加者 and 非常に link as single words; their summary popup
+  lists the parts — 参加 + 者 — each clickable). Every example sentence in the app links
   into the parser (small icon, opens a new tab).
 - **Cheatsheets** — an in-app cheatsheet section (under Language). The
   Japanese Verb Summary covers the three verb types

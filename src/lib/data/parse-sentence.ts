@@ -42,6 +42,16 @@ export function isJapaneseOnly(text: string): boolean {
   return text.length > 0 && [...text].every((ch) => JA_ALLOWED.test(ch))
 }
 
+/** One component of a pattern-merged compound (参加 + 者). */
+export interface WordPart {
+  surface: string
+  /** hiragana reading, when kuromoji supplied one */
+  reading?: string
+  /** the entry this component links to on its own, when any — a part's
+   *  word never carries parts of its own (no recursion) */
+  word?: ParsedWord
+}
+
 export interface ParsedWord {
   entry: VerbEntry | VocabEntry
   isVerb: boolean
@@ -49,6 +59,8 @@ export interface ParsedWord {
   surface: string
   /** e.g. "Te form" when the surface is conjugated; null for dictionary form */
   formLabel: string | null
+  /** components of a pattern-merged compound (参加+者) — absent otherwise */
+  parts?: WordPart[]
 }
 
 /** Broad POS bucket — drives the breakdown's underline colors. */
@@ -64,12 +76,25 @@ export interface TokenInfo {
   baseForm?: string
 }
 
+/**
+ * A POS-pattern compound span (参加+者) the JLPT lists missed — the Beyond
+ * pass may still merge it if the extended index has the joined entry.
+ */
+export interface CompoundCandidate {
+  /** joinable prefixes of the span, longest first */
+  options: { surface: string; reading?: string; span: number }[]
+  /** per-token parts for the LONGEST option; option k uses parts.slice(0, k.span) */
+  parts: WordPart[]
+}
+
 export interface ParsedSegment {
   text: string
   /** present when this run of text matched a dictionary word */
   word?: ParsedWord
   /** kuromoji annotation (absent for punctuation and heuristic-mode parses) */
   token?: TokenInfo
+  /** present on the FIRST segment of an unmerged compound span (smart mode) */
+  compound?: CompoundCandidate
 }
 
 interface DictHit {
@@ -470,6 +495,124 @@ function verbSegment(
   }
 }
 
+// --- compound merging (smart mode) -------------------------------------------
+// IPADIC tokenizes more granularly than JMdict lexemes: 参加者 splits into
+// 参加+者 and 非常に into 非常+に even though both are single dictionary
+// words. Two bounded patterns re-join them, gated by the honest-boundary
+// rule (decisions 23/25): a merge happens ONLY when the joined surface IS a
+// dictionary entry whose kana matches the joined reading — no entry or a
+// wrong reading, and everything stays split exactly as before.
+
+/** Noun details that may START a compound run. */
+const COMPOUND_HEAD = new Set(['一般', 'サ変接続', '形容動詞語幹', '副詞可能'])
+/** …plus 接尾, which may CONTINUE one (参加+者) but never start it. 非自立
+ *  is excluded everywhere — よう in どのように must stay its own word
+ *  (decision 49) — as are 代名詞/数/固有名詞 by not being listed. */
+const COMPOUND_TAIL = new Set([...COMPOUND_HEAD, '接尾'])
+/** Only adjectival/adverbial stems form に-adverbs (非常に). Plain 一般
+ *  nouns never merge with に — 学校に is noun+particle (and no such
+ *  dictionary entry exists to validate against anyway). */
+const NI_ADVERB_HEAD = new Set(['形容動詞語幹', '副詞可能'])
+const MAX_COMPOUND_TOKENS = 3
+
+/** Merged-segment TokenInfo derives from the ENTRY's POS, not the tokens'. */
+const VOCAB_POS_KEY: Partial<Record<VocabEntry['pos'], PosKey>> = {
+  noun: 'noun',
+  adverb: 'adverb',
+  'adj-i': 'adjective',
+  'adj-na': 'adjective',
+  particle: 'particle',
+}
+const POS_KEY_LABELS: Record<PosKey, string> = {
+  verb: 'Verb',
+  noun: 'Noun',
+  adjective: 'Adjective',
+  adverb: 'Adverb',
+  particle: 'Particle',
+  other: 'Other',
+}
+
+function compoundToken(entry: VocabEntry, reading: string | undefined): TokenInfo {
+  const pos = VOCAB_POS_KEY[entry.pos] ?? 'noun'
+  const info: TokenInfo = { pos, posLabel: POS_KEY_LABELS[pos] }
+  if (reading) info.reading = reading
+  return info
+}
+
+/** A compound component with the link it would have gotten on its own. */
+function tokenPart(t: JaToken, dicts: ParserDicts): WordPart {
+  const part: WordPart = { surface: t.surface_form }
+  if (t.reading) part.reading = toHiragana(t.reading)
+  const word = linkToken(t, dicts)
+  if (word) part.word = word
+  return part
+}
+
+type CompoundScan =
+  | { merged: ParsedSegment; span: number }
+  | { candidate: CompoundCandidate }
+  | null
+
+/**
+ * At a 名詞 head, look for a P1 noun run (参加+者, 質疑+応答; ≤3 tokens) or
+ * a P2 adverbial-に pair (非常+に). Joined surfaces are tried against the
+ * JLPT lookup longest-first; a hit merges immediately, otherwise the options
+ * become a Beyond candidate for the ext pass. Every token in a span would
+ * otherwise emit exactly one plain segment — linkBeyondWords' span
+ * replacement RELIES on that 1:1 invariant.
+ */
+function scanCompound(tokens: JaToken[], i: number, dicts: ParserDicts): CompoundScan {
+  const t = tokens[i]
+  let end = i + 1
+  while (
+    end < tokens.length &&
+    end - i < MAX_COMPOUND_TOKENS &&
+    tokens[end].pos === '名詞' &&
+    COMPOUND_TAIL.has(tokens[end].pos_detail_1)
+  ) {
+    end += 1
+  }
+  if (
+    end === i + 1 &&
+    NI_ADVERB_HEAD.has(t.pos_detail_1) &&
+    tokens[i + 1]?.pos === '助詞' &&
+    tokens[i + 1].surface_form === 'に'
+  ) {
+    end = i + 2
+  }
+  if (end - i < 2) return null
+
+  const options: CompoundCandidate['options'] = []
+  for (let span = end - i; span >= 2; span -= 1) {
+    const surface = joinSurface(tokens, i, i + span)
+    if (surface.length > MAX_WORD_LEN) continue
+    options.push({ surface, reading: joinReading(tokens, i, i + span), span })
+  }
+  if (options.length === 0) return null
+
+  const parts = tokens.slice(i, end).map((tk) => tokenPart(tk, dicts))
+  for (const opt of options) {
+    const hit = dicts.lookup.get(opt.surface)
+    if (!hit || hit.isVerb || !entryReadsAs(hit.entry, opt.reading)) continue
+    const entry = hit.entry as VocabEntry
+    return {
+      merged: {
+        text: opt.surface,
+        token: compoundToken(entry, opt.reading),
+        word: {
+          entry,
+          isVerb: false,
+          surface: opt.surface,
+          formLabel: null,
+          parts: parts.slice(0, opt.span),
+        },
+      },
+      span: opt.span,
+    }
+  }
+  return { candidate: { options, parts } }
+}
+
 /**
  * Turns kuromoji tokens into the same ParsedSegment shape the greedy parser
  * emits, so the page renders both engines identically — with `token`
@@ -508,6 +651,29 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
       segments.push(verbSegment(tokens, i, j, t.surface_form + 'する', dicts))
       i = j
       continue
+    }
+
+    // P1/P2 compound scan (参加+者, 質疑+応答, 非常+に): merge when the
+    // joined surface IS a dictionary entry (honest-boundary rule), else
+    // record a Beyond candidate on the head segment for the ext pass
+    if (t.pos === '名詞' && COMPOUND_HEAD.has(t.pos_detail_1)) {
+      const res = scanCompound(tokens, i, dicts)
+      if (res && 'merged' in res) {
+        segments.push(res.merged)
+        i += res.span
+        continue
+      }
+      if (res) {
+        segments.push({
+          text: t.surface_form,
+          token: tokenInfo(t),
+          word: linkToken(t, dicts) ?? undefined,
+          compound: res.candidate,
+        })
+        i += 1
+        continue
+      }
+      // no pattern here — fall through to the plain single-token emit
     }
 
     // い-adjective + its ending chain (楽しかっ+た)
@@ -600,6 +766,14 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   const readings = new Map<string, string>()
   for (const seg of segments) {
     if (!seg.token) continue
+    // compound candidates (参加者) ride along even when the head segment is
+    // itself linked (参加 is) — merging beats the component-only view
+    if (seg.compound) {
+      for (const opt of seg.compound.options) {
+        words.add(opt.surface)
+        if (opt.reading) readings.set(opt.surface, opt.reading)
+      }
+    }
     if (seg.word) {
       // wrong-reading links also go to the ext lookup (repair candidates)
       const reading = misreadLink(seg)
@@ -620,13 +794,50 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   return { verbs, words, readings }
 }
 
+/**
+ * Merge an unresolved compound span (recorded by scanCompound) against the
+ * extended entries: options longest-first, entry reading must match — no
+ * reading-contradicting fallback (decision 50). Returns null when nothing
+ * merges; every span segment then flows through linkOne untouched, so the
+ * head (参加) keeps its JLPT link — never trade a real link for a blob.
+ */
+function mergeCompound(
+  cand: CompoundCandidate,
+  vocabEntries: Map<string, VocabEntry>,
+): { seg: ParsedSegment; span: number } | null {
+  for (const opt of cand.options) {
+    const entry = vocabEntries.get(opt.surface)
+    if (!entry || !entryReadsAs(entry, opt.reading)) continue
+    // enrich word-less parts from the ext hits already in hand (者 was
+    // queried as its own unlinked segment, so it's usually present)
+    const parts = cand.parts.slice(0, opt.span).map((part) => {
+      if (part.word) return part
+      const e = vocabEntries.get(part.surface)
+      if (!e || !entryReadsAs(e, part.reading)) return part
+      return {
+        ...part,
+        word: { entry: e, isVerb: false, surface: part.surface, formLabel: null },
+      }
+    })
+    return {
+      span: opt.span,
+      seg: {
+        text: opt.surface,
+        token: compoundToken(entry, opt.reading),
+        word: { entry, isVerb: false, surface: opt.surface, formLabel: null, parts },
+      },
+    }
+  }
+  return null
+}
+
 /** Attaches extended-tier entries (jlpt 0 → "Beyond" badge) to the misses. */
 export function linkBeyondWords(
   segments: ParsedSegment[],
   verbEntries: Map<string, VerbEntry>,
   vocabEntries: Map<string, VocabEntry>,
 ): ParsedSegment[] {
-  return segments.map((seg) => {
+  const linkOne = (seg: ParsedSegment): ParsedSegment => {
     // wrong-reading repair: swap the link only when a Beyond entry actually
     // reads the way kuromoji says — otherwise the closest match stands
     const misread = seg.token ? misreadLink(seg) : undefined
@@ -684,7 +895,27 @@ export function linkBeyondWords(
       ? (identifyAdjForm(entry, seg.text) ?? identifyAdjFormAs(base, seg.text) ?? 'Inflected')
       : null
     return { ...seg, word: { entry, isVerb: false, surface: seg.text, formLabel } }
-  })
+  }
+
+  // compound spans first: a merged span consumes its segments (including any
+  // candidate recorded inside it); a failed head falls through to linkOne
+  // and the next segment's own candidate still gets its chance
+  const out: ParsedSegment[] = []
+  let i = 0
+  while (i < segments.length) {
+    const cand = segments[i].compound
+    if (cand) {
+      const merged = mergeCompound(cand, vocabEntries)
+      if (merged) {
+        out.push(merged.seg)
+        i += merged.span
+        continue
+      }
+    }
+    out.push(linkOne(segments[i]))
+    i += 1
+  }
+  return out
 }
 
 /** The matched words in order of first appearance, deduped by id+surface. */

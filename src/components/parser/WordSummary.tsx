@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { ExternalLink } from 'lucide-react'
+import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,7 +28,13 @@ export function WordSummaryDialog({
   word: ParsedWord | null
   onClose: () => void
 }) {
-  const entry = word?.entry ?? null
+  // a merged compound's Parts swap the dialog to a component word; internal
+  // state (not a callback) so the three parents (parser + both quiz
+  // feedbacks) stay untouched — reset whenever a new word opens
+  const [shown, setShown] = useState<ParsedWord | null>(null)
+  useEffect(() => setShown(null), [word])
+  const active = shown ?? word
+  const entry = active?.entry ?? null
   const [kanji, setKanji] = useState<KanjiEntry[] | null>(null)
   useEffect(() => {
     if (!entry) return
@@ -49,7 +55,7 @@ export function WordSummaryDialog({
   }, [entry])
 
   const formLabel =
-    word?.formLabel === 'Conjugated' ? 'Conjugated form' : (word?.formLabel ?? null)
+    active?.formLabel === 'Conjugated' ? 'Conjugated form' : (active?.formLabel ?? null)
 
   return (
     <Dialog
@@ -59,9 +65,19 @@ export function WordSummaryDialog({
       }}
     >
       <DialogContent className="max-w-md">
-        {word && entry && (
+        {active && entry && (
           <>
             <DialogHeader>
+              {shown && word && (
+                <button
+                  type="button"
+                  onClick={() => setShown(null)}
+                  className="flex items-center gap-1 self-start text-xs text-muted-foreground transition-colors duration-100 hover:text-foreground"
+                >
+                  <ArrowLeft className="size-3.5" /> Back to{' '}
+                  <span lang="ja">{word.entry.kanji}</span>
+                </button>
+              )}
               <DialogTitle className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-left">
                 <Furigana segments={entry.furigana} className="text-3xl leading-tight" />
                 {entry.kana !== entry.kanji && (
@@ -84,7 +100,7 @@ export function WordSummaryDialog({
                     {formLabel}
                   </Badge>
                 )}
-                {word.isVerb ? (
+                {active.isVerb ? (
                   <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
                     Verb
                   </Badge>
@@ -100,7 +116,7 @@ export function WordSummaryDialog({
                       quiz-feedback option rows */}
                   Here it appears as{' '}
                   <span lang="ja" className="text-foreground">
-                    {word.surface}
+                    {active.surface}
                   </span>{' '}
                   — the {formLabel.toLowerCase()} of the dictionary form{' '}
                   <span lang="ja" className="text-foreground">
@@ -120,6 +136,57 @@ export function WordSummaryDialog({
                   ))}
                 </ul>
               </div>
+
+              {/* components of a pattern-merged compound (参加 + 者) — each
+                  linked part swaps this dialog to its own entry */}
+              {active.parts && active.parts.length > 0 && (
+                <div>
+                  <h3 className="mb-1.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Parts
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {active.parts.map((part, i) =>
+                      part.word ? (
+                        <button
+                          key={`${i}:${part.surface}`}
+                          type="button"
+                          onClick={() => setShown(part.word!)}
+                          className="flex items-baseline gap-2 rounded-md border px-2 py-1.5 text-left transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
+                        >
+                          <span lang="ja" className="text-base leading-none">
+                            {part.surface}
+                          </span>
+                          {part.reading && part.reading !== part.surface && (
+                            <span lang="ja" className="text-xs text-muted-foreground">
+                              {part.reading}
+                            </span>
+                          )}
+                          <span className="max-w-36 truncate text-xs text-muted-foreground">
+                            {part.word.entry.gloss[0]}
+                          </span>
+                        </button>
+                      ) : (
+                        <span
+                          key={`${i}:${part.surface}`}
+                          className="flex items-baseline gap-2 rounded-md border border-dashed px-2 py-1.5"
+                        >
+                          <span lang="ja" className="text-base leading-none">
+                            {part.surface}
+                          </span>
+                          {part.reading && part.reading !== part.surface && (
+                            <span lang="ja" className="text-xs text-muted-foreground">
+                              {part.reading}
+                            </span>
+                          )}
+                          <span className="text-xs text-muted-foreground">
+                            not in the dictionary
+                          </span>
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
 
               {kanji && kanji.length > 0 && (
                 <div>
@@ -154,7 +221,7 @@ export function WordSummaryDialog({
                 Close
               </Button>
               <Button asChild>
-                {word.isVerb ? (
+                {active.isVerb ? (
                   <Link
                     to="/verbs/$verbId"
                     params={{ verbId: entry.id }}

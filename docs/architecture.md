@@ -307,6 +307,27 @@ regardless of host compression config.
   `collectUnlinkedSurfaces` also hands over kuromoji's reading per
   surface, and the vocab scan upgrades a hit to the first row that
   reads that way, so 屋/や wins over the earlier 屋/おく row).
+- **Compound merging (smart mode)** — IPADIC tokenizes more granularly
+  than JMdict lexemes (参加者 → 参加+者, 非常に → 非常+に), so
+  `scanCompound` re-joins two bounded POS patterns, triple-gated by the
+  honest-boundary rule: eligible pattern AND the joined surface IS a
+  dictionary entry AND the entry's kana equals the joined reading —
+  otherwise everything stays split exactly as before. P1: noun runs
+  (head detail ∈ 一般/サ変接続/形容動詞語幹/副詞可能, continuations may
+  add 接尾; ≤3 tokens, ≤16 chars) — 参加者, 勉強会, 質疑応答. P2:
+  adverbial に after a 形容動詞語幹/副詞可能 stem only — 非常に;
+  ordinary nouns never merge with case particles (学校に), and 非自立
+  heads are excluded everywhere (よう in どのように stays its own word,
+  decision 49). JLPT-listed compounds merge synchronously; unlisted
+  patterns ride as `CompoundCandidate`s on their head segment, and
+  `linkBeyondWords` merges them retroactively when the ext index has a
+  reading-consistent entry — an ext miss leaves the split (and the
+  head's JLPT link) untouched. Merged words carry `parts` (each
+  component with the link it would have had alone), which the summary
+  dialog renders as a clickable "Parts" section — compound vocabulary
+  AND component pedagogy. Greedy mode already merged JLPT-listed
+  compounds via longest-match; Beyond compounds are smart-mode-only by
+  design (greedy never touches the ext indexes).
   The indexes (shared with the palette's Include Full Dictionary) load
   on the first smart parse that has misses — **only the side with
   misses is fetched** (the vocab index is ~5.5 MB, the verb one
