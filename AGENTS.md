@@ -1,106 +1,79 @@
-# AGENTS.md — how to work on nihongo-mono
+# AGENTS.md
 
-Instructions for AI agents (and humans) implementing features here. The
-deep context lives in [`docs/`](docs/README.md) — read `architecture.md`,
-`data-pipeline.md`, `development.md`, and `decisions-and-caveats.md` before
-non-trivial work. This file is the operating checklist.
+Japanese learning SPA: React 19 + TypeScript, TanStack Router (file-based),
+Tailwind v4, Vite 8, Bun. Static hosting, no backend; all data is
+pre-gzipped JSON under `public/data/`. Deep docs: [docs/](docs/README.md).
 
-## Golden rules
-
-1. **Bun, never npm** — installs, scripts, running TS (`bun scripts/foo.ts`).
-   Exception: Playwright verification scripts run under **node** (Chromium
-   won't launch under Bun on Windows).
-2. **Prioritize performance and network efficiency in every decision.**
-   This is a static, no-backend site meant to feel instant on mobile:
-   - Never import multi-MB JSON through the JS module graph — serve it as
-     pre-gzipped static `.json.gz` fetched on demand (this mistake once
-     produced a 230 MB dev page).
-   - Fetch only what the interaction needs: per-level files, id-routed
-     detail lookups (`jlpt/ids.json.gz`), small shards (~20–70 KB), lazy
-     opt-ins for anything big (Beyond tier, kuromoji). New data = ask
-     "what does a cold deep link download?" and "what does a repeated
-     action add up to?"
-   - Search large datasets as **raw tuple rows**, materialize only shown
-     results (204k entry objects once froze the tab). Keep search inputs
-     behind the shared 250 ms debounce + `startTransition`.
-   - **Measure before and after**: CDP `encodedDataLength` per action for
-     network; event-timing/longtask observers under 4× CPU throttle for
-     jank. If something is already at its optimal form, leave it and note
-     why in the decision log.
-3. **Don't re-break fixed bugs.** `docs/decisions-and-caveats.md` is a
-   numbered log of every trap already hit (router search params arrive
-   JSON-parsed, ruby `<rt>` pollutes `textContent`, grids need explicit
-   `grid-cols-1`, PS 5.1 quirks…). Skim it; add an entry when you fix or
-   decide something non-obvious.
-
-## Definition of done — every feature round
-
-Run all of these; a round isn't done until they're green:
+## Commands
 
 ```bash
-bun run test     # vitest (153+); extend fixtures when touching conjugation/search/quiz logic
-bun run lint     # oxlint
-bun run build    # vite build && tsc -b — also type-checks scripts/
+bun install          # ALWAYS bun, never npm
+bun run dev          # dev server :5173
+bun run test         # vitest — must stay green
+bun run lint         # oxlint — must stay clean
+bun run build        # vite build && tsc -b — must pass (type-checks scripts/ too)
+bun run data:pack    # after any hand edit under src/data/
+bun run data:build   # full dataset regen (needs scripts/.cache/)
 ```
 
-4. **Browser-verify with a fresh Playwright script** (node, ~40 lines,
-   against `bunx vite preview --port 4173` — the production build, not dev).
-   Assert on visible text/selectors, collect `pageerror`/console errors
-   (must be none), screenshot for visual review. Playwright gotchas are
-   listed in `docs/development.md`.
-5. **Check mobile (390 px) and mid-widths (~640–900 px)**: no horizontal
-   page overflow (`scrollWidth <= clientWidth`) — wide content scrolls in
-   its own `overflow-x-auto` container. Test at the largest font-size
-   setting (`nihongo-mono:font-size = xxlarge`) too; it amplifies layout
-   bugs.
-6. **Update the docs in the same commit** (see below).
-7. Commit on `master` with a body explaining *why*. **Write the message to
-   a file and use `git commit -F`** — PowerShell 5.1 mangles quoted
-   multi-line `-m` args.
+## Definition of done (every change)
 
-## Documents to update per change
+1. `bun run test` + `bun run lint` + `bun run build` green.
+2. Browser-verify with a fresh Playwright script run under **node** (not
+   Bun — Chromium won't launch under Bun on Windows) against
+   `bunx vite preview --port 4173`: zero `pageerror`/console errors,
+   assert on visible content, screenshot.
+3. No horizontal page overflow at 390 px and 640–900 px widths, including
+   with `localStorage nihongo-mono:font-size = "xxlarge"`. Wide content
+   scrolls inside its own `overflow-x-auto` container.
+4. Update docs in the same commit:
+   - behavior/features → `docs/architecture.md`; data formats/scripts →
+     `docs/data-pipeline.md`; workflow/gotchas → `docs/development.md`
+   - any non-obvious decision, fixed bug, or trade-off → numbered entry in
+     `docs/decisions-and-caveats.md`
+   - user-visible features/routes → `README.md` + `docs/README.md`
+5. Commit to `master`; write the message to a temp file and use
+   `git commit -F <file>` (PowerShell 5.1 mangles multi-line `-m`).
 
-| Changed | Update |
-| --- | --- |
-| Any behavior/feature | `docs/architecture.md` (the relevant section) |
-| Data formats, build scripts, shard counts | `docs/data-pipeline.md` + the sync-pair comments in `src/lib/data/loader.ts` |
-| Commands, workflow, test counts, new gotchas | `docs/development.md` |
-| Any non-obvious decision, fixed bug, accepted trade-off | `docs/decisions-and-caveats.md` (numbered entry) |
-| User-visible features, routes | `README.md` + `docs/README.md` (route map) |
+## Performance & network efficiency — first-class requirements
 
-Stale docs are treated as bugs — after multi-part work, grep the docs for
-counts/sizes/names you changed (test counts, shard counts, MB figures).
+- Never import multi-MB JSON through the JS module graph; serve static
+  `.json.gz`, fetch on demand.
+- New data must answer: what does a cold deep link download? What does a
+  repeated action add up to? Fetch per level/shard (~20–70 KB), route by
+  id (`jlpt/ids.json.gz`), gate anything big behind an explicit opt-in.
+- Search big datasets as raw tuple rows; materialize only rendered rows.
+  Keep search behind the shared 250 ms debounce + `startTransition`.
+- Measure, don't guess: CDP `encodedDataLength` per action; event-timing +
+  longtask observers at 4× CPU throttle. If already optimal, leave it and
+  log why in `decisions-and-caveats.md`.
 
-## Implementation conventions
+## Conventions
 
-- **Data tiers**: JLPT core (hand-editable JSON in `src/data/`, packed by
-  `bun run data:pack`) vs extended "Beyond" tier (built from
-  `scripts/.cache/`). Shard counts exist as **sync pairs** between build
-  scripts and `src/lib/data/loader.ts` — verbs/vocab ext 128/512, kanji ext
-  16, kanji-words 64, strokes 256. Regenerate + commit `public/data` when
-  they change.
-- **Filters**: every group is multi-select; empty list = no constraint
-  (except Level, where empty = nothing shown, URL sentinel `levels=none`);
-  group labels toggle select/deselect-all; Beyond chips stay out of bulk
-  toggles; state lives in csv URL params.
-- **Settings/preferences**: localStorage under `nihongo-mono:*`, applied
-  **pre-paint** by the inline script in `index.html` (no flash), default =
-  no attribute, helpers in `src/lib/theme.ts`.
-- **Search**: normalize queries with `normalizeQuery` (NFKC) at every new
-  entry point; latin also matches as kana; conjugated queries deconjugate.
-- **UI**: Title Case buttons; `lang="ja"` on all Japanese text; animations
-  ≤150 ms; pointer cursor is free from base CSS; `text-balance` against
-  orphan words; every example sentence carries a parser link; furigana via
-  `<ruby>` (CSS transforms don't work on `rt`).
-- **Verification honesty**: distinguish app bugs from test-script
-  assumptions before "fixing" the app — several past failures were the
-  script's (ruby text interleaving, singular chip labels, Radix dialogs vs
-  browser confirms).
+- Shard counts are sync pairs between build scripts and
+  `src/lib/data/loader.ts` (verbs/vocab ext 128/512, kanji ext 16,
+  kanji-words 64, strokes 256). Changing one = regenerate + commit
+  `public/data/`.
+- Filters: multi-select everywhere; empty = no constraint (Level excepted:
+  empty = nothing, URL sentinel `levels=none`); labels toggle all; state in
+  csv URL params. TanStack Router JSON-parses search params (`?levels=5`
+  arrives as number) — normalize with `String()` in `validateSearch`.
+- Settings: localStorage `nihongo-mono:*`, applied pre-paint by the inline
+  script in `index.html`; default = no attribute; helpers in `src/lib/theme.ts`.
+- Search queries: NFKC-normalize (`normalizeQuery`) at every new entry point.
+- UI: Title Case buttons; `lang="ja"` on Japanese text; animations ≤150 ms;
+  `<ruby>` for furigana (CSS transforms don't work on `rt`; `<rt>` text
+  pollutes `textContent` — assert on glosses in tests).
 
-## Environment (Windows)
+## Never
 
-- PowerShell 5.1: no `&&`/ternary; heredocs via files; avoid inline
-  multi-line quoting (see `docs/development.md`).
-- Playwright lives in the session scratchpad, not the repo; run scripts
-  with node; browsers via `bunx playwright install chromium`.
-- Temp/scratch files never go in the repo.
+- Never use npm, or run Playwright under Bun.
+- Never commit scratch/temp files or `scripts/.cache/`.
+- Never ship KANJIDIC2's own `jlpt` field (pre-2010 scale) — kanji levels
+  come from `jlpt_new` (see data-pipeline.md).
+- Never re-introduce a bug logged in `docs/decisions-and-caveats.md` — skim
+  it before structural changes; "simplifying" past its warnings has
+  repeatedly re-broken things.
+- Never "fix" the app for a failing verification script without first
+  checking the script's assumptions (ruby interleaving, chip labels, Radix
+  dialogs vs browser confirms have all produced false alarms).
