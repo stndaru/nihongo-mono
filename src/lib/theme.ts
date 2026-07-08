@@ -46,11 +46,17 @@ export function setFontPref(kind: FontKind, choice: FontChoice): void {
 }
 
 /**
- * Overall font scale. Everything in the UI is rem-based, so scaling the
- * root font-size scales the whole app. 'default' (100%) is the smallest —
- * the sizes only go up from the original design.
+ * Font-size settings, all four-step with 'default' as the smallest — the
+ * sizes only go up from the original design.
+ * - 'global': the whole UI is rem-based, so this scales everything by
+ *   bumping the root font-size.
+ * - 'ja': Japanese text ([lang="ja"]) relative to the global size.
+ * - 'furigana': ruby readings relative to their base text.
+ * CSS steps live in styles/index.css; attributes are set pre-paint in
+ * index.html so a reload never flashes the default size.
  */
 export type FontSize = 'default' | 'large' | 'xlarge' | 'xxlarge'
+export type FontSizeKind = 'global' | 'ja' | 'furigana'
 
 export const FONT_SIZES: { value: FontSize; label: string }[] = [
   { value: 'default', label: 'Default' },
@@ -59,18 +65,27 @@ export const FONT_SIZES: { value: FontSize; label: string }[] = [
   { value: 'xxlarge', label: 'Largest' },
 ]
 
-const FONT_SIZE_KEY = 'nihongo-mono:font-size'
+const SIZE_KEYS: Record<FontSizeKind, string> = {
+  global: 'nihongo-mono:font-size',
+  ja: 'nihongo-mono:font-ja-size',
+  furigana: 'nihongo-mono:font-furigana-size',
+}
+const SIZE_ATTRS: Record<FontSizeKind, 'fontSize' | 'fontJaSize' | 'fontFuriganaSize'> = {
+  global: 'fontSize',
+  ja: 'fontJaSize',
+  furigana: 'fontFuriganaSize',
+}
 
-export function getFontSizePref(): FontSize {
-  const v = localStorage.getItem(FONT_SIZE_KEY)
+export function getFontSizePref(kind: FontSizeKind): FontSize {
+  const v = localStorage.getItem(SIZE_KEYS[kind])
   return v === 'large' || v === 'xlarge' || v === 'xxlarge' ? v : 'default'
 }
 
-export function setFontSizePref(size: FontSize): void {
-  localStorage.setItem(FONT_SIZE_KEY, size)
+export function setFontSizePref(kind: FontSizeKind, size: FontSize): void {
+  localStorage.setItem(SIZE_KEYS[kind], size)
   // default = no attribute, like the font-family prefs
-  if (size === 'default') delete document.documentElement.dataset.fontSize
-  else document.documentElement.dataset.fontSize = size
+  if (size === 'default') delete document.documentElement.dataset[SIZE_ATTRS[kind]]
+  else document.documentElement.dataset[SIZE_ATTRS[kind]] = size
 }
 
 /** Keep the UI in sync when the OS theme changes while in 'system' mode. */

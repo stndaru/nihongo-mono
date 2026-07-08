@@ -102,9 +102,16 @@
     "Noto Serif JP", serif;
 }
 
-/* User font-size setting (Settings → Typography): the UI is rem-based, so
-   scaling the root font-size scales everything. No attribute = 100%, the
-   smallest size; set pre-paint in index.html like the font choices. */
+/* User font-size settings (Settings → Typography). No attribute = the
+   smallest size; set pre-paint in index.html like the font choices.
+   - global: the UI is rem-based, so scaling the root font-size scales
+     everything.
+   - ja (--ja-scale): Japanese text relative to the global size.
+   - furigana (--rt-scale): ruby readings relative to their base text. */
+:root {
+  --ja-scale: 1;
+  --rt-scale: 1;
+}
 :root[data-font-size="large"] {
   font-size: 110%;
 }
@@ -113,6 +120,41 @@
 }
 :root[data-font-size="xxlarge"] {
   font-size: 130%;
+}
+:root[data-font-ja-size="large"] {
+  --ja-scale: 1.1;
+}
+:root[data-font-ja-size="xlarge"] {
+  --ja-scale: 1.2;
+}
+:root[data-font-ja-size="xxlarge"] {
+  --ja-scale: 1.3;
+}
+:root[data-font-furigana-size="large"] {
+  --rt-scale: 1.15;
+}
+:root[data-font-furigana-size="xlarge"] {
+  --rt-scale: 1.3;
+}
+:root[data-font-furigana-size="xxlarge"] {
+  --rt-scale: 1.45;
+}
+
+/* Japanese scaling must reach text sized two different ways:
+   1. Tailwind-utility-sized (.text-xl …): v4 utilities read the --text-*
+      theme vars, so overriding them inside the [lang="ja"] scope
+      multiplies exactly what the utility would have set (the line-height
+      vars are unitless ratios and follow along automatically);
+   2. inherit-sized: the base [lang="ja"] font-size rule in @layer base. */
+[lang="ja"] {
+  --text-xs: calc(0.75rem * var(--ja-scale));
+  --text-sm: calc(0.875rem * var(--ja-scale));
+  --text-base: calc(1rem * var(--ja-scale));
+  --text-lg: calc(1.125rem * var(--ja-scale));
+  --text-xl: calc(1.25rem * var(--ja-scale));
+  --text-2xl: calc(1.5rem * var(--ja-scale));
+  --text-3xl: calc(1.875rem * var(--ja-scale));
+  --text-4xl: calc(2.25rem * var(--ja-scale));
 }
 
 @layer base {
@@ -131,23 +173,51 @@
   }
   [lang="ja"] {
     font-family: var(--font-ja);
+    /* inherit-sized Japanese text follows the ja size setting (utility-
+       sized text is handled by the --text-* overrides above) */
+    font-size: calc(1em * var(--ja-scale));
+  }
+  /* nested [lang="ja"] would compound the multiplier — reset to inherit */
+  [lang="ja"] [lang="ja"] {
+    font-size: 1em;
   }
   /* furigana: keep rows compact but readable; lifted slightly off the base
      glyphs so readings don't touch them (position, not transform — ruby-text
-     boxes aren't reliably transformable) */
+     boxes aren't reliably transformable). --rt-scale is the furigana size
+     setting; em-based, so it also tracks the ja/global sizes. */
   ruby rt {
-    font-size: 0.55em;
+    font-size: calc(0.55em * var(--rt-scale));
     color: var(--color-muted-foreground);
     user-select: none;
     position: relative;
     top: -2px;
   }
+  /* Enlarged furigana must never spill over neighboring characters: native
+     ruby lets a reading wider than its base overhang adjacent text (up to
+     13px measured at the largest setting — the reading visually sat on the
+     wrong kanji), and Chromium (149) has no ruby-overhang support. So when
+     a non-default furigana size is active, ruby renders as a centered flex
+     stack: container width = max(base, reading), wide readings pad the
+     line instead of overlapping it. The default size keeps native ruby. */
+  :root[data-font-furigana-size] ruby {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: bottom;
+  }
+  :root[data-font-furigana-size] ruby rt {
+    display: block;
+    order: -1; /* reading above the base */
+    top: 0; /* the -2px nudge is native-ruby geometry */
+  }
   /* quiz sessions: smaller ruby, and display preferences set as data
      attributes by the session pages (see QuizDisplayToggles) */
   [data-quiz] ruby rt {
-    font-size: 0.45em;
+    font-size: calc(0.45em * var(--rt-scale));
   }
-  [data-quiz-ruby="hide"] rt {
+  [data-quiz-ruby="hide"] rt,
+  /* must also beat the flex-stack rt rule's specificity */
+  :root[data-font-furigana-size] [data-quiz-ruby="hide"] rt {
     display: none;
   }
   [data-quiz-info="hide"] .quiz-info {

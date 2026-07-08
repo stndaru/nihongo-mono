@@ -47,10 +47,18 @@
             document.documentElement.dataset.fontText = 'serif'
           if (localStorage.getItem('nihongo-mono:font-ja') === 'serif')
             document.documentElement.dataset.fontJa = 'serif'
-          // font size (default 100% is the smallest; bigger is opt-in)
-          var fs = localStorage.getItem('nihongo-mono:font-size')
-          if (fs === 'large' || fs === 'xlarge' || fs === 'xxlarge')
-            document.documentElement.dataset.fontSize = fs
+          // font sizes (default is the smallest; bigger is opt-in):
+          // global root scale, Japanese text scale, furigana scale
+          var sizeAttrs = {
+            'nihongo-mono:font-size': 'fontSize',
+            'nihongo-mono:font-ja-size': 'fontJaSize',
+            'nihongo-mono:font-furigana-size': 'fontFuriganaSize',
+          }
+          for (var key in sizeAttrs) {
+            var v = localStorage.getItem(key)
+            if (v === 'large' || v === 'xlarge' || v === 'xxlarge')
+              document.documentElement.dataset[sizeAttrs[key]] = v
+          }
         } catch (e) {}
       })()
     </script>

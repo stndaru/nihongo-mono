@@ -23,6 +23,7 @@ import {
   setTheme,
   type FontChoice,
   type FontSize,
+  type FontSizeKind,
   type Theme,
 } from '@/lib/theme'
 
@@ -51,11 +52,20 @@ function SettingsPage() {
     else setFontText(choice)
   }
 
-  const [fontSize, setFontSizeState] = useState<FontSize>(() => getFontSizePref())
-  const pickFontSize = (size: FontSize) => {
-    setFontSizePref(size)
-    setFontSizeState(size)
+  const [fontSizes, setFontSizesState] = useState<Record<FontSizeKind, FontSize>>(() => ({
+    global: getFontSizePref('global'),
+    ja: getFontSizePref('ja'),
+    furigana: getFontSizePref('furigana'),
+  }))
+  const pickFontSize = (kind: FontSizeKind, size: FontSize) => {
+    setFontSizePref(kind, size)
+    setFontSizesState((s) => ({ ...s, [kind]: size }))
   }
+  const sizeGroups: { kind: FontSizeKind; label: string }[] = [
+    { kind: 'global', label: 'Global font size' },
+    { kind: 'ja', label: 'Kanji/kana font size' },
+    { kind: 'furigana', label: 'Furigana font size' },
+  ]
 
   const onFile = async (file: File | undefined) => {
     if (!file) return
@@ -109,16 +119,27 @@ function SettingsPage() {
               </Chip>
             ))}
           </ChipGroup>
-          <ChipGroup label="Font size">
-            {FONT_SIZES.map(({ value, label }) => (
-              <Chip key={value} active={fontSize === value} onClick={() => pickFontSize(value)}>
-                {label}
-              </Chip>
-            ))}
-          </ChipGroup>
+          {sizeGroups.map(({ kind, label }) => (
+            <ChipGroup key={kind} label={label}>
+              {FONT_SIZES.map(({ value, label: sizeLabel }) => (
+                <Chip
+                  key={value}
+                  active={fontSizes[kind] === value}
+                  onClick={() => pickFontSize(kind, value)}
+                >
+                  {sizeLabel}
+                </Chip>
+              ))}
+            </ChipGroup>
+          ))}
         </div>
         <p className="text-lg">
-          <span lang="ja">食べる・たべる</span>
+          <span lang="ja">
+            <ruby>
+              食<rt>た</rt>
+            </ruby>
+            べる・たべる
+          </span>
           <span className="text-muted-foreground">
             {' '}
             — The quick brown fox jumps over the lazy dog

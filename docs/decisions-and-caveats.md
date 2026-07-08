@@ -333,6 +333,23 @@ feedback on many of these — treat them as requirements, not suggestions.
     the Resources card title/hostname row got `flex-wrap`. All 24
     width × size combos verified overflow-free.
 
+37. **Kanji/kana + furigana font sizes, 2026-07-08.** The global setting
+    was renamed "Global font size" and joined by "Kanji/kana font size"
+    (`--ja-scale`, relative to global) and "Furigana font size"
+    (`--rt-scale`, relative to the base text) — the owner found Japanese
+    text and furigana too small in places. Ja scaling needs BOTH the
+    `[lang="ja"]`-scoped `--text-*` variable overrides (Tailwind v4
+    utilities read those vars) and the base `calc(1em * var(--ja-scale))`
+    rule, plus a nested-`[lang="ja"]` reset against compounding. The
+    critical constraint: enlarged furigana must never sit on a
+    neighboring kanji. Native ruby overhang does exactly that (13px
+    measured), `ruby-overhang: none` is unsupported in Chromium 149, so
+    non-default furigana sizes switch `ruby` to an inline-flex column
+    stack (width = max(base, reading)). Verified: exact scale math at
+    every step, no rt overlap across three ruby-heavy pages × three
+    sizes, quiz furigana-hide still wins, 36-combo overflow matrix at
+    all-max.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

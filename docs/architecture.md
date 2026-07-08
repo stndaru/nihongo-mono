@@ -537,17 +537,33 @@ regardless of host compression config.
   attributes on `<html>`, set **pre-paint** by an inline script in
   `index.html` (same script applies the theme; **system is the default**,
   stored 'light'/'dark' are explicit picks).
-- **Font size setting** (Settings → Typography): the whole UI is rem-based,
-  so `:root[data-font-size]` scales everything by bumping the root
-  font-size — Default 100% / Large 110% / Extra Large 120% / Largest 130%.
-  Default is deliberately the smallest (the sizes only go up from the
-  original design — owner requirement). Same pattern as the font choices:
-  `nihongo-mono:font-size` in localStorage, attribute set pre-paint in
-  `index.html`, helpers in `theme.ts` (`getFontSizePref`/`setFontSizePref`,
-  chip labels from `FONT_SIZES`). Tailwind breakpoints are em-based on the
-  *initial* font size, so scaling never shifts responsive layouts — but it
-  does widen content, so wide-content containers must scroll internally
-  (see the header nav note below).
+- **Font size settings** (Settings → Typography): three four-step scales,
+  each with Default deliberately the smallest (sizes only go up from the
+  original design — owner requirement). All follow the font-choice
+  pattern: localStorage (`font-size` / `font-ja-size` /
+  `font-furigana-size`), attributes set pre-paint in `index.html`,
+  helpers in `theme.ts` (`getFontSizePref(kind)` / `setFontSizePref`).
+  - **Global** (`data-font-size`, 100/110/120/130%): the UI is rem-based,
+    so bumping the root font-size scales everything. Tailwind breakpoints
+    are em-based on the *initial* font size, so scaling never shifts
+    responsive layouts — but it widens content, so wide-content
+    containers must scroll internally (see the header nav note below).
+  - **Kanji/kana** (`data-font-ja-size`, `--ja-scale` ×1/1.1/1.2/1.3,
+    relative to global): must reach Japanese text sized two ways —
+    Tailwind-utility-sized (v4 utilities read the `--text-*` theme vars,
+    overridden inside the `[lang="ja"]` scope) and inherit-sized (base
+    `[lang="ja"]` rule `calc(1em * var(--ja-scale))`). Nested
+    `[lang="ja"]` resets to `1em` or the multiplier compounds.
+  - **Furigana** (`data-font-furigana-size`, `--rt-scale`
+    ×1/1.15/1.3/1.45, relative to its base text): scales `rt`. At any
+    non-default value, `ruby` switches from native layout to a centered
+    **inline-flex column stack** — native ruby lets a reading wider than
+    its base overhang adjacent text (readings visually sat on the wrong
+    kanji, measured up to 13px), and Chromium 149 has no `ruby-overhang`
+    support. The flex stack makes the container width = max(base,
+    reading), so wide readings pad the line instead. The quiz
+    furigana-hide rule needs the extra `:root[data-font-furigana-size]`
+    selector to keep outranking the flex-stack `rt` rule.
 - **Primary color is Claude-style terracotta**: light
   `oklch(0.65 0.14 41)` (~#D97757), dark `oklch(0.72 0.13 44)` — the owner
   asked for it and then asked for the lighter light-mode shade; don't
@@ -558,7 +574,8 @@ regardless of host compression config.
 - **Ruby quirks** (index.css): `rt` is lifted 2px off the base glyphs with
   `position: relative; top: -2px` — **CSS transforms are silently ignored
   on ruby-text boxes**, a translateY attempt did nothing. Global `rt` is
-  0.55em; quiz sessions (`[data-quiz]`) use 0.45em. The `Furigana`
+  0.55em; quiz sessions (`[data-quiz]`) use 0.45em (both multiplied by
+  `--rt-scale`, the furigana size setting). The `Furigana`
   component is `whitespace-nowrap` (right for words); sentence renderers
   (`ExampleJa`) override with `whitespace-normal` so lines wrap.
 - **Every example sentence carries a `ParseSentenceLink`** (a small
@@ -588,7 +605,8 @@ regardless of host compression config.
 ## localStorage keys (all `nihongo-mono:` prefixed)
 
 `progress:v1` (per-word stats incl. kind/run, per-form tallies, sessions,
-streak) · `theme` · `font-text` / `font-ja` / `font-size` · `last-quiz-config` /
+streak) · `theme` · `font-text` / `font-ja` · `font-size` /
+`font-ja-size` / `font-furigana-size` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
 toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
 `parser-accurate` key is still read as a fallback) · `palette-ext`

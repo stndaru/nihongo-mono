@@ -56,8 +56,9 @@ exported as a file.
   grammar guides, JLPT practice) with short descriptions, under the
   Language menu.
 - **Personalization** — light/dark/system theme, serif/sans toggles for
-  Japanese and Latin text, and an overall font-size setting (four steps,
-  from the compact default up to 130%). All preferences persist in the
+  Japanese and Latin text, and three font-size settings (global, kanji/kana
+  relative to global, and furigana relative to its base text — four steps
+  each, from the compact default up). All preferences persist in the
   browser and apply before first paint.
 - **Progress** — day streak, accuracy, and per-word stats in localStorage,
   with a dedicated analytics page: encounters and accuracy per word,
