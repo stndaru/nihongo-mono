@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { ScanText, Sparkles, TriangleAlert } from 'lucide-react'
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
+import { TranslationSection, useTranslation } from '@/components/parser/TranslationSection'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Chip } from '@/components/ui/chip'
@@ -280,6 +281,8 @@ function ParserPage() {
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
   const [extLoading, setExtLoading] = useState(false)
   const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
+  // fires immediately on ?q= — in parallel with (never waiting on) the dicts
+  const translation = useTranslation(q)
 
   const onInput = (raw: string) => {
     setDictsWanted(true)
@@ -524,6 +527,8 @@ function ParserPage() {
                 )
               )}
             </section>
+
+            <TranslationSection sentence={q ?? ''} state={translation} />
 
             <section>
               <h2 className="mb-2 text-lg font-semibold">

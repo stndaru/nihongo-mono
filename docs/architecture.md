@@ -204,6 +204,19 @@ regardless of host compression config.
   HTTP cache) — toggling then enables directly. This mirrors the palette's
   "Include Full Dictionary" opt-in — an owner requirement: never download
   the analyzer implicitly.
+- **Translation section** (`src/lib/data/translate.ts` +
+  `components/parser/TranslationSection.tsx`): every committed `?q=`
+  sentence is auto-translated ja→en and shown in its own section between
+  Breakdown and Words Found. Provider chain: Google's unofficial keyless
+  gtx endpoint → MyMemory (`responseStatus` must be checked — its errors
+  arrive as HTTP 200) → an error state with a prefilled "Open in Google
+  Translate" external link. Each provider gets a 6 s
+  `AbortSignal.timeout`; results are cached per sentence for the session
+  (failures never cached). The `useTranslation(q)` hook runs at page
+  level so the fetch starts immediately, in parallel with (never waiting
+  on) the dictionary load; an `animate-pulse` skeleton fills the panel
+  while pending. gtx returns one chunk per sentence in `data[0]` — all
+  chunks are concatenated, not just the first.
 - **The greedy dictionary loads on intent, not on page view.** The ten
   JLPT files (~1.9 MB) start fetching on first textarea focus/keystroke
   or a `?q=` deep link (`dictsWanted` in `parser.tsx`) — just visiting

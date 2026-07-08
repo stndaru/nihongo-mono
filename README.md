@@ -45,7 +45,10 @@ exported as a file.
   characters) and get a clickable word-by-word breakdown: conjugated verbs
   identified with their exact form, hover tooltips, and a summary popup per
   word (meanings, conjugation + dictionary form, the kanji used, detail
-  page in a new tab). Heuristic dictionary matching by default (honest
+  page in a new tab). An automatic English translation of the whole
+  sentence loads asynchronously alongside the breakdown (Google Translate
+  with a MyMemory fallback; if both are unreachable, a prefilled "Open in
+  Google Translate" link appears instead). Heuristic dictionary matching by default (honest
   accuracy caveat); an opt-in **Smart Parsing** mode downloads the kuromoji
   morphological analyzer (~17 MB one-time, confirm-gated) for
   analyzer-grade segmentation, furigana on every word, POS-colored
@@ -89,7 +92,7 @@ Parsing mode) · Vite 8 · Bun.
 ```bash
 bun install
 bun run dev        # dev server (first copies the kuromoji dict into public/)
-bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser (vitest)
+bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser, translation providers (vitest)
 bun run lint       # oxlint
 bun run build      # production build (vite build && tsc -b)
 ```

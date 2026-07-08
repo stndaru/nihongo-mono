@@ -424,6 +424,27 @@ feedback on many of these — treat them as requirements, not suggestions.
     lightweightness* — when data or routes change materially, re-run the
     methodology in that file and update it rather than letting it rot.
 
+42. **Parser translation providers, 2026-07-08.** The parser's automatic
+    ja→en sentence translation uses **Google's unofficial gtx endpoint**
+    (`translate.googleapis.com/translate_a/single?client=gtx` — keyless,
+    CORS-open, Google quality, a few hundred bytes per request) as
+    primary. It's undocumented and revocable, which is why the chain
+    continues to **MyMemory** (official free API; daily cap; check
+    `responseStatus === 200` because its errors come back as HTTP 200
+    with error text in `translatedText`) and terminates in an "Open in
+    Google Translate" prefilled link, so the feature degrades to useful
+    even fully offline. Owner-confirmed: ja→en only, auto-run per parse
+    with no opt-in gate (payloads are ≤100 chars and cached per
+    sentence). Implementation notes: gtx `data[0]` is one chunk per
+    sentence — concatenate all of them; failures are never cached;
+    `translateSentence` takes no caller AbortSignal (combining with the
+    per-provider timeout needs `AbortSignal.any`, Baseline 2024 — the
+    alive-flag effect pattern covers staleness, and a post-unmount
+    resolve just warms the cache); success UI is quiet (no external
+    link — the escape hatch belongs to the error state); the skeleton
+    loader is the app's first `animate-pulse` use, a deliberate owner
+    request.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
