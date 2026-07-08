@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { ScanText, Sparkles, TriangleAlert } from 'lucide-react'
+import { ChevronDown, ScanText, Sparkles, TriangleAlert } from 'lucide-react'
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { TranslationSection, useTranslation } from '@/components/parser/TranslationSection'
@@ -283,6 +283,30 @@ function ParserPage() {
   const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
   // fires immediately on ?q= — in parallel with (never waiting on) the dicts
   const translation = useTranslation(q)
+  const [noticeOpen, setNoticeOpen] = useState(false)
+
+  // custom resize handle: the native corner grip is nearly unhittable once
+  // the textarea's scrollbar appears, so a full-width drag strip replaces it
+  const taRef = useRef<HTMLTextAreaElement>(null)
+  const [taHeight, setTaHeight] = useState<number | null>(null)
+  const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const ta = taRef.current
+    if (!ta) return
+    e.preventDefault()
+    const startY = e.clientY
+    const startH = ta.offsetHeight
+    const handle = e.currentTarget
+    handle.setPointerCapture(e.pointerId)
+    const move = (ev: PointerEvent) => setTaHeight(Math.max(128, startH + ev.clientY - startY))
+    const stop = () => {
+      handle.removeEventListener('pointermove', move)
+      handle.removeEventListener('pointerup', stop)
+      handle.removeEventListener('pointercancel', stop)
+    }
+    handle.addEventListener('pointermove', move)
+    handle.addEventListener('pointerup', stop)
+    handle.addEventListener('pointercancel', stop)
+  }
 
   const onInput = (raw: string) => {
     setDictsWanted(true)
@@ -406,44 +430,72 @@ function ParserPage() {
           </p>
         </div>
 
-        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-3.5 py-3 text-sm">
-          <p className="flex items-center gap-1.5 font-medium text-amber-700 dark:text-amber-400">
-            <TriangleAlert className="size-4 shrink-0" /> Before you rely on it
-          </p>
-          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-muted-foreground">
-            <li>
-              The default breakdown is heuristic dictionary matching, not a full
-              grammar analyzer — incoherent sentences, typos, or unusual
-              spellings will produce an inaccurate breakdown. Turning on{' '}
-              <span className="font-medium">Smart Parsing</span> (a one-time
-              ~17&nbsp;MB download) switches to a proper morphological analyzer,
-              which is much better but still not infallible.
-            </li>
-            <li>
-              Japanese input only: <span lang="ja">かな</span> and{' '}
-              <span lang="ja">漢字</span>. Romaji is not accepted — type{' '}
-              <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
-            </li>
-            <li>
-              Only JLPT-listed words are clickable in the default mode. With
-              Smart Parsing, other dictionary words link too (marked{' '}
-              <span className="font-medium">Beyond</span>), and anything not in
-              the dictionary still shows its reading and part of speech on
-              hover.
-            </li>
-          </ul>
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 text-sm">
+          <button
+            type="button"
+            onClick={() => setNoticeOpen((o) => !o)}
+            aria-expanded={noticeOpen}
+            className="flex w-full items-center gap-1.5 px-3.5 py-3 text-left font-medium text-amber-700 dark:text-amber-400"
+          >
+            <TriangleAlert className="size-4 shrink-0" /> Important Notice
+            <ChevronDown
+              className={cn(
+                'ml-auto size-4 shrink-0 transition-transform duration-150',
+                noticeOpen && 'rotate-180',
+              )}
+            />
+          </button>
+          {noticeOpen && (
+            <ul className="list-disc space-y-1 pr-3.5 pb-3 pl-8 text-muted-foreground">
+              <li>
+                The default breakdown is heuristic dictionary matching, not a full
+                grammar analyzer — incoherent sentences, typos, or unusual
+                spellings will produce an inaccurate breakdown. Turning on{' '}
+                <span className="font-medium">Smart Parsing</span> (a one-time
+                ~17&nbsp;MB download) switches to a proper morphological analyzer,
+                which is much better but still not infallible.
+              </li>
+              <li>
+                Japanese input only: <span lang="ja">かな</span> and{' '}
+                <span lang="ja">漢字</span>. Romaji is not accepted — type{' '}
+                <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
+              </li>
+              <li>
+                Only JLPT-listed words are clickable in the default mode. With
+                Smart Parsing, other dictionary words link too (marked{' '}
+                <span className="font-medium">Beyond</span>), and anything not in
+                the dictionary still shows its reading and part of speech on
+                hover.
+              </li>
+            </ul>
+          )}
         </div>
 
         <div className="space-y-2">
-          <textarea
-            value={text}
-            onChange={(e) => onInput(e.target.value)}
-            onFocus={() => setDictsWanted(true)}
-            lang="ja"
-            rows={4}
-            placeholder="旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。"
-            className="min-h-32 w-full resize-y rounded-md border bg-transparent px-3 py-2 text-lg outline-none placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-          />
+          <div>
+            <textarea
+              ref={taRef}
+              value={text}
+              onChange={(e) => onInput(e.target.value)}
+              onFocus={() => setDictsWanted(true)}
+              lang="ja"
+              rows={4}
+              style={taHeight ? { height: `${taHeight}px` } : undefined}
+              placeholder="旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。"
+              className="min-h-32 w-full resize-none rounded-md border bg-transparent px-3 py-2 text-lg outline-none placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            />
+            <div
+              onPointerDown={startResize}
+              onDoubleClick={() => setTaHeight(null)}
+              role="separator"
+              aria-orientation="horizontal"
+              aria-label="Resize the sentence input"
+              title="Drag to resize — double-click to reset"
+              className="group flex h-4 w-full cursor-ns-resize touch-none items-center justify-center"
+            >
+              <div className="h-1 w-16 rounded-full bg-border transition-colors duration-100 group-hover:bg-muted-foreground/40" />
+            </div>
+          </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
               {blocked && (

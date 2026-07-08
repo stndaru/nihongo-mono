@@ -445,6 +445,18 @@ feedback on many of these — treat them as requirements, not suggestions.
     loader is the app's first `animate-pulse` use, a deliberate owner
     request.
 
+43. **Parser input UI round, 2026-07-08.** (1) The amber accuracy-caveat
+    box became an **"Important Notice" accordion, closed by default**
+    (owner request — it dominated the page). Same amber styling, button
+    header with chevron, `aria-expanded`, MeaningsAccordion idiom — the
+    content is unchanged and still discloses the engine limits. (2) The
+    textarea's native `resize-y` corner grip was nearly unhittable once
+    the scrollbar appeared, so it's replaced by a **full-width drag
+    strip** below the textarea (`startResize` in parser.tsx: pointer
+    capture, min clamp 128 px to match `min-h-32`, double-click resets
+    to the default height). The textarea is `resize-none` now — don't
+    re-add the native grip.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
@@ -464,8 +476,8 @@ feedback on many of these — treat them as requirements, not suggestions.
   once).
 - Quizzes deliberately exclude the Beyond tier.
 - **Sentence parser accuracy is bounded by design**: the default engine is
-  greedy dictionary matching (JLPT words only, honest caveat box on the
-  page); smart mode is kuromoji + heuristic linking — homographs resolve
+  greedy dictionary matching (JLPT words only; the page's "Important
+  Notice" accordion discloses it); smart mode is kuromoji + heuristic linking — homographs resolve
   by kuromoji's reading where available (decision 32) and by frequency
   otherwise, and the reading fallback can in principle link a same-reading
   homophone. Word-by-word breakdowns of incoherent input stay unreliable
