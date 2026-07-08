@@ -30,7 +30,7 @@ const RESOURCES: { name: string; href: string; what: string }[] = [
   {
     name: 'The Tiny Wisdom — Japanese',
     href: 'https://japanese.thetinywisdom.com/',
-    what: 'A compact, well-structured guide to the verb groups and conjugation forms (the inspiration for this app’s homepage cheatsheet), with drills to practice them.',
+    what: 'A compact, well-structured guide to the verb groups and conjugation forms (the inspiration for this app’s Japanese Verb Summary cheatsheet), with drills to practice them.',
   },
   {
     name: 'JLPT Sensei',

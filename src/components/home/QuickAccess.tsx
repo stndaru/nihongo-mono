@@ -43,7 +43,7 @@ const ESSENTIALS: Entry[] = [
 ]
 
 const TOOLS: Entry[] = [
-  { to: '/parser', label: 'Sentence Parser', description: 'Break a sentence into its words', icon: ScanText },
+  { to: '/parser', label: 'Sentence Parser', description: 'Break down and translate a sentence', icon: ScanText },
   { to: '/quiz', label: 'Quiz', description: 'Practice conjugations and vocabulary', icon: GraduationCap },
   { to: '/progress', label: 'Progress', description: 'Streaks, accuracy, and weak spots', icon: ChartNoAxesColumn },
 ]
@@ -53,7 +53,7 @@ const LANGUAGE: Entry[] = [
   { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more', icon: Library },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs', icon: ArrowLeftRight },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places', icon: Users },
-  { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries of the essentials', icon: NotebookText },
+  { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries for quick recall', icon: NotebookText },
   { to: '/resources', label: 'Resources', description: 'Hand-picked sites for learning Japanese', icon: Globe },
 ]
 

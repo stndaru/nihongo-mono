@@ -20,7 +20,7 @@ function CheatsheetIndexPage() {
       <div>
         <h1 className="text-2xl font-semibold">Cheatsheet</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Compact summaries to learn the essentials and refresh them at a
+          Compact summaries to learn the key ideas once and refresh them at a
           glance later.
         </p>
       </div>

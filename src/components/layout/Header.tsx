@@ -31,12 +31,12 @@ const LANGUAGE_ITEMS: MenuEntry[] = [
   { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs' },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places' },
-  { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries of the essentials' },
+  { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries for quick recall' },
   { to: '/resources', label: 'Resources', description: 'Hand-picked sites for learning Japanese' },
 ]
 
 const TOOLS_ITEMS: MenuEntry[] = [
-  { to: '/parser', label: 'Sentence Parser', description: 'Break a sentence into its words' },
+  { to: '/parser', label: 'Sentence Parser', description: 'Break down and translate a sentence' },
   { to: '/quiz', label: 'Quiz', description: 'Practice conjugations and vocabulary' },
   { to: '/progress', label: 'Progress', description: 'Streaks, accuracy, and weak spots' },
 ]
