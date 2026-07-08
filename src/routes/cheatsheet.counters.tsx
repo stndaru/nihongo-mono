@@ -226,9 +226,12 @@ function CounterTable({ rows, withNotes }: { rows: CounterRow[]; withNotes?: boo
                 {isOpen && row.rule && (
                   <tr className="border-b border-border/60">
                     <td colSpan={cols} className="pb-3">
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-1 rounded-md bg-muted/40 p-3 sm:grid-cols-3 lg:grid-cols-4">
+                      {/* CSS multicol: fills top-to-bottom first, then wraps
+                          to the next column, and balances column heights —
+                          vertical reading order with minimal height */}
+                      <div className="columns-2 gap-x-4 rounded-md bg-muted/40 p-3 sm:columns-3 lg:columns-4">
                         {COUNT_SEQUENCE.map((n) => (
-                          <div key={n} className="flex items-baseline gap-1.5">
+                          <div key={n} className="flex break-inside-avoid items-baseline gap-1.5 py-0.5">
                             <span className="w-7 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
                               {n}
                             </span>
