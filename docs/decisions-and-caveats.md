@@ -592,6 +592,29 @@ feedback on many of these — treat them as requirements, not suggestions.
     appears as…" because the popup now also serves quiz rows, not just
     the parser.
 
+50. **Beyond links must agree with kuromoji's reading (屋/や ≠ 屋/おく),
+    2026-07-09.** Owner-reported: in 帽子屋をでた (smart mode) the 屋
+    token — correctly read や by kuromoji, correct furigana shown — got
+    Beyond-linked to 屋/おく "house". Two stacked causes: (1)
+    `entryReadsAs` trusted any reading shorter than 2 kana (a guard
+    copied from the *lookup* paths, where searching by bare single kana
+    is noise — but *checking* against one is exact), so おく "read as"
+    や; (2) `findVocabRowsBySurface` kept only the first index row per
+    surface with no reading input, so it could only ever return the
+    おく homograph. Fixes: `entryReadsAs` now compares whenever a
+    reading exists; `collectUnlinkedSurfaces` returns a
+    `readings` map (kuromoji reading per uninflected surface) that
+    `findVocabRowsBySurface` uses to upgrade a hit to the first row
+    reading that way; and `linkBeyondWords` dropped its
+    reading-contradicting "closest" fallback for fresh links — an
+    unlinked token with correct furigana beats the wrong homograph.
+    The ≥2-kana guards on reading *lookups* stay (bare や as a search
+    key would hit 矢 "arrow"); the JLPT tier needs none of this (no
+    single-kanji reading homographs in the lists today — 屋 isn't
+    listed at all). Verified on real data: 帽子屋をでた links 屋 to
+    屋/や "shop" (Suffix + Beyond badges). Unit tests cover the
+    lookup preference and the reject-contradiction path.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

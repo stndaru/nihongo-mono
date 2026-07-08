@@ -386,6 +386,22 @@ describe('Beyond linking', () => {
     expect(verbs.size).toBe(0)
   })
 
+  it('never links a Beyond entry that contradicts the reading (屋/おく ≠ や)', () => {
+    // real-world failure: 帽子屋 tokenized 帽子+屋, 屋 read ヤ, but the ext
+    // lookup returned the 屋/おく "house" homograph and it got linked anyway
+    // (single-kana readings used to bypass the entryReadsAs check)
+    const segs = tokensToSegments([tok('屋', '名詞', '接尾', '屋', 'ヤ')], DICTS)
+    const { words, readings } = collectUnlinkedSurfaces(segs)
+    expect(words.has('屋')).toBe(true)
+    expect(readings.get('屋')).toBe('や') // fed to findVocabRowsBySurface
+    const oku = word('oku', '屋', 'おく')
+    const wrongly = linkBeyondWords(segs, new Map(), new Map([['屋', oku]]))
+    expect(wrongly[0].word).toBeUndefined() // no link beats the wrong homograph
+    const ya = word('ya', '屋', 'や', 'suffix')
+    const rightly = linkBeyondWords(segs, new Map(), new Map([['屋', ya]]))
+    expect(rightly[0].word?.entry.id).toBe('ya')
+  })
+
   it('attaches extended entries with the conjugation identified', () => {
     const segs = tokensToSegments(
       [

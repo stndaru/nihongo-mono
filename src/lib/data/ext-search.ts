@@ -133,18 +133,36 @@ function matVerb(row: VerbIndexRow): VerbEntry {
 /**
  * Exact-surface lookups for the sentence parser's Beyond linking: one pass
  * over the raw rows (they're common-first, so the first hit per surface is
- * the best one), materializing only the handful of matches.
+ * the best one), materializing only the handful of matches. `readings`
+ * (kuromoji's hiragana reading per surface, when known) upgrades a hit to
+ * the first row that actually reads that way — 屋 read や must return the
+ * 屋/や "shop" homograph, not whichever 屋 row comes first (屋/おく).
  */
 export function findVocabRowsBySurface(
   rows: VocabIndexRow[],
   surfaces: ReadonlySet<string>,
+  readings?: ReadonlyMap<string, string>,
 ): Map<string, VocabEntry> {
   if (surfaces.size === 0) return new Map()
   const hits = new Map<string, VocabIndexRow>()
+  // surfaces whose hit already satisfies the wanted reading (or want none)
+  let satisfied = 0
+  const rowReading = (row: VocabIndexRow) => row[6] ?? row[2]
+  const consider = (surface: string, row: VocabIndexRow) => {
+    const wanted = readings?.get(surface)
+    const prev = hits.get(surface)
+    if (!prev) {
+      hits.set(surface, row)
+      if (!wanted || rowReading(row) === wanted) satisfied += 1
+    } else if (wanted && rowReading(prev) !== wanted && rowReading(row) === wanted) {
+      hits.set(surface, row)
+      satisfied += 1
+    }
+  }
   for (const row of rows) {
-    if (hits.size >= surfaces.size) break
-    if (surfaces.has(row[1]) && !hits.has(row[1])) hits.set(row[1], row)
-    if (surfaces.has(row[2]) && !hits.has(row[2])) hits.set(row[2], row)
+    if (satisfied >= surfaces.size) break
+    if (surfaces.has(row[1])) consider(row[1], row)
+    if (row[2] !== row[1] && surfaces.has(row[2])) consider(row[2], row)
   }
   return new Map([...hits].map(([surface, row]) => [surface, matVocab(row)]))
 }

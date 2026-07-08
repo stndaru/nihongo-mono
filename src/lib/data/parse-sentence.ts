@@ -388,9 +388,14 @@ function joinReading(tokens: JaToken[], from: number, to: number): string | unde
   return toHiragana(s)
 }
 
-/** True when the entry can plausibly be read as `reading` (no reading = trust). */
+/**
+ * True when the entry can plausibly be read as `reading` (no reading =
+ * trust). Single-kana readings DO count — 屋 read や must not accept the
+ * 屋/おく entry. (The ≥2 guards elsewhere are about *looking up* by bare
+ * kana, which is noisy; *checking* against one is exact.)
+ */
 function entryReadsAs(entry: VerbEntry | VocabEntry, reading: string | undefined): boolean {
-  if (!reading || reading.length < 2) return true
+  if (!reading) return true
   return toHiragana(entry.kana) === reading
 }
 
@@ -579,13 +584,20 @@ function misreadLink(seg: ParsedSegment): string | undefined {
   return entryReadsAs(seg.word.entry, reading) ? undefined : reading
 }
 
-/** Surfaces worth querying against the extended indexes. */
+/**
+ * Surfaces worth querying against the extended indexes. `readings` carries
+ * kuromoji's reading per uninflected surface so the ext lookup can prefer
+ * the homograph that actually reads that way (屋 read や must find 屋/や
+ * "shop", not 屋/おく "house", when the index holds both).
+ */
 export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   verbs: Set<string>
   words: Set<string>
+  readings: Map<string, string>
 } {
   const verbs = new Set<string>()
   const words = new Set<string>()
+  const readings = new Map<string, string>()
   for (const seg of segments) {
     if (!seg.token) continue
     if (seg.word) {
@@ -594,14 +606,18 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
       if (reading) {
         words.add(seg.text)
         words.add(reading)
+        readings.set(seg.text, reading)
       }
       continue
     }
     if (seg.token.pos === 'particle' || seg.token.pos === 'other') continue
     const target = seg.token.pos === 'verb' ? verbs : words
     for (const cand of beyondCandidates(seg)) target.add(cand)
+    if (seg.token.pos !== 'verb' && !seg.token.baseForm && seg.token.reading) {
+      readings.set(seg.text, seg.token.reading)
+    }
   }
-  return { verbs, words }
+  return { verbs, words, readings }
 }
 
 /** Attaches extended-tier entries (jlpt 0 → "Beyond" badge) to the misses. */
@@ -645,21 +661,19 @@ export function linkBeyondWords(
           'Conjugated')
       return { ...seg, word: { entry: verb, isVerb: true, surface: seg.text, formLabel } }
     }
-    // prefer the candidate whose entry matches kuromoji's reading (only
-    // meaningful for uninflected tokens); otherwise first hit wins
+    // the entry must agree with kuromoji's reading (only checkable for
+    // uninflected tokens): a contradicting link (屋/おく under a token
+    // read や) mislabels the word — no link, with the correct furigana
+    // still shown, is more honest than the wrong homograph
     const wantReading = seg.token.baseForm ? undefined : seg.token.reading
     let entry: VocabEntry | undefined
-    let closest: VocabEntry | undefined
     for (const cand of beyondCandidates(seg)) {
       const e = vocabEntries.get(cand)
-      if (!e) continue
-      if (entryReadsAs(e, wantReading)) {
+      if (e && entryReadsAs(e, wantReading)) {
         entry = e
         break
       }
-      closest ??= e
     }
-    entry ??= closest
     if (!entry) return seg
     const inflected =
       entry.pos === 'adj-i' &&

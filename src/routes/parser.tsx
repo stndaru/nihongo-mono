@@ -342,7 +342,7 @@ function ParserPage() {
         setResult({ segments, engine: 'accurate' })
         // second pass: content words the JLPT maps missed get looked up in
         // the extended indexes and linked as "Beyond" entries
-        const { verbs, words } = collectUnlinkedSurfaces(segments)
+        const { verbs, words, readings } = collectUnlinkedSurfaces(segments)
         if (verbs.size + words.size === 0) return
         setExtLoading(true)
         // only fetch the index that actually has misses — the vocab index
@@ -354,7 +354,7 @@ function ParserPage() {
           .then(([verbRows, vocabRows]) => {
             if (!alive) return
             const verbHits = findVerbRowsBySurface(verbRows, verbs)
-            const vocabHits = findVocabRowsBySurface(vocabRows, words)
+            const vocabHits = findVocabRowsBySurface(vocabRows, words, readings)
             if (verbHits.size + vocabHits.size > 0) {
               setResult({
                 segments: linkBeyondWords(segments, verbHits, vocabHits),

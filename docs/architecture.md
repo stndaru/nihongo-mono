@@ -289,18 +289,24 @@ regardless of host compression config.
   and dictionary-form 温かい gets no bogus "Inflected" label.
 - **Kuromoji's reading disambiguates homograph surfaces** (owner-reported:
   頃 read ころ linked to the 頃/けい entry, "qing, Chinese land unit").
-  When a surface hit contradicts the token's reading (`entryReadsAs`,
-  uninflected non-verb tokens only — inflected readings never equal the
+  When a surface hit contradicts the token's reading (`entryReadsAs` —
+  single-kana readings count too, 屋 read や rejects 屋/おく; uninflected
+  non-verb tokens only, since inflected readings never equal the
   dictionary kana), the resolution order is: a reading-consistent JLPT
   entry (kana-keyed lookup), then the Beyond pass (`misreadLink` feeds
   wrong-reading links into `collectUnlinkedSurfaces`, and
   `linkBeyondWords` swaps only if the ext entry actually reads that way),
-  and finally the original closest match stands. The same
-  reading-preference applies when Beyond-linking unlinked tokens.
+  and finally the original JLPT link stands. Fresh Beyond links are
+  stricter: an entry contradicting the token's reading is never attached
+  — no link (faded underline, correct furigana) beats the wrong
+  homograph (owner-reported: 帽子屋's 屋/や got tagged 屋/おく "house").
 - **Beyond linking (smart mode)**: content-word tokens the JLPT maps
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —
-  one exact-surface scan, first hit wins since rows are common-first).
+  one exact-surface scan, first hit wins since rows are common-first;
+  `collectUnlinkedSurfaces` also hands over kuromoji's reading per
+  surface, and the vocab scan upgrades a hit to the first row that
+  reads that way, so 屋/や wins over the earlier 屋/おく row).
   The indexes (shared with the palette's Include Full Dictionary) load
   on the first smart parse that has misses — **only the side with
   misses is fetched** (the vocab index is ~5.5 MB, the verb one
