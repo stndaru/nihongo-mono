@@ -264,6 +264,53 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].word?.formLabel).toBe('Past')
   })
 
+  it('never links a single kanji by reading alone (集 read しゅう ≠ 週)', () => {
+    // the reading fallback assumes a variant SPELLING of the same word —
+    // a lone kanji shares its reading with unrelated words, so 集 must not
+    // borrow 週's kana key (owner-reported in 問題集)
+    const dicts = buildParserDicts([], [word('week', '週', 'しゅう')])
+    const segs = tokensToSegments([tok('集', '名詞', '接尾', '集', 'シュウ')], dicts)
+    expect(segs[0].word).toBeUndefined()
+    // …and the Beyond pass finds it by exact surface instead
+    const { words } = collectUnlinkedSurfaces(segs)
+    expect(words.has('集')).toBe(true)
+    expect(words.has('しゅう')).toBe(false) // no reading key for 1-kanji tokens
+    const shuu = word('e-shuu', '集', 'しゅう', 'suffix')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['集', shuu]]))
+    expect(linked[0].word?.entry.id).toBe('e-shuu')
+  })
+
+  it('merges passive/causative 接尾 endings into the verb chain (悩まされた)', () => {
+    const dicts = buildParserDicts([verb('nayamasu', '悩ます', 'なやます', 'v5s')], [])
+    const segs = tokensToSegments(
+      [
+        tok('悩まさ', '動詞', '自立', '悩ます', 'ナヤマサ'),
+        tok('れ', '動詞', '接尾', 'れる', 'レ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      dicts,
+    )
+    expect(segs).toHaveLength(1)
+    expect(segs[0].text).toBe('悩まされた')
+    expect(segs[0].word?.entry.id).toBe('nayamasu')
+    expect(segs[0].word?.formLabel).toBeTruthy() // past-of-passive → "Conjugated"
+    expect(segs[0].token?.baseForm).toBe('悩ます')
+  })
+
+  it('does not absorb non-voice 接尾 verbs (たがる derives a new word)', () => {
+    const dicts = buildParserDicts([verb('miru', '見る', 'みる', 'v1')], [])
+    const segs = tokensToSegments(
+      [
+        tok('見', '動詞', '自立', '見る', 'ミ'),
+        tok('たがっ', '動詞', '接尾', 'たがる', 'タガッ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      dicts,
+    )
+    expect(segs.length).toBeGreaterThan(1)
+    expect(segs[0].text).toBe('見')
+  })
+
   it('links nouns through the reading, but never across word class', () => {
     const dicts = buildParserDicts(
       [verb('kaeru', '帰る', 'かえる', 'v5r')],
@@ -518,6 +565,24 @@ describe('compound merging (smart mode)', () => {
     const linked = linkBeyondWords(segs, new Map(), new Map([['参加者', wrong]]))
     expect(linked).toHaveLength(2)
     expect(linked[0].word?.entry.id).toBe('sanka')
+  })
+
+  it('merges from a ナイ形容詞語幹 head (問題+集 → 問題集)', () => {
+    // IPADIC classes 問題 as 名詞,ナイ形容詞語幹 (the 問題ない stem) —
+    // still an ordinary content noun that heads real compounds
+    const dicts = buildParserDicts([], [word('mondai', '問題', 'もんだい')])
+    const segs = tokensToSegments(
+      [
+        tok('問題', '名詞', 'ナイ形容詞語幹', '問題', 'モンダイ'),
+        tok('集', '名詞', '接尾', '集', 'シュウ'),
+      ],
+      dicts,
+    )
+    expect(segs[0].compound?.options[0].surface).toBe('問題集')
+    const compound = word('e-mondaishuu', '問題集', 'もんだいしゅう')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['問題集', compound]]))
+    expect(linked).toHaveLength(1)
+    expect(linked[0].word?.entry.id).toBe('e-mondaishuu')
   })
 
   it('merges plain noun+noun runs from the ext index (質疑+応答)', () => {

@@ -362,6 +362,14 @@ function tokenInfo(t: JaToken): TokenInfo {
 }
 
 /**
+ * Voice suffixes IPADIC tags as 動詞・接尾 (悩まさ+れ+た). Purely
+ * inflectional — never independent verbs — so the chain absorbs them
+ * unconditionally, unlike 非自立 compound tails. Restricted to this set:
+ * other 接尾 verbs (がる, めく…) derive NEW words and must stay separate.
+ */
+const VOICE_SUFFIXES = new Set(['れる', 'られる', 'せる', 'させる'])
+
+/**
  * A verb/adjective plus the endings glued onto it (た, ます, て + helper
  * verbs…) reads as one word — merge them so 食べませんでした is a single
  * segment whose base form is 食べる.
@@ -377,6 +385,11 @@ function chainEnd(tokens: JaToken[], start: number): number {
   while (j < tokens.length) {
     const t = tokens[j]
     if (t.pos === '助動詞') {
+      j += 1
+      continue
+    }
+    // passive/causative endings: 悩まさ+れ+た must read 悩まされた
+    if (t.pos === '動詞' && t.pos_detail_1 === '接尾' && VOICE_SUFFIXES.has(baseOf(t))) {
       j += 1
       continue
     }
@@ -447,7 +460,12 @@ function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
     }
   }
   if (!hit && !functionWord && reading) {
-    if (reading.length >= 2 && reading !== t.surface_form) {
+    // the reading fallback assumes a variant SPELLING of the same word
+    // (附近 → 付近) — that only holds for multi-character surfaces. A lone
+    // kanji shares its reading with unrelated words (集/週/州 are all
+    // しゅう), so single-kanji tokens never link by reading; the Beyond
+    // pass finds them by exact surface instead.
+    if (t.surface_form.length > 1 && reading.length >= 2 && reading !== t.surface_form) {
       const byReading = dicts.lookup.get(reading)
       // a reading hit must not jump word class (蛙 the noun ≠ 帰る the verb)
       if (byReading && !byReading.isVerb) hit = byReading
@@ -503,8 +521,16 @@ function verbSegment(
 // dictionary entry whose kana matches the joined reading — no entry or a
 // wrong reading, and everything stays split exactly as before.
 
-/** Noun details that may START a compound run. */
-const COMPOUND_HEAD = new Set(['一般', 'サ変接続', '形容動詞語幹', '副詞可能'])
+/** Noun details that may START a compound run. ナイ形容詞語幹 is IPADIC's
+ *  class for ない-adjective stems (問題, 仕方) — ordinary content nouns
+ *  that head real compounds (問題+集 → 問題集). */
+const COMPOUND_HEAD = new Set([
+  '一般',
+  'サ変接続',
+  '形容動詞語幹',
+  '副詞可能',
+  'ナイ形容詞語幹',
+])
 /** …plus 接尾, which may CONTINUE one (参加+者) but never start it. 非自立
  *  is excluded everywhere — よう in どのように must stay its own word
  *  (decision 49) — as are 代名詞/数/固有名詞 by not being listed. */
@@ -732,7 +758,14 @@ function beyondCandidates(seg: ParsedSegment): string[] {
   }
   const out = [seg.text]
   if (base !== seg.text) out.push(base)
-  if (token.reading && token.reading.length >= 2 && token.reading !== seg.text) {
+  // reading = variant-spelling fallback: multi-character surfaces only —
+  // a lone kanji shares its reading with unrelated words (集/週/州)
+  if (
+    seg.text.length > 1 &&
+    token.reading &&
+    token.reading.length >= 2 &&
+    token.reading !== seg.text
+  ) {
     out.push(token.reading)
   }
   return out

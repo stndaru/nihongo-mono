@@ -242,8 +242,11 @@ regardless of host compression config.
   `dev`/`build`; gitignored — the npm package is the source of truth).
 - **Token mapping** (`tokensToSegments`): kuromoji emits morphemes, so a
   verb/adjective is merged with its ending chain (助動詞, connective
-  て/で) into one segment — 食べませんでした is a single segment with
-  base 食べる, and サ変 noun + する becomes the noun+する verb entry.
+  て/で, and the 動詞・接尾 **voice suffixes れる/られる/せる/させる** —
+  悩まさ+れ+た reads 悩まされた; that closed set only, other 接尾 verbs
+  like がる derive new words and stay separate) into one segment —
+  食べませんでした is a single segment with base 食べる, and サ変 noun +
+  する becomes the noun+する verb entry.
   **Non-independent verbs (動詞・非自立) merge only after a て/で
   connective** (食べて+いる, 食べて+しまう); straight after a masu-stem
   they are compound-verb tails and stay separate — 遊び始めた is
@@ -281,9 +284,12 @@ regardless of host compression config.
   built from it) keys spelling variants by the PRIMARY kanji form only —
   温かい can never match by surface because the entry is written 暖かい.
   So verb/adjective/noun lookups fall back to the token's reading
-  (あたたかい, from kuromoji; ≥2 kana, and never across word class so
-  蛙 doesn't become 帰る), and conjugated surfaces deconjugate their
-  reading first (`baseCandidates`). Form labels stay honest for variant
+  (あたたかい, from kuromoji; ≥2 kana, never across word class so 蛙
+  doesn't become 帰る, and **never for single-kanji surfaces** — a lone
+  kanji shares its reading with unrelated words, 集/週/州 are all
+  しゅう, so 集 waits for the Beyond pass to find it by exact surface),
+  and conjugated surfaces deconjugate their reading first
+  (`baseCandidates`). Form labels stay honest for variant
   spellings by conjugating the TOKEN's own spelling
   (`identifyVerbFormAs`/`identifyAdjFormAs`) — 温かかった is "Past",
   and dictionary-form 温かい gets no bogus "Inflected" label.

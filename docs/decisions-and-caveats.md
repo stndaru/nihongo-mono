@@ -649,6 +649,28 @@ feedback on many of these — treat them as requirements, not suggestions.
     Verified on the owner's sentence: 参加者・勉強会・質疑応答・非常に
     all merge with correct furigana and glosses; greedy mode unchanged.
 
+52. **Single-kanji reading fallback removed + voice-suffix chains,
+    2026-07-09.** Two owner reports. (1) 集 in 問題集 tagged as 週
+    "week": the variant-spelling reading fallback (附近→付近) looked up
+    bare しゅう and hit 週's kana key. The variant assumption only holds
+    for multi-character surfaces — a lone kanji shares its reading with
+    unrelated words (集/週/州) — so `linkToken` and `beyondCandidates`
+    now skip reading lookups for 1-char surfaces; the Beyond pass finds
+    them by exact surface instead (集 → 集/しゅう "collection", Suffix
+    Beyond). Also added IPADIC's `ナイ形容詞語幹` (問題, 仕方 — ordinary
+    content nouns) to the compound-head whitelist so 問題+集 merges to
+    問題集. (2) 悩まされた split at れる ("Past of れる" as its own
+    word): IPADIC tags the voice suffixes as 動詞・接尾, which the verb
+    chain never absorbed. `chainEnd` now absorbs 動詞・接尾 tokens whose
+    base is in the closed set れる/られる/せる/させる — purely
+    inflectional, never independent verbs, so unconditional absorption
+    is safe, unlike 非自立 compound tails (decision 25). Other 接尾
+    verbs (がる, めく) derive new words and stay separate. Long chains
+    beyond the 22 named forms get the generic "Conjugated" label
+    (existing behavior). Verified on real data: 文法の問題集を買った。
+    (問題集 merged, no "week" anywhere) and 彼は頭痛に悩まされた。(one
+    verb segment, no standalone れる).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
