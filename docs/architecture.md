@@ -375,7 +375,8 @@ regardless of host compression config.
   (dotted underline, hover highlight; tooltip shows reading, gloss, POS,
   level, and the conjugated form when relevant).
 - **Palette fallback**: when a palette query has no hits AND is purely
-  Japanese (≤100 chars), it offers "Break Down as Sentence" → navigates
+  Japanese (≤120 chars, `MAX_SENTENCE_LEN`; digits allowed but a
+  digits-only query doesn't count), it offers "Break Down as Sentence" → navigates
   to `/parser?q=`. Deliberately absent for romaji/mixed queries — they'd
   mess with the breakdown.
 - Unit-tested in `parse-sentence.test.ts` (boundaries, single-kana rule,

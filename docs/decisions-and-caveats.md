@@ -702,6 +702,35 @@ feedback on many of these — treat them as requirements, not suggestions.
     Beyond-tier entries are deliberately not scanned for alternatives)
     and O(1) map lookups per linked word at parse time.
 
+54. **Parser input: 120-char cap, digits allowed, auto-growing box,
+    2026-07-09.** Owner request, three parts. (1) Cap raised 100 → 120
+    (`MAX_SENTENCE_LEN`, now exported from parse-sentence.ts and shared
+    with the palette's "Break Down as Sentence" gate, which previously
+    hard-coded 100). 120 was chosen against the real ceilings: the
+    MyMemory translation fallback rejects queries over 500 bytes and
+    Japanese is 3 bytes/char in UTF-8, so ~166 chars is the hard limit
+    — 120 (360 bytes) stays safely inside, and the ?q= URL stays
+    ~1.1 KB percent-encoded. Verified live: a 120-char sentence
+    translates, parses in both engines, and round-trips through ?q=.
+    Don't raise past ~160 without reworking the translation provider
+    chain (see the "cons of raising the limit" analysis: MyMemory
+    breaks first, then URL shareability, then main-thread parse cost).
+    (2) Digits allowed in the input — ASCII 0-9 and full-width ０-９
+    (dates, counters: 2026年, ３人). Latin stays rejected. Digits parse
+    as plain/annotated tokens, never link, and are **skipped by the
+    Beyond pass** (kuromoji 名詞・数 tokens can't be dictionary entries;
+    querying them would force the ext scan to run to the end of its
+    rows for nothing). `isJapaneseOnly` now additionally requires at
+    least one kana/kanji so the palette doesn't offer to "break down"
+    a pure number like 123 (side effect: pure-punctuation strings no
+    longer count as Japanese either — correct, they aren't sentences).
+    (3) The input textarea auto-grows to fit its content on paste/
+    typing/?q= restore (grow-only, so a manually enlarged box never
+    snaps back mid-typing); the drag handle still resizes both ways
+    and double-click still resets. Verified at 390px/xxlarge: grows
+    130→214px on a 120-char paste with no inner scrollbar, drag adds
+    height, double-click resets, no horizontal overflow.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

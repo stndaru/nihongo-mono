@@ -42,8 +42,9 @@ exported as a file.
 - **Search everywhere** — a Ctrl/Cmd+K command palette plus per-page search;
   queries match kanji, kana, romaji, English, and **conjugated forms**
   ("tabeta" finds 食べる).
-- **Sentence parser** — paste a Japanese sentence (kana/kanji, up to 100
-  characters) and get a clickable word-by-word breakdown: conjugated verbs
+- **Sentence parser** — paste a Japanese sentence (kana/kanji plus numbers,
+  up to 120 characters; the input box auto-grows to fit) and get a clickable
+  word-by-word breakdown: conjugated verbs
   identified with their exact form, hover tooltips, and a summary popup per
   word (meanings, conjugation + dictionary form, the kanji used, detail
   page in a new tab — plus a "Could Also Be" section listing homographs of

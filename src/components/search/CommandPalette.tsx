@@ -14,7 +14,7 @@ import {
   loadVocabExtIndex,
   loadVocabLevels,
 } from '@/lib/data/loader'
-import { isJapaneseOnly } from '@/lib/data/parse-sentence'
+import { MAX_SENTENCE_LEN, isJapaneseOnly } from '@/lib/data/parse-sentence'
 import { searchWordsScored } from '@/lib/data/search'
 import type {
   VerbEntry,
@@ -230,7 +230,8 @@ export function CommandPalette() {
                 {/* a whole sentence isn't a dictionary lookup — offer the
                     parser, but only for pure-Japanese input (romaji or mixed
                     text would mess with the breakdown) */}
-                {isJapaneseOnly(debounced.trim()) && debounced.trim().length <= 100 && (
+                {isJapaneseOnly(debounced.trim()) &&
+                  debounced.trim().length <= MAX_SENTENCE_LEN && (
                   <button
                     type="button"
                     onClick={() => {

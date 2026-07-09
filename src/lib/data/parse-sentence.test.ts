@@ -61,8 +61,9 @@ const DICTS = buildParserDicts(
 )
 
 describe('stripNonJapanese / isJapaneseOnly', () => {
-  it('removes latin, digits, and full-width latin', () => {
-    expect(stripNonJapanese('abc食べるxyz123ＡＢＣ')).toBe('食べる')
+  it('removes latin and full-width latin, keeps digits', () => {
+    expect(stripNonJapanese('abc食べるxyz123ＡＢＣ')).toBe('食べる123')
+    expect(stripNonJapanese('３人がroom3時に')).toBe('３人が3時に')
   })
   it('keeps kana, kanji, and Japanese punctuation', () => {
     const s = '旅行の楽しみは、何といっても！'
@@ -72,6 +73,13 @@ describe('stripNonJapanese / isJapaneseOnly', () => {
     expect(isJapaneseOnly('食べるtabe')).toBe(false)
     expect(isJapaneseOnly('')).toBe(false)
     expect(isJapaneseOnly('食べた。')).toBe(true)
+  })
+  it('isJapaneseOnly accepts digits inside a sentence, not alone', () => {
+    expect(isJapaneseOnly('3時に食べた。')).toBe(true)
+    // digits are allowed IN a sentence, but "123" is not a Japanese
+    // sentence — the palette must not offer to break it down
+    expect(isJapaneseOnly('123')).toBe(false)
+    expect(isJapaneseOnly('１２３')).toBe(false)
   })
 })
 
@@ -855,5 +863,26 @@ describe('homograph alternatives', () => {
     const segs = tokensToSegments([tok('頃', '名詞', '一般', '頃', 'コロ')], dicts)
     expect(segs[0].word?.entry.id).toBe('koro')
     expect(segs[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['kei'])
+  })
+})
+
+describe('digits in the input', () => {
+  it('greedy: digits pass through as plain text, neighbors still match', () => {
+    const segs = parseSentence('3旅行', DICTS)
+    expect(segs[0].text).toBe('3')
+    expect(segs[0].word).toBeUndefined()
+    expect(segs[1].word?.entry.id).toBe('w1')
+  })
+
+  it('smart mode: digit tokens are never queried against the Beyond indexes', () => {
+    const segs = tokensToSegments(
+      [tok('30', '名詞', '数', '30'), tok('渦潮', '名詞', '一般', '渦潮', 'ウズシオ')],
+      buildParserDicts([], []),
+    )
+    const { verbs, words } = collectUnlinkedSurfaces(segs)
+    expect(verbs.size).toBe(0)
+    // the real unknown still goes (surface + reading); 30 never does
+    expect(words.has('渦潮')).toBe(true)
+    expect(words.has('30')).toBe(false)
   })
 })

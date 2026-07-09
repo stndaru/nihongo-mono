@@ -19,12 +19,22 @@ import { deconjugate } from './deconjugate'
 /** Longest JLPT surface worth trying (expressions top out around here). */
 const MAX_WORD_LEN = 16
 
-// Japanese scripts + Japanese punctuation. Deliberately excludes full-width
-// latin/digits (ＡＢＣ１２３) — the parser rejects anything roman.
+/**
+ * Parser input cap, shared by the /parser route and the palette's "Break
+ * Down as Sentence" gate. Sized to keep the translation fallback alive:
+ * MyMemory rejects queries over 500 bytes, and Japanese is 3 bytes/char in
+ * UTF-8, so ~166 chars is the hard ceiling — 120 stays safely inside it
+ * (and the ?q= URL stays ~1.1 KB percent-encoded).
+ */
+export const MAX_SENTENCE_LEN = 120
+
+// Japanese scripts + Japanese punctuation + digits (both ASCII and
+// full-width — 3人 and ３人 are ordinary Japanese text). Deliberately
+// excludes latin (ＡＢＣ/abc) — the parser rejects anything roman.
 // Ranges: CJK punct 3000–303F · hiragana 3040–309F · katakana 30A0–30FF ·
 // katakana ext 31F0–31FF · CJK ext-A 3400–4DBF · CJK 4E00–9FFF.
 const JA_ALLOWED =
-  /[　-〿぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-鿿！？（）：；～\s]/u
+  /[　-〿぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-鿿！？（）：；～0-9０-９\s]/u
 
 /** Punctuation/whitespace — rendered as plain text, never matched. */
 const JA_PUNCT =
@@ -32,14 +42,23 @@ const JA_PUNCT =
 
 const KANJI = /[㐀-䶿一-鿿]/u
 
-/** Keeps only kana/kanji/Japanese punctuation (used to filter the input). */
+/** Any kana or kanji — what makes text *Japanese* rather than just allowed. */
+const JA_SCRIPT = /[぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-鿿]/u
+
+/** Keeps only kana/kanji/digits/Japanese punctuation (input filter). */
 export function stripNonJapanese(text: string): string {
   return [...text].filter((ch) => JA_ALLOWED.test(ch)).join('')
 }
 
-/** True when every character is Japanese script or punctuation. */
+/**
+ * True when the text is entirely allowed characters AND contains at least
+ * one kana/kanji — digits alone ("123") are allowed *in* a sentence but are
+ * not a Japanese sentence, so the palette must not offer to parse them.
+ */
 export function isJapaneseOnly(text: string): boolean {
-  return text.length > 0 && [...text].every((ch) => JA_ALLOWED.test(ch))
+  return (
+    text.length > 0 && JA_SCRIPT.test(text) && [...text].every((ch) => JA_ALLOWED.test(ch))
+  )
 }
 
 /** One component of a pattern-merged compound (参加 + 者). */
@@ -960,6 +979,9 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   const readings = new Map<string, string>()
   for (const seg of segments) {
     if (!seg.token) continue
+    // digits (kuromoji 名詞・数) can never be dictionary entries — querying
+    // them would only force the ext scan to run to the end of its rows
+    if (!JA_SCRIPT.test(seg.text)) continue
     // compound candidates (参加者) ride along even when the head segment is
     // itself linked (参加 is) — merging beats the component-only view
     if (seg.compound) {

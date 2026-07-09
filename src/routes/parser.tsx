@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { ChevronDown, ScanText, Sparkles, TriangleAlert } from 'lucide-react'
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
@@ -27,6 +34,7 @@ import {
 } from '@/lib/data/loader'
 import { loadTokenizer, tokenizerReady } from '@/lib/data/kuromoji'
 import {
+  MAX_SENTENCE_LEN,
   buildParserDicts,
   collectUnlinkedSurfaces,
   linkBeyondWords,
@@ -43,7 +51,7 @@ import {
 import type { VocabEntry } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
 
-const MAX_LEN = 100
+const MAX_LEN = MAX_SENTENCE_LEN
 const SMART_KEY = 'nihongo-mono:parser-smart'
 /** pre-rename key ("Accurate Parsing") — still read so early opt-ins stick */
 const LEGACY_SMART_KEY = 'nihongo-mono:parser-accurate'
@@ -289,6 +297,16 @@ function ParserPage() {
   // the textarea's scrollbar appears, so a full-width drag strip replaces it
   const taRef = useRef<HTMLTextAreaElement>(null)
   const [taHeight, setTaHeight] = useState<number | null>(null)
+
+  // auto-fit the box to its content (paste, typing, ?q= restore). Grow-only:
+  // a manually dragged-larger box never snaps back while typing — the drag
+  // handle still resizes both ways and double-click resets to the default
+  useLayoutEffect(() => {
+    const ta = taRef.current
+    if (!ta || ta.scrollHeight <= ta.clientHeight) return
+    // style.height is border-box; scrollHeight excludes the borders
+    setTaHeight(Math.max(128, ta.scrollHeight + ta.offsetHeight - ta.clientHeight))
+  }, [text])
   const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
     const ta = taRef.current
     if (!ta) return
@@ -456,8 +474,9 @@ function ParserPage() {
                 which is much better but still not infallible.
               </li>
               <li>
-                Japanese input only: <span lang="ja">かな</span> and{' '}
-                <span lang="ja">漢字</span>. Romaji is not accepted — type{' '}
+                Japanese input only: <span lang="ja">かな</span>,{' '}
+                <span lang="ja">漢字</span>, and numbers (<span lang="ja">3人</span>,{' '}
+                <span lang="ja">２０時</span>). Romaji is not accepted — type{' '}
                 <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
               </li>
               <li>
@@ -500,7 +519,8 @@ function ParserPage() {
             <p className="text-xs text-muted-foreground">
               {blocked && (
                 <span className="text-destructive">
-                  Non-Japanese characters were removed — kana and kanji only.{' '}
+                  Non-Japanese characters were removed — kana, kanji, and numbers
+                  only.{' '}
                 </span>
               )}
               {text.length}/{MAX_LEN}
