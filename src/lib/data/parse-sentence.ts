@@ -64,6 +64,21 @@ export function isJapaneseOnly(text: string): boolean {
   )
 }
 
+/**
+ * EN→JP input cap. English is ~1 byte/char, so MyMemory's 500-byte limit
+ * allows more than the Japanese side — and the generated Japanese is what
+ * actually hits the parser's MAX_SENTENCE_LEN.
+ */
+export const MAX_EN_SENTENCE_LEN = 200
+
+// printable ASCII plus the punctuation English text commonly carries
+const EN_ALLOWED = /[ -~’‘“”–—…\n]/u
+
+/** Keeps only English-typable characters (the EN→JP mode's input filter). */
+export function stripNonEnglish(text: string): string {
+  return [...text].filter((ch) => EN_ALLOWED.test(ch)).join('')
+}
+
 /** One component of a pattern-merged compound (参加 + 者). */
 export interface WordPart {
   surface: string

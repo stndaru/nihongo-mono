@@ -825,6 +825,32 @@ feedback on many of these — treat them as requirements, not suggestions.
     sentences with no other misses — the same accepted delta as
     decisions 51/53.
 
+58. **Parser direction tabs: JP→EN and EN→JP, 2026-07-09.** Owner
+    request. The parser gained a direction toggle: the default
+    Japanese → English tab is the existing feature untouched; the new
+    English → Japanese tab takes English input (≤200 chars,
+    `MAX_EN_SENTENCE_LEN` — ~200 bytes, MyMemory-safe; `stripNonEnglish`
+    filters to printable ASCII + common typographic punctuation),
+    machine-translates it to Japanese (`translateToJapanese`, the same
+    Google gtx → MyMemory chain with a direction-keyed cache), shows
+    the generated Japanese with a provenance note, and runs it through
+    the SAME breakdown pipeline. Owner constraints, honored by
+    construction: the two tabs are fully independent — each has its own
+    input state and URL param (?q= vs ?en=, active tab in ?dir=), and
+    the parse pipeline was extracted into a `useBreakdown` hook
+    instantiated once per tab, so results live side by side and
+    switching never recomputes, resets, or transfers anything. A
+    permanent amber warning on the EN tab says incoherent input or
+    other languages produce an inaccurate translation and breakdown.
+    The generated Japanese is stripped/trimmed to the parser cap (with
+    a visible "trimmed" note) and an empty-after-strip result is an
+    error state with an external Google Translate link. The JP tab's
+    Translation section is hidden on the EN tab (the English is the
+    user's own input); its state still keys off ?q=, so it survives
+    tab round-trips. Network: one extra translation request per
+    committed EN sentence (cached per direction+sentence for the
+    session); the breakdown costs are identical to the JP tab's.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

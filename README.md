@@ -44,7 +44,11 @@ exported as a file.
   ("tabeta" finds 食べる).
 - **Sentence parser** — paste a Japanese sentence (kana/kanji plus numbers,
   up to 120 characters; the input box auto-grows to fit) and get a clickable
-  word-by-word breakdown: conjugated verbs
+  word-by-word breakdown. A direction toggle adds an independent
+  English → Japanese tab: English text (≤200 chars) is machine-translated
+  to Japanese first, then broken down the same way — with a standing
+  warning that incoherent or non-English input yields inaccurate results;
+  the two tabs keep separate inputs and results. The breakdown covers: conjugated verbs
   identified with their exact form, hover tooltips, and a summary popup per
   word (meanings, conjugation + dictionary form, the kanji used, detail
   page in a new tab — plus a "Could Also Be" section listing homographs of

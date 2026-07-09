@@ -221,6 +221,19 @@ regardless of host compression config.
   on) the dictionary load; an `animate-pulse` skeleton fills the panel
   while pending. gtx returns one chunk per sentence in `data[0]` — all
   chunks are concatenated, not just the first.
+- **Direction tabs (JP→EN / EN→JP)**: the default tab is the classic
+  Japanese breakdown; the English → Japanese tab takes English input
+  (≤200 chars, `stripNonEnglish`), machine-translates it
+  (`translateToJapanese` — same provider chain, direction-keyed cache),
+  shows the generated Japanese with a provenance note, and feeds it to
+  the same pipeline. The pipeline lives in a `useBreakdown` hook
+  instantiated once per tab, and each tab has its own URL param
+  (`?q=` / `?en=`, active tab in `?dir=`) — inputs and results are fully
+  independent: switching tabs never recomputes, resets, or transfers
+  anything. The EN tab carries a standing warning that incoherent or
+  non-English input produces an inaccurate translation and breakdown;
+  the JP tab's Translation section is hidden there (the English is the
+  user's own input).
 - **The greedy dictionary loads on intent, not on page view.** The ten
   JLPT files (~1.9 MB) start fetching on first textarea focus/keystroke
   or a `?q=` deep link (`dictsWanted` in `parser.tsx`) — just visiting

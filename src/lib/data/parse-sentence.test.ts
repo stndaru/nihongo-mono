@@ -6,6 +6,7 @@ import {
   isJapaneseOnly,
   linkBeyondWords,
   parseSentence,
+  stripNonEnglish,
   stripNonJapanese,
   tokensToSegments,
   uniqueWords,
@@ -1101,5 +1102,16 @@ describe('counter positions and katakana homographs', () => {
     expect(linked[0].word?.entry.id).toBe('ginkgo')
     expect(linked[0].word?.surface).toBe('イチョウ')
     expect(linked[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['stomach'])
+  })
+})
+
+describe('stripNonEnglish (EN→JP input filter)', () => {
+  it('keeps ASCII text, digits, and common punctuation', () => {
+    const s = "I read 3 books yesterday — it wasn't bad…"
+    expect(stripNonEnglish(s)).toBe(s)
+  })
+  it('removes Japanese and other non-English characters', () => {
+    expect(stripNonEnglish('I ate 寿司 sushi')).toBe('I ate  sushi')
+    expect(stripNonEnglish('café')).toBe('caf') // non-ASCII letters are out
   })
 })

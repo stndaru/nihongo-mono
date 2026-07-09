@@ -34,11 +34,13 @@ import {
 } from '@/lib/data/loader'
 import { loadTokenizer, tokenizerReady } from '@/lib/data/kuromoji'
 import {
+  MAX_EN_SENTENCE_LEN,
   MAX_SENTENCE_LEN,
   buildParserDicts,
   collectUnlinkedSurfaces,
   linkBeyondWords,
   parseSentence,
+  stripNonEnglish,
   stripNonJapanese,
   tokensToSegments,
   uniqueWords,
@@ -48,24 +50,38 @@ import {
   type PosKey,
   type TokenInfo,
 } from '@/lib/data/parse-sentence'
+import { translateToJapanese } from '@/lib/data/translate'
 import type { VocabEntry } from '@/lib/data/types'
 import { cn } from '@/lib/utils'
 
 const MAX_LEN = MAX_SENTENCE_LEN
+const EN_MAX_LEN = MAX_EN_SENTENCE_LEN
 const SMART_KEY = 'nihongo-mono:parser-smart'
 /** pre-rename key ("Accurate Parsing") — still read so early opt-ins stick */
 const LEGACY_SMART_KEY = 'nihongo-mono:parser-accurate'
 
 interface ParserSearch {
-  /** pre-filled sentence (the palette's "Break Down as Sentence" hand-off) */
+  /** JP→EN sentence (the palette's "Break Down as Sentence" hand-off) */
   q?: string
+  /** EN→JP mode's English input — fully independent of q */
+  en?: string
+  /** active direction tab; absent = the default JP→EN */
+  dir?: 'en'
 }
 
 export const Route = createFileRoute('/parser')({
   validateSearch: (search: Record<string, unknown>): ParserSearch => {
     const q =
       typeof search.q === 'string' ? stripNonJapanese(search.q).slice(0, MAX_LEN) : ''
-    return q ? { q } : {}
+    const en =
+      typeof search.en === 'string'
+        ? stripNonEnglish(search.en).trim().slice(0, EN_MAX_LEN)
+        : ''
+    const out: ParserSearch = {}
+    if (q) out.q = q
+    if (en) out.en = en
+    if (search.dir === 'en') out.dir = 'en'
+    return out
   },
   component: ParserPage,
 })
@@ -252,105 +268,26 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
   )
 }
 
-function ParserPage() {
-  const { q } = Route.useSearch()
-  const navigate = Route.useNavigate()
-
-  const [dicts, setDicts] = useState<ParserDicts | null>(null)
-  // the JLPT dictionary (~1.9 MB over ten files) loads on intent — first
-  // touch of the textarea, or a ?q= deep link — not on page view, so just
-  // reading the page costs nothing
-  const [dictsWanted, setDictsWanted] = useState(() => !!q)
-  useEffect(() => {
-    if (q) setDictsWanted(true)
-  }, [q])
-  useEffect(() => {
-    if (!dictsWanted) return
-    let alive = true
-    Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])]).then(
-      ([verbs, vocab]) => {
-        if (alive) setDicts(buildParserDicts(verbs, vocab))
-      },
-    )
-    return () => {
-      alive = false
-    }
-  }, [dictsWanted])
-
-  const [text, setText] = useState(q ?? '')
-  const [blocked, setBlocked] = useState(false)
+/**
+ * The full breakdown pipeline for one Japanese sentence: greedy parse, or
+ * (smart mode) kuromoji segmentation plus the async Beyond pass. Extracted
+ * so the JP→EN and EN→JP tabs each own an instance — their results live
+ * side by side and switching tabs never recomputes or resets either.
+ */
+function useBreakdown(ja: string | undefined, smart: boolean, dicts: ParserDicts | null) {
   const [result, setResult] = useState<{
     segments: ParsedSegment[]
     engine: 'accurate' | 'basic'
   } | null>(null)
-
-  // "Smart Parsing" is a sticky opt-in (~17 MB analyzer download) —
-  // confirmed once via the dialog, remembered like Include Full Dictionary
-  const [smart, setSmart] = useState(
-    () => (localStorage.getItem(SMART_KEY) ?? localStorage.getItem(LEGACY_SMART_KEY)) === '1',
-  )
-  const [confirmOpen, setConfirmOpen] = useState(false)
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
   const [extLoading, setExtLoading] = useState(false)
-  const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
-  // fires immediately on ?q= — in parallel with (never waiting on) the dicts
-  const translation = useTranslation(q)
-  const [noticeOpen, setNoticeOpen] = useState(false)
-
-  // custom resize handle: the native corner grip is nearly unhittable once
-  // the textarea's scrollbar appears, so a full-width drag strip replaces it
-  const taRef = useRef<HTMLTextAreaElement>(null)
-  const [taHeight, setTaHeight] = useState<number | null>(null)
-
-  // auto-fit the box to its content (paste, typing, ?q= restore). Grow-only:
-  // a manually dragged-larger box never snaps back while typing — the drag
-  // handle still resizes both ways and double-click resets to the default
-  useLayoutEffect(() => {
-    const ta = taRef.current
-    if (!ta || ta.scrollHeight <= ta.clientHeight) return
-    // style.height is border-box; scrollHeight excludes the borders
-    setTaHeight(Math.max(128, ta.scrollHeight + ta.offsetHeight - ta.clientHeight))
-  }, [text])
-  const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const ta = taRef.current
-    if (!ta) return
-    e.preventDefault()
-    const startY = e.clientY
-    const startH = ta.offsetHeight
-    const handle = e.currentTarget
-    handle.setPointerCapture(e.pointerId)
-    const move = (ev: PointerEvent) => setTaHeight(Math.max(128, startH + ev.clientY - startY))
-    const stop = () => {
-      handle.removeEventListener('pointermove', move)
-      handle.removeEventListener('pointerup', stop)
-      handle.removeEventListener('pointercancel', stop)
-    }
-    handle.addEventListener('pointermove', move)
-    handle.addEventListener('pointerup', stop)
-    handle.addEventListener('pointercancel', stop)
-  }
-
-  const onInput = (raw: string) => {
-    setDictsWanted(true)
-    const clean = stripNonJapanese(raw).slice(0, MAX_LEN)
-    setBlocked(clean.length !== raw.length)
-    setText(clean)
-  }
-
-  // the sentence lives in ?q= so the breakdown survives navigating to a
-  // word's detail page and coming back (and palette hand-offs auto-run)
-  const breakDown = () => {
-    const trimmed = text.trim()
-    if (trimmed) navigate({ search: { q: trimmed }, replace: true })
-  }
 
   useEffect(() => {
-    if (!q || !dicts) return
+    if (!ja || !dicts) return
     let alive = true
-    setText(q)
     if (!smart) {
-      setResult({ segments: parseSentence(q, dicts), engine: 'basic' })
+      setResult({ segments: parseSentence(ja, dicts), engine: 'basic' })
       return
     }
     if (!tokenizerReady()) setDownload({ done: 0, total: 12 })
@@ -361,7 +298,7 @@ function ParserPage() {
         if (!alive) return
         setDownload(null)
         setAnalyzerFailed(false)
-        const segments = tokensToSegments(tokenizer.tokenize(q), dicts)
+        const segments = tokensToSegments(tokenizer.tokenize(ja), dicts)
         setResult({ segments, engine: 'accurate' })
         // second pass: content words the JLPT maps missed get looked up in
         // the extended indexes and linked as "Beyond" entries
@@ -403,25 +340,213 @@ function ParserPage() {
         if (!alive) return
         setDownload(null)
         setAnalyzerFailed(true)
-        setResult({ segments: parseSentence(q, dicts), engine: 'basic' })
+        setResult({ segments: parseSentence(ja, dicts), engine: 'basic' })
       })
     return () => {
       alive = false
     }
-  }, [q, dicts, smart])
+  }, [ja, dicts, smart])
+
+  return { result, download, analyzerFailed, extLoading }
+}
+
+type EnToJaState =
+  | { status: 'loading' }
+  | {
+      status: 'done'
+      ja: string
+      provider: 'google' | 'mymemory'
+      /** the generated Japanese exceeded the parser cap and was trimmed */
+      truncated: boolean
+    }
+  | { status: 'error' }
+
+/**
+ * The EN→JP mode's first step: machine-translate the committed English into
+ * Japanese (cached per sentence). The cleaned result is what the breakdown
+ * pipeline receives.
+ */
+function useEnToJa(sentence: string | undefined): EnToJaState | null {
+  const [state, setState] = useState<EnToJaState | null>(null)
+  useEffect(() => {
+    if (!sentence) {
+      setState(null)
+      return
+    }
+    let alive = true
+    setState({ status: 'loading' })
+    translateToJapanese(sentence)
+      .then((t) => {
+        if (!alive) return
+        const clean = stripNonJapanese(t.text)
+        const ja = clean.slice(0, MAX_LEN)
+        if (!ja) setState({ status: 'error' }) // no Japanese came back at all
+        else {
+          setState({ status: 'done', ja, provider: t.provider, truncated: clean.length > MAX_LEN })
+        }
+      })
+      .catch(() => {
+        if (alive) setState({ status: 'error' })
+      })
+    return () => {
+      alive = false
+    }
+  }, [sentence])
+  return state
+}
+
+function ParserPage() {
+  const { q, en, dir: dirParam } = Route.useSearch()
+  const dir: 'ja' | 'en' = dirParam ?? 'ja'
+  const navigate = Route.useNavigate()
+
+  const [dicts, setDicts] = useState<ParserDicts | null>(null)
+  // the JLPT dictionary (~1.9 MB over ten files) loads on intent — first
+  // touch of the textarea, or a ?q=/?en= deep link — not on page view, so
+  // just reading the page costs nothing
+  const [dictsWanted, setDictsWanted] = useState(() => !!q || !!en)
+  useEffect(() => {
+    if (q || en) setDictsWanted(true)
+  }, [q, en])
+  useEffect(() => {
+    if (!dictsWanted) return
+    let alive = true
+    Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])]).then(
+      ([verbs, vocab]) => {
+        if (alive) setDicts(buildParserDicts(verbs, vocab))
+      },
+    )
+    return () => {
+      alive = false
+    }
+  }, [dictsWanted])
+
+  // the two direction tabs are fully independent: each keeps its own input
+  // text and pipeline state, so switching never resets or transfers anything
+  const [text, setText] = useState(q ?? '')
+  const [blocked, setBlocked] = useState(false)
+  const [enText, setEnText] = useState(en ?? '')
+  const [enBlocked, setEnBlocked] = useState(false)
+  useEffect(() => {
+    if (q) setText(q)
+  }, [q])
+  useEffect(() => {
+    if (en) setEnText(en)
+  }, [en])
+
+  // "Smart Parsing" is a sticky opt-in (~17 MB analyzer download) —
+  // confirmed once via the dialog, remembered like Include Full Dictionary
+  const [smart, setSmart] = useState(
+    () => (localStorage.getItem(SMART_KEY) ?? localStorage.getItem(LEGACY_SMART_KEY)) === '1',
+  )
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  // enableSmart can start the analyzer download with no sentence committed —
+  // page-level progress for that case; the per-tab hooks track their own
+  const [manualDownload, setManualDownload] = useState<{
+    done: number
+    total: number
+  } | null>(null)
+  const [manualFailed, setManualFailed] = useState(false)
+  const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
+  // fires immediately on ?q= — in parallel with (never waiting on) the dicts
+  const translation = useTranslation(q)
+  const [noticeOpen, setNoticeOpen] = useState(false)
+
+  const jp = useBreakdown(q, smart, dicts)
+  const enToJa = useEnToJa(en)
+  const enBd = useBreakdown(
+    enToJa?.status === 'done' ? enToJa.ja : undefined,
+    smart,
+    dicts,
+  )
+  const active = dir === 'en' ? enBd : jp
+  const result = active.result
+  const download = active.download ?? manualDownload
+  const analyzerFailed = active.analyzerFailed || manualFailed
+  const extLoading = active.extLoading
+  const activeText = dir === 'en' ? enText : text
+
+  // custom resize handle: the native corner grip is nearly unhittable once
+  // the textarea's scrollbar appears, so a full-width drag strip replaces it
+  const taRef = useRef<HTMLTextAreaElement>(null)
+  const [taHeight, setTaHeight] = useState<number | null>(null)
+
+  // auto-fit the box to its content (paste, typing, ?q= restore). Grow-only:
+  // a manually dragged-larger box never snaps back while typing — the drag
+  // handle still resizes both ways and double-click resets to the default
+  useLayoutEffect(() => {
+    const ta = taRef.current
+    if (!ta || ta.scrollHeight <= ta.clientHeight) return
+    // style.height is border-box; scrollHeight excludes the borders
+    setTaHeight(Math.max(128, ta.scrollHeight + ta.offsetHeight - ta.clientHeight))
+  }, [text, enText, dir])
+  const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const ta = taRef.current
+    if (!ta) return
+    e.preventDefault()
+    const startY = e.clientY
+    const startH = ta.offsetHeight
+    const handle = e.currentTarget
+    handle.setPointerCapture(e.pointerId)
+    const move = (ev: PointerEvent) => setTaHeight(Math.max(128, startH + ev.clientY - startY))
+    const stop = () => {
+      handle.removeEventListener('pointermove', move)
+      handle.removeEventListener('pointerup', stop)
+      handle.removeEventListener('pointercancel', stop)
+    }
+    handle.addEventListener('pointermove', move)
+    handle.addEventListener('pointerup', stop)
+    handle.addEventListener('pointercancel', stop)
+  }
+
+  const onInput = (raw: string) => {
+    setDictsWanted(true)
+    if (dir === 'en') {
+      const clean = stripNonEnglish(raw).slice(0, EN_MAX_LEN)
+      setEnBlocked(clean.length !== raw.length)
+      setEnText(clean)
+      return
+    }
+    const clean = stripNonJapanese(raw).slice(0, MAX_LEN)
+    setBlocked(clean.length !== raw.length)
+    setText(clean)
+  }
+
+  // inputs live in ?q=/?en= so the breakdowns survive navigating to a word's
+  // detail page and coming back (and palette hand-offs auto-run). Functional
+  // search updates keep the OTHER tab's committed sentence intact.
+  const breakDown = () => {
+    if (dir === 'en') {
+      const trimmed = enText.trim()
+      if (trimmed) {
+        navigate({ search: (prev) => ({ ...prev, en: trimmed, dir: 'en' }), replace: true })
+      }
+      return
+    }
+    const trimmed = text.trim()
+    if (trimmed) navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
+  }
+
+  const setDir = (d: 'ja' | 'en') => {
+    if (d === dir) return
+    navigate({
+      search: (prev) => ({ ...prev, dir: d === 'en' ? 'en' : undefined }),
+      replace: true,
+    })
+  }
 
   const enableSmart = () => {
     localStorage.setItem(SMART_KEY, '1')
-    setAnalyzerFailed(false)
-    setSmart(true) // re-runs the parse effect when a sentence is present
+    setManualFailed(false)
+    setSmart(true) // re-runs the parse effects when a sentence is present
     // start the download right away — the user just approved it
     if (!tokenizerReady()) {
-      setDownload({ done: 0, total: 12 })
-      loadTokenizer((done, total) => setDownload({ done, total }))
-        .then(() => setDownload(null))
+      setManualDownload({ done: 0, total: 12 })
+      loadTokenizer((done, total) => setManualDownload({ done, total }))
+        .then(() => setManualDownload(null))
         .catch(() => {
-          setDownload(null)
-          setAnalyzerFailed(true)
+          setManualDownload(null)
+          setManualFailed(true)
         })
     }
   }
@@ -455,7 +580,8 @@ function ParserPage() {
         <div>
           <h1 className="text-2xl font-semibold">Sentence Parser</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Paste a Japanese sentence and break it down into the words it&apos;s
+            Paste a Japanese sentence — or, on the English tab, English text to
+            machine-translate first — and break it down into the words it&apos;s
             built from — verbs (conjugated ones included), nouns, adjectives,
             adverbs, and more. Hover a highlighted word for a quick summary;
             click it for the full detail page.
@@ -505,16 +631,58 @@ function ParserPage() {
         </div>
 
         <div className="space-y-2">
+          {/* direction tabs: two independent features — each keeps its own
+              input and result; switching never resets or transfers them */}
+          <div
+            role="tablist"
+            aria-label="Translation direction"
+            className="inline-flex rounded-lg border bg-muted/40 p-0.5 text-sm"
+          >
+            {(
+              [
+                ['ja', 'Japanese → English'],
+                ['en', 'English → Japanese'],
+              ] as const
+            ).map(([d, label]) => (
+              <button
+                key={d}
+                role="tab"
+                type="button"
+                aria-selected={dir === d}
+                onClick={() => setDir(d)}
+                className={cn(
+                  'rounded-md px-3 py-1.5 transition-colors duration-100',
+                  dir === d
+                    ? 'bg-background font-medium shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {dir === 'en' && (
+            <p className="flex items-start gap-1.5 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-400">
+              <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
+              English input only. The sentence is machine-translated to Japanese
+              first, then broken down — an incoherent sentence or another
+              language will produce an inaccurate translation and breakdown.
+            </p>
+          )}
           <div>
             <textarea
               ref={taRef}
-              value={text}
+              value={activeText}
               onChange={(e) => onInput(e.target.value)}
               onFocus={() => setDictsWanted(true)}
-              lang="ja"
+              lang={dir === 'en' ? 'en' : 'ja'}
               rows={4}
               style={taHeight ? { height: `${taHeight}px` } : undefined}
-              placeholder="旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。"
+              placeholder={
+                dir === 'en'
+                  ? 'The best part of traveling is, after all, eating the local specialties.'
+                  : '旅行の楽しみは、何といってもやはり、その土地の名物料理を食べることだろう。'
+              }
               className="min-h-32 w-full resize-none rounded-md border bg-transparent px-3 py-2 text-lg outline-none placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
             />
             <div
@@ -531,13 +699,19 @@ function ParserPage() {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
-              {blocked && (
+              {dir === 'ja' && blocked && (
                 <span className="text-destructive">
                   Non-Japanese characters were removed — kana, kanji, and numbers
                   only.{' '}
                 </span>
               )}
-              {text.length}/{MAX_LEN}
+              {dir === 'en' && enBlocked && (
+                <span className="text-destructive">
+                  Non-English characters were removed — this side accepts English
+                  only.{' '}
+                </span>
+              )}
+              {activeText.length}/{dir === 'en' ? EN_MAX_LEN : MAX_LEN}
             </p>
             <div className="flex items-center gap-2">
               <Chip
@@ -549,11 +723,32 @@ function ParserPage() {
                   <Sparkles className="size-3" /> Smart Parsing
                 </span>
               </Chip>
-              <Button onClick={breakDown} disabled={!dicts || !text.trim()}>
-                {dicts || !dictsWanted ? 'Break Down' : 'Loading dictionary…'}
+              <Button onClick={breakDown} disabled={!dicts || !activeText.trim()}>
+                {dicts || !dictsWanted
+                  ? dir === 'en'
+                    ? 'Translate & Break Down'
+                    : 'Break Down'
+                  : 'Loading dictionary…'}
               </Button>
             </div>
           </div>
+          {dir === 'en' && enToJa?.status === 'loading' && (
+            <p className="text-xs text-muted-foreground">Translating to Japanese…</p>
+          )}
+          {dir === 'en' && enToJa?.status === 'error' && (
+            <p className="text-xs text-destructive">
+              The translation services couldn&apos;t produce Japanese — try again, or{' '}
+              <a
+                className="underline underline-offset-2"
+                href={`https://translate.google.com/?sl=en&tl=ja&text=${encodeURIComponent(en ?? '')}&op=translate`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                open Google Translate
+              </a>{' '}
+              and paste the result into the Japanese tab.
+            </p>
+          )}
           {download && (
             <p className="text-xs text-muted-foreground">
               Downloading the analyzer… {download.done}/{download.total} files (one-time,
@@ -572,6 +767,23 @@ function ParserPage() {
             </p>
           )}
         </div>
+
+        {/* EN→JP: the generated Japanese is the sentence being parsed —
+            shown above its breakdown with an honest provenance note */}
+        {dir === 'en' && enToJa?.status === 'done' && (
+          <section>
+            <h2 className="mb-2 text-lg font-semibold">Japanese Translation</h2>
+            <p lang="ja" className="rounded-lg border p-4 text-xl/relaxed">
+              {enToJa.ja}
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Machine translation via{' '}
+              {enToJa.provider === 'google' ? 'Google Translate' : 'MyMemory'} — may be
+              imperfect; the breakdown below parses this generated sentence.
+              {enToJa.truncated && ` Trimmed to the parser's ${MAX_LEN}-character limit.`}
+            </p>
+          </section>
+        )}
 
         {result && (
           <>
@@ -614,7 +826,8 @@ function ParserPage() {
               )}
             </section>
 
-            <TranslationSection sentence={q ?? ''} state={translation} />
+            {/* JP→EN only — in EN→JP mode the English is the user's input */}
+            {dir === 'ja' && <TranslationSection sentence={q ?? ''} state={translation} />}
 
             <section>
               <h2 className="mb-2 text-lg font-semibold">

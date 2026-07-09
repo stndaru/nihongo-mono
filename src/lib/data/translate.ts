@@ -1,11 +1,12 @@
 /**
- * Sentence translation (ja→en) for the parser — free, keyless, tiny payloads.
+ * Sentence translation (ja→en and en→ja) for the parser — free, keyless,
+ * tiny payloads.
  *
  * Provider chain: Google's unofficial gtx endpoint (Google-quality, CORS-open,
  * but undocumented and revocable) → MyMemory (official free API, daily cap,
  * weaker Japanese) → reject, and the UI falls back to an external Google
- * Translate link. Results are cached per sentence for the session; failures
- * are never cached so a transient outage doesn't poison later retries.
+ * Translate link. Results are cached per direction+sentence for the session;
+ * failures are never cached so a transient outage doesn't poison retries.
  */
 export interface Translation {
   text: string
@@ -13,6 +14,7 @@ export interface Translation {
 }
 
 const TIMEOUT_MS = 6000
+/** keyed `${sl}-${tl}:${sentence}` — the two directions never collide */
 const cache = new Map<string, Translation>()
 
 /**
@@ -42,24 +44,35 @@ async function fetchJson(url: string): Promise<unknown> {
   return res.json()
 }
 
-async function fromGoogle(sentence: string): Promise<Translation> {
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=en&dt=t&q=${encodeURIComponent(sentence)}`
+async function fromGoogle(sentence: string, sl: string, tl: string): Promise<Translation> {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${encodeURIComponent(sentence)}`
   const text = parseGtxResponse(await fetchJson(url))
   if (!text.trim()) throw new Error('empty translation')
   return { text, provider: 'google' }
 }
 
-async function fromMyMemory(sentence: string): Promise<Translation> {
-  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(sentence)}&langpair=ja|en`
+async function fromMyMemory(sentence: string, sl: string, tl: string): Promise<Translation> {
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(sentence)}&langpair=${sl}|${tl}`
   const text = parseMyMemoryResponse(await fetchJson(url))
   if (!text.trim()) throw new Error('empty translation')
   return { text, provider: 'mymemory' }
 }
 
-export async function translateSentence(sentence: string): Promise<Translation> {
-  const hit = cache.get(sentence)
+async function translate(sentence: string, sl: string, tl: string): Promise<Translation> {
+  const key = `${sl}-${tl}:${sentence}`
+  const hit = cache.get(key)
   if (hit) return hit
-  const result = await fromGoogle(sentence).catch(() => fromMyMemory(sentence))
-  cache.set(sentence, result)
+  const result = await fromGoogle(sentence, sl, tl).catch(() => fromMyMemory(sentence, sl, tl))
+  cache.set(key, result)
   return result
+}
+
+/** ja → en: the JP→EN mode's Translation section. */
+export function translateSentence(sentence: string): Promise<Translation> {
+  return translate(sentence, 'ja', 'en')
+}
+
+/** en → ja: the EN→JP mode's input step — the result feeds the parser. */
+export function translateToJapanese(sentence: string): Promise<Translation> {
+  return translate(sentence, 'en', 'ja')
 }

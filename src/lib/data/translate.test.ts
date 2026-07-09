@@ -120,3 +120,24 @@ describe('translateSentence', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 })
+
+describe('translateToJapanese', () => {
+  it('targets en→ja and never collides with the ja→en cache', async () => {
+    const { translateToJapanese } = await import('./translate')
+    const urls: string[] = []
+    const fetchMock = vi.fn(async (...args: unknown[]) => {
+      urls.push(String(args[0]))
+      return jsonResponse(gtxBody('私は寿司を食べた。'))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const result = await translateToJapanese('I ate sushi unique.')
+    expect(result).toEqual({ text: '私は寿司を食べた。', provider: 'google' })
+    expect(urls[0]).toContain('sl=en&tl=ja')
+    // the same sentence text in the OTHER direction must not hit this cache
+    const fetchMock2 = vi.fn(async () => jsonResponse(gtxBody('different direction')))
+    vi.stubGlobal('fetch', fetchMock2)
+    const { translateSentence: ts } = await import('./translate')
+    await ts('I ate sushi unique.')
+    expect(fetchMock2).toHaveBeenCalledTimes(1)
+  })
+})
