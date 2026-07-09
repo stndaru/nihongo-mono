@@ -324,7 +324,10 @@ regardless of host compression config.
   entry (kana-keyed lookup), then the Beyond pass (`misreadLink` feeds
   wrong-reading links into `collectUnlinkedSurfaces`, and
   `linkBeyondWords` swaps only if the ext entry actually reads that way),
-  and finally the original JLPT link stands. Fresh Beyond links are
+  and finally the original JLPT link stands. Both swaps additionally
+  require the replacement to be **written as the surface or kana-native**
+  — 名 read めい must repair to 名/めい "counter", never to 姪 "niece"
+  just because both read めい (the kanji pins the word). Fresh Beyond links are
   stricter: an entry contradicting the token's reading is never attached
   — no link (faded underline, correct furigana) beats the wrong
   homograph (owner-reported: 帽子屋's 屋/や got tagged 屋/おく "house").

@@ -951,3 +951,49 @@ describe('lexicalized potentials (行ける ≠ 生ける)', () => {
     expect(alt?.formLabel).toBe('Potential')
   })
 })
+
+describe('counter 名 read めい ≠ 姪 "niece"', () => {
+  // owner report: 会員は現在20名で… tagged 名 as 姪 "niece". The JLPT
+  // surface hit (名/な "name") contradicts kuromoji's reading めい, and the
+  // reading-consistent swap (decision 50) reached for bare めい — landing on
+  // 姪, whose kanji contradicts the written surface. Swaps must respect the
+  // written form: same-surface entries or kana-native ones only.
+  const mkDicts = () => {
+    const na = word('na', '名', 'な')
+    na.jlpt = 3
+    const niece = word('niece', '姪', 'めい')
+    niece.jlpt = 2
+    return buildParserDicts([], [na, niece])
+  }
+  const meiTok = () => tok('名', '名詞', '接尾', '名', 'メイ')
+
+  it('the JLPT reading swap never replaces kanji with different kanji', () => {
+    const segs = tokensToSegments([meiTok()], mkDicts())
+    // wrong reading, flagged for Beyond repair — but never 姪
+    expect(segs[0].word?.entry.id).toBe('na')
+  })
+
+  it('the misread is flagged for the Beyond pass with its reading', () => {
+    const segs = tokensToSegments([meiTok()], mkDicts())
+    const { words, readings } = collectUnlinkedSurfaces(segs)
+    expect(words.has('名')).toBe(true)
+    expect(readings.get('名')).toBe('めい')
+  })
+
+  it('Beyond repair accepts the counter entry written 名', () => {
+    const segs = tokensToSegments([meiTok()], mkDicts())
+    const counter = word('e-mei', '名', 'めい')
+    counter.jlpt = 0
+    const linked = linkBeyondWords(segs, new Map(), new Map([['名', counter]]))
+    expect(linked[0].word?.entry.id).toBe('e-mei')
+    expect(linked[0].word?.entry.jlpt).toBe(0) // Beyond badge
+  })
+
+  it('Beyond repair rejects a conflicting-kanji entry that merely reads めい', () => {
+    const segs = tokensToSegments([meiTok()], mkDicts())
+    const extNiece = word('e-niece', '姪', 'めい')
+    extNiece.jlpt = 0
+    const linked = linkBeyondWords(segs, new Map(), new Map([['めい', extNiece]]))
+    expect(linked[0].word?.entry.id).toBe('na') // original stands — never 姪
+  })
+})

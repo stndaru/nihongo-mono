@@ -623,7 +623,17 @@ function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
     !entryReadsAs(hit.entry, reading)
   ) {
     const byReading = reading.length >= 2 ? dicts.lookup.get(reading) : undefined
-    if (byReading && !byReading.isVerb && entryReadsAs(byReading.entry, reading)) {
+    // the swap-in must not contradict the WRITTEN form either: 名 read めい
+    // must not become 姪 "niece" just because both read めい — only an entry
+    // written as this surface, or a kana-native one (ころ for 頃), may
+    // replace it. The kanji pins the word (decisions 52/55).
+    if (
+      byReading &&
+      !byReading.isVerb &&
+      entryReadsAs(byReading.entry, reading) &&
+      (byReading.entry.kanji === t.surface_form ||
+        byReading.entry.kanji === byReading.entry.kana)
+    ) {
       hit = byReading
     }
   }
@@ -1109,12 +1119,20 @@ export function linkBeyondWords(
 ): ParsedSegment[] {
   const linkOne = (seg: ParsedSegment): ParsedSegment => {
     // wrong-reading repair: swap the link only when a Beyond entry actually
-    // reads the way kuromoji says — otherwise the closest match stands
+    // reads the way kuromoji says — otherwise the closest match stands.
+    // Same written-form gate as linkToken's swap: the ext lookup matches
+    // rows by kana too, so the めい query for 名 can hand back 姪 "niece" —
+    // an entry may only replace the link if it's written as this surface
+    // or is kana-native. The kanji pins the word (decisions 52/55).
     const misread = seg.token ? misreadLink(seg) : undefined
     if (misread) {
       for (const cand of [seg.text, misread]) {
         const better = vocabEntries.get(cand)
-        if (better && entryReadsAs(better, misread)) {
+        if (
+          better &&
+          entryReadsAs(better, misread) &&
+          (better.kanji === seg.text || better.kanji === better.kana)
+        ) {
           return {
             ...seg,
             word: { entry: better, isVerb: false, surface: seg.text, formLabel: null },

@@ -762,6 +762,31 @@ feedback on many of these — treat them as requirements, not suggestions.
     before. Verified on the owner's sentence in both engines: popup
     shows 行く + Potential badge + kanji 行, no "arrange" anywhere.
 
+56. **Reading swaps must respect the written form: 名 ≠ 姪,
+    2026-07-09.** Owner-reported on 会員は現在20名で…: 名 (the counter
+    めい) tagged as 姪 "niece" (N2). The JLPT surface hit (名/な
+    "name", N3) contradicts kuromoji's reading めい, and the
+    reading-consistent swap (decision 50) looked up bare めい — landing
+    on 姪 through its kana key, an entry whose KANJI contradicts the
+    written surface. Fix: both swap sites — `linkToken`'s JLPT swap and
+    `linkBeyondWords`' misread repair (whose ext lookup matches rows by
+    kana too, so the めい query could equally return 姪) — now require
+    the replacement to be *written as this surface* or *kana-native*
+    (kanji === kana, nothing to conflict; the ころ-for-頃 shape keeps
+    working). The kanji pins the word — the same principle as decisions
+    52 and 55, now applied to swaps. Result chain on the owner's
+    sentence: the 姪 swap is rejected, 名/な stands but is flagged
+    misread, the Beyond repair finds the ext entry written 名 reading
+    めい, and the popup shows 名/めい "counter for people" (Counter +
+    Beyond badges). When the ext index lacks a same-surface
+    reading-consistent entry, the original JLPT link stands (existing
+    decision-50 behavior) — wrong reading but right written form, and
+    never a different kanji. The multi-char reading *fallback* for
+    variant spellings (温かい → 暖かい, where differing kanji is the
+    point) is deliberately untouched — the gate applies to swaps that
+    REPLACE a surface-claiming link, not to fallbacks for surfaces
+    nothing claims.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
