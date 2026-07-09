@@ -95,6 +95,11 @@ export function WordSummaryDialog({
 
             <div className="space-y-3 text-sm">
               <div className="flex flex-wrap items-center gap-1.5">
+                {active.counterUse && (
+                  <Badge variant="outline" className="px-1.5 font-normal text-primary">
+                    Counter here
+                  </Badge>
+                )}
                 {formLabel && (
                   <Badge variant="outline" className="px-1.5 font-normal text-primary">
                     {formLabel}
@@ -123,6 +128,21 @@ export function WordSummaryDialog({
                     {entry.kanji}
                   </span>
                   .
+                </p>
+              )}
+
+              {/* honest note when the token acts as a counter but no counter
+                  entry exists in the data (146本 — 本's counter sense lives
+                  inside the same JMdict entry as "book") */}
+              {active.counterUse && (
+                <p className="text-muted-foreground">
+                  Here{' '}
+                  <span lang="ja" className="text-foreground">
+                    {active.surface}
+                  </span>{' '}
+                  comes right after a number, so it works as a{' '}
+                  <span className="text-foreground">counter</span> — the meanings
+                  below describe the standalone word.
                 </p>
               )}
 

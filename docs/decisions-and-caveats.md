@@ -787,6 +787,44 @@ feedback on many of these — treat them as requirements, not suggestions.
     REPLACE a surface-claiming link, not to fallbacks for surfaces
     nothing claims.
 
+57. **Katakana homographs + counter positions (イチョウ, 146本),
+    2026-07-09.** Two owner reports. (1) イチョウ (the ginkgo) linked
+    to 胃腸 "stomach and intestines" with no alternatives: the katakana
+    surface matches nothing directly, its hiragana reading いちょう
+    matches many ext rows, and the first common row won. Fixes: the
+    ext lookup (`findVocabRowsBySurface`) now takes per-surface
+    preferences and returns per-surface row lists — a katakana
+    surface's reading candidate prefers **kana-native rows**
+    (kanji === kana; a katakana spelling signals the kana-native word,
+    not a kanji word rendered in katakana), so イチョウ links the
+    ginkgo, and every Beyond link now carries the other
+    reading-consistent rows as popup alternatives (胃腸, 医長, …) —
+    the "Could Also Be" machinery of decision 53 extended to the
+    Beyond tier. (2) 本 in 146本 tagged as plain "book": a suffix noun
+    right after a 名詞・数 token is a **counter position**
+    (`TokenInfo.counter`). When a real counter entry written as that
+    surface exists, it replaces the noun and the noun demotes to the
+    first alternative (20名 → 名/めい "counter for people" with 名/な
+    "name" as alternative — this generalizes decision 56's repair).
+    For 本 there is NO counter entry anywhere in the data: JMdict
+    keeps 本's counter sense inside the same entry as "book" (N5), the
+    ext tier excludes JLPT-listed ids, and the JLPT copy carries only
+    the book sense — so the noun link stands with `counterUse`, which
+    renders a "Counter here" badge (tooltip + popup) and an honest
+    usage note ("comes right after a number, so it works as a
+    counter — the meanings below describe the standalone word"). No
+    hardcoded per-word knowledge; the signal is kuromoji's token
+    context. Performance: the ext scan is still one pass (the
+    `satisfied` early-exit was removed — any surface absent from the
+    index already forced a full scan in practice, and the per-row work
+    is Set membership, lighter than the scored search scans of
+    decision 10); alternate lists are capped at 5 rows per queried
+    surface. Counter-position tokens that are already JLPT-linked add
+    their surface to the Beyond query set, which can newly trigger the
+    (opt-in, HTTP-cached, session-singleton) vocab index fetch on
+    sentences with no other misses — the same accepted delta as
+    decisions 51/53.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

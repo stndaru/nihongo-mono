@@ -997,3 +997,109 @@ describe('counter 名 read めい ≠ 姪 "niece"', () => {
     expect(linked[0].word?.entry.id).toBe('na') // original stands — never 姪
   })
 })
+
+describe('counter positions and katakana homographs', () => {
+  // owner reports: 146本 tagged 本 as plain "book" with no counter signal,
+  // and イチョウ (the ginkgo) linked to 胃腸 "stomach and intestines" with
+  // no alternatives offered.
+  const HON_DICTS = () => buildParserDicts([], [word('hon', '本', 'ほん')])
+  const honToks = () => [
+    tok('146', '名詞', '数', '146'),
+    tok('本', '名詞', '接尾', '本', 'ホン'),
+  ]
+
+  it('a suffix noun after a number is flagged as a counter position', () => {
+    const segs = tokensToSegments(honToks(), HON_DICTS())
+    expect(segs[1].token?.counter).toBe(true)
+    expect(segs[1].word?.entry.id).toBe('hon')
+    expect(segs[1].word?.counterUse).toBe(true)
+  })
+
+  it('counter positions are queried against the ext index', () => {
+    const segs = tokensToSegments(honToks(), HON_DICTS())
+    const { words, counters, readings } = collectUnlinkedSurfaces(segs)
+    expect(words.has('本')).toBe(true)
+    expect(counters.has('本')).toBe(true)
+    expect(readings.get('本')).toBe('ほん')
+  })
+
+  it('a real counter entry replaces the noun; the noun becomes an alternative', () => {
+    const segs = tokensToSegments(honToks(), HON_DICTS())
+    const ctr = word('e-ctr', '本', 'ほん', 'counter')
+    ctr.jlpt = 0
+    const linked = linkBeyondWords(
+      segs,
+      new Map(),
+      new Map([['本', ctr]]),
+      new Map([['本', [ctr]]]),
+    )
+    expect(linked[1].word?.entry.id).toBe('e-ctr')
+    expect(linked[1].word?.alternatives?.[0].entry.id).toBe('hon')
+  })
+
+  it('with no counter entry anywhere the noun stands, marked counterUse', () => {
+    const segs = tokensToSegments(honToks(), HON_DICTS())
+    const linked = linkBeyondWords(segs, new Map(), new Map(), new Map())
+    expect(linked[1].word?.entry.id).toBe('hon')
+    expect(linked[1].word?.counterUse).toBe(true)
+  })
+
+  it('a conflicting-kanji "counter" never replaces the noun', () => {
+    const segs = tokensToSegments(honToks(), HON_DICTS())
+    const impostor = word('e-x', '品', 'ほん', 'counter')
+    const linked = linkBeyondWords(segs, new Map(), new Map([['本', impostor]]), new Map())
+    expect(linked[1].word?.entry.id).toBe('hon')
+  })
+
+  it('20名: the counter entry wins over the JLPT noun at counter positions', () => {
+    const na = word('na', '名', 'な')
+    na.jlpt = 3
+    const dicts = buildParserDicts([], [na])
+    const segs = tokensToSegments(
+      [tok('20', '名詞', '数', '20'), tok('名', '名詞', '接尾', '名', 'メイ')],
+      dicts,
+    )
+    const ctrMei = word('e-mei', '名', 'めい', 'counter')
+    ctrMei.jlpt = 0
+    const linked = linkBeyondWords(
+      segs,
+      new Map(),
+      new Map([['名', ctrMei]]),
+      new Map([['名', [ctrMei]]]),
+    )
+    expect(linked[1].word?.entry.id).toBe('e-mei')
+    expect(linked[1].word?.alternatives?.[0].entry.id).toBe('na')
+  })
+
+  it('katakana surfaces mark their reading candidate kana-native-preferred', () => {
+    const segs = tokensToSegments(
+      [tok('イチョウ', '名詞', '一般', 'イチョウ', 'イチョウ')],
+      buildParserDicts([], []),
+    )
+    const { words, kanaNative } = collectUnlinkedSurfaces(segs)
+    expect(words.has('イチョウ')).toBe(true)
+    expect(words.has('いちょう')).toBe(true)
+    expect(kanaNative.has('いちょう')).toBe(true)
+    expect(kanaNative.has('イチョウ')).toBe(false)
+  })
+
+  it('Beyond links carry the ext homographs as alternatives (いちょう)', () => {
+    const segs = tokensToSegments(
+      [tok('イチョウ', '名詞', '一般', 'イチョウ', 'イチョウ')],
+      buildParserDicts([], []),
+    )
+    const ginkgo = word('ginkgo', 'いちょう', 'いちょう')
+    ginkgo.jlpt = 0
+    const stomach = word('stomach', '胃腸', 'いちょう')
+    stomach.jlpt = 0
+    const linked = linkBeyondWords(
+      segs,
+      new Map(),
+      new Map([['いちょう', ginkgo]]),
+      new Map([['いちょう', [stomach, ginkgo]]]),
+    )
+    expect(linked[0].word?.entry.id).toBe('ginkgo')
+    expect(linked[0].word?.surface).toBe('イチョウ')
+    expect(linked[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['stomach'])
+  })
+})

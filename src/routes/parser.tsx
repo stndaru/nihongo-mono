@@ -193,6 +193,11 @@ function WordSpan({
         {word.entry.gloss.slice(0, 2).join('; ')}
       </p>
       <div className="mt-1.5 flex items-center gap-1.5">
+        {word.counterUse && (
+          <Badge variant="outline" className="px-1.5 font-normal text-primary">
+            Counter here
+          </Badge>
+        )}
         {word.isVerb ? (
           <Badge variant="outline" className="px-1.5 font-normal text-muted-foreground">
             Verb
@@ -360,7 +365,8 @@ function ParserPage() {
         setResult({ segments, engine: 'accurate' })
         // second pass: content words the JLPT maps missed get looked up in
         // the extended indexes and linked as "Beyond" entries
-        const { verbs, words, readings } = collectUnlinkedSurfaces(segments)
+        const { verbs, words, readings, counters, kanaNative } =
+          collectUnlinkedSurfaces(segments)
         if (verbs.size + words.size === 0) return
         setExtLoading(true)
         // only fetch the index that actually has misses — the vocab index
@@ -372,10 +378,18 @@ function ParserPage() {
           .then(([verbRows, vocabRows]) => {
             if (!alive) return
             const verbHits = findVerbRowsBySurface(verbRows, verbs)
-            const vocabHits = findVocabRowsBySurface(vocabRows, words, readings)
-            if (verbHits.size + vocabHits.size > 0) {
+            const vocabHits = findVocabRowsBySurface(vocabRows, words, readings, {
+              counters,
+              kanaNative,
+            })
+            if (verbHits.size + vocabHits.entries.size > 0) {
               setResult({
-                segments: linkBeyondWords(segments, verbHits, vocabHits),
+                segments: linkBeyondWords(
+                  segments,
+                  verbHits,
+                  vocabHits.entries,
+                  vocabHits.alternates,
+                ),
                 engine: 'accurate',
               })
             }

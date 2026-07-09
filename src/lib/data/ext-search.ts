@@ -130,41 +130,78 @@ function matVerb(row: VerbIndexRow): VerbEntry {
   }
 }
 
+/** Extra type preferences per queried surface (sentence-parser context). */
+export interface SurfacePreferences {
+  /** counter-position surfaces (146本): prefer pos=ct rows */
+  counters?: ReadonlySet<string>
+  /** reading candidates of katakana surfaces (イチョウ → いちょう): a
+   *  katakana spelling signals the kana-native word (the ginkgo, not 胃腸
+   *  rendered in katakana), so prefer rows written entirely in kana */
+  kanaNative?: ReadonlySet<string>
+}
+
+export interface VocabSurfaceHits {
+  /** best row per queried surface */
+  entries: Map<string, VocabEntry>
+  /** the first few rows per queried surface — homograph alternatives for
+   *  the summary popup (胃腸/医長/… for いちょう) */
+  alternates: Map<string, VocabEntry[]>
+}
+
+/** popup alternatives cap is 4; +1 leaves room for the chosen entry itself */
+const MAX_SURFACE_ALTERNATES = 5
+
 /**
  * Exact-surface lookups for the sentence parser's Beyond linking: one pass
- * over the raw rows (they're common-first, so the first hit per surface is
- * the best one), materializing only the handful of matches. `readings`
- * (kuromoji's hiragana reading per surface, when known) upgrades a hit to
- * the first row that actually reads that way — 屋 read や must return the
- * 屋/や "shop" homograph, not whichever 屋 row comes first (屋/おく).
+ * over the raw rows, materializing only the handful of matches. Rows are
+ * common-first, so ties keep the earliest row; `readings` (kuromoji's
+ * hiragana reading per surface, when known) outranks everything — 屋 read
+ * や must return 屋/や "shop", not whichever 屋 row comes first (屋/おく) —
+ * and `prefer` breaks reading ties by row type (counter / kana-native).
+ * The pass no longer early-exits: it also collects per-surface alternate
+ * lists for the popup, and in practice any surface absent from the index
+ * (most sentences have one) already forced a full scan — the per-row work
+ * is Set membership, far lighter than the scored search scans (decision 10).
  */
 export function findVocabRowsBySurface(
   rows: VocabIndexRow[],
   surfaces: ReadonlySet<string>,
   readings?: ReadonlyMap<string, string>,
-): Map<string, VocabEntry> {
-  if (surfaces.size === 0) return new Map()
-  const hits = new Map<string, VocabIndexRow>()
-  // surfaces whose hit already satisfies the wanted reading (or want none)
-  let satisfied = 0
+  prefer?: SurfacePreferences,
+): VocabSurfaceHits {
+  if (surfaces.size === 0) return { entries: new Map(), alternates: new Map() }
+  const best = new Map<string, { row: VocabIndexRow; score: number }>()
+  const lists = new Map<string, VocabIndexRow[]>()
   const rowReading = (row: VocabIndexRow) => row[6] ?? row[2]
-  const consider = (surface: string, row: VocabIndexRow) => {
+  const scoreFor = (surface: string, row: VocabIndexRow): number => {
     const wanted = readings?.get(surface)
-    const prev = hits.get(surface)
-    if (!prev) {
-      hits.set(surface, row)
-      if (!wanted || rowReading(row) === wanted) satisfied += 1
-    } else if (wanted && rowReading(prev) !== wanted && rowReading(row) === wanted) {
-      hits.set(surface, row)
-      satisfied += 1
+    let score = 0
+    if (!wanted || rowReading(row) === wanted) score += 2
+    if (prefer?.counters?.has(surface)) {
+      if (row[4] === 'ct') score += 1
+    } else if (prefer?.kanaNative?.has(surface)) {
+      if (row[1] === row[2]) score += 1
+    } else {
+      score += 1 // no type preference — nothing to distinguish
     }
+    return score
+  }
+  const consider = (surface: string, row: VocabIndexRow) => {
+    const score = scoreFor(surface, row)
+    const prev = best.get(surface)
+    if (!prev || score > prev.score) best.set(surface, { row, score })
+    const list = lists.get(surface)
+    if (!list) lists.set(surface, [row])
+    else if (list.length < MAX_SURFACE_ALTERNATES) list.push(row)
   }
   for (const row of rows) {
-    if (satisfied >= surfaces.size) break
     if (surfaces.has(row[1])) consider(row[1], row)
     if (row[2] !== row[1] && surfaces.has(row[2])) consider(row[2], row)
   }
-  return new Map([...hits].map(([surface, row]) => [surface, matVocab(row)]))
+  return {
+    entries: new Map([...best].map(([s, b]) => [s, matVocab(b.row)])),
+    alternates: new Map([...lists].map(([s, l]) => [s, l.map(matVocab)])),
+  }
 }
 
 export function findVerbRowsBySurface(

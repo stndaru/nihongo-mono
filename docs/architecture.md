@@ -334,10 +334,20 @@ regardless of host compression config.
 - **Beyond linking (smart mode)**: content-word tokens the JLPT maps
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —
-  one exact-surface scan, first hit wins since rows are common-first;
-  `collectUnlinkedSurfaces` also hands over kuromoji's reading per
-  surface, and the vocab scan upgrades a hit to the first row that
-  reads that way, so 屋/や wins over the earlier 屋/おく row).
+  one exact-surface scan; rows are common-first, and per-surface
+  preferences upgrade the pick: kuromoji's reading first (屋/や over
+  the earlier 屋/おく row), then row type — a katakana surface's
+  reading candidate prefers **kana-native rows** (イチョウ links the
+  ginkgo いちょう, not 胃腸), and **counter positions** (a suffix noun
+  right after a number, 146本/20名) prefer counter rows (20名 →
+  名/めい "counter for people", demoting the JLPT 名/な link to an
+  alternative). The scan also returns the first few rows per surface,
+  which Beyond links carry as "Could Also Be" alternatives — the
+  reading can't tell 胃腸/医長/いちょう apart, the reader can. When a
+  counter position has no counter entry anywhere (本's counter sense
+  lives inside the same JMdict entry as the N5 "book"), the noun link
+  stands with `counterUse`, rendered as a "Counter here" badge and an
+  honest usage note in the tooltip/popup.
 - **Compound merging (smart mode)** — IPADIC tokenizes more granularly
   than JMdict lexemes (参加者 → 参加+者, 非常に → 非常+に), so
   `scanCompound` re-joins two bounded POS patterns, triple-gated by the

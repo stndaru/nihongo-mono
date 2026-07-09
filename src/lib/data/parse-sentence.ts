@@ -45,6 +45,9 @@ const KANJI = /[㐀-䶿一-鿿]/u
 /** Any kana or kanji — what makes text *Japanese* rather than just allowed. */
 const JA_SCRIPT = /[぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-鿿]/u
 
+/** Entirely katakana — signals the kana-native word (イチョウ the ginkgo). */
+const KATAKANA_ONLY = /^[゠-ヿㇰ-ㇿ]+$/u
+
 /** Keeps only kana/kanji/digits/Japanese punctuation (input filter). */
 export function stripNonJapanese(text: string): string {
   return [...text].filter((ch) => JA_ALLOWED.test(ch)).join('')
@@ -87,6 +90,12 @@ export interface ParsedWord {
    * alternative never carries alternatives of its own (no recursion).
    */
   alternatives?: ParsedWord[]
+  /**
+   * The token sits right after a number (146本) but the linked entry is not
+   * a counter — it IS acting as one here (kuromoji 名詞・接尾), the lists
+   * just have no counter entry for it. The popup shows an honest usage note.
+   */
+  counterUse?: boolean
 }
 
 /** Broad POS bucket — drives the breakdown's underline colors. */
@@ -100,6 +109,8 @@ export interface TokenInfo {
   reading?: string
   /** dictionary form, when it differs from the surface */
   baseForm?: string
+  /** suffix noun right after a number (146本, 20名) — a counter position */
+  counter?: boolean
 }
 
 /**
@@ -979,11 +990,23 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
     }
 
     // everything else is a single token: annotate, link when JLPT-listed
-    segments.push({
-      text: t.surface_form,
-      token: tokenInfo(t),
-      word: linkToken(t, dicts) ?? undefined,
-    })
+    const info = tokenInfo(t)
+    const word = linkToken(t, dicts) ?? undefined
+    // a suffix noun right after a number is a counter position (146本,
+    // 20名) — mark it so the Beyond pass can look for a real counter entry
+    // and the popup can explain the usage when none exists
+    if (
+      t.pos === '名詞' &&
+      t.pos_detail_1 === '接尾' &&
+      tokens[i - 1]?.pos === '名詞' &&
+      tokens[i - 1].pos_detail_1 === '数'
+    ) {
+      info.counter = true
+      if (word && (word.isVerb || (word.entry as VocabEntry).pos !== 'counter')) {
+        word.counterUse = true
+      }
+    }
+    segments.push({ text: t.surface_form, token: info, word })
     i += 1
   }
   return segments
@@ -1037,10 +1060,16 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
   verbs: Set<string>
   words: Set<string>
   readings: Map<string, string>
+  /** counter-position surfaces (146本) — the ext lookup prefers ct rows */
+  counters: Set<string>
+  /** reading candidates of katakana surfaces — prefer kana-native rows */
+  kanaNative: Set<string>
 } {
   const verbs = new Set<string>()
   const words = new Set<string>()
   const readings = new Map<string, string>()
+  const counters = new Set<string>()
+  const kanaNative = new Set<string>()
   for (const seg of segments) {
     if (!seg.token) continue
     // digits (kuromoji 名詞・数) can never be dictionary entries — querying
@@ -1054,6 +1083,13 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
         if (opt.reading) readings.set(opt.surface, opt.reading)
       }
     }
+    // counter positions linked to a non-counter entry (146本 → "book"):
+    // query the ext index — a real counter entry (名/めい) beats the noun
+    if (seg.token.counter && seg.word?.counterUse) {
+      words.add(seg.text)
+      counters.add(seg.text)
+      if (seg.token.reading) readings.set(seg.text, seg.token.reading)
+    }
     if (seg.word) {
       // wrong-reading links also go to the ext lookup (repair candidates)
       const reading = misreadLink(seg)
@@ -1065,13 +1101,20 @@ export function collectUnlinkedSurfaces(segments: ParsedSegment[]): {
       continue
     }
     if (seg.token.pos === 'particle' || seg.token.pos === 'other') continue
+    if (seg.token.counter) counters.add(seg.text)
     const target = seg.token.pos === 'verb' ? verbs : words
-    for (const cand of beyondCandidates(seg)) target.add(cand)
+    const isKatakana = KATAKANA_ONLY.test(seg.text)
+    for (const cand of beyondCandidates(seg)) {
+      target.add(cand)
+      // イチョウ queries its reading いちょう too — a katakana spelling
+      // signals the kana-native homograph (ginkgo), not 胃腸
+      if (isKatakana && cand !== seg.text) kanaNative.add(cand)
+    }
     if (seg.token.pos !== 'verb' && !seg.token.baseForm && seg.token.reading) {
       readings.set(seg.text, seg.token.reading)
     }
   }
-  return { verbs, words, readings }
+  return { verbs, words, readings, counters, kanaNative }
 }
 
 /**
@@ -1111,13 +1154,82 @@ function mergeCompound(
   return null
 }
 
+/**
+ * Homograph alternatives from the ext lookup's per-surface row lists —
+ * reading-consistent rows only, minus the chosen entry (胃腸/医長 for a
+ * surface linked to the ginkgo いちょう).
+ */
+function extAlternatives(
+  cand: string,
+  surface: string,
+  chosenId: string,
+  reading: string | undefined,
+  pool: Map<string, VocabEntry[]> | undefined,
+): ParsedWord[] | undefined {
+  const rows = pool?.get(cand)
+  if (!rows) return undefined
+  const out: ParsedWord[] = []
+  for (const e of rows) {
+    if (e.id === chosenId || !entryReadsAs(e, reading)) continue
+    out.push({ entry: e, isVerb: false, surface, formLabel: null })
+    if (out.length === MAX_ALTERNATIVES) break
+  }
+  return out.length > 0 ? out : undefined
+}
+
 /** Attaches extended-tier entries (jlpt 0 → "Beyond" badge) to the misses. */
 export function linkBeyondWords(
   segments: ParsedSegment[],
   verbEntries: Map<string, VerbEntry>,
   vocabEntries: Map<string, VocabEntry>,
+  vocabAlternates?: Map<string, VocabEntry[]>,
 ): ParsedSegment[] {
   const linkOne = (seg: ParsedSegment): ParsedSegment => {
+    // counter positions (146本): a real counter entry written as this
+    // surface (名/めい "counter for people") beats the standalone noun —
+    // the noun is demoted to the first alternative. With no counter entry
+    // anywhere (本 keeps its N5 "book" JMdict id, so the ext tier has no
+    // row for it), the noun link stands with `counterUse` explaining the
+    // usage and any ext homographs attached as alternatives.
+    if (seg.token?.counter && seg.word?.counterUse) {
+      const reading = seg.token.reading
+      const better = vocabEntries.get(seg.text)
+      if (
+        better &&
+        better.pos === 'counter' &&
+        entryReadsAs(better, reading) &&
+        (better.kanji === seg.text || better.kanji === better.kana)
+      ) {
+        const demoted: ParsedWord = {
+          entry: seg.word.entry,
+          isVerb: seg.word.isVerb,
+          surface: seg.text,
+          formLabel: null,
+        }
+        const alts = mergeAlternatives(
+          [demoted],
+          extAlternatives(seg.text, seg.text, better.id, reading, vocabAlternates),
+        )
+        return {
+          ...seg,
+          word: {
+            entry: better,
+            isVerb: false,
+            surface: seg.text,
+            formLabel: null,
+            ...(alts && { alternatives: alts }),
+          },
+        }
+      }
+      const alts = mergeAlternatives(
+        seg.word.alternatives,
+        extAlternatives(seg.text, seg.text, seg.word.entry.id, reading, vocabAlternates),
+      )
+      if (alts && alts !== seg.word.alternatives) {
+        return { ...seg, word: { ...seg.word, alternatives: alts } }
+      }
+      return seg
+    }
     // wrong-reading repair: swap the link only when a Beyond entry actually
     // reads the way kuromoji says — otherwise the closest match stands.
     // Same written-form gate as linkToken's swap: the ext lookup matches
@@ -1133,9 +1245,27 @@ export function linkBeyondWords(
           entryReadsAs(better, misread) &&
           (better.kanji === seg.text || better.kanji === better.kana)
         ) {
+          // the displaced entry is still a plausible reading of this
+          // written form — keep it reachable, plus any ext homographs
+          const demoted: ParsedWord = {
+            entry: seg.word!.entry,
+            isVerb: seg.word!.isVerb,
+            surface: seg.text,
+            formLabel: null,
+          }
+          const alts = mergeAlternatives(
+            [demoted],
+            extAlternatives(cand, seg.text, better.id, misread, vocabAlternates),
+          )
           return {
             ...seg,
-            word: { entry: better, isVerb: false, surface: seg.text, formLabel: null },
+            word: {
+              entry: better,
+              isVerb: false,
+              surface: seg.text,
+              formLabel: null,
+              ...(alts && { alternatives: alts }),
+            },
           }
         }
       }
@@ -1166,10 +1296,12 @@ export function linkBeyondWords(
     // still shown, is more honest than the wrong homograph
     const wantReading = seg.token.baseForm ? undefined : seg.token.reading
     let entry: VocabEntry | undefined
+    let hitCand: string | undefined
     for (const cand of beyondCandidates(seg)) {
       const e = vocabEntries.get(cand)
       if (e && entryReadsAs(e, wantReading)) {
         entry = e
+        hitCand = cand
         break
       }
     }
@@ -1182,7 +1314,21 @@ export function linkBeyondWords(
     const formLabel = inflected
       ? (identifyAdjForm(entry, seg.text) ?? identifyAdjFormAs(base, seg.text) ?? 'Inflected')
       : null
-    return { ...seg, word: { entry, isVerb: false, surface: seg.text, formLabel } }
+    // the other ext entries sharing the matched surface (胃腸/医長 next to
+    // the ginkgo いちょう) — the reading can't tell them apart, the reader can
+    const alts = inflected
+      ? undefined
+      : extAlternatives(hitCand!, seg.text, entry.id, wantReading, vocabAlternates)
+    return {
+      ...seg,
+      word: {
+        entry,
+        isVerb: false,
+        surface: seg.text,
+        formLabel,
+        ...(alts && { alternatives: alts }),
+      },
+    }
   }
 
   // compound spans first: a merged span consumes its segments (including any
