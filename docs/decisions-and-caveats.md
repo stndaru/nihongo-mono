@@ -931,6 +931,28 @@ feedback on many of these — treat them as requirements, not suggestions.
     marks the grammatical use; a content-word 野 arrives as its own
     kanji surface (名詞・一般) and still links normally.
 
+62. **Cheatsheet linguistic review, 2026-07-09.** Owner-requested
+    Japanese-accuracy review of both cheatsheets (one reviewer agent per
+    page). Four content fixes, no logic changes: (a) the imperative
+    form's usage note claimed it "can be softened by adding kudasai" —
+    factually wrong (ください never attaches to the imperative; polite
+    requests are 〜てください, built from the TE-form) — rewritten in
+    `FORM_LABELS`, which also fixes every verb detail page and quiz
+    feedback card since all render the same shared constant; (b) the
+    counters page's k/s/t gemination bullet said "1, 8, and 10" but
+    k-row counters also geminate on 6 (六回 ろっかい) — the page's own
+    generated sequences already showed this, so the rule contradicted
+    the data next to it; (c) 羽 gained a notes field (ろっぱ/はっぱ as
+    common alternates for 6/8 — the plain ろくわ/はちわ the generator
+    emits remain valid and more common, so the sequence itself stands);
+    (d) full-width （） around an English aside normalized to
+    half-width. The audits also hand-verified with no findings: the
+    entire counter-sequence generator (every sound-change class, tens/
+    hundreds compounding, ひとり/よにん/はたち/さんがい specials), all
+    22 conjugation-form explanations and exception notes, the godan
+    endings table, and the る-trap list. 歩+4 (よんぽ) was investigated
+    and kept — dual-valid per counter references.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

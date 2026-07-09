@@ -225,7 +225,7 @@ export const FORM_LABELS: Record<ConjugationForm, FormLabel> = {
     ja: '命令形',
     hint: 'do it!',
     usage:
-      'For giving commands. Generally too abrupt for most situations other than telling off children or husbands but can be softened by adding "please" (kudasai).',
+      'For blunt, direct commands — sports coaching (頑張れ), drill sergeants, warning signs, or shouted in anger. Too abrupt for daily use; for polite requests, use 〜てください (built from the te-form) instead.',
   },
   prohibitive: {
     label: 'Prohibitive',

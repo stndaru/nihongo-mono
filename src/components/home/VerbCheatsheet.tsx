@@ -255,7 +255,7 @@ export function VerbCheatsheet() {
             <div className="space-y-1">
               <Formula label="ない・ます">しない ・ します</Formula>
               <Formula label="て・た">して ・ した</Formula>
-              <Formula label="Potential">できる（its own word）</Formula>
+              <Formula label="Potential">できる (its own word)</Formula>
             </div>
           </Row>
           <Row icon="conjugate" label="来る — reading changes, kanji doesn't">

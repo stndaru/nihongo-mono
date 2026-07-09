@@ -56,7 +56,7 @@ const MUST_KNOW: CounterRow[] = [
   { counter: '枚', reading: 'まい', counts: 'flat things — paper, tickets, plates, shirts', rule: { kana: 'まい', cls: 'none' } },
   { counter: '匹', reading: 'ひき', counts: 'small and medium animals — cats, dogs, fish, insects', notes: 'いっぴき・さんびき・ろっぴき', rule: { kana: 'ひき', cls: 'hb' } },
   { counter: '頭', reading: 'とう', counts: 'large animals — horses, cows, elephants', rule: { kana: 'とう', cls: 't' } },
-  { counter: '羽', reading: 'わ', counts: 'birds — and, famously, rabbits', rule: { kana: 'わ', cls: 'none' } },
+  { counter: '羽', reading: 'わ', counts: 'birds — and, famously, rabbits', notes: 'ろくわ・はちわ, but ろっぱ・はっぱ are common too', rule: { kana: 'わ', cls: 'none' } },
   { counter: '冊', reading: 'さつ', counts: 'books, magazines, notebooks', notes: 'いっさつ・はっさつ', rule: { kana: 'さつ', cls: 's' } },
   { counter: '台', reading: 'だい', counts: 'machines, vehicles, instruments', rule: { kana: 'だい', cls: 'none' } },
   { counter: '人', reading: 'にん', counts: 'people', notes: 'ひとり・ふたり, then さんにん…', rule: { kana: 'にん', cls: 'none', four: 'よ', special: { 1: 'ひとり', 2: 'ふたり' } } },
@@ -386,7 +386,8 @@ function CounterCheatsheetPage() {
           </li>
           <li>
             Counters starting with k, s, or t (<span lang="ja">回・個・歳・冊</span>):
-            1, 8, and 10 double the consonant (<span lang="ja">いっかい・はっこ・じゅっさい</span>).
+            1, 8, and 10 double the consonant — k-row counters double on 6 too
+            (<span lang="ja">いっかい・ろっかい・はっこ・じゅっさい</span>).
           </li>
           <li>
             Age 20 is its own word: <span lang="ja">二十歳（はたち）</span>.
