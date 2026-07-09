@@ -280,6 +280,21 @@ regardless of host compression config.
   claim — 帰る (N5) still beats any rarer native かえる. Particle/
   auxiliary tokens additionally refuse to link to content words that
   merely share their kana (で ≠ 出).
+- **The tie-break's runners-up survive as alternatives** ("Could Also
+  Be" in the summary popup): the preference above has no sentence
+  context, so kana homographs sometimes resolve wrong (うち in
+  乗っているうち is 内 "while", not "one's house") — and for kana-only
+  surfaces even kuromoji's reading can't help. `buildParserDicts` keeps
+  an `alternates` map of contested keys (≥2 claimants, best-first,
+  uncontested keys pruned), and every linked word carries the other
+  entries claiming its exact written form; conjugated surfaces go
+  through the deconjugator instead, and each alternative must reproduce
+  the surface via a named form (いった offers 言った next to 行った).
+  Reading-only claimants are never alternatives (kanji pins the word —
+  集 doesn't offer 週), function-word tokens get none (kuromoji's POS
+  pinned the class — に doesn't offer 二), capped at 4. The popup
+  section reuses the Parts swap mechanic: click an alternative to view
+  it, Back returns.
 - **Reading fallback for variant spellings**: JMdict (and every index
   built from it) keys spelling variants by the PRIMARY kanji form only —
   温かい can never match by surface because the entry is written 暖かい.

@@ -46,7 +46,9 @@ exported as a file.
   characters) and get a clickable word-by-word breakdown: conjugated verbs
   identified with their exact form, hover tooltips, and a summary popup per
   word (meanings, conjugation + dictionary form, the kanji used, detail
-  page in a new tab). An automatic English translation of the whole
+  page in a new tab — plus a "Could Also Be" section listing homographs of
+  the same written form, e.g. うち "house" vs 内 "while", when the
+  automatic pick may be wrong). An automatic English translation of the whole
   sentence loads asynchronously alongside the breakdown (Google Translate
   with a MyMemory fallback; if both are unreachable, a prefilled "Open in
   Google Translate" link appears instead). Heuristic dictionary matching by default (honest

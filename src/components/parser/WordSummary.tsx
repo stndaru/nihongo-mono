@@ -137,6 +137,43 @@ export function WordSummaryDialog({
                 </ul>
               </div>
 
+              {/* homograph escape hatch: the parser's tie-break has no
+                  sentence context, so when other entries claim the same
+                  written form (うち → 内) the reader can compare them */}
+              {active.alternatives && active.alternatives.length > 0 && (
+                <div>
+                  <h3 className="mb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Could Also Be
+                  </h3>
+                  <p className="mb-1.5 text-xs text-muted-foreground">
+                    Written the same way — if the meaning above doesn't fit the
+                    sentence, one of these may be the real match.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {active.alternatives.map((alt) => (
+                      <button
+                        key={`${alt.isVerb ? 'v' : 'w'}:${alt.entry.id}`}
+                        type="button"
+                        onClick={() => setShown(alt)}
+                        className="flex items-baseline gap-2 rounded-md border px-2 py-1.5 text-left transition-colors duration-100 hover:border-primary/50 hover:bg-primary/5"
+                      >
+                        <span lang="ja" className="text-base leading-none">
+                          {alt.entry.kanji}
+                        </span>
+                        {alt.entry.kana !== alt.entry.kanji && (
+                          <span lang="ja" className="text-xs text-muted-foreground">
+                            {alt.entry.kana}
+                          </span>
+                        )}
+                        <span className="max-w-36 truncate text-xs text-muted-foreground">
+                          {alt.entry.gloss[0]}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* components of a pattern-merged compound (参加 + 者) — each
                   linked part swaps this dialog to its own entry */}
               {active.parts && active.parts.length > 0 && (

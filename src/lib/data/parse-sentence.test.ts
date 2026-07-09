@@ -752,3 +752,108 @@ describe('uniqueWords', () => {
     ])
   })
 })
+
+describe('homograph alternatives', () => {
+  // the owner's report: 乗っているうち tagged うち as "one's house" (N5,
+  // kana-native, wins the tie-break) when the sentence means 内 "while".
+  // Context can't be recovered, so the loser must survive as an alternative.
+  const house = word('house', 'うち', 'うち')
+  const inside = () => {
+    const w = word('inside', '内', 'うち')
+    w.jlpt = 4
+    return w
+  }
+
+  it('greedy: a linked homograph carries the losing claimants', () => {
+    const dicts = buildParserDicts([], [house, inside()])
+    const [seg] = parseSentence('うち', dicts)
+    expect(seg.word?.entry.id).toBe('house')
+    expect(seg.word?.alternatives?.map((a) => a.entry.id)).toEqual(['inside'])
+    expect(seg.word?.alternatives?.[0].formLabel).toBeNull()
+    expect(seg.word?.alternatives?.[0].surface).toBe('うち')
+  })
+
+  it('greedy: uncontested words carry no alternatives', () => {
+    const [seg] = parseSentence('旅行', DICTS)
+    expect(seg.word?.entry.id).toBe('w1')
+    expect(seg.word?.alternatives).toBeUndefined()
+  })
+
+  it('single-kana content words never appear as alternatives of a particle', () => {
+    const dicts = buildParserDicts(
+      [],
+      [word('ni', 'に', 'に', 'particle'), word('two', '二', 'に')],
+    )
+    const [seg] = parseSentence('に', dicts)
+    expect(seg.word?.entry.id).toBe('ni')
+    expect(seg.word?.alternatives).toBeUndefined()
+  })
+
+  it('greedy: a conjugated surface offers the other verb that produces it (いった)', () => {
+    const dicts = buildParserDicts(
+      [verb('iku', '行く', 'いく', 'v5k-s'), verb('iu', '言う', 'いう', 'v5u')],
+      [],
+    )
+    const [seg] = parseSentence('いった', dicts)
+    expect(seg.word?.formLabel).toBe('Past')
+    const ids = [seg.word!.entry.id, ...seg.word!.alternatives!.map((a) => a.entry.id)]
+    expect(ids.sort()).toEqual(['iku', 'iu'])
+    expect(seg.word?.alternatives?.[0].formLabel).toBe('Past')
+  })
+
+  it('smart mode: linkToken attaches alternatives for content words', () => {
+    const dicts = buildParserDicts([], [house, inside()])
+    const segs = tokensToSegments([tok('うち', '名詞', '副詞可能', 'うち', 'ウチ')], dicts)
+    expect(segs[0].word?.entry.id).toBe('house')
+    expect(segs[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['inside'])
+  })
+
+  it('smart mode: function words get none — kuromoji already pinned the class', () => {
+    const dicts = buildParserDicts(
+      [],
+      [word('ni', 'に', 'に', 'particle'), word('two', '二', 'に')],
+    )
+    const segs = tokensToSegments([tok('に', '助詞', '格助詞', 'に', 'ニ')], dicts)
+    expect(segs[0].word?.entry.id).toBe('ni')
+    expect(segs[0].word?.alternatives).toBeUndefined()
+  })
+
+  it('smart mode: a kanji-written verb chain is pinned — no alternatives (行った)', () => {
+    const dicts = buildParserDicts(
+      [verb('iku', '行く', 'いく', 'v5k-s'), verb('iu', '言う', 'いう', 'v5u')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [tok('行っ', '動詞', '自立', '行く', 'イッ'), tok('た', '助動詞', '*', 'た', 'タ')],
+      dicts,
+    )
+    expect(segs[0].word?.entry.id).toBe('iku')
+    expect(segs[0].word?.alternatives).toBeUndefined()
+  })
+
+  it('smart mode: a kana-written verb chain offers the other reading (いった)', () => {
+    const dicts = buildParserDicts(
+      [verb('iku', '行く', 'いく', 'v5k-s'), verb('iu', '言う', 'いう', 'v5u')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [tok('いっ', '動詞', '自立', '行く', 'イッ'), tok('た', '助動詞', '*', 'た', 'タ')],
+      dicts,
+    )
+    expect(segs[0].word?.entry.id).toBe('iku')
+    expect(segs[0].word?.formLabel).toBe('Past')
+    expect(segs[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['iu'])
+    expect(segs[0].word?.alternatives?.[0].formLabel).toBe('Past')
+  })
+
+  it('a reading-swap keeps the displaced surface claimant reachable (頃)', () => {
+    const kei = word('kei', '頃', 'けい')
+    kei.jlpt = 1
+    kei.common = false
+    const koro = word('koro', 'ころ', 'ころ')
+    const dicts = buildParserDicts([], [kei, koro])
+    const segs = tokensToSegments([tok('頃', '名詞', '一般', '頃', 'コロ')], dicts)
+    expect(segs[0].word?.entry.id).toBe('koro')
+    expect(segs[0].word?.alternatives?.map((a) => a.entry.id)).toEqual(['kei'])
+  })
+})

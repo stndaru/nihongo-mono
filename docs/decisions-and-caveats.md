@@ -671,6 +671,37 @@ feedback on many of these — treat them as requirements, not suggestions.
     (問題集 merged, no "week" anywhere) and 彼は頭痛に悩まされた。(one
     verb segment, no standalone れる).
 
+53. **Homograph alternatives in the word popup ("Could Also Be"),
+    2026-07-09.** Owner-reported on 乗っているうちに…: うち linked to
+    the N5 kana-native noun "one's house" when the sentence means 内
+    "while/inside". The tie-break (decision 49) has no sentence
+    context, so for kana homographs it will sometimes pick wrong — and
+    for kana-only surfaces even kuromoji's reading can't disambiguate
+    (both entries read うち). Instead of trying to guess harder, the
+    popup now offers the runners-up: `buildParserDicts` keeps a second
+    map (`alternates`) of **contested keys only** (≥2 claimants, best
+    first — uncontested keys are pruned, so the map stays small), and
+    every linked word carries `alternatives`: the other entries that
+    claim its exact written form (うち → 内; kana かえる → the other
+    かえる verbs). Conjugated surfaces get the same treatment through
+    the deconjugator — every alternative must reproduce the surface via
+    a named form (いった offers 言った next to 行った), the same honesty
+    bar as the primary link. Boundaries: (a) reading-only claimants are
+    NOT alternatives — a kanji surface pins the word, so 集 never
+    offers 週 (decision 52's rule); a kanji-written 行った therefore
+    has no alternatives; (b) function-word tokens get none in smart
+    mode — kuromoji's POS already pinned the class, so は/に don't
+    offer 歯/二 (in both engines single-kana content words are also
+    blocked by the `acceptable` rule); (c) capped at 4, sorted by
+    `hitScore`; (d) a reading-swap (頃 read ころ) keeps the displaced
+    surface claimant reachable as an alternative. UI: a "Could Also Be"
+    section in WordSummary between Meaning and Parts, reusing the Parts
+    swap mechanic (click → dialog shows that entry, Back returns).
+    Quiz-feedback words never carry alternatives, so those popups are
+    unchanged. Zero network cost (JLPT lists are already in memory;
+    Beyond-tier entries are deliberately not scanned for alternatives)
+    and O(1) map lookups per linked word at parse time.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

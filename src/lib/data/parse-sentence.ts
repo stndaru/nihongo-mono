@@ -61,6 +61,13 @@ export interface ParsedWord {
   formLabel: string | null
   /** components of a pattern-merged compound (参加+者) — absent otherwise */
   parts?: WordPart[]
+  /**
+   * Other entries that could equally claim this exact surface (うち links to
+   * "house" but may be 内 "while"; いった may be 言った) — best first, so the
+   * summary popup can offer them when the tie-break picked wrong. An
+   * alternative never carries alternatives of its own (no recursion).
+   */
+  alternatives?: ParsedWord[]
 }
 
 /** Broad POS bucket — drives the breakdown's underline colors. */
@@ -109,6 +116,13 @@ export interface ParserDicts {
   verbs: Map<string, VerbEntry>
   /** い-adjectives only, for deconjugation candidates */
   adjectives: Map<string, VocabEntry>
+  /**
+   * Contested surfaces only: every key claimed by ≥2 entries → ALL claimants,
+   * best first. `lookup` keeps just the tie-break winner; this keeps the
+   * losers so mistagged homographs (うち "house" vs 内 "while") stay
+   * reachable as alternatives.
+   */
+  alternates: Map<string, DictHit[]>
 }
 
 /**
@@ -152,10 +166,22 @@ export function buildParserDicts(verbs: VerbEntry[], vocab: VocabEntry[]): Parse
   const lookup = new Map<string, DictHit>()
   const verbMap = new Map<string, VerbEntry>()
   const adjMap = new Map<string, VocabEntry>()
+  const claims = new Map<string, DictHit[]>()
+  const claim = (key: string, hit: DictHit) => {
+    const list = claims.get(key)
+    if (list) list.push(hit)
+    else claims.set(key, [hit])
+  }
   for (const entry of vocab) {
     const hit = { entry, isVerb: false }
-    if (entry.kanji) setPreferring(lookup, entry.kanji, hit)
-    if (entry.kana) setPreferring(lookup, entry.kana, hit)
+    if (entry.kanji) {
+      setPreferring(lookup, entry.kanji, hit)
+      claim(entry.kanji, hit)
+    }
+    if (entry.kana) {
+      setPreferring(lookup, entry.kana, hit)
+      if (entry.kana !== entry.kanji) claim(entry.kana, hit)
+    }
     if (entry.pos === 'adj-i') {
       if (entry.kanji) setPreferringT(adjMap, entry.kanji, entry)
       if (entry.kana) setPreferringT(adjMap, entry.kana, entry)
@@ -163,12 +189,28 @@ export function buildParserDicts(verbs: VerbEntry[], vocab: VocabEntry[]): Parse
   }
   for (const entry of verbs) {
     const hit = { entry, isVerb: true }
-    if (entry.kanji) setPreferring(lookup, entry.kanji, hit)
-    if (entry.kana) setPreferring(lookup, entry.kana, hit)
+    if (entry.kanji) {
+      setPreferring(lookup, entry.kanji, hit)
+      claim(entry.kanji, hit)
+    }
+    if (entry.kana) {
+      setPreferring(lookup, entry.kana, hit)
+      if (entry.kana !== entry.kanji) claim(entry.kana, hit)
+    }
     if (entry.kanji) setPreferringT(verbMap, entry.kanji, entry)
     if (entry.kana) setPreferringT(verbMap, entry.kana, entry)
   }
-  return { lookup, verbs: verbMap, adjectives: adjMap }
+  // keep only contested keys (uncontested arrays would triple the map's
+  // footprint for zero information — the winner is already in `lookup`)
+  const alternates = new Map<string, DictHit[]>()
+  for (const [key, hits] of claims) {
+    if (hits.length < 2) continue
+    hits.sort(
+      (a, b) => hitScore(b.entry, b.isVerb, key) - hitScore(a.entry, a.isVerb, key),
+    )
+    alternates.set(key, hits)
+  }
+  return { lookup, verbs: verbMap, adjectives: adjMap, alternates }
 }
 
 /** Which of the 22 verb forms produces this exact surface, if any. */
@@ -252,6 +294,75 @@ function acceptable(surface: string, hit: DictHit): boolean {
   return pos === 'particle' || pos === 'conjunction'
 }
 
+// --- homograph alternatives ---------------------------------------------------
+// The tie-break (hitScore) has no sentence context, so it sometimes picks the
+// wrong claimant of a shared surface (うち in 乗っているうち is 内 "while",
+// not "house"). Every linked word therefore carries the OTHER plausible
+// entries for its exact written form, and the summary popup offers them.
+// Reading-only claimants are deliberately not alternatives — a kanji surface
+// pins the word (集 can never be 週), which is decision 52's lookup rule.
+
+/** Shown in the popup — more than this is noise, not disambiguation. */
+const MAX_ALTERNATIVES = 4
+
+function altKey(hit: DictHit): string {
+  return `${hit.isVerb ? 'v' : 'w'}:${hit.entry.id}`
+}
+
+/** Other entries claiming this exact surface as a dictionary form. */
+function directAlternatives(
+  surface: string,
+  chosen: DictHit,
+  dicts: ParserDicts,
+): ParsedWord[] | undefined {
+  const hits = dicts.alternates.get(surface)
+  if (!hits) return undefined
+  const skip = altKey(chosen)
+  const out: ParsedWord[] = []
+  for (const hit of hits) {
+    if (altKey(hit) === skip || !acceptable(surface, hit)) continue
+    out.push({ entry: hit.entry, isVerb: hit.isVerb, surface, formLabel: null })
+    if (out.length === MAX_ALTERNATIVES) break
+  }
+  return out.length > 0 ? out : undefined
+}
+
+/**
+ * Other verbs/adjectives whose conjugation also produces this exact surface
+ * (いった is the past of both 行く and 言う). Each candidate must reproduce
+ * the surface through a named form — same honesty bar as the primary link.
+ */
+function conjugatedAlternatives(
+  surface: string,
+  chosen: DictHit,
+  dicts: ParserDicts,
+): ParsedWord[] | undefined {
+  const seen = new Set([altKey(chosen)])
+  const out: ParsedWord[] = []
+  for (const cand of deconjugate(surface)) {
+    const hits: DictHit[] = []
+    const verb = dicts.verbs.get(cand)
+    if (verb) hits.push({ entry: verb, isVerb: true })
+    const adj = dicts.adjectives.get(cand)
+    if (adj) hits.push({ entry: adj, isVerb: false })
+    hits.push(...(dicts.alternates.get(cand) ?? []))
+    for (const hit of hits) {
+      const key = altKey(hit)
+      if (seen.has(key)) continue
+      const label = hit.isVerb
+        ? identifyVerbForm(hit.entry as VerbEntry, surface)
+        : (hit.entry as VocabEntry).pos === 'adj-i'
+          ? identifyAdjForm(hit.entry as VocabEntry, surface)
+          : null
+      if (!label) continue
+      seen.add(key)
+      out.push({ entry: hit.entry, isVerb: hit.isVerb, surface, formLabel: label })
+      if (out.length === MAX_ALTERNATIVES) return out
+    }
+  }
+  return out.length > 0 ? out : undefined
+}
+
 /** Longest dictionary match starting at `i`, or null. */
 function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null {
   const max = Math.min(MAX_WORD_LEN, text.length - i)
@@ -259,7 +370,15 @@ function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null
     const s = text.slice(i, i + len)
     const direct = dicts.lookup.get(s)
     if (direct && acceptable(s, direct)) {
-      return { entry: direct.entry, isVerb: direct.isVerb, surface: s, formLabel: null }
+      const word: ParsedWord = {
+        entry: direct.entry,
+        isVerb: direct.isVerb,
+        surface: s,
+        formLabel: null,
+      }
+      const alts = directAlternatives(s, direct, dicts)
+      if (alts) word.alternatives = alts
+      return word
     }
     if (len >= 2) {
       // conjugated? recover dictionary-form candidates, then demand that the
@@ -269,12 +388,22 @@ function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null
         const verb = dicts.verbs.get(cand)
         if (verb) {
           const label = identifyVerbForm(verb, s)
-          if (label) return { entry: verb, isVerb: true, surface: s, formLabel: label }
+          if (label) {
+            const word: ParsedWord = { entry: verb, isVerb: true, surface: s, formLabel: label }
+            const alts = conjugatedAlternatives(s, { entry: verb, isVerb: true }, dicts)
+            if (alts) word.alternatives = alts
+            return word
+          }
         }
         const adj = dicts.adjectives.get(cand)
         if (adj) {
           const label = identifyAdjForm(adj, s)
-          if (label) return { entry: adj, isVerb: false, surface: s, formLabel: label }
+          if (label) {
+            const word: ParsedWord = { entry: adj, isVerb: false, surface: s, formLabel: label }
+            const alts = conjugatedAlternatives(s, { entry: adj, isVerb: false }, dicts)
+            if (alts) word.alternatives = alts
+            return word
+          }
         }
       }
     }
@@ -440,6 +569,7 @@ function entryReadsAs(entry: VerbEntry | VocabEntry, reading: string | undefined
 /** Link a token to a JLPT entry: surface, dictionary form, then reading. */
 function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
   let hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
+  const surfaceHit = hit
   const functionWord = t.pos === '助詞' || t.pos === '助動詞'
   const reading = t.reading ? toHiragana(t.reading) : undefined
   // kuromoji's reading disambiguates homograph surfaces: 頃 read ころ must
@@ -477,8 +607,35 @@ function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
   if (functionWord) {
     const pos = (hit.entry as VocabEntry).pos
     if (hit.isVerb || (pos !== 'particle' && pos !== 'conjunction')) return null
+    // no alternatives either — kuromoji's POS already pinned the class,
+    // so 歯/二 must not surface as "could also be" on every は/に
+    return { entry: hit.entry, isVerb: hit.isVerb, surface: t.surface_form, formLabel: null }
   }
-  return { entry: hit.entry, isVerb: hit.isVerb, surface: t.surface_form, formLabel: null }
+  const word: ParsedWord = {
+    entry: hit.entry,
+    isVerb: hit.isVerb,
+    surface: t.surface_form,
+    formLabel: null,
+  }
+  const alts = directAlternatives(t.surface_form, hit, dicts) ?? []
+  // a reading-consistent swap displaced the surface's own claimant (頃 read
+  // ころ dropped the けい entry) — that entry is still a plausible reading
+  // of the written form, so keep it reachable
+  if (
+    surfaceHit &&
+    altKey(surfaceHit) !== altKey(hit) &&
+    acceptable(t.surface_form, surfaceHit) &&
+    !alts.some((a) => altKey({ entry: a.entry, isVerb: a.isVerb }) === altKey(surfaceHit))
+  ) {
+    alts.push({
+      entry: surfaceHit.entry,
+      isVerb: surfaceHit.isVerb,
+      surface: t.surface_form,
+      formLabel: null,
+    })
+  }
+  if (alts.length > 0) word.alternatives = alts.slice(0, MAX_ALTERNATIVES)
+  return word
 }
 
 function verbSegment(
@@ -506,11 +663,13 @@ function verbSegment(
     : (identifyVerbForm(verb, surface) ??
       identifyVerbFormAs(base, verb.class, surface) ??
       'Conjugated')
-  return {
-    text: surface,
-    token: info,
-    word: { entry: verb, isVerb: true, surface, formLabel },
-  }
+  const word: ParsedWord = { entry: verb, isVerb: true, surface, formLabel }
+  const chosen = { entry: verb, isVerb: true }
+  const alts = isDictForm
+    ? directAlternatives(surface, chosen, dicts)
+    : conjugatedAlternatives(surface, chosen, dicts)
+  if (alts) word.alternatives = alts
+  return { text: surface, token: info, word }
 }
 
 // --- compound merging (smart mode) -------------------------------------------
@@ -722,11 +881,13 @@ export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedS
         const formLabel = isDictForm
           ? null
           : (identifyAdjForm(adj, surface) ?? identifyAdjFormAs(base, surface) ?? 'Inflected')
-        segments.push({
-          text: surface,
-          token: info,
-          word: { entry: adj, isVerb: false, surface, formLabel },
-        })
+        const word: ParsedWord = { entry: adj, isVerb: false, surface, formLabel }
+        const chosen = { entry: adj, isVerb: false }
+        const alts = isDictForm
+          ? directAlternatives(surface, chosen, dicts)
+          : conjugatedAlternatives(surface, chosen, dicts)
+        if (alts) word.alternatives = alts
+        segments.push({ text: surface, token: info, word })
       } else {
         segments.push({ text: surface, token: info })
       }
