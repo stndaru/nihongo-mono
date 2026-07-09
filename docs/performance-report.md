@@ -1,4 +1,9 @@
-# Performance report — 2026-07-08
+# Performance report — 2026-07-08 (addendum 2026-07-09)
+
+> **Addendum, 2026-07-09** — see [the section at the end](#addendum-2026-07-09--parser-audit-after-decisions-4958)
+> for a re-audit of the parser after the homograph/compound/counter/EN-tab
+> work (decisions 49–58) and the `startTransition` render optimization it
+> produced. The parser rows in the table below predate those changes.
 
 A measured snapshot proving the app's lightweightness: one continuous
 browser session exercised every major feature (38 actions, all pages, every
@@ -127,3 +132,50 @@ injected before each page load; process RAM sampled from the OS
 heaviest state. Lighthouse (mobile preset) run the same day for the
 throttled scores quoted above: homepage 96/100/100/100, dictionary 86,
 parser 95.
+
+## Addendum 2026-07-09 — parser audit after decisions 49–58
+
+The parser gained homograph alternatives, compound merging, counter
+positions, per-surface ext preferences, and the EN→JP direction tab. This
+re-audit measures what those changed. Same methodology (production build,
+`vite preview`, CDP under node); micro-benchmarks via a temporary vitest
+probe over the real data files.
+
+### CPU micro-benchmarks (Node, real data: 2,829 verbs / 6,817 vocab / 204,021 ext rows)
+
+| Path | Cost | Notes |
+| --- | ---: | --- |
+| `buildParserDicts` (full JLPT) | 7.6 ms | once per page mount; includes the new `alternates` map — 907 contested keys next to a 16,560-key lookup |
+| `parseSentence` greedy, 77 chars | 0.9 ms | **with** per-word alternatives (direct + conjugated scans) |
+| `deconjugate` (worst-case stacked chain) | 6 µs | |
+| `findVocabRowsBySurface`, full pass over 204k rows | 7.5 ms | decision 57 removed the early-exit to collect alternates — measured, the full membership pass is 7.5 ms, nothing like the 100–220 ms *scored* search scans of decision 10; no guard needed |
+| `collectUnlinkedSurfaces` | < 0.01 ms | |
+
+### Network (CDP wire bytes per action, one warm session)
+
+| Action | Req | Wire |
+| --- | ---: | ---: |
+| `/parser` page view (no parse) | 21 | 189.6 KB |
+| First smart Break Down, everything cold (JLPT dicts + kuromoji + ext vocab index + translation) | 26 | 24.03 MB — all inside the existing opt-ins, one-time, HTTP-cached |
+| Repeat the same Break Down | 0 | 0 KB |
+| New sentence, warm session | 0 | 0.5 KB (the ja→en translation request only) |
+| EN tab: Translate & Break Down, warm | 0 | 0.2 KB (the en→ja translation request only) |
+| Tab switches (JP↔EN, ×3) | 0 | 0 KB — the two tabs' pipelines are separate hook instances; switching renders existing state |
+
+### Main thread (4× CPU throttle, re-parse of a ~30-char sentence)
+
+Attribution: the greedy engine parses in ~1 ms, so its 61 ms long task was
+the **React commit** of the results UI (dozens of ruby + tooltip spans in
+one blocking render). Fix shipped with this audit: `useBreakdown` sets its
+result inside `startTransition`, letting React time-slice the commit.
+
+| | before | after |
+| --- | --- | --- |
+| Greedy re-parse | 1 × 61 ms | **no long tasks** |
+| Smart re-parse | 1 × 183 ms | 1 × 129 ms |
+
+The remaining smart-mode task is kuromoji's synchronous `tokenize`
+(~32 ms unthrottled) — a one-off click response, not animation jank;
+moving it to a worker is the next lever if it ever matters. Zero page
+errors throughout; all 290 unit tests, lint, and build green before and
+after the change.

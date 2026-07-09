@@ -1,4 +1,5 @@
 import {
+  startTransition,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -275,10 +276,16 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
  * side by side and switching tabs never recomputes or resets either.
  */
 function useBreakdown(ja: string | undefined, smart: boolean, dicts: ParserDicts | null) {
-  const [result, setResult] = useState<{
+  const [result, setResultNow] = useState<{
     segments: ParsedSegment[]
     engine: 'accurate' | 'basic'
   } | null>(null)
+  // committing the breakdown renders dozens of ruby+tooltip spans in one go —
+  // as a transition React time-slices that work instead of blocking the main
+  // thread in a single long task (measured: a 4×-throttled re-parse commit
+  // was the page's only >50 ms task)
+  const setResult = (r: { segments: ParsedSegment[]; engine: 'accurate' | 'basic' }) =>
+    startTransition(() => setResultNow(r))
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
   const [extLoading, setExtLoading] = useState(false)

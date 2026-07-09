@@ -234,6 +234,12 @@ regardless of host compression config.
   non-English input produces an inaccurate translation and breakdown;
   the JP tab's Translation section is hidden there (the English is the
   user's own input).
+- **Breakdown results render as a React transition** (`useBreakdown`
+  wraps its `setResult` in `startTransition`): committing dozens of
+  ruby+tooltip spans in one blocking render was the page's only >50 ms
+  task at 4× CPU throttle — time-slicing it removed the greedy-mode
+  long task entirely (decision 59; the remaining smart-mode task is
+  kuromoji's synchronous tokenize).
 - **The greedy dictionary loads on intent, not on page view.** The ten
   JLPT files (~1.9 MB) start fetching on first textarea focus/keystroke
   or a `?q=` deep link (`dictsWanted` in `parser.tsx`) — just visiting

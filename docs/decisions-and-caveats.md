@@ -851,6 +851,28 @@ feedback on many of these — treat them as requirements, not suggestions.
     committed EN sentence (cached per direction+sentence for the
     session); the breakdown costs are identical to the JP tab's.
 
+59. **Parser perf re-audit + transition-rendered results, 2026-07-09.**
+    Owner-requested audit after decisions 49–58 (full numbers in the
+    performance report's 2026-07-09 addendum). CPU: every new parser
+    path is cheap — `buildParserDicts` 7.6 ms including the alternates
+    map (907 contested keys), greedy parse WITH alternatives ~1 ms, and
+    the full-pass ext scan over 204k rows is **7.5 ms** (decision 57's
+    early-exit removal measured: the 100–220 ms figure of decision 10
+    describes *scored search* scans, not this membership scan — no
+    guard or restoration needed). Network: repeat parses and tab
+    switches are 0 requests; warm-session sentences cost only their
+    single translation request; the 24 MB cold-start remains entirely
+    inside the pre-existing opt-ins. The one real finding: committing
+    a breakdown rendered dozens of ruby+tooltip spans in one blocking
+    React commit — a 61 ms long task at 4× CPU throttle for greedy
+    (183 ms for smart, which adds kuromoji's synchronous tokenize).
+    Fix: `useBreakdown` publishes results inside `startTransition`, so
+    React time-slices the commit — greedy re-parse now produces **zero**
+    long tasks at 4× throttle, smart drops to a single 129 ms task that
+    is almost entirely kuromoji's tokenize (~32 ms unthrottled, a
+    one-off click response). Moving tokenize to a worker is the next
+    lever if it ever matters; not worth the complexity today.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
