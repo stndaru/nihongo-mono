@@ -10,6 +10,7 @@ bun run lint            # oxlint
 bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
 bun run data:build      # regenerate all datasets (see data-pipeline.md)
+bun run data:grammar    # regenerate grammar example furigana + pack (after grammar content edits)
 bunx tsc -b             # type-check only (covers app AND scripts/ project)
 ```
 

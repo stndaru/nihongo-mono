@@ -1,0 +1,116 @@
+[
+  {
+    "slug": "naide",
+    "title": "ないで",
+    "kana": "ないで",
+    "romaji": "naide",
+    "meaning": "without doing ~",
+    "jlpt": 5,
+    "summary": "Connects two actions where the first one does not happen: attach で to the ない form of a verb to say \"do B without doing A\". The clause before ないで describes the missing action, and the main verb after it carries the sentence.",
+    "structure": [
+      "Verb［ない form］＋ で ＋ Verb-B"
+    ],
+    "pitfalls": [
+      "Don't confuse ないで with なくて — both are negative connectors, but ないで attaches an accompanying (non-)action to the main verb, while なくて usually states a cause or reason.",
+      "ないで attaches only to verbs. For nouns and な-adjectives, use ではなくて instead."
+    ],
+    "examples": [
+      {
+        "ja": "朝ご飯を食べないで学校に行きました。",
+        "en": "I went to school without eating breakfast.",
+        "f": "｜朝[あさ]ご｜飯[はん]を｜食[た]べないで｜学校[がっこう]に｜行[い]きました。"
+      },
+      {
+        "ja": "辞書を使わないで日本語の本を読みます。",
+        "en": "I read Japanese books without using a dictionary.",
+        "f": "｜辞書[じしょ]を｜使[つか]わないで｜日本語[にほんご]の｜本[ほん]を｜読[よ]みます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nai-hou-ga-ii",
+    "title": "ないほうがいい",
+    "kana": "ないほうがいい",
+    "romaji": "nai hou ga ii",
+    "meaning": "had better not do ~",
+    "jlpt": 5,
+    "summary": "Advises against doing something: attach ほうがいい to the ない form of a verb to say \"it would be better not to do ~\". It is a gentle recommendation, softer than telling someone they must not do something.",
+    "structure": [
+      "Verb［ない form］＋ ほうがいい"
+    ],
+    "pitfalls": [
+      "Unlike the positive recommendation (which uses the た form), the negative uses the plain ない form directly — 食べたほうがいい but 食べないほうがいい."
+    ],
+    "examples": [
+      {
+        "ja": "夜遅くコーヒーを飲まないほうがいいですよ。",
+        "en": "You'd better not drink coffee late at night.",
+        "f": "｜夜[よる]｜遅[おそ]くコーヒーを｜飲[の]まないほうがいいですよ。"
+      },
+      {
+        "ja": "熱があるなら、出かけないほうがいい。",
+        "en": "If you have a fever, it's better not to go out.",
+        "f": "｜熱[ねつ]があるなら、｜出[で]かけないほうがいい。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "hou-ga-ii",
+        "note": "ほうがいい recommends doing something; ないほうがいい advises against it."
+      }
+    ],
+    "related": [],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "hou-ga-ii",
+    "title": "ほうがいい",
+    "kana": "ほうがいい",
+    "romaji": "hou ga ii",
+    "meaning": "had better; should ~",
+    "jlpt": 5,
+    "summary": "Recommends an action: attach ほうがいい to the た form of a verb to say \"you had better do ~\" or \"it would be better to do ~\". It compares the recommended choice against not doing it, so it sounds like sensible advice rather than an order.",
+    "structure": [
+      "Verb［た form］＋ ほうがいい"
+    ],
+    "pitfalls": [
+      "The recommendation normally uses the た form even though it talks about the future — 早く寝たほうがいい, not 早く寝るほうがいい (the dictionary form is possible but sounds like a general comparison, not advice).",
+      "For advising against something, switch to the ない form: 行かないほうがいい."
+    ],
+    "examples": [
+      {
+        "ja": "疲れているなら、早く寝たほうがいいですよ。",
+        "en": "If you're tired, you should go to bed early.",
+        "f": "｜疲[つか]れているなら、｜早[はや]く｜寝[ね]たほうがいいですよ。"
+      },
+      {
+        "ja": "雨になりそうだから、傘を持って行ったほうがいい。",
+        "en": "It looks like rain, so you'd better take an umbrella.",
+        "f": "｜雨[あめ]になりそうだから、｜傘[かさ]を｜持[も]って｜行[い]ったほうがいい。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "nai-hou-ga-ii",
+        "note": "ないほうがいい advises against doing something; ほうがいい recommends it."
+      }
+    ],
+    "related": [],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  }
+]

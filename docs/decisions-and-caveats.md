@@ -953,6 +953,40 @@ feedback on many of these — treat them as requirements, not suggestions.
     endings table, and the る-trap list. 歩+4 (よんぽ) was investigated
     and kept — dual-valid per counter references.
 
+63. **Grammar Points dataset: original content, curated union, stable
+    slugs, 2026-07-09.** New Language-section feature (`/grammar` list +
+    `/grammar/$slug` detail) covering the JLPT N5–N1 grammar points.
+    Ground rules, in rough order of importance: (a) **all shipped prose
+    and example sentences are original content** — jlptsensei and Bunpro
+    contributed only the *inventory* (which points exist, their level, a
+    one-line meaning hint), reconciled as a curated union with the full
+    audit trail committed at `src/data/grammar/inventory.json` (every row
+    carries `resolution: kept / merged-into / vocab-folded` plus level-
+    conflict notes; when the sites disagreed on level, the easier level
+    won by default). (b) **Slugs are level-free and never renamed once
+    committed** — review can re-level a point (the entry moves between
+    n{level}.json files) without breaking relations or URLs; homographs
+    get semantic suffixes (と "and" vs と conditional). (c) `findGrammar`
+    **loads all five level files** (~a few hundred KB gz total, each
+    Map-promise-cached per decision 60) instead of an ids map: relations
+    cross levels, and the detail page needs other levels anyway to render
+    its relation cards; grammar data is fetched only by `/grammar*`
+    routes. `pack-jlpt.ts` packs missing level files as `[]` so runtime
+    lookups stay uniform mid-catalogue, and packs only the explicit
+    `n{1..5}.json` filenames (inventory.json is a worksheet, not
+    entries). (d) **Example furigana (`f`) is always machine-derived
+    from `ja`** by `bun run data:grammar`; the integrity suite
+    (`scripts/grammar-data.test.ts`) fails when `f` doesn't
+    re-concatenate to `ja`, so an edited sentence cannot ship a stale
+    reading — a kuromoji misreading is fixed by rewording the sentence,
+    never by hand-editing `f`. (e) Content is authored per level and
+    then reviewed by the japanese-expert agent in fixed no-overlap
+    chunks of 30 points (owner-specified protocol), which also authors
+    the two final example sentences per point; reviewers edit only
+    string values. Scope cuts for v1: no Beyond tier, no command-palette
+    integration (would fetch grammar data outside grammar pages), no
+    progress/practice integration.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

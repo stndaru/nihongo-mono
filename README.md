@@ -32,6 +32,12 @@ exported as a file.
   expressions…) with meanings, examples, antonym pairs, and adjective
   inflections; the "Beyond" level extends the list to the full JMdict
   (204,000+ entries).
+- **Grammar Points** — the JLPT N5–N1 grammar patterns (reconciled from
+  the jlptsensei and Bunpro inventories) in the same filterable table
+  style, each with a plain-English summary, a visual "how to build it"
+  structure, pitfalls, two original example sentences with furigana, and
+  cross-linked synonym/antonym/related grammar. All explanations and
+  examples are original content, reviewed for linguistic accuracy.
 - **Proper names** — prefix search over all 743,000+ JMnedict (ENAMDICT)
   surnames, given names, places, companies, and other proper nouns.
 - **Kanji** — a browsable table (JLPT levels + "Beyond", 10,000+ KANJIDIC2
@@ -129,6 +135,7 @@ materializes the matches it shows, so enabling "Beyond" stays responsive.
 bun run data:download   # fetch JMdict, JMnedict, KANJIDIC2, KRADFILE, JmdictFurigana, KanjiVG, JLPT lists → scripts/.cache/
 bun run data:build      # regenerate src/data/ (JLPT tier) and public/data/ (runtime tiers)
 bun run data:pack       # re-gzip src/data into public/data/jlpt after hand edits
+bun run data:grammar    # regenerate grammar example furigana + pack (after grammar edits)
 ```
 
 The build is idempotent and writes review logs (`furigana-misses.txt`,

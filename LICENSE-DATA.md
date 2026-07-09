@@ -13,6 +13,7 @@ source, including attribution.
 | `src/data/kanji/`, `public/data/jlpt/kanji-core.json.gz`, `public/data/kanji-ext/` | [KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) and [KRADFILE](https://www.edrdg.org/krad/kradinf.html) (EDRDG) | [CC BY-SA 4.0 under the EDRDG licence](https://www.edrdg.org/edrdg/licence.html) |
 | `public/data/names/` | [JMnedict/ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) (EDRDG) | [CC BY-SA 4.0 under the EDRDG licence](https://www.edrdg.org/edrdg/licence.html) |
 | `public/data/strokes/` | [KanjiVG](https://kanjivg.tagaini.net/) © Ulrich Apel | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `src/data/grammar/`, `public/data/jlpt/grammar-*` | Original content written for this project (explanations, structures, example sentences); the inventory of which grammar points exist per JLPT level was cross-referenced against public JLPT study lists | [MIT](LICENSE), same as the source code |
 
 Content embedded inside the word-entry files above (attribution-only
 licences, compatible with inclusion in the CC BY-SA files):

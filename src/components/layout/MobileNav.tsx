@@ -11,6 +11,7 @@ const ITEMS: { to: LinkProps['to']; label: string; exact?: boolean; section?: st
   { to: '/verbs', label: 'Verb Vocabulary', section: 'Language' },
   { to: '/vocab', label: 'Non-Verb Vocabulary' },
   { to: '/vocab/antonyms', label: 'Antonyms' },
+  { to: '/grammar', label: 'Grammar Points' },
   { to: '/names', label: 'Proper Names' },
   { to: '/cheatsheet', label: 'Cheatsheet' },
   { to: '/resources', label: 'Resources' },

@@ -51,6 +51,19 @@ for (const dataset of ['verbs', 'vocab'] as const) {
 // from this map is extended-tier. Shape mirrors loadIdLevels in loader.ts.
 writeJsonGz(join(OUT_DIR, 'ids.json.gz'), idLevels)
 
+// Grammar points: explicit n{level}.json filenames only — inventory.json in
+// the same directory is the reconciliation worksheet, never packed. A level
+// not yet authored packs as [] so every runtime file exists mid-catalogue
+// (loadGrammarLevel/findGrammar in loader.ts stay uniform).
+let grammarCount = 0
+for (const level of [5, 4, 3, 2, 1]) {
+  const src = join(DATA_DIR, 'grammar', `n${level}.json`)
+  const data = existsSync(src) ? JSON.parse(readFileSync(src, 'utf8')) : []
+  if (!existsSync(src)) console.warn(`grammar n${level}.json missing — packing []`)
+  writeJsonGz(join(OUT_DIR, `grammar-n${level}.json.gz`), data)
+  grammarCount += (data as unknown[]).length
+}
+
 // "Words using this kanji" index for the kanji detail page: precomputed here
 // so the page fetches one small codepoint shard instead of all ten level
 // files (~1.7 MB) just to filter them by character. Rows are pre-sorted
@@ -111,7 +124,7 @@ const legacy = join(OUT_DIR, 'kanji.json.gz')
 if (existsSync(legacy)) rmSync(legacy)
 
 console.log(
-  `packed ${count} level files + kanji core (${Object.keys(core).length}) ` +
+  `packed ${count} level files + grammar (${grammarCount}) + kanji core (${Object.keys(core).length}) ` +
     `+ ${KANJI_EXT_SHARDS} ext shards (${
       Object.keys(kanji).length - Object.keys(core).length
     }) + ${KANJI_WORDS_SHARDS} kanji-word shards (${byKanji.size} kanji) into public/data/`,

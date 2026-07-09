@@ -12,6 +12,7 @@ scripts.
 bun run data:download   # fetch all sources → scripts/.cache/ (gitignored, idempotent, --force to refetch)
 bun run data:build      # build-verbs → build-vocab → build-kanji → build-extended → build-names → build-strokes → pack-jlpt
 bun run data:pack       # re-gzip src/data into public/data/jlpt (run after hand-editing src/data)
+bun run data:grammar    # regenerate grammar example furigana from `ja`, then pack (run after any grammar content edit)
 ```
 
 Order matters: `build-extended.ts` reads the generated JLPT files to know
@@ -42,6 +43,29 @@ from a partnership, not a public file). Credited on the About page as
 planned; when they publish, wire it in as another example source.
 **Deliberately excluded from word lists:** proper names stay on the Names
 page only (spec says no proper nouns in vocab).
+
+## Grammar points (authored, not extracted)
+
+`src/data/grammar/` is the one dataset that is **written, not generated**:
+all summaries, structures, pitfalls, and example sentences are original
+content (decision 63) — jlptsensei and Bunpro supplied only the inventory
+(which points exist, level, one-line meaning hint), reconciled in the
+committed worksheet `src/data/grammar/inventory.json`. The flow per level:
+
+1. Author entries into `src/data/grammar/n{level}.json` (examples carry
+   `ja`/`en` only — never write `f` by hand).
+2. `bun run data:grammar` — regenerates every example's `f` from `ja` via
+   kuromoji (`scripts/gen-grammar-furigana.ts`) and packs all grammar
+   levels into `public/data/jlpt/grammar-n{1..5}.json.gz`.
+3. japanese-expert review in fixed 30-point chunks; reviewers edit string
+   values only, then step 2 runs again (idempotent).
+
+`scripts/grammar-data.test.ts` enforces the invariants (slug shape and
+uniqueness, resolvable relations, exactly 2 examples, `f` re-concatenates
+to `ja`). `pack-jlpt.ts` reads only the explicit filenames
+`n1.json…n5.json` — never glob this directory; `inventory.json` is a
+worksheet, not entries — and packs a missing level as `[]` so all five
+runtime files exist mid-catalogue.
 
 ## Script tour (`scripts/`)
 

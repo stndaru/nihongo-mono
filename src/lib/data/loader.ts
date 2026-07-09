@@ -1,5 +1,6 @@
 import { fetchJsonGz } from './fetch-gz'
 import type {
+  GrammarEntry,
   JlptLevel,
   KanjiEntry,
   KanjiWordRow,
@@ -83,6 +84,39 @@ export async function loadVocabLevels(levels: readonly JlptLevel[]): Promise<Voc
   const sorted = [...levels].sort((a, b) => b - a)
   const lists = await Promise.all(sorted.map(loadVocabLevel))
   return lists.flat()
+}
+
+// --- grammar points ----------------------------------------------------------
+// Small dataset (~900 entries total), fetched only by the /grammar routes.
+// Every level file exists even before its content is authored (pack-jlpt.ts
+// writes [] for missing levels), so lookups stay uniform mid-catalogue.
+const grammarCache = new Map<JlptLevel, Promise<GrammarEntry[]>>()
+
+export function loadGrammarLevel(level: JlptLevel): Promise<GrammarEntry[]> {
+  let cached = grammarCache.get(level)
+  if (!cached) {
+    cached = fetchJsonGz<GrammarEntry[]>(`jlpt/grammar-n${level}.json.gz`)
+    cached.catch(() => grammarCache.delete(level)) // don't cache a failed fetch
+    grammarCache.set(level, cached)
+  }
+  return cached
+}
+
+export async function loadGrammarLevels(levels: readonly JlptLevel[]): Promise<GrammarEntry[]> {
+  const sorted = [...levels].sort((a, b) => b - a)
+  const lists = await Promise.all(sorted.map(loadGrammarLevel))
+  return lists.flat()
+}
+
+/**
+ * Finds one grammar point by slug. Loads all five level files (~200–350 KB
+ * gz total, each session-cached): no id→level map — slugs are level-free by
+ * design (review can re-level a point without renaming it), and the detail
+ * page needs other levels anyway to render its cross-level relation cards.
+ */
+export async function findGrammar(slug: string): Promise<GrammarEntry | undefined> {
+  const all = await loadGrammarLevels([5, 4, 3, 2, 1])
+  return all.find((g) => g.slug === slug)
 }
 
 // --- kanji: two tiers, like the words ---------------------------------------

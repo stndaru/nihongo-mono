@@ -30,6 +30,7 @@ const LANGUAGE_ITEMS: MenuEntry[] = [
   { to: '/verbs', label: 'Verb Vocabulary', description: 'Every conjugation of every JLPT verb' },
   { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more' },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs' },
+  { to: '/grammar', label: 'Grammar Points', description: 'Every JLPT grammar pattern explained' },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places' },
   { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries for quick recall' },
   { to: '/resources', label: 'Resources', description: 'Hand-picked sites for learning Japanese' },
@@ -152,7 +153,7 @@ export function Header() {
           <NavDropdown
             label="Language"
             items={LANGUAGE_ITEMS}
-            activePrefixes={['/verbs', '/vocab', '/names', '/cheatsheet', '/resources']}
+            activePrefixes={['/verbs', '/vocab', '/grammar', '/names', '/cheatsheet', '/resources']}
           />
           <NavDropdown
             label="Tools"

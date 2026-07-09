@@ -1,6 +1,7 @@
 import { Link, type LinkProps } from '@tanstack/react-router'
 import {
   ArrowLeftRight,
+  Blocks,
   BookA,
   BookOpenText,
   ChartNoAxesColumn,
@@ -52,6 +53,7 @@ const LANGUAGE: Entry[] = [
   { to: '/verbs', label: 'Verb Vocabulary', description: 'Every conjugation of every JLPT verb', icon: BookA },
   { to: '/vocab', label: 'Non-Verb Vocabulary', description: 'Nouns, adjectives, adverbs, and more', icon: Library },
   { to: '/vocab/antonyms', label: 'Antonyms', description: 'Adjectives learned in opposite pairs', icon: ArrowLeftRight },
+  { to: '/grammar', label: 'Grammar Points', description: 'Every JLPT grammar pattern explained', icon: Blocks },
   { to: '/names', label: 'Proper Names', description: 'Search 743k names and places', icon: Users },
   { to: '/cheatsheet', label: 'Cheatsheet', description: 'Skimmable summaries for quick recall', icon: NotebookText },
   { to: '/resources', label: 'Resources', description: 'Hand-picked sites for learning Japanese', icon: Globe },

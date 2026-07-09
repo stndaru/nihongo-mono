@@ -44,6 +44,19 @@
 - Entries are rich: furigana segments (from JmdictFurigana), up to 3 example
   sentences, per-sense meanings with per-sense examples, antonym/synonym id
   links, verb class/transitivity or part of speech.
+- **Grammar points are Tier-1 too, but authored rather than generated**:
+  `src/data/grammar/n{1..5}.json` (original content — see decision 63 and
+  data-pipeline.md), packed to `jlpt/grammar-n{level}.json.gz`, loaded by
+  `loadGrammarLevel(s)` only on the `/grammar*` routes. Detail lookup
+  (`findGrammar(slug)`) loads **all five** level files instead of an ids
+  map — slugs are level-free/stable by design and the detail page needs
+  the other levels anyway for its cross-level synonym/antonym/related
+  cards. Routes: `grammar.index.tsx` (level chips + search over
+  title/kana/romaji/meaning via `grammar-search.ts`) and
+  `grammar.$slug.tsx` (summary → structure chips — `GrammarStructure`
+  renders the `＋`/［…］ notation — → pitfalls → 2 examples via the shared
+  `ExampleSentences`, ruby from the same bracket-furigana format →
+  relation card grids).
 - **Kanji ships split in two tiers** (same philosophy as the words): the
   full 10,384-entry KANJIDIC2 file was a **400 KB fetch on every word
   detail page**. `pack-jlpt.ts` now splits `src/data/kanji/kanji.json` into
