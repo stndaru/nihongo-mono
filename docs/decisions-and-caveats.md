@@ -840,8 +840,12 @@ feedback on many of these — treat them as requirements, not suggestions.
     the parse pipeline was extracted into a `useBreakdown` hook
     instantiated once per tab, so results live side by side and
     switching never recomputes, resets, or transfers anything. A
-    permanent amber warning on the EN tab says incoherent input or
-    other languages produce an inaccurate translation and breakdown.
+    permanent warning on the EN tab says incoherent input or
+    other languages produce an inaccurate translation and breakdown
+    (same-day follow-up: shortened to a muted one-liner — "English
+    input only — machine-translated to Japanese, then broken down" —
+    with the full accuracy caveat moved into the Important Notice,
+    which now also states the tool parses and never fixes input).
     The generated Japanese is stripped/trimmed to the parser cap (with
     a visible "trimmed" note) and an empty-after-strip result is an
     error state with an external Google Translate link. The JP tab's

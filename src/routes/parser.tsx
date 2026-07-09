@@ -621,10 +621,18 @@ function ParserPage() {
                 which is much better but still not infallible.
               </li>
               <li>
-                Japanese input only: <span lang="ja">かな</span>,{' '}
+                The Japanese tab accepts <span lang="ja">かな</span>,{' '}
                 <span lang="ja">漢字</span>, and numbers (<span lang="ja">3人</span>,{' '}
                 <span lang="ja">２０時</span>). Romaji is not accepted — type{' '}
                 <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
+              </li>
+              <li>
+                The <span className="font-medium">English → Japanese</span> tab
+                accepts English only: the sentence is machine-translated to
+                Japanese first, and the breakdown parses that generated
+                Japanese. Incoherent, grammatically incorrect, or non-English
+                input will yield an inaccurate translation and breakdown — this
+                tool only parses; it never fixes input mistakes.
               </li>
               <li>
                 Only JLPT-listed words are clickable in the default mode. With
@@ -669,11 +677,9 @@ function ParserPage() {
             ))}
           </div>
           {dir === 'en' && (
-            <p className="flex items-start gap-1.5 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-400">
-              <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
-              English input only. The sentence is machine-translated to Japanese
-              first, then broken down — an incoherent sentence or another
-              language will produce an inaccurate translation and breakdown.
+            <p className="text-xs text-muted-foreground">
+              English input only — the sentence is machine-translated to Japanese,
+              then broken down.
             </p>
           )}
           <div>

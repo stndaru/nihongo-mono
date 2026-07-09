@@ -230,10 +230,12 @@ regardless of host compression config.
   instantiated once per tab, and each tab has its own URL param
   (`?q=` / `?en=`, active tab in `?dir=`) — inputs and results are fully
   independent: switching tabs never recomputes, resets, or transfers
-  anything. The EN tab carries a standing warning that incoherent or
-  non-English input produces an inaccurate translation and breakdown;
-  the JP tab's Translation section is hidden there (the English is the
-  user's own input).
+  anything. The EN tab carries a short muted note ("English input only —
+  machine-translated to Japanese, then broken down"); the full accuracy
+  caveat — incoherent or ungrammatical input yields inaccurate results,
+  the tool parses and never fixes input — lives in the page's Important
+  Notice, which covers both tabs. The JP tab's Translation section is
+  hidden on the EN tab (the English is the user's own input).
 - **Breakdown results render as a React transition** (`useBreakdown`
   wraps its `setResult` in `startTransition`): committing dozens of
   ruby+tooltip spans in one blocking render was the page's only >50 ms
