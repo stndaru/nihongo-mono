@@ -22,6 +22,7 @@ export function loadVerbLevel(level: JlptLevel): Promise<VerbEntry[]> {
   let cached = verbCache.get(level)
   if (!cached) {
     cached = fetchJsonGz<VerbEntry[]>(`jlpt/verbs-n${level}.json.gz`)
+    cached.catch(() => verbCache.delete(level)) // don't cache a failed fetch
     verbCache.set(level, cached)
   }
   return cached
@@ -31,6 +32,7 @@ export function loadVocabLevel(level: JlptLevel): Promise<VocabEntry[]> {
   let cached = vocabCache.get(level)
   if (!cached) {
     cached = fetchJsonGz<VocabEntry[]>(`jlpt/vocab-n${level}.json.gz`)
+    cached.catch(() => vocabCache.delete(level)) // don't cache a failed fetch
     vocabCache.set(level, cached)
   }
   return cached
@@ -49,14 +51,24 @@ let verbExtIndexCache: Promise<VerbIndexRow[]> | null = null
  * entries (200k objects froze the tab); search them with ext-search.ts.
  */
 export function loadVerbExtIndex(): Promise<VerbIndexRow[]> {
-  verbExtIndexCache ??= fetchJsonGz<VerbIndexRow[]>('verbs-ext/index.json.gz')
+  if (!verbExtIndexCache) {
+    verbExtIndexCache = fetchJsonGz<VerbIndexRow[]>('verbs-ext/index.json.gz')
+    verbExtIndexCache.catch(() => {
+      verbExtIndexCache = null // don't cache a failed fetch
+    })
+  }
   return verbExtIndexCache
 }
 
 let vocabExtIndexCache: Promise<VocabIndexRow[]> | null = null
 
 export function loadVocabExtIndex(): Promise<VocabIndexRow[]> {
-  vocabExtIndexCache ??= fetchJsonGz<VocabIndexRow[]>('vocab-ext/index.json.gz')
+  if (!vocabExtIndexCache) {
+    vocabExtIndexCache = fetchJsonGz<VocabIndexRow[]>('vocab-ext/index.json.gz')
+    vocabExtIndexCache.catch(() => {
+      vocabExtIndexCache = null // don't cache a failed fetch
+    })
+  }
   return vocabExtIndexCache
 }
 
@@ -84,7 +96,12 @@ const KANJI_EXT_SHARDS = 16
 let kanjiCoreCache: Promise<Record<string, KanjiEntry>> | null = null
 
 export function loadKanjiCore(): Promise<Record<string, KanjiEntry>> {
-  kanjiCoreCache ??= fetchJsonGz<Record<string, KanjiEntry>>('jlpt/kanji-core.json.gz')
+  if (!kanjiCoreCache) {
+    kanjiCoreCache = fetchJsonGz<Record<string, KanjiEntry>>('jlpt/kanji-core.json.gz')
+    kanjiCoreCache.catch(() => {
+      kanjiCoreCache = null // don't cache a failed fetch
+    })
+  }
   return kanjiCoreCache
 }
 
@@ -228,7 +245,10 @@ function loadIdLevels(): Promise<IdLevelMaps | null> {
       }
       return { verbs: toMap(file.verbs), vocab: toMap(file.vocab) }
     })
-    .catch(() => null) // unavailable → callers fall back to the level scan
+    .catch(() => {
+      idLevelCache = null // a transient failure must not pin the slow path
+      return null // …but THIS call still falls back to the level scan
+    })
   return idLevelCache
 }
 

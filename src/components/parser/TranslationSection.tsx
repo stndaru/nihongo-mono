@@ -12,9 +12,14 @@ export type TranslationState =
  * Fires the translation fetch as soon as a sentence is committed (?q=) —
  * independent of the dictionary/tokenizer loads, so it never blocks or is
  * blocked by the breakdown. Repeats resolve from the module cache before
- * paint, so the skeleton doesn't flash on re-parses.
+ * paint, so the skeleton doesn't flash on re-parses. `attempt` exists for
+ * retries after an outage: the sentence alone can't re-fire the effect when
+ * the user re-commits identical text, so error paths bump the counter.
  */
-export function useTranslation(sentence: string | undefined): TranslationState | null {
+export function useTranslation(
+  sentence: string | undefined,
+  attempt = 0,
+): TranslationState | null {
   const [state, setState] = useState<TranslationState | null>(null)
   useEffect(() => {
     if (!sentence) {
@@ -33,7 +38,7 @@ export function useTranslation(sentence: string | undefined): TranslationState |
     return () => {
       alive = false
     }
-  }, [sentence])
+  }, [sentence, attempt])
   return state
 }
 
@@ -42,9 +47,12 @@ const PROVIDER_LABELS = { google: 'Google Translate', mymemory: 'MyMemory' } as 
 export function TranslationSection({
   sentence,
   state,
+  onRetry,
 }: {
   sentence: string
   state: TranslationState | null
+  /** re-fires the fetch after an outage (bumps the hook's attempt counter) */
+  onRetry?: () => void
 }) {
   if (!state) return null
   return (
@@ -69,15 +77,22 @@ export function TranslationSection({
           <p className="text-sm text-muted-foreground">
             Translation unavailable — the translation services couldn&apos;t be reached.
           </p>
-          <Button asChild variant="outline" size="sm" className="mt-3">
-            <a
-              href={`https://translate.google.com/?sl=ja&tl=en&text=${encodeURIComponent(sentence)}&op=translate`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open in Google Translate <ExternalLink className="size-3.5" />
-            </a>
-          </Button>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {onRetry && (
+              <Button variant="outline" size="sm" onClick={onRetry}>
+                Try Again
+              </Button>
+            )}
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={`https://translate.google.com/?sl=ja&tl=en&text=${encodeURIComponent(sentence)}&op=translate`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open in Google Translate <ExternalLink className="size-3.5" />
+              </a>
+            </Button>
+          </div>
         </div>
       )}
     </section>

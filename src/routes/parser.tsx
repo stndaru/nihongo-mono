@@ -373,7 +373,7 @@ type EnToJaState =
  * Japanese (cached per sentence). The cleaned result is what the breakdown
  * pipeline receives.
  */
-function useEnToJa(sentence: string | undefined): EnToJaState | null {
+function useEnToJa(sentence: string | undefined, attempt = 0): EnToJaState | null {
   const [state, setState] = useState<EnToJaState | null>(null)
   useEffect(() => {
     if (!sentence) {
@@ -398,7 +398,9 @@ function useEnToJa(sentence: string | undefined): EnToJaState | null {
     return () => {
       alive = false
     }
-  }, [sentence])
+    // `attempt` re-fires the fetch after an outage — the sentence alone
+    // can't when the user re-commits identical text
+  }, [sentence, attempt])
   return state
 }
 
@@ -418,11 +420,15 @@ function ParserPage() {
   useEffect(() => {
     if (!dictsWanted) return
     let alive = true
-    Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])]).then(
-      ([verbs, vocab]) => {
+    Promise.all([loadVerbLevels([5, 4, 3, 2, 1]), loadVocabLevels([5, 4, 3, 2, 1])])
+      .then(([verbs, vocab]) => {
         if (alive) setDicts(buildParserDicts(verbs, vocab))
-      },
-    )
+      })
+      .catch(() => {
+        // a failed load (loader caches self-clear) must not leave the button
+        // stuck on "Loading dictionary…" — reset so the next focus retries
+        if (alive) setDictsWanted(false)
+      })
     return () => {
       alive = false
     }
@@ -455,12 +461,18 @@ function ParserPage() {
   } | null>(null)
   const [manualFailed, setManualFailed] = useState(false)
   const [selectedWord, setSelectedWord] = useState<ParsedWord | null>(null)
+  // per-tab retry counters: re-committing IDENTICAL text doesn't change the
+  // URL param, so after an outage these are the only way to re-fire the
+  // translation effects (bumped by Try Again and by the main button when
+  // the current state is an error)
+  const [jpAttempt, setJpAttempt] = useState(0)
+  const [enAttempt, setEnAttempt] = useState(0)
   // fires immediately on ?q= — in parallel with (never waiting on) the dicts
-  const translation = useTranslation(q)
+  const translation = useTranslation(q, jpAttempt)
   const [noticeOpen, setNoticeOpen] = useState(false)
 
   const jp = useBreakdown(q, smart, dicts)
-  const enToJa = useEnToJa(en)
+  const enToJa = useEnToJa(en, enAttempt)
   const enBd = useBreakdown(
     enToJa?.status === 'done' ? enToJa.ja : undefined,
     smart,
@@ -526,12 +538,18 @@ function ParserPage() {
     if (dir === 'en') {
       const trimmed = enText.trim()
       if (trimmed) {
+        // identical text → same ?en= → the effect wouldn't re-fire; when the
+        // last translation failed, the click must mean "retry"
+        if (trimmed === en && enToJa?.status === 'error') setEnAttempt((a) => a + 1)
         navigate({ search: (prev) => ({ ...prev, en: trimmed, dir: 'en' }), replace: true })
       }
       return
     }
     const trimmed = text.trim()
-    if (trimmed) navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
+    if (trimmed) {
+      if (trimmed === q && translation?.status === 'error') setJpAttempt((a) => a + 1)
+      navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
+    }
   }
 
   const setDir = (d: 'ja' | 'en') => {
@@ -750,7 +768,15 @@ function ParserPage() {
           )}
           {dir === 'en' && enToJa?.status === 'error' && (
             <p className="text-xs text-destructive">
-              The translation services couldn&apos;t produce Japanese — try again, or{' '}
+              The translation services couldn&apos;t produce Japanese —{' '}
+              <button
+                type="button"
+                onClick={() => setEnAttempt((a) => a + 1)}
+                className="cursor-pointer underline underline-offset-2"
+              >
+                try again
+              </button>
+              , or{' '}
               <a
                 className="underline underline-offset-2"
                 href={`https://translate.google.com/?sl=en&tl=ja&text=${encodeURIComponent(en ?? '')}&op=translate`}
@@ -840,7 +866,13 @@ function ParserPage() {
             </section>
 
             {/* JP→EN only — in EN→JP mode the English is the user's input */}
-            {dir === 'ja' && <TranslationSection sentence={q ?? ''} state={translation} />}
+            {dir === 'ja' && (
+              <TranslationSection
+                sentence={q ?? ''}
+                state={translation}
+                onRetry={() => setJpAttempt((a) => a + 1)}
+              />
+            )}
 
             <section>
               <h2 className="mb-2 text-lg font-semibold">

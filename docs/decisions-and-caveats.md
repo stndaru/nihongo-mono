@@ -877,6 +877,38 @@ feedback on many of these — treat them as requirements, not suggestions.
     one-off click response). Moving tokenize to a worker is the next
     lever if it ever matters; not worth the complexity today.
 
+60. **Outage recovery: same-text retries + no rejected-promise caching,
+    2026-07-09.** Owner-requested edge-case test (both translation
+    providers unreachable) found the degraded states themselves were
+    correct — JP→EN keeps its fully-local breakdown and shows the
+    Translation error card; EN→JP stops cleanly with an error and the
+    external-link workaround — but **recovery was broken for identical
+    input**: the translation effects key off the URL params (?q=/?en=),
+    so re-committing unchanged text after an outage changed nothing and
+    never re-fired the fetch (the EN error even said "try again").
+    Fixes: (a) per-tab `attempt` counters passed into `useTranslation`
+    / `useEnToJa`; the main Break Down button bumps the active tab's
+    counter when its current translation state is an error and the text
+    is unchanged, the EN error's "try again" is now a real button, and
+    the JP Translation section gained a "Try Again" button — a retry
+    with previously-successful text is a session-cache hit, so counters
+    never cause refetch spam. (b) The same audit exposed the wider
+    class in loader.ts: five promise caches (`verbCache`/`vocabCache`
+    per level, both ext index singletons, `kanjiCoreCache`, and
+    `idLevelCache`'s null fallback) cached REJECTED promises forever —
+    one transient failure would permanently kill that data (Beyond
+    linking, kanji cards, detail routing) until a full reload. All now
+    self-clear on failure, matching the pattern the shard caches and
+    kuromoji already used. (c) A failed JLPT dictionary load left the
+    parser button stuck on "Loading dictionary…" — the load effect now
+    catches and resets `dictsWanted`, so the next textarea focus or
+    keystroke retries. Verified with Playwright route-blocking both
+    providers / the ext index / the JLPT files: 13 checks — every
+    degraded state renders, and every path recovers after the outage
+    ends, including same-text retries in both tabs, the ext index
+    refetching on the next parse, and the dictionary reloading on
+    refocus.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
