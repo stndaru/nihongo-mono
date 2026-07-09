@@ -1,18 +1,3139 @@
 [
   {
+    "slug": "ageru-giving",
+    "title": "あげる",
+    "kana": "あげる",
+    "romaji": "ageru",
+    "meaning": "to give (away, to someone else)",
+    "jlpt": 5,
+    "summary": "あげる means to give something, with the gift moving away from the speaker or the speaker's side toward another person. The giver is the subject, the receiver is marked with に, and the thing given with を. Reach for it whenever you or your in-group hand something over to someone else.",
+    "structure": [
+      "Noun［receiver］＋ に ＋ Noun［thing］＋ を ＋ あげる"
+    ],
+    "pitfalls": [
+      "The direction is fixed: あげる sends the gift away from the speaker. If it comes toward you or your in-group, switch to くれる.",
+      "Mark the receiver with に and the thing with を — 友だち に 花 を あげる."
+    ],
+    "examples": [
+      {
+        "ja": "私は友だちに花をあげました。",
+        "en": "I gave my friend flowers.",
+        "f": "｜私[わたし]は｜友[とも]だちに｜花[はな]をあげました。"
+      },
+      {
+        "ja": "弟にプレゼントをあげます。",
+        "en": "I'll give my little brother a present.",
+        "f": "｜弟[おとうと]にプレゼントをあげます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "morau",
+        "note": "あげる gives something away; もらう receives something."
+      }
+    ],
+    "related": [
+      {
+        "slug": "kureru",
+        "note": "くれる is also 'give', but toward the speaker's side, not away from it."
+      },
+      {
+        "slug": "te-ageru",
+        "note": "Verb＋てあげる does an action as a favor for someone, rather than handing over an object."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "i-adjective-noun",
+    "title": "い形容詞＋名詞",
+    "kana": "いけいようしめいし",
+    "romaji": "i keiyoushi meishi",
+    "meaning": "i-adjective directly modifying a noun",
+    "jlpt": 5,
+    "summary": "An い-adjective can sit straight in front of a noun to describe it, with no particle or extra word in between: 高い山 = a tall mountain. The adjective keeps its full い ending. This is the most basic way to attach a quality to a noun.",
+    "structure": [
+      "い-adjective ＋ Noun"
+    ],
+    "pitfalls": [
+      "Unlike な-adjectives, い-adjectives need no な: say 高い山, never 高いな山.",
+      "Keep the whole い ending: 大きい箱 (a big box), not 大き箱."
+    ],
+    "examples": [
+      {
+        "ja": "高い山が見えます。",
+        "en": "I can see a tall mountain.",
+        "f": "｜高[たか]い｜山[やま]が｜見[み]えます。"
+      },
+      {
+        "ja": "面白い本を読みました。",
+        "en": "I read an interesting book.",
+        "f": "｜面白[おもしろ]い｜本[ほん]を｜読[よ]みました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "na-adjective-noun",
+        "note": "な-adjectives need な before the noun (静かな町); い-adjectives attach directly."
+      },
+      {
+        "slug": "kunai",
+        "note": "〜くない is the negative form of the same い-adjectives."
+      },
+      {
+        "slug": "katta",
+        "note": "〜かった is the past form of the same い-adjectives."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ichiban",
+    "title": "一番",
+    "kana": "いちばん",
+    "romaji": "ichiban",
+    "meaning": "the most ~; the ~est (superlative)",
+    "jlpt": 5,
+    "summary": "一番 (literally 'number one') turns an adjective into a superlative, meaning 'the most ~' or 'the ~est'. Place it right before the adjective: 一番大きい = the biggest. It singles out the top item from a whole group, which is often introduced with の中で or で.",
+    "structure": [
+      "一番 ＋ い-adjective／な-adjective",
+      "Noun［group］＋ の中で ＋ 一番 ＋ い-adjective／な-adjective"
+    ],
+    "pitfalls": [
+      "一番 makes the superlative all by itself — no extra ending is needed: 一番安い (the cheapest).",
+      "To compare just two things, use より; 一番 is for picking the top out of three or more."
+    ],
+    "examples": [
+      {
+        "ja": "この店でこのケーキが一番おいしいです。",
+        "en": "In this shop, this cake is the tastiest.",
+        "f": "この｜店[みせ]でこのケーキが｜一番[いちばん]おいしいです。"
+      },
+      {
+        "ja": "富士山は日本で一番高い山です。",
+        "en": "Mt. Fuji is the tallest mountain in Japan.",
+        "f": "｜富士山[ふじさん]は｜日本[にっぽん]で｜一番[いちばん]｜高[たか]い｜山[やま]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-naka-de",
+        "note": "の中で marks the group that 一番 picks the top item out of."
+      },
+      {
+        "slug": "yori-hou-ga",
+        "note": "より〜のほうが compares two things; 一番 picks the single best of many."
+      },
+      {
+        "slug": "zutto-comparison",
+        "note": "ずっと stresses by how much one thing beats another; 一番 names the outright top."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "issho-ni",
+    "title": "一緒に",
+    "kana": "いっしょに",
+    "romaji": "issho ni",
+    "meaning": "together (with)",
+    "jlpt": 5,
+    "summary": "一緒に means 'together' and describes doing an action jointly with someone. The companion is named with と before 一緒に: 友だちと一緒に = together with a friend. It can also stand alone to mean simply 'together'.",
+    "structure": [
+      "Noun ＋ と ＋ 一緒に ＋ Verb"
+    ],
+    "pitfalls": [
+      "Name the companion with と, not に: 母と一緒に, not 母に一緒に."
+    ],
+    "examples": [
+      {
+        "ja": "友だちと一緒に映画を見ました。",
+        "en": "I watched a movie together with a friend.",
+        "f": "｜友[とも]だちと｜一緒[いっしょ]に｜映画[えいが]を｜見[み]ました。"
+      },
+      {
+        "ja": "一緒に昼ご飯を食べませんか。",
+        "en": "Shall we eat lunch together?",
+        "f": "｜一緒[いっしょ]に｜昼[ひる]ご｜飯[はん]を｜食[た]べませんか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "to-with",
+        "note": "〜と names the person you do something with; 一緒に adds the sense of 'together'."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "itsumo",
+    "title": "いつも",
+    "kana": "いつも",
+    "romaji": "itsumo",
+    "meaning": "always; usually",
+    "jlpt": 5,
+    "summary": "いつも is an adverb meaning 'always' or 'usually' — it says an action or state holds all or most of the time. It normally comes before the verb it describes: いつも早く起きます = I always get up early. It describes a habit, not one particular occasion.",
+    "structure": [
+      "いつも ＋ Verb／Sentence"
+    ],
+    "pitfalls": [
+      "いつも describes a habit. For a one-time 'this time', use 今日 or 今度 instead."
+    ],
+    "examples": [
+      {
+        "ja": "姉はいつも元気です。",
+        "en": "My older sister is always cheerful.",
+        "f": "｜姉[あね]はいつも｜元気[げんき]です。"
+      },
+      {
+        "ja": "私はいつもバスで学校に行きます。",
+        "en": "I always go to school by bus.",
+        "f": "｜私[わたし]はいつもバスで｜学校[がっこう]に｜行[い]きます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "u-verbs",
+    "title": "う動詞",
+    "kana": "うどうし",
+    "romaji": "u doushi",
+    "meaning": "godan (う-verb) conjugation",
+    "jlpt": 5,
+    "summary": "う-verbs (godan verbs) are the verb group whose final -u kana shifts across a whole row of the kana chart when you conjugate. For the plain negative, change the final -u kana to its -a row form and add ない (書く→書かない); the past uses the sound-change た／だ endings (飲む→飲んだ); the negative-past ends in なかった. Recognising this group is the first big step to conjugating Japanese verbs.",
+    "structure": [
+      "Dictionary ＋ 書く・飲む・話す (ends in an う-row kana)",
+      "Negative: final kana → あ-row ＋ ない — 書く→書かない",
+      "Past: 書く→書いた／飲む→飲んだ／話す→話した",
+      "Negative-past: あ-row ＋ なかった — 書く→書かなかった"
+    ],
+    "pitfalls": [
+      "A verb ending in -る can be either group: う-verbs like 分かる (分からない) shift the vowel, while る-verbs like 食べる (食べない) just drop る. The ending alone does not decide the group.",
+      "The plain past has sound changes (音便): 書く→書いた, 泳ぐ→泳いだ, 飲む→飲んだ, 待つ→待った. Learn them by ending."
+    ],
+    "examples": [
+      {
+        "ja": "お酒は飲まないけれど、水はよく飲みます。",
+        "en": "I don't drink alcohol, but I often drink water.",
+        "f": "お｜酒[さけ]は｜飲[の]まないけれど、｜水[みず]はよく｜飲[の]みます。"
+      },
+      {
+        "ja": "きのう、友だちと三時間話した。",
+        "en": "Yesterday, I talked with my friend for three hours.",
+        "f": "きのう、｜友[とも]だちと｜三[さん]｜時間[じかん]｜話[はな]した。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ru-verbs",
+        "note": "る-verbs (ichidan) conjugate more simply — just drop る and add the ending."
+      },
+      {
+        "slug": "suru",
+        "note": "する is irregular and follows neither the う- nor る-verb pattern."
+      },
+      {
+        "slug": "kuru",
+        "note": "くる is irregular, changing its stem vowel (きます・こない) unlike regular groups."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "o-go",
+    "title": "お・ご",
+    "kana": "お・ご",
+    "romaji": "o / go",
+    "meaning": "honorific prefixes お / ご",
+    "jlpt": 5,
+    "summary": "お and ご are polite prefixes placed on the front of nouns (and some adjectives) to make speech sound more refined or to show respect toward the listener or the thing's owner. As a rough rule, お joins native Japanese words (お金, お花) and ご joins words of Chinese origin (ご家族, ご住所). Some very common Chinese-origin words take お anyway by convention (お茶, お電話), so treat this as a starting guideline, not a strict rule.",
+    "structure": [
+      "お ＋ Noun (native word)",
+      "ご ＋ Noun (Sino-Japanese word)"
+    ],
+    "pitfalls": [
+      "As a guideline お joins native (訓読み) words and ご joins Sino-Japanese (音読み) words, but there are common exceptions — お茶, お電話, お時間 all take お even though the noun is Chinese-origin — so learn set phrases as you meet them.",
+      "Adding お/ご to your own things can sound like you are honoring yourself; for the listener's family say ご家族, but your own is just 家族."
+    ],
+    "examples": [
+      {
+        "ja": "お茶をどうぞ。",
+        "en": "Please have some tea.",
+        "f": "お｜茶[ちゃ]をどうぞ。"
+      },
+      {
+        "ja": "ご家族はお元気ですか。",
+        "en": "Is your family well?",
+        "f": "ご｜家族[かぞく]はお｜元気[げんき]ですか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "o-suru",
+        "note": "お＋stem＋する is a humble verb pattern that reuses the same お prefix."
+      },
+      {
+        "slug": "o-kudasai-honorific",
+        "note": "お＋stem＋ください makes a polite request using the same お prefix."
+      },
+      {
+        "slug": "gozaimasu",
+        "note": "ございます is the polite existence verb often paired with お/ご speech."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "ka",
+    "title": "か",
+    "kana": "か",
+    "romaji": "ka",
+    "meaning": "question particle",
+    "jlpt": 5,
+    "summary": "か placed at the very end of a sentence turns a statement into a question. In polite speech it stands in for a spoken rising intonation, so 学生です (is a student) becomes 学生ですか (are you a student?). No question mark is required, though casual writing often adds one.",
+    "structure": [
+      "Sentence ＋ か"
+    ],
+    "pitfalls": [
+      "In casual speech か is usually dropped and replaced by rising intonation: 行く？ rather than 行くか, which can sound blunt."
+    ],
+    "examples": [
+      {
+        "ja": "あなたは学生ですか。",
+        "en": "Are you a student?",
+        "f": "あなたは｜学生[がくせい]ですか。"
+      },
+      {
+        "ja": "今、何時ですか。",
+        "en": "What time is it now?",
+        "f": "｜今[いま]、｜何[なん]｜時[じ]ですか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ka-ka",
+        "note": "か〜か repeats か to lay out alternatives (A or B), not to ask a yes/no question."
+      },
+      {
+        "slug": "ka-dou-ka",
+        "note": "かどうか embeds a question ('whether or not') inside a larger sentence."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga",
+    "title": "が",
+    "kana": "が",
+    "romaji": "ga",
+    "meaning": "subject / identifier marker",
+    "jlpt": 5,
+    "summary": "が marks the grammatical subject — the doer of an action or the thing being described — and often presents new or specifically identified information. Use it to point out what exists, to answer 'who?' or 'what?' (私が行きます), and with certain adjectives and verbs of ability or feeling (日本語が分かる).",
+    "structure": [
+      "Noun ＋ が ＋ Predicate"
+    ],
+    "pitfalls": [
+      "が vs は: が spotlights the subject itself (answering 'who?'), while は presents an already-known topic. 私が行きます = 'I (not others) will go'; 私は行きます = 'As for me, I'll go'.",
+      "Some feelings and abilities take が where English uses an object: 日本語が分かる, 水が飲みたい."
+    ],
+    "examples": [
+      {
+        "ja": "だれがこの本を書きましたか。",
+        "en": "Who wrote this book?",
+        "f": "だれがこの｜本[ほん]を｜書[か]きましたか。"
+      },
+      {
+        "ja": "あの人が先生です。",
+        "en": "That person is the teacher.",
+        "f": "あの｜人[ひと]が｜先生[せんせい]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "wa-topic",
+        "note": "は marks a known topic; が identifies or spotlights the subject — the classic contrast."
+      },
+      {
+        "slug": "ga-no-conversion",
+        "note": "Inside a noun-modifying clause, this subject が can switch to の."
+      },
+      {
+        "slug": "ga-aru",
+        "note": "が marks the thing that exists in 〜がある / 〜がいる sentences."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga-aru",
+    "title": "がある",
+    "kana": "がある",
+    "romaji": "ga aru",
+    "meaning": "there is ~; to have ~ (inanimate)",
+    "jlpt": 5,
+    "summary": "ある states that an inanimate thing — an object, a place, a plant, an event — exists, or that someone 'has' it. The thing that exists is marked with が and the place with に. The polite form is あります. For people and animals, use いる instead.",
+    "structure": [
+      "Noun［place］＋ に ＋ Noun［thing］＋ が ＋ ある"
+    ],
+    "pitfalls": [
+      "Choose by animacy, not by the English 'have': use ある for things and plants, いる for people and animals — 木がある but 犬がいる.",
+      "The place of existence takes に (公園に), and the thing that exists takes が (トイレがある)."
+    ],
+    "examples": [
+      {
+        "ja": "机の上に本があります。",
+        "en": "There is a book on the desk.",
+        "f": "｜机[つくえ]の｜上[うえ]に｜本[ほん]があります。"
+      },
+      {
+        "ja": "明日は試験があります。",
+        "en": "There is an exam tomorrow.",
+        "f": "｜明日[あした]は｜試験[しけん]があります。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga-iru",
+        "note": "いる is the animate counterpart — used for people and animals."
+      },
+      {
+        "slug": "ga-aru-noun",
+        "note": "〜がある placed before a noun describes a noun that has something (窓がある部屋)."
+      },
+      {
+        "slug": "gozaimasu",
+        "note": "ございます is the more formal, polite way to say 'there is'."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga-aru-noun",
+    "title": "がある＋名詞",
+    "kana": "があるめいし",
+    "romaji": "ga aru meishi",
+    "meaning": "a noun that has ~ (modifying がある)",
+    "jlpt": 5,
+    "summary": "When 〜がある sits directly in front of a noun, it describes that noun as one that has or contains something: 窓がある部屋 = a room that has a window. The whole 〜がある clause modifies the noun with no の or extra particle. In this position the が may also be replaced by の (窓のある部屋).",
+    "structure": [
+      "Noun-A ＋ が ＋ ある ＋ Noun-B"
+    ],
+    "pitfalls": [
+      "The clause attaches straight to the noun — no の between ある and the noun: 窓がある部屋, not 窓があるの部屋.",
+      "The subject inside such a clause may switch が to の with no change in meaning: 窓のある部屋."
+    ],
+    "examples": [
+      {
+        "ja": "庭がある家に住みたいです。",
+        "en": "I want to live in a house that has a garden.",
+        "f": "｜庭[にわ]がある｜家[いえ]に｜住[す]みたいです。"
+      },
+      {
+        "ja": "プールがあるホテルを探しています。",
+        "en": "I'm looking for a hotel that has a pool.",
+        "f": "プールがあるホテルを｜探[さが]しています。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga-aru",
+        "note": "The plain 〜がある just states that something exists, without modifying a noun."
+      },
+      {
+        "slug": "ga-no-conversion",
+        "note": "The が here can become の (窓のある部屋) because it is a noun-modifying clause."
+      },
+      {
+        "slug": "ga-iru",
+        "note": "Use いる in the same pattern for a noun that has a person or animal (子どもがいる家)."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga-iru",
+    "title": "がいる",
+    "kana": "がいる",
+    "romaji": "ga iru",
+    "meaning": "there is ~; to have ~ (animate)",
+    "jlpt": 5,
+    "summary": "いる states that an animate being — a person or animal — exists or is present, or that someone 'has' them (a friend, a sibling, a pet). The being is marked with が and the place with に. The polite form is います. For objects and plants, use ある instead.",
+    "structure": [
+      "Noun［place］＋ に ＋ Noun［person／animal］＋ が ＋ いる"
+    ],
+    "pitfalls": [
+      "Pick いる for people and animals, ある for lifeless things: 猫がいる but 車がある.",
+      "Even 'having' family or pets uses いる, not ある: 妹がいます (I have a younger sister)."
+    ],
+    "examples": [
+      {
+        "ja": "公園に子どもがいます。",
+        "en": "There are children in the park.",
+        "f": "｜公園[こうえん]に｜子[こ]どもがいます。"
+      },
+      {
+        "ja": "私は兄が二人います。",
+        "en": "I have two older brothers.",
+        "f": "｜私[わたし]は｜兄[あに]が｜二[に]｜人[にん]います。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga-aru",
+        "note": "ある is the inanimate counterpart — used for things, plants, and events."
+      },
+      {
+        "slug": "ga-aru-noun",
+        "note": "The same existence pattern can modify a noun (子どもがいる家)."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ka-ka",
+    "title": "か〜か",
+    "kana": "かか",
+    "romaji": "ka ka",
+    "meaning": "A or B",
+    "jlpt": 5,
+    "summary": "Putting か after each of two (or more) options presents them as alternatives — 'A or B'. The final か just before the verb is often dropped in speech: コーヒーか紅茶（か）。 Use it to offer a choice or to ask which of several things applies.",
+    "structure": [
+      "Noun-A ＋ か ＋ Noun-B ＋（か）",
+      "Sentence-A ＋ か ＋ Sentence-B ＋ か"
+    ],
+    "pitfalls": [
+      "This か joins alternatives; it differs from the sentence-final question か. コーヒーか紅茶 (a choice) vs コーヒーですか (a question).",
+      "For listing things that are all true together, use と (exhaustive) or や (partial), not か."
+    ],
+    "examples": [
+      {
+        "ja": "コーヒーか紅茶を飲みます。",
+        "en": "I'll drink coffee or tea.",
+        "f": "コーヒーか｜紅茶[こうちゃ]を｜飲[の]みます。"
+      },
+      {
+        "ja": "土曜日か日曜日に会いましょう。",
+        "en": "Let's meet on Saturday or Sunday.",
+        "f": "｜土曜日[どようび]か｜日曜日[にちようび]に｜会[あ]いましょう。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ka",
+        "note": "The single sentence-final か asks a question; か〜か lays out choices."
+      },
+      {
+        "slug": "to-and",
+        "note": "と lists items that all apply together; か〜か offers one option or another."
+      },
+      {
+        "slug": "ya",
+        "note": "や lists examples ('and things like'); か〜か presents an either/or choice."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "kata",
+    "title": "〜方",
+    "kana": "かた",
+    "romaji": "kata",
+    "meaning": "way of doing; how to ~",
+    "jlpt": 5,
+    "summary": "Attaching 方 (かた) to a verb's ます-stem makes a noun meaning 'the way of doing ~' or 'how to ~': 使う→使い方 (how to use), 作る→作り方 (how to make). Because the result is a noun, it takes particles like any other noun (使い方が分かる).",
+    "structure": [
+      "Verb［stem］＋ 方"
+    ],
+    "pitfalls": [
+      "Attach 方 to the ます-stem, not the dictionary form: 読み方 (how to read), not 読む方.",
+      "The verb's object is usually linked with の: 漢字の読み方 (the way of reading kanji), rather than 漢字を読み方."
+    ],
+    "examples": [
+      {
+        "ja": "この機械の使い方を教えてください。",
+        "en": "Please teach me how to use this machine.",
+        "f": "この｜機械[きかい]の｜使い方[つかいかた]を｜教[おし]えてください。"
+      },
+      {
+        "ja": "漢字の書き方が分かりません。",
+        "en": "I don't know how to write this kanji.",
+        "f": "｜漢字[かんじ]の｜書き方[かきかた]が｜分[わ]かりません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "masu",
+        "note": "〜方 attaches to the same ます-stem that the polite ます ending uses."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "katta",
+    "title": "〜かった",
+    "kana": "かった",
+    "romaji": "katta",
+    "meaning": "i-adjective past tense",
+    "jlpt": 5,
+    "summary": "To put an い-adjective into the past, drop the final い and add かった: 高い→高かった (was expensive), 楽しい→楽しかった (was fun). It works both as the sentence predicate (楽しかったです) and when describing a past state. In polite speech, add です after かった — never でした.",
+    "structure": [
+      "い-adjective［drop い］＋ かった",
+      "い-adjective［drop い］＋ かった ＋ です (polite)"
+    ],
+    "pitfalls": [
+      "The polite past is 〜かったです, not 〜いでした: 高かったです, never 高いでした.",
+      "いい is irregular in the past — よかった, not いかった."
+    ],
+    "examples": [
+      {
+        "ja": "昨日のパーティーは楽しかったです。",
+        "en": "Yesterday's party was fun.",
+        "f": "｜昨日[きのう]のパーティーは｜楽[たの]しかったです。"
+      },
+      {
+        "ja": "先週の映画はとてもよかった。",
+        "en": "Last week's movie was really good.",
+        "f": "｜先週[せんしゅう]の｜映画[えいが]はとてもよかった。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kunai",
+        "note": "〜くない is the negative of the same い-adjectives (past: 〜くなかった)."
+      },
+      {
+        "slug": "datta-deshita",
+        "note": "だった・でした is the past for nouns and な-adjectives, where い-adjectives use 〜かった."
+      },
+      {
+        "slug": "i-adjective-noun",
+        "note": "The same い-adjectives can modify a noun directly in their non-past form."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga-no-conversion",
+    "title": "が・の",
+    "kana": "がの",
+    "romaji": "ga no",
+    "meaning": "swapping が and の in modifying clauses",
+    "jlpt": 5,
+    "summary": "Inside a clause that modifies a noun (a relative clause), the subject can be marked with either が or の with no change in meaning: 母が作った料理 = 母の作った料理 (the food my mother made). の is common in shorter modifying clauses and can sound a touch softer. This swap works only inside noun-modifying clauses, never in a main sentence.",
+    "structure": [
+      "Noun ＋ が／の ＋ Verb／い-adjective ＋ Noun"
+    ],
+    "pitfalls": [
+      "The が/の swap happens only inside a noun-modifying clause. In a full sentence the subject stays が: 母が来た (○), not 母の来た as a standalone sentence.",
+      "Avoid の here when another の is nearby — stacking のs gets confusing, so が can read more clearly."
+    ],
+    "examples": [
+      {
+        "ja": "姉の作ったケーキはおいしいです。",
+        "en": "The cake my older sister made is delicious.",
+        "f": "｜姉[あね]の｜作[つく]ったケーキはおいしいです。"
+      },
+      {
+        "ja": "私が住んでいる町は静かです。",
+        "en": "The town where I live is quiet.",
+        "f": "｜私[わたし]が｜住[す]んでいる｜町[まち]は｜静[しず]かです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga",
+        "note": "が is the plain subject marker; this point lets it become の in modifying clauses."
+      },
+      {
+        "slug": "no-possession",
+        "note": "This modifying-clause の overlaps in form with the linking/possessive の."
+      },
+      {
+        "slug": "wa-topic",
+        "note": "は cannot be used inside such clauses — the subject there is が (or の), not は."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ga-hoshii",
+    "title": "がほしい",
+    "kana": "がほしい",
+    "romaji": "ga hoshii",
+    "meaning": "to want (a thing)",
+    "jlpt": 5,
+    "summary": "ほしい is an い-adjective meaning 'wanted/desired'; 〜がほしい says the speaker wants to have a thing: 新しい靴がほしい = I want new shoes. The desired object is marked with が (sometimes は for contrast). Use たい, not ほしい, when you want to do an action rather than possess a thing.",
+    "structure": [
+      "Noun ＋ が ＋ ほしい"
+    ],
+    "pitfalls": [
+      "ほしい describes the speaker's own desire. For what someone else wants, Japanese usually says ほしがっている, not plain ほしい.",
+      "Want a thing → 〜がほしい; want to do an action → Verb＋たい (水がほしい vs 水が飲みたい)."
+    ],
+    "examples": [
+      {
+        "ja": "私は新しいかばんがほしいです。",
+        "en": "I want a new bag.",
+        "f": "｜私[わたし]は｜新[あたら]しいかばんがほしいです。"
+      },
+      {
+        "ja": "今、時間がほしいです。",
+        "en": "Right now I want some time.",
+        "f": "｜今[いま]、｜時間[じかん]がほしいです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "tai",
+        "note": "〜たい wants to DO an action; がほしい wants to HAVE a thing."
+      },
+      {
+        "slug": "te-hoshii",
+        "note": "〜てほしい wants someone else to do something, not to possess a thing."
+      },
+      {
+        "slug": "ga",
+        "note": "The desired object is marked with が, an example of が with an adjective of feeling."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "kara",
+    "title": "から",
+    "kana": "から",
+    "romaji": "kara",
+    "meaning": "because; from",
+    "jlpt": 5,
+    "summary": "から states a reason: attach it to the end of a clause to say \"because ~, so ~\". The reason comes first and the result follows. The same word から also marks a starting point in space or time, meaning \"from\".",
+    "structure": [
+      "Sentence［plain／polite form］＋ から",
+      "Noun ＋ から"
+    ],
+    "pitfalls": [
+      "As a reason marker, から attaches to a whole clause (plain or です・ます form); it usually sounds like the speaker's own, somewhat assertive reasoning.",
+      "Don't mix up the causal から (\"because\") with the から that means \"from\" a place or time — the meaning depends on what comes before it."
+    ],
+    "examples": [
+      {
+        "ja": "時間がないから、タクシーで行きます。",
+        "en": "I don't have time, so I'll go by taxi.",
+        "f": "｜時間[じかん]がないから、タクシーで｜行[い]きます。"
+      },
+      {
+        "ja": "会議は三時から始まります。",
+        "en": "The meeting starts from three o'clock.",
+        "f": "｜会議[かいぎ]は｜三[さん]｜時[じ]から｜始[はじ]まります。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "node",
+        "note": "ので gives a softer, more objective reason; から sounds more personal and assertive."
+      }
+    ],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kute-de",
+    "title": "くて・で",
+    "kana": "くて・で",
+    "romaji": "kute / de",
+    "meaning": "~ and ~ (linking adjectives and nouns)",
+    "jlpt": 5,
+    "summary": "Links two descriptions in one sentence, meaning \"and\". Change an い-adjective's ending to くて, and put で after a noun or な-adjective, to connect it smoothly to the next part. It lets you stack qualities without starting a new sentence.",
+    "structure": [
+      "い-adjective［〜い → 〜くて］",
+      "Noun ／ な-adjective ＋ で"
+    ],
+    "pitfalls": [
+      "いい (good) is irregular: it becomes よくて, never いくて.",
+      "The で here is the connective form of the copula joining nouns and な-adjectives — it is not the で that marks a place or a means."
+    ],
+    "examples": [
+      {
+        "ja": "この部屋は広くて明るいです。",
+        "en": "This room is spacious and bright.",
+        "f": "この｜部屋[へや]は｜広[ひろ]くて｜明[あか]るいです。"
+      },
+      {
+        "ja": "兄は先生で、姉は医者です。",
+        "en": "My older brother is a teacher, and my older sister is a doctor.",
+        "f": "｜兄[あに]は｜先生[せんせい]で、｜姉[あね]は｜医者[いしゃ]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "soshite",
+        "note": "そして joins two whole sentences; くて・で links descriptions inside a single sentence."
+      },
+      {
+        "slug": "kunai",
+        "note": "Same い-adjective conjugation family — くない is the negative, くて the connective form."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kunai",
+    "title": "くない",
+    "kana": "くない",
+    "romaji": "kunai",
+    "meaning": "not ~ (i-adjective negative)",
+    "jlpt": 5,
+    "summary": "Makes an い-adjective negative: drop the final い and add くない to say something is \"not ~\". This is the plain present-negative form; add です after it for polite speech.",
+    "structure": [
+      "い-adjective［〜い → 〜くない］"
+    ],
+    "pitfalls": [
+      "いい (good) is irregular: its negative is よくない, not いくない.",
+      "くない works only on い-adjectives; for nouns and な-adjectives use じゃない instead."
+    ],
+    "examples": [
+      {
+        "ja": "この店はあまり高くないです。",
+        "en": "This shop isn't very expensive.",
+        "f": "この｜店[みせ]はあまり｜高[たか]くないです。"
+      },
+      {
+        "ja": "今日はぜんぜん寒くない。",
+        "en": "It's not cold at all today.",
+        "f": "｜今日[きょう]はぜんぜん｜寒[さむ]くない。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kunakatta",
+        "note": "くなかった is the past-tense version of this same い-adjective negative."
+      },
+      {
+        "slug": "janai",
+        "note": "じゃない negates nouns and な-adjectives, where くない cannot be used."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kunakatta",
+    "title": "くなかった",
+    "kana": "くなかった",
+    "romaji": "kunakatta",
+    "meaning": "was not ~ (i-adjective past negative)",
+    "jlpt": 5,
+    "summary": "The past-negative form of an い-adjective: drop the final い and add くなかった to say something \"was not ~\". Add です after it to make it polite.",
+    "structure": [
+      "い-adjective［〜い → 〜くなかった］"
+    ],
+    "pitfalls": [
+      "いい (good) is irregular here too: its past negative is よくなかった.",
+      "For politeness, add です → くなかったです; never say くないでした."
+    ],
+    "examples": [
+      {
+        "ja": "昨日の映画はおもしろくなかった。",
+        "en": "Yesterday's movie wasn't interesting.",
+        "f": "｜昨日[きのう]の｜映画[えいが]はおもしろくなかった。"
+      },
+      {
+        "ja": "テストは難しくなかったです。",
+        "en": "The test wasn't difficult.",
+        "f": "テストは｜難[むずか]しくなかったです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kunai",
+        "note": "くない is the present-tense form; くなかった shifts it to the past."
+      },
+      {
+        "slug": "janakatta",
+        "note": "じゃなかった is the matching past negative for nouns and な-adjectives."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kurai",
+    "title": "くらい",
+    "kana": "くらい",
+    "romaji": "kurai",
+    "meaning": "about; approximately",
+    "jlpt": 5,
+    "summary": "Placed after a number or amount to make it approximate, meaning \"about\" or \"roughly\". The variant ぐらい means exactly the same thing; the two are interchangeable.",
+    "structure": [
+      "Number ／ Quantity ＋ くらい ／ ぐらい"
+    ],
+    "pitfalls": [
+      "くらい and ぐらい are the same word — pick whichever sounds smoother after the preceding sound.",
+      "Use くらい for amounts and durations; for an approximate point in time use ごろ (三時ごろ = around three o'clock)."
+    ],
+    "examples": [
+      {
+        "ja": "りんごを五つくらい買いました。",
+        "en": "I bought about five apples.",
+        "f": "りんごを｜五[いつ]つくらい｜買[か]いました。"
+      },
+      {
+        "ja": "教室に学生が二十人ぐらいいます。",
+        "en": "There are about twenty students in the classroom.",
+        "f": "｜教室[きょうしつ]に｜学生[がくせい]が｜二[に]｜十[じゅう]｜人[にん]ぐらいいます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "hodo",
+        "note": "ほど can also express an approximate degree, but is more formal and reaches beyond N5."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kuru",
+    "title": "くる",
+    "kana": "くる",
+    "romaji": "kuru",
+    "meaning": "to come (irregular verb)",
+    "jlpt": 5,
+    "summary": "くる (来る) means \"to come\" and is one of Japanese's two irregular verbs. Its stem vowel changes across forms, so it must be memorized rather than conjugated by the usual rules.",
+    "structure": [
+      "くる ＋ ［polite: きます］／［negative: こない］",
+      "くる ＋ ［past: きた］／［て form: きて］"
+    ],
+    "pitfalls": [
+      "くる is irregular: it becomes き- (きます, きた, きて) and こ- (こない) in different forms, not the regular う-verb or る-verb patterns.",
+      "Written 来る, the kanji 来 is read き, こ, or く depending on the conjugation."
+    ],
+    "examples": [
+      {
+        "ja": "毎朝、友だちがうちに来ます。",
+        "en": "Every morning my friend comes to my house.",
+        "f": "｜毎朝[まいあさ]、｜友[とも]だちがうちに｜来[き]ます。"
+      },
+      {
+        "ja": "あしたは学校に来ません。",
+        "en": "I'm not coming to school tomorrow.",
+        "f": "あしたは｜学校[がっこう]に｜来[き]ません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "e-iku",
+        "note": "へ行く moves away toward a place; くる moves toward the speaker."
+      }
+    ],
+    "related": [
+      {
+        "slug": "suru",
+        "note": "する is the other irregular verb learned alongside くる."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kureru",
+    "title": "くれる",
+    "kana": "くれる",
+    "romaji": "kureru",
+    "meaning": "to give (to me / my in-group)",
+    "jlpt": 5,
+    "summary": "くれる describes someone giving something to you or to your in-group (family, close friends). The giver is the subject, and the sense of the verb points the gift toward the speaker's side.",
+    "structure": [
+      "Giver ＋ が ＋ （私に）＋ Noun ＋ を ＋ くれる"
+    ],
+    "pitfalls": [
+      "Use くれる only when the receiver is you or your in-group; when you give to someone else, use あげる.",
+      "The giver is marked with が／は, and the receiver (usually 私) takes に."
+    ],
+    "examples": [
+      {
+        "ja": "友だちが私にプレゼントをくれました。",
+        "en": "My friend gave me a present.",
+        "f": "｜友[とも]だちが｜私[わたし]にプレゼントをくれました。"
+      },
+      {
+        "ja": "父が新しい自転車をくれた。",
+        "en": "My dad gave me a new bicycle.",
+        "f": "｜父[ちち]が｜新[あたら]しい｜自転車[じてんしゃ]をくれた。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "ageru-giving",
+        "note": "あげる gives outward, away from the speaker; くれる gives inward, toward the speaker."
+      }
+    ],
+    "related": [
+      {
+        "slug": "morau",
+        "note": "もらう describes the same exchange from the receiver's side (\"to receive\")."
+      },
+      {
+        "slug": "te-kureru",
+        "note": "てくれる extends くれる to doing an action as a favor for me/us."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "adjective-no",
+    "title": "形容詞＋の",
+    "kana": "けいようしの",
+    "romaji": "keiyoushi no",
+    "meaning": "the ~ one",
+    "jlpt": 5,
+    "summary": "の can stand in for a noun that both speakers already have in mind, so an adjective plus の means \"the ~ one\". It saves you from repeating the noun — 赤いの means \"the red one\" instead of 赤いもの or naming the item again.",
+    "structure": [
+      "い-adjective ＋ の",
+      "な-adjective ＋ な ＋ の"
+    ],
+    "pitfalls": [
+      "な-adjectives keep their な before の: 静かなの (\"the quiet one\"), not 静かの.",
+      "This の replaces a known noun; it is not the possessive の (as in 私の本)."
+    ],
+    "examples": [
+      {
+        "ja": "赤いのをください。",
+        "en": "Please give me the red one.",
+        "f": "｜赤[あか]いのをください。"
+      },
+      {
+        "ja": "もっと安いのはありますか。",
+        "en": "Do you have a cheaper one?",
+        "f": "もっと｜安[やす]いのはありますか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kekkou",
+    "title": "けっこう",
+    "kana": "けっこう",
+    "romaji": "kekkou",
+    "meaning": "quite; fairly; rather",
+    "jlpt": 5,
+    "summary": "As an adverb, けっこう means \"quite\" or \"fairly\" and often carries the nuance of \"more than I expected\". It sits before an adjective or verb to boost its degree in a casual, conversational way.",
+    "structure": [
+      "けっこう ＋ い-adjective ／ な-adjective ／ Verb"
+    ],
+    "pitfalls": [
+      "けっこう also works as a set phrase meaning \"no, thank you\" or \"that's fine\"; context tells the two apart.",
+      "It is more casual than とても and hints that something exceeded expectations, rather than being a plain \"very\"."
+    ],
+    "examples": [
+      {
+        "ja": "この問題はけっこう難しいです。",
+        "en": "This problem is quite difficult.",
+        "f": "この｜問題[もんだい]はけっこう｜難[むずか]しいです。"
+      },
+      {
+        "ja": "駅から家までけっこう歩きました。",
+        "en": "I walked quite a lot from the station to my house.",
+        "f": "｜駅[えき]から｜家[いえ]までけっこう｜歩[ある]きました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "totemo",
+        "note": "とても is a stronger, more neutral \"very\"; けっこう is a softer \"fairly / quite\"."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "kedo",
+    "title": "けど・だけど",
+    "kana": "けど・だけど",
+    "romaji": "kedo / dakedo",
+    "meaning": "but; although",
+    "jlpt": 5,
+    "summary": "けど joins two clauses with a contrast, meaning \"but\" or \"although\". It comes at the end of the first clause and is the casual, everyday choice in conversation. After a noun or な-adjective it appears as だけど.",
+    "structure": [
+      "Sentence［plain／polite form］＋ けど ＋ Sentence",
+      "Noun ／ な-adjective ＋ だけど"
+    ],
+    "pitfalls": [
+      "けど is casual; in formal writing or speech, けれども or が are more appropriate.",
+      "It doesn't always mark strong contrast — it often just softens or introduces a statement, as in すみませんけど…."
+    ],
+    "examples": [
+      {
+        "ja": "この店は安いけど、おいしいです。",
+        "en": "This shop is cheap, but the food is tasty.",
+        "f": "この｜店[みせ]は｜安[やす]いけど、おいしいです。"
+      },
+      {
+        "ja": "日本語は難しいけど、楽しいです。",
+        "en": "Japanese is hard, but it's fun.",
+        "f": "｜日本語[にほんご]は｜難[むずか]しいけど、｜楽[たの]しいです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "keredomo",
+        "note": "けれども is the more formal version of the same connector."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "demo",
+        "note": "でも starts a new sentence; けど joins two clauses within one sentence."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "keredomo",
+    "title": "けれども",
+    "kana": "けれども",
+    "romaji": "keredomo",
+    "meaning": "but; however (formal)",
+    "jlpt": 5,
+    "summary": "けれども links two clauses with a contrast, meaning \"but\" or \"however\". It carries the same job as けど but sounds more formal and complete, so it fits polite speech and writing.",
+    "structure": [
+      "Sentence［plain／polite form］＋ けれども ＋ Sentence"
+    ],
+    "pitfalls": [
+      "けれども, けれど, and けど are the same word at descending levels of formality (けれども most formal, けど most casual).",
+      "Like けど, it can also serve as a gentle lead-in rather than a strict contrast."
+    ],
+    "examples": [
+      {
+        "ja": "天気はよかったけれども、少し寒かったです。",
+        "en": "The weather was nice, but it was a little cold.",
+        "f": "｜天気[てんき]はよかったけれども、｜少[すこ]し｜寒[さむ]かったです。"
+      },
+      {
+        "ja": "たくさん勉強したけれども、テストは難しかったです。",
+        "en": "I studied a lot, but the test was difficult.",
+        "f": "たくさん｜勉強[べんきょう]したけれども、テストは｜難[むずか]しかったです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "kedo",
+        "note": "けど is the casual, shortened form of the same connector."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "shikashi",
+        "note": "しかし is also formal, but starts a new sentence rather than joining clauses."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "shikashi",
+    "title": "しかし",
+    "kana": "しかし",
+    "romaji": "shikashi",
+    "meaning": "but; however (formal)",
+    "jlpt": 5,
+    "summary": "しかし is a formal conjunction meaning \"but\" or \"however\". It stands at the beginning of a new sentence and marks a contrast with what was just said, so it is common in writing and serious speech.",
+    "structure": [
+      "Sentence。 ＋ しかし、 ＋ Sentence。"
+    ],
+    "pitfalls": [
+      "しかし is formal; in casual conversation でも or けど sound more natural.",
+      "It opens a new sentence and does not join two clauses in the middle the way けど does."
+    ],
+    "examples": [
+      {
+        "ja": "昨日は雨でした。しかし、今日はいい天気です。",
+        "en": "It rained yesterday. However, the weather is nice today.",
+        "f": "｜昨日[きのう]は｜雨[あめ]でした。しかし、｜今日[きょう]はいい｜天気[てんき]です。"
+      },
+      {
+        "ja": "この車は高いです。しかし、とても人気があります。",
+        "en": "This car is expensive. However, it's very popular.",
+        "f": "この｜車[くるま]は｜高[たか]いです。しかし、とても｜人気[にんき]があります。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "demo",
+        "note": "でも is the casual, conversational equivalent of しかし."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "keredomo",
+        "note": "けれども is also formal but connects clauses inside one sentence."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "janai",
+    "title": "じゃない・ではない",
+    "kana": "じゃない・ではない",
+    "romaji": "ja nai / dewa nai",
+    "meaning": "is not; am not (negative copula)",
+    "jlpt": 5,
+    "summary": "The negative of the copula: attach じゃない or ではない to a noun or な-adjective to say something \"is not ~\". じゃない is casual and ではない is more formal; both are the plain negative, and adding です keeps it polite.",
+    "structure": [
+      "Noun ＋ じゃない ／ ではない",
+      "な-adjective ＋ じゃない ／ ではない"
+    ],
+    "pitfalls": [
+      "じゃない (casual) and ではない (formal) mean the same thing; polite speech often uses じゃないです or じゃありません.",
+      "Use じゃない with nouns and な-adjectives; for い-adjectives use くない (高くない, not 高いじゃない)."
+    ],
+    "examples": [
+      {
+        "ja": "これは私のかばんじゃないです。",
+        "en": "This isn't my bag.",
+        "f": "これは｜私[わたし]のかばんじゃないです。"
+      },
+      {
+        "ja": "あの人は先生ではない。",
+        "en": "That person is not a teacher.",
+        "f": "あの｜人[ひと]は｜先生[せんせい]ではない。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "da-desu",
+        "note": "だ・です is the affirmative copula; じゃない・ではない is its negative."
+      }
+    ],
+    "related": [
+      {
+        "slug": "kunai",
+        "note": "くない is the matching negative for い-adjectives, where じゃない cannot be used."
+      },
+      {
+        "slug": "janakatta",
+        "note": "じゃなかった is the past-tense version of this negative copula."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "janakatta",
+    "title": "じゃなかった",
+    "kana": "じゃなかった",
+    "romaji": "ja nakatta",
+    "meaning": "was not (past negative copula)",
+    "jlpt": 5,
+    "summary": "The past-negative copula: attach じゃなかった (casual) or ではなかった (formal) to a noun or な-adjective to say something \"was not ~\". Add です after it for polite speech.",
+    "structure": [
+      "Noun ＋ じゃなかった ／ ではなかった",
+      "な-adjective ＋ じゃなかった ／ ではなかった"
+    ],
+    "pitfalls": [
+      "The polite forms are じゃなかったです or じゃありませんでした — not じゃないでした.",
+      "For い-adjectives, the past negative is くなかった (寒くなかった), not じゃなかった."
+    ],
+    "examples": [
+      {
+        "ja": "昨日は休みじゃなかった。",
+        "en": "Yesterday wasn't a day off.",
+        "f": "｜昨日[きのう]は｜休[やす]みじゃなかった。"
+      },
+      {
+        "ja": "テストはそんなに簡単じゃなかったです。",
+        "en": "The test wasn't that easy.",
+        "f": "テストはそんなに｜簡単[かんたん]じゃなかったです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "janai",
+        "note": "じゃない is the present tense; じゃなかった shifts it to the past."
+      },
+      {
+        "slug": "kunakatta",
+        "note": "くなかった is the matching past negative for い-adjectives."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "sugiru",
+    "title": "すぎる",
+    "kana": "すぎる",
+    "romaji": "sugiru",
+    "meaning": "too ~; excessively ~",
+    "jlpt": 5,
+    "summary": "すぎる attaches to a verb or adjective stem to say something is done or is \"too much\", beyond a good limit. It usually carries a negative feeling — the amount or degree has gone past what's desirable.",
+    "structure": [
+      "Verb［stem］＋ すぎる",
+      "い-adjective［〜い → 〜すぎる］／ な-adjective ＋ すぎる"
+    ],
+    "pitfalls": [
+      "い-adjectives drop the final い before すぎる: 高い → 高すぎる. な-adjectives attach directly, with no だ: 静か → 静かすぎる.",
+      "いい (good) is irregular: it becomes よすぎる.",
+      "すぎる itself conjugates like a る-verb: すぎます, すぎた, すぎて."
+    ],
+    "examples": [
+      {
+        "ja": "昨日は食べすぎました。",
+        "en": "I ate too much yesterday.",
+        "f": "｜昨日[きのう]は｜食[た]べすぎました。"
+      },
+      {
+        "ja": "このコートは私には大きすぎます。",
+        "en": "This coat is too big for me.",
+        "f": "このコートは｜私[わたし]には｜大[おお]きすぎます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "totemo",
+        "note": "とても is a neutral \"very\"; すぎる adds the negative sense of \"too much\"."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "suru",
+    "title": "する",
+    "kana": "する",
+    "romaji": "suru",
+    "meaning": "to do (irregular verb)",
+    "jlpt": 5,
+    "summary": "する means \"to do\" and is one of Japanese's two irregular verbs. Besides standing alone, it turns many nouns into verbs (勉強する, 電話する), so it appears constantly.",
+    "structure": [
+      "する ＋ ［polite: します］／［negative: しない］",
+      "する ＋ ［past: した］／［て form: して］",
+      "Noun ＋ する （勉強する, 電話する）"
+    ],
+    "pitfalls": [
+      "する is irregular: it becomes し- in most forms (します, しない, して), not the regular verb patterns.",
+      "Many action nouns become verbs simply by adding する (勉強する, 電話する, 掃除する)."
+    ],
+    "examples": [
+      {
+        "ja": "毎日、日本語を勉強します。",
+        "en": "I study Japanese every day.",
+        "f": "｜毎日[まいにち]、｜日本語[にほんご]を｜勉強[べんきょう]します。"
+      },
+      {
+        "ja": "週末は何もしませんでした。",
+        "en": "I didn't do anything on the weekend.",
+        "f": "｜週末[しゅうまつ]は｜何[なに]もしませんでした。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kuru",
+        "note": "くる is the other irregular verb learned together with する."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "soshite",
+    "title": "そして",
+    "kana": "そして",
+    "romaji": "soshite",
+    "meaning": "and; and then",
+    "jlpt": 5,
+    "summary": "そして is a conjunction that begins a new sentence and adds to what came before, meaning \"and\" or \"and then\". Use it to list a further point or to move on to the next thing that happened.",
+    "structure": [
+      "Sentence。 ＋ そして、 ＋ Sentence。"
+    ],
+    "pitfalls": [
+      "そして connects whole sentences; to link adjectives or nouns inside one sentence, use くて・で.",
+      "For a strict time sequence (\"after that\"), それから often sounds more natural."
+    ],
+    "examples": [
+      {
+        "ja": "朝ごはんを食べました。そして、学校に行きました。",
+        "en": "I ate breakfast. And then I went to school.",
+        "f": "｜朝[あさ]ごはんを｜食[た]べました。そして、｜学校[がっこう]に｜行[い]きました。"
+      },
+      {
+        "ja": "京都はきれいです。そして、とても静かです。",
+        "en": "Kyoto is beautiful. And it's very quiet.",
+        "f": "｜京都[きょうと]はきれいです。そして、とても｜静[しず]かです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "sore-kara",
+        "note": "それから also means \"and then\", with a stronger sense of sequence."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "shikashi",
+        "note": "しかし is the opposite kind of connector, introducing a contrast (\"however\")."
+      }
+    ],
+    "related": [
+      {
+        "slug": "kute-de",
+        "note": "くて・で link descriptions within one sentence; そして links separate sentences."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "sore-kara",
+    "title": "それから",
+    "kana": "それから",
+    "romaji": "sore kara",
+    "meaning": "after that; and then",
+    "jlpt": 5,
+    "summary": "A conjunction that joins one sentence to the next: use それから to say \"after that\" when listing events in order, or \"and also\" when adding one more item to what you just said. Learners reach for it to stitch two separate statements together in conversation.",
+    "structure": [
+      "Sentence ＋ 。 ＋ それから ＋ Sentence"
+    ],
+    "pitfalls": [
+      "それから stresses that one thing follows another in time or is added on; plain そして is a more neutral \"and\" that just links two ideas.",
+      "It joins whole sentences. To say \"after doing ~\" inside a single sentence, use the て form plus から (te-kara)."
+    ],
+    "examples": [
+      {
+        "ja": "朝ごはんを食べました。それから、学校に行きました。",
+        "en": "I ate breakfast. After that, I went to school.",
+        "f": "｜朝[あさ]ごはんを｜食[た]べました。それから、｜学校[がっこう]に｜行[い]きました。"
+      },
+      {
+        "ja": "牛乳を買ってください。それから、パンもお願いします。",
+        "en": "Please buy milk. And also, bread please.",
+        "f": "｜牛乳[ぎゅうにゅう]を｜買[か]ってください。それから、パンもお｜願[ねが]いします。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "soshite",
+        "note": "そして is a neutral \"and\"; それから adds a stronger sense of \"and then next\"."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-kara",
+        "note": "てから says \"after doing ~\" within one sentence; それから links two separate sentences."
+      },
+      {
+        "slug": "ato-de",
+        "note": "あとで attaches to a noun/verb for \"after ~\"; それから is a standalone connector."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "da-desu",
+    "title": "だ・です",
+    "kana": "だ・です",
+    "romaji": "da desu",
+    "meaning": "to be (am, is, are)",
+    "jlpt": 5,
+    "summary": "The copula that links a noun or な-adjective to the subject: \"X is Y\". だ is the plain form and です the polite form, so which you pick sets the register of the whole sentence. It is one of the very first patterns a learner uses to introduce and describe things.",
+    "structure": [
+      "Noun ＋ だ／です",
+      "な-adjective ＋ だ／です"
+    ],
+    "pitfalls": [
+      "Never put だ after an い-adjective — 高いだ is wrong. い-adjectives end a plain sentence on their own (高い) and take only です for politeness (高いです).",
+      "だ is often dropped in casual questions and after な-adjectives when speaking (元気？ rather than 元気だ？)."
+    ],
+    "examples": [
+      {
+        "ja": "私は学生です。",
+        "en": "I am a student.",
+        "f": "｜私[わたし]は｜学生[がくせい]です。"
+      },
+      {
+        "ja": "ここは図書館だ。",
+        "en": "This is a library.",
+        "f": "ここは｜図書館[としょかん]だ。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "janai",
+        "note": "じゃない is the negative copula \"is not\"; だ・です is the affirmative \"is\"."
+      }
+    ],
+    "related": [
+      {
+        "slug": "datta-deshita",
+        "note": "だった・でした is the past form \"was\"; だ・です is the non-past."
+      },
+      {
+        "slug": "masu",
+        "note": "です makes noun sentences polite; ます does the same for verbs."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "tai",
+    "title": "たい",
+    "kana": "たい",
+    "romaji": "tai",
+    "meaning": "want to do ~",
+    "jlpt": 5,
+    "summary": "Expresses the speaker's own desire to do something: attach たい to a verb's stem to say \"I want to ~\". The result conjugates like an い-adjective (たい → たくない → たかった). Use it for your own wishes, or in a question to ask what the listener wants to do.",
+    "structure": [
+      "Verb［stem］＋ たい"
+    ],
+    "pitfalls": [
+      "たい describes the first person's desire (or asks \"you\"). To report that a third person wants something, switch to たがる.",
+      "The object can take が or を — 水が飲みたい and 水を飲みたい are both fine, with が feeling a touch stronger on the wanting."
+    ],
+    "examples": [
+      {
+        "ja": "甘いものが食べたいです。",
+        "en": "I want to eat something sweet.",
+        "f": "｜甘[あま]いものが｜食[た]べたいです。"
+      },
+      {
+        "ja": "新しい靴を買いたいです。",
+        "en": "I want to buy new shoes.",
+        "f": "｜新[あたら]しい｜靴[くつ]を｜買[か]いたいです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "ga-hoshii",
+        "note": "がほしい wants a thing (a noun); たい wants to do an action (a verb)."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "tagaru",
+        "note": "たがる reports a third person's desire; たい is for your own."
+      },
+      {
+        "slug": "te-hoshii",
+        "note": "てほしい wants someone else to do something; たい is wanting to do it yourself."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "takusan",
+    "title": "たくさん",
+    "kana": "たくさん",
+    "romaji": "takusan",
+    "meaning": "a lot; many; plenty",
+    "jlpt": 5,
+    "summary": "A quantity word meaning \"a lot\" or \"many\". It works as an adverb before a verb (eat a lot) and as a quantity with nouns (there are many). Learners use it whenever they want to say there is a large amount or number of something.",
+    "structure": [
+      "たくさん ＋ Verb",
+      "たくさん ＋ の ＋ Noun"
+    ],
+    "pitfalls": [
+      "When placing たくさん directly before a noun, add の: たくさんの人 (\"many people\"). After a noun plus particle it stands alone: 人がたくさんいる.",
+      "たくさん is about amount or number; use とても for degree (\"very\"), not quantity."
+    ],
+    "examples": [
+      {
+        "ja": "公園に子供がたくさんいます。",
+        "en": "There are many children in the park.",
+        "f": "｜公園[こうえん]に｜子供[こども]がたくさんいます。"
+      },
+      {
+        "ja": "昨日はたくさん食べました。",
+        "en": "I ate a lot yesterday.",
+        "f": "｜昨日[きのう]はたくさん｜食[た]べました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "amari-nai",
+        "note": "あまり〜ない means \"not much/not many\"; たくさん means \"a lot\"."
+      }
+    ],
+    "related": [
+      {
+        "slug": "totemo",
+        "note": "とても is degree (\"very\"); たくさん is amount (\"a lot\")."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "dake",
+    "title": "だけ",
+    "kana": "だけ",
+    "romaji": "dake",
+    "meaning": "only; just",
+    "jlpt": 5,
+    "summary": "A limiting particle meaning \"only\" or \"just\": it marks the noun, verb, or quantity as the sole thing involved, with nothing else. Attach it after the word you want to limit. It is the most straightforward way to say \"only ~\" at this level.",
+    "structure": [
+      "Noun ＋ だけ",
+      "Verb［dictionary form］＋ だけ",
+      "Quantity ＋ だけ"
+    ],
+    "pitfalls": [
+      "With を and が, だけ usually replaces them (水だけ飲む, not 水をだけ飲む). With に and で it can attach either way (ここだけに / ここにだけ).",
+      "だけ takes a normal verb; しか says the same \"only\" but always needs a negative verb (水しか飲まない)."
+    ],
+    "examples": [
+      {
+        "ja": "水だけ飲みました。",
+        "en": "I drank only water.",
+        "f": "｜水[みず]だけ｜飲[の]みました。"
+      },
+      {
+        "ja": "りんごを一つだけ食べました。",
+        "en": "I ate only one apple.",
+        "f": "りんごを｜一[ひと]つだけ｜食[た]べました。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "shika-nai",
+        "note": "しか〜ない also means \"only\" but requires a negative verb; だけ takes a positive one."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "bakari",
+        "note": "ばかり means \"nothing but / only\" and often carries a nuance of too much; だけ is a plain limit."
+      },
+      {
+        "slug": "dake-de",
+        "note": "だけで means \"just by / with only ~\"; だけ alone simply limits the item."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ta-koto-ga-aru",
+    "title": "たことがある",
+    "kana": "たことがある",
+    "romaji": "ta koto ga aru",
+    "meaning": "have done ~ before",
+    "jlpt": 5,
+    "summary": "Talks about past experience: attach ことがある to a verb's た form to say \"I have done ~ (at least once) before\". Use it to share what you have or haven't tried, or to ask someone whether they have ever done something.",
+    "structure": [
+      "Verb［た form］＋ ことがある"
+    ],
+    "pitfalls": [
+      "Use the た form for experience. The dictionary form plus ことがある (koto-ga-aru) means \"there are times when I do ~\", a recurring possibility — not a past experience.",
+      "The negative swaps ある for ない／ありません after the same た form: 一度もしたことがありません (\"have never ~, not even once\")."
+    ],
+    "examples": [
+      {
+        "ja": "すしを食べたことがあります。",
+        "en": "I have eaten sushi before.",
+        "f": "すしを｜食[た]べたことがあります。"
+      },
+      {
+        "ja": "一度も遅刻したことがありません。",
+        "en": "I have never been late, not even once.",
+        "f": "｜一[いち]｜度[ど]も｜遅刻[ちこく]したことがありません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "koto-ga-aru",
+        "note": "Dictionary form + ことがある means \"there are times I do ~\"; the た form means \"have done before\"."
+      },
+      {
+        "slug": "koto-ga-dekiru",
+        "note": "ことができる expresses ability (\"can do\"); たことがある expresses experience."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "datta-deshita",
+    "title": "だった・でした",
+    "kana": "だった・でした",
+    "romaji": "datta deshita",
+    "meaning": "was; were (past copula)",
+    "jlpt": 5,
+    "summary": "The past tense of the copula: だった (plain) and でした (polite) turn \"X is Y\" into \"X was Y\". Attach it to a noun or な-adjective to describe how something was in the past. It is the natural counterpart to だ・です.",
+    "structure": [
+      "Noun ＋ だった／でした",
+      "な-adjective ＋ だった／でした"
+    ],
+    "pitfalls": [
+      "い-adjectives do not take でした. Their past is 〜かった (高かった), never 高いでした.",
+      "The negative past is じゃなかった (plain) or ではありませんでした (polite)."
+    ],
+    "examples": [
+      {
+        "ja": "昨日は休みでした。",
+        "en": "Yesterday was a day off.",
+        "f": "｜昨日[きのう]は｜休[やす]みでした。"
+      },
+      {
+        "ja": "先週のテストは簡単だった。",
+        "en": "Last week's test was easy.",
+        "f": "｜先週[せんしゅう]のテストは｜簡単[かんたん]だった。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "janakatta",
+        "note": "じゃなかった is the past negative \"was not\"; だった・でした is the past affirmative \"was\"."
+      }
+    ],
+    "related": [
+      {
+        "slug": "da-desu",
+        "note": "だ・です is the non-past copula \"is\"; だった・でした is its past form."
+      },
+      {
+        "slug": "katta",
+        "note": "〜かった is the past of い-adjectives; でした follows nouns and な-adjectives."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "tari-tari",
+    "title": "〜たり〜たりする",
+    "kana": "たりたりする",
+    "romaji": "tari tari suru",
+    "meaning": "do things like A and B",
+    "jlpt": 5,
+    "summary": "Lists a few representative actions without claiming they are the only ones: take the た form of each verb, add り, and finish with する. It says \"I do things like A and B (among others)\", which makes it handy for describing what you do on your day off or on a trip.",
+    "structure": [
+      "Verb［た form］＋ り ＋ Verb［た form］＋ り ＋ する"
+    ],
+    "pitfalls": [
+      "The final する carries the tense and politeness — for the past, only the last verb changes: 〜たり〜たりしました.",
+      "Unlike the て form (which lists actions in strict order), 〜たり implies a non-exhaustive sample of activities."
+    ],
+    "examples": [
+      {
+        "ja": "週末は本を読んだり音楽を聞いたりします。",
+        "en": "On weekends I do things like read books and listen to music.",
+        "f": "｜週末[しゅうまつ]は｜本[ほん]を｜読[よ]んだり｜音楽[おんがく]を｜聞[き]いたりします。"
+      },
+      {
+        "ja": "部屋で泣いたり笑ったりしました。",
+        "en": "In my room I cried and laughed, among other things.",
+        "f": "｜部屋[へや]で｜泣[な]いたり｜笑[わら]ったりしました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-form",
+        "note": "The て form lists actions in sequence; 〜たり gives a non-ordered sample of activities."
+      },
+      {
+        "slug": "shi",
+        "note": "し lists reasons or facts side by side; 〜たり lists example actions."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "dareka-dokoka",
+    "title": "誰か・どこか・誰も・どこも",
+    "kana": "だれか・どこか・だれも・どこも",
+    "romaji": "dareka dokoka daremo dokomo",
+    "meaning": "someone/somewhere; no one/nowhere",
+    "jlpt": 5,
+    "summary": "Builds indefinite words from question words: 誰/どこ/何 plus か gives \"someone / somewhere / something\", while the same words plus も with a negative verb give \"no one / nowhere / nothing\". Learners use these to speak vaguely when they don't know or don't need to specify who or where.",
+    "structure": [
+      "誰／どこ／何 ＋ か",
+      "誰／どこ／何 ＋ も ＋ Verb［ない form］"
+    ],
+    "pitfalls": [
+      "The も forms need a negative verb to mean \"no one / nowhere\": 誰もいない, どこも〜ない.",
+      "When a particle is involved, か/も combine with it: 誰かに (to someone), 誰にも〜ない (to no one)."
+    ],
+    "examples": [
+      {
+        "ja": "誰かがドアの外にいます。",
+        "en": "Someone is outside the door.",
+        "f": "｜誰[だれ]かがドアの｜外[そと]にいます。"
+      },
+      {
+        "ja": "教室には誰もいませんでした。",
+        "en": "There was no one in the classroom.",
+        "f": "｜教室[きょうしつ]には｜誰[だれ]もいませんでした。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "nanika-nanimo",
+        "note": "何か・何も (something / nothing) is the same family built on 何 for things rather than people or places."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "darou",
+    "title": "だろう",
+    "kana": "だろう",
+    "romaji": "darou",
+    "meaning": "probably; ~right?",
+    "jlpt": 5,
+    "summary": "Expresses a guess or conjecture in plain speech: だろう means \"probably\" or, with rising intonation, \"~right?\" when seeking agreement. Attach it to a plain-form verb, an い-adjective, or a noun. でしょう is its polite twin.",
+    "structure": [
+      "Noun ／ な-adjective ＋ だろう",
+      "Verb［dictionary form］＋ だろう",
+      "い-adjective ＋ だろう"
+    ],
+    "pitfalls": [
+      "だろう is plain; use でしょう in polite speech for the same meaning.",
+      "Don't stack だ before it — after a noun say 学生だろう, not 学生だだろう."
+    ],
+    "examples": [
+      {
+        "ja": "明日は晴れるだろう。",
+        "en": "It will probably be sunny tomorrow.",
+        "f": "｜明日[あした]は｜晴[は]れるだろう。"
+      },
+      {
+        "ja": "彼はもう帰っただろう。",
+        "en": "He has probably gone home already.",
+        "f": "｜彼[かれ]はもう｜帰[かえ]っただろう。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "deshou",
+        "note": "でしょう is the polite version of the same conjecture; だろう is plain."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kamo-shirenai",
+        "note": "かもしれない (\"maybe\") is less certain than だろう (\"probably\")."
+      },
+      {
+        "slug": "hazu-da",
+        "note": "はずだ expects something based on reasoning; だろう is a looser guess."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "cha-ikenai",
+    "title": "ちゃいけない・じゃいけない",
+    "kana": "ちゃいけない・じゃいけない",
+    "romaji": "cha ikenai ja ikenai",
+    "meaning": "must not do ~ (casual)",
+    "jlpt": 5,
+    "summary": "A spoken contraction of てはいけない that expresses prohibition — \"you must not ~\". て + は shrinks to ちゃ, and で + は (from verbs ending in で) shrinks to じゃ. Use it in casual conversation where the full form would feel stiff.",
+    "structure": [
+      "Verb［て form: ては → ちゃ］＋ いけない",
+      "Verb［て form: では → じゃ］＋ いけない"
+    ],
+    "pitfalls": [
+      "This is a casual, spoken contraction. Formal writing uses the full てはいけない, but ちゃいけません stays natural in polite everyday speech (teachers, staff, etc.).",
+      "ちゃ comes from て-form verbs (食べて→食べちゃ); じゃ comes from those whose て form is で (遊んで→遊んじゃ)."
+    ],
+    "examples": [
+      {
+        "ja": "ここで遊んじゃいけないよ。",
+        "en": "You must not play here.",
+        "f": "ここで｜遊[あそ]んじゃいけないよ。"
+      },
+      {
+        "ja": "授業中に寝ちゃいけません。",
+        "en": "You must not sleep during class.",
+        "f": "｜授業[じゅぎょう]｜中[ちゅう]に｜寝[ね]ちゃいけません。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "te-wa-ikenai",
+        "note": "てはいけない is the full, more formal version; ちゃいけない is its casual contraction."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "temo-ii",
+        "note": "てもいい grants permission (\"may do\"); ちゃいけない forbids it."
+      }
+    ],
+    "related": [
+      {
+        "slug": "na-prohibitive",
+        "note": "な is a blunt, direct \"don't\"; ちゃいけない states a rule against doing it."
+      },
+      {
+        "slug": "nakucha",
+        "note": "なくちゃ (must do) is the contracted obligation; ちゃいけない is the contracted prohibition."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "tte",
+    "title": "って",
+    "kana": "って",
+    "romaji": "tte",
+    "meaning": "casual quotation: ~ (that)",
+    "jlpt": 5,
+    "summary": "A casual, conversational marker that reports what someone said or something you heard: \"~ they say\" or \"I heard that ~\". It is a spoken shortcut for と (with 言う/聞く) or という. You'll hear it constantly in everyday talk to pass along information.",
+    "structure": [
+      "Sentence ＋ って",
+      "Noun ＋ って"
+    ],
+    "pitfalls": [
+      "って is casual — in formal writing or speech, use と or という instead.",
+      "It often marks hearsay (\"I heard ~\") and can trail off without 言う: 明日は雨だって (\"they say it'll rain\")."
+    ],
+    "examples": [
+      {
+        "ja": "明日は雨だって。",
+        "en": "They say it'll rain tomorrow.",
+        "f": "｜明日[あした]は｜雨[あめ]だって。"
+      },
+      {
+        "ja": "あの店は安いって聞きました。",
+        "en": "I heard that shop is cheap.",
+        "f": "あの｜店[みせ]は｜安[やす]いって｜聞[き]きました。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "to-quotation",
+        "note": "と is the standard, more formal quotation marker; って is its casual spoken form."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "to-iu",
+        "note": "という introduces or names a quoted content; って is the casual contraction of it."
+      },
+      {
+        "slug": "to-omou",
+        "note": "と思う reports what you think; って reports what was said or heard."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "jlptsensei lists N4"
+  },
+  {
+    "slug": "tsumori",
+    "title": "つもりだ",
+    "kana": "つもりだ",
+    "romaji": "tsumori da",
+    "meaning": "intend to; plan to ~",
+    "jlpt": 5,
+    "summary": "States a firm intention you have already decided on: attach つもりだ to a verb's dictionary form for \"I intend to ~\", or to the ない form for \"I intend not to ~\". It conveys a settled personal plan rather than a vague wish.",
+    "structure": [
+      "Verb［dictionary form］＋ つもりだ",
+      "Verb［ない form］＋ つもりだ"
+    ],
+    "pitfalls": [
+      "つもりだ is stronger and more decided than 〜ようと思う (\"I'm thinking of doing\").",
+      "It describes your own intention, not a fixed schedule; for scheduled events use 予定だ."
+    ],
+    "examples": [
+      {
+        "ja": "夏休みに国へ帰るつもりです。",
+        "en": "I intend to go back to my home country during summer vacation.",
+        "f": "｜夏休[なつやす]みに｜国[くに]へ｜帰[かえ]るつもりです。"
+      },
+      {
+        "ja": "今日は何も買わないつもりです。",
+        "en": "I don't plan to buy anything today.",
+        "f": "｜今日[きょう]は｜何[なに]も｜買[か]わないつもりです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "you-to-omou",
+        "note": "〜ようと思う is a softer \"I'm thinking of doing\"; つもりだ is a firmer, settled intention."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "yotei-da",
+        "note": "予定だ states a fixed schedule or arrangement; つもりだ states your personal intention."
+      },
+      {
+        "slug": "tai",
+        "note": "たい expresses desire (\"want to\"); つもりだ expresses a decided plan (\"intend to\")."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "te-form",
+    "title": "〜て",
+    "kana": "て",
+    "romaji": "te",
+    "meaning": "and; and then (verb linking)",
+    "jlpt": 5,
+    "summary": "The connective て form of a verb links it to what follows: \"do A and (then) B\". It joins actions in sequence within one sentence and is also the base for many other patterns (ている, てください, and more). Mastering how each verb group forms て is a core N5 skill.",
+    "structure": [
+      "Verb［て form］＋ Verb-B"
+    ],
+    "pitfalls": [
+      "The final verb carries the tense: 起きて…洗いました means both actions were in the past.",
+      "How て forms depends on the verb group, with sound changes for u-verbs (書く→書いて, 飲む→飲んで, 待つ→待って)."
+    ],
+    "examples": [
+      {
+        "ja": "朝起きて、顔を洗います。",
+        "en": "I get up in the morning and wash my face.",
+        "f": "｜朝[あさ]｜起[お]きて、｜顔[かお]を｜洗[あら]います。"
+      },
+      {
+        "ja": "電車に乗って家へ帰ります。",
+        "en": "I take the train and go home.",
+        "f": "｜電車[でんしゃ]に｜乗[の]って｜家[いえ]へ｜帰[かえ]ります。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-kara",
+        "note": "てから stresses \"after doing A, then B\"; plain て just links the actions."
+      },
+      {
+        "slug": "tari-tari",
+        "note": "〜たり lists sample actions without order; て links them in sequence."
+      },
+      {
+        "slug": "te-kudasai",
+        "note": "てください uses the て form to make a request; here て just connects clauses."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "de",
+    "title": "で",
+    "kana": "で",
+    "romaji": "de",
+    "meaning": "at; in; by means of",
+    "jlpt": 5,
+    "summary": "A particle that marks the place where an action happens, or the means, tool, or material used to do it. Put it after the noun that names the location or method. It is one of the most frequently used particles from the very beginning.",
+    "structure": [
+      "Noun［place］＋ で ＋ Verb",
+      "Noun［means］＋ で ＋ Verb"
+    ],
+    "pitfalls": [
+      "で marks where an action takes place (公園で遊ぶ). Use に for where something simply exists (公園にいる).",
+      "The same で also marks means (バスで), tool (ペンで), and material (木で作る)."
+    ],
+    "examples": [
+      {
+        "ja": "公園で友達と遊びました。",
+        "en": "I played with a friend at the park.",
+        "f": "｜公園[こうえん]で｜友達[ともだち]と｜遊[あそ]びました。"
+      },
+      {
+        "ja": "ペンで名前を書きます。",
+        "en": "I write my name with a pen.",
+        "f": "ペンで｜名前[なまえ]を｜書[か]きます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ni",
+        "note": "に marks existence, destination, and time; で marks the place of an action or the means."
+      },
+      {
+        "slug": "e",
+        "note": "へ marks the direction you move toward; で marks where an action occurs."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "te-aru",
+    "title": "てある",
+    "kana": "てある",
+    "romaji": "te aru",
+    "meaning": "has been done (state)",
+    "jlpt": 5,
+    "summary": "Describes a state that remains because someone did something on purpose: attach ある to the て form of a transitive verb to say \"~ has been done (and is still that way)\". It implies deliberate preparation, so you'll meet it when talking about things set up in advance.",
+    "structure": [
+      "Verb［て form, transitive］＋ ある"
+    ],
+    "pitfalls": [
+      "てある takes a transitive verb and usually が, implying a person did it on purpose (窓が開けてある = someone opened it and left it).",
+      "Compare 〜ている with an intransitive verb for a plain state (ドアが開いている = the door is open) versus てある for a deliberately made state."
+    ],
+    "examples": [
+      {
+        "ja": "テーブルに花が飾ってあります。",
+        "en": "Flowers have been arranged on the table.",
+        "f": "テーブルに｜花[はな]が｜飾[かざ]ってあります。"
+      },
+      {
+        "ja": "黒板に名前が書いてあります。",
+        "en": "The names are written on the blackboard.",
+        "f": "｜黒板[こくばん]に｜名前[なまえ]が｜書[か]いてあります。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-iru",
+        "note": "ている covers ongoing actions and natural states; てある is a state left on purpose by someone."
+      },
+      {
+        "slug": "te-oku",
+        "note": "ておく is doing something in advance; てある is the resulting state after it's done."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "te-iru",
+    "title": "ている",
+    "kana": "ている",
+    "romaji": "te iru",
+    "meaning": "is doing; is in a state of ~",
+    "jlpt": 5,
+    "summary": "Attaches いる to a verb's て form to express either an action in progress (\"is doing\") or a continuing state that resulted from an action (\"has done and remains so\"). Which reading applies depends on the verb, making this one of the most important — and most versatile — N5 patterns.",
+    "structure": [
+      "Verb［て form］＋ いる"
+    ],
+    "pitfalls": [
+      "With some verbs ている means the resulting state, not an action in progress: 結婚している (\"is married\"), 知っている (\"know\"), 住んでいる (\"live\").",
+      "In casual speech the い drops: 食べてる, 見てる."
+    ],
+    "examples": [
+      {
+        "ja": "今、音楽を聞いています。",
+        "en": "I'm listening to music right now.",
+        "f": "｜今[いま]、｜音楽[おんがく]を｜聞[き]いています。"
+      },
+      {
+        "ja": "田中さんは結婚しています。",
+        "en": "Tanaka is married.",
+        "f": "｜田中[たなか]さんは｜結婚[けっこん]しています。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-aru",
+        "note": "てある is a state deliberately left by someone using a transitive verb; ている can be a natural state or ongoing action."
+      },
+      {
+        "slug": "mada-te-imasen",
+        "note": "まだ〜ていません says \"haven't done yet\", the negative counterpart of a ている state."
+      },
+      {
+        "slug": "te-form",
+        "note": "ている is built on the て form, the same base used to link verbs."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "te-kara",
+    "title": "てから",
+    "kana": "てから",
+    "romaji": "te kara",
+    "meaning": "after doing ~; once ~ is done",
+    "jlpt": 5,
+    "summary": "Chains two actions in strict order: attach から to the て form of a verb to say the second action happens only after the first is finished. It stresses that the first action comes first and is fully done before the next one begins.",
+    "structure": [
+      "Verb［て form］＋ から ＋ Sentence"
+    ],
+    "pitfalls": [
+      "てから is about time order, not reason — for 'because', use から attached to a plain sentence instead.",
+      "Only the final verb carries the tense; the てから clause stays in the て form no matter when the events happen."
+    ],
+    "examples": [
+      {
+        "ja": "手を洗ってから昼ご飯を食べます。",
+        "en": "I eat lunch after washing my hands.",
+        "f": "｜手[て]を｜洗[あら]ってから｜昼[ひる]ご｜飯[はん]を｜食[た]べます。"
+      },
+      {
+        "ja": "仕事が終わってから、映画を見に行きました。",
+        "en": "After work finished, I went to see a movie.",
+        "f": "｜仕事[しごと]が｜終[お]わってから、｜映画[えいが]を｜見[み]に｜行[い]きました。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "ato-de",
+        "note": "あとで just means 'afterwards'; てから stresses that the first action must finish before the second."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "mae-ni",
+        "note": "まえに puts the main action before the other one; てから puts it after."
+      }
+    ],
+    "related": [
+      {
+        "slug": "te-form",
+        "note": "てから is built on the same て form used to connect verbs."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "te-kudasai",
+    "title": "てください",
+    "kana": "てください",
+    "romaji": "te kudasai",
+    "meaning": "please do ~ (polite request)",
+    "jlpt": 5,
+    "summary": "Makes a polite request or instruction: attach ください to the て form of a verb to ask someone to do something. It is the standard courteous way to tell or ask a person to perform an action, common in classrooms, signs, and everyday service situations.",
+    "structure": [
+      "Verb［て form］＋ ください"
+    ],
+    "pitfalls": [
+      "It is polite but still a request, so to a superior a softer form such as てくださいませんか sounds more respectful.",
+      "To ask someone NOT to do something, switch to the ない form: 〜ないでください."
+    ],
+    "examples": [
+      {
+        "ja": "ここに名前を書いてください。",
+        "en": "Please write your name here.",
+        "f": "ここに｜名前[なまえ]を｜書[か]いてください。"
+      },
+      {
+        "ja": "もう一度言ってください。",
+        "en": "Please say it one more time.",
+        "f": "もう｜一度[いちど]｜言[い]ってください。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "te-request",
+        "note": "Dropping ください leaves just 〜て, a casual version for friends and family."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "naide-kudasai",
+        "note": "〜ないでください asks someone not to do something; てください asks them to do it."
+      }
+    ],
+    "related": [
+      {
+        "slug": "nasai",
+        "note": "なさい is a firmer command used by parents and teachers; てください is a neutral polite request."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "deshou",
+    "title": "でしょう",
+    "kana": "でしょう",
+    "romaji": "deshou",
+    "meaning": "probably ~; ~ right? (polite conjecture)",
+    "jlpt": 5,
+    "summary": "Expresses a guess or seeks agreement: place でしょう after a noun, adjective, or plain verb to say something is probably the case, or, with rising intonation, to check that the listener agrees. It is the polite counterpart of だろう.",
+    "structure": [
+      "Noun ／ な-adjective ＋ でしょう",
+      "Verb ／ い-adjective［plain form］＋ でしょう"
+    ],
+    "pitfalls": [
+      "Do not add だ before でしょう — say 学生でしょう, not 学生だでしょう.",
+      "Falling intonation makes it a guess ('probably'); rising intonation makes it a confirmation ('right?')."
+    ],
+    "examples": [
+      {
+        "ja": "明日は晴れるでしょう。",
+        "en": "It will probably be sunny tomorrow.",
+        "f": "｜明日[あした]は｜晴[は]れるでしょう。"
+      },
+      {
+        "ja": "この店は有名でしょう？",
+        "en": "This shop is famous, right?",
+        "f": "この｜店[みせ]は｜有名[ゆうめい]でしょう？"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "darou",
+        "note": "だろう is the plain, casual form; でしょう is the です-level polite form."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kamo-shirenai",
+        "note": "かもしれない marks a weaker 'maybe'; でしょう sounds more confident about the guess."
+      },
+      {
+        "slug": "to-omou",
+        "note": "と思う states your own opinion; でしょう offers a guess or invites agreement."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "te-wa-ikenai",
+    "title": "てはいけない",
+    "kana": "てはいけない",
+    "romaji": "te wa ikenai",
+    "meaning": "must not ~; may not ~",
+    "jlpt": 5,
+    "summary": "States that an action is not allowed: attach はいけない to the て form of a verb to prohibit it. It is the standard way to express rules and forbidden things, and it pairs naturally with the permission form てもいい.",
+    "structure": [
+      "Verb［て form］＋ は ＋ いけない／いけません"
+    ],
+    "pitfalls": [
+      "In casual speech ては often contracts to ちゃ (食べてはいけない → 食べちゃいけない).",
+      "Do not confuse it with なくてはいけない, which means the opposite — that you MUST do something."
+    ],
+    "examples": [
+      {
+        "ja": "ここで写真を撮ってはいけません。",
+        "en": "You must not take photos here.",
+        "f": "ここで｜写真[しゃしん]を｜撮[と]ってはいけません。"
+      },
+      {
+        "ja": "授業中に寝てはいけません。",
+        "en": "You must not sleep during class.",
+        "f": "｜授業[じゅぎょう]｜中[ちゅう]に｜寝[ね]てはいけません。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "cha-ikenai",
+        "note": "ちゃいけない is the casual contraction of てはいけない."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "temo-ii",
+        "note": "てもいい grants permission ('may'); てはいけない withholds it ('must not')."
+      }
+    ],
+    "related": [
+      {
+        "slug": "na-prohibitive",
+        "note": "The particle な is a blunt 'don't'; てはいけない is the fuller, more explanatory prohibition."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "demo",
+    "title": "でも",
+    "kana": "でも",
+    "romaji": "demo",
+    "meaning": "but; however",
+    "jlpt": 5,
+    "summary": "Begins a new sentence that contrasts with what was just said: start the sentence with でも to introduce something that goes against the previous statement. It is conversational and friendly, the spoken-Japanese equivalent of starting a reply with 'but'.",
+    "structure": [
+      "Sentence。＋ でも、＋ Sentence"
+    ],
+    "pitfalls": [
+      "This でも starts a sentence; it is not the particle でも ('even / or') that attaches to a noun.",
+      "It is casual — in formal writing しかし or けれども is preferred."
+    ],
+    "examples": [
+      {
+        "ja": "高いですね。でも、とてもきれいです。",
+        "en": "It's expensive, isn't it. But it's very beautiful.",
+        "f": "｜高[たか]いですね。でも、とてもきれいです。"
+      },
+      {
+        "ja": "疲れました。でも、まだ仕事があります。",
+        "en": "I'm tired. But I still have work to do.",
+        "f": "｜疲[つか]れました。でも、まだ｜仕事[しごと]があります。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "shikashi",
+        "note": "しかし is the stiffer, written-style 'however'; でも is casual and spoken."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kedo",
+        "note": "けど joins two clauses inside one sentence; でも starts a fresh sentence."
+      },
+      {
+        "slug": "keredomo",
+        "note": "けれども is a more formal contrastive connector; でも is its casual sentence-opening cousin."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "temo-ii",
+    "title": "〜てもいい",
+    "kana": "てもいい",
+    "romaji": "te mo ii",
+    "meaning": "may ~; it's okay to ~",
+    "jlpt": 5,
+    "summary": "Grants or asks permission: attach もいい to the て form of a verb to say an action is allowed. As a question it politely asks whether something is okay to do; as a statement it gives the go-ahead.",
+    "structure": [
+      "Verb［て form］＋ も ＋ いい／いいです"
+    ],
+    "pitfalls": [
+      "As a request for permission it usually takes ですか — 入ってもいいですか ('may I come in?').",
+      "For nouns and な-adjectives, use でもいい instead of てもいい."
+    ],
+    "examples": [
+      {
+        "ja": "ここに座ってもいいですか。",
+        "en": "May I sit here?",
+        "f": "ここに｜座[すわ]ってもいいですか。"
+      },
+      {
+        "ja": "鉛筆で書いてもいいです。",
+        "en": "You may write in pencil.",
+        "f": "｜鉛筆[えんぴつ]で｜書[か]いてもいいです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "temo-kamawanai",
+        "note": "てもかまわない ('I don't mind if') is a more indifferent-sounding permission than てもいい."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "te-wa-ikenai",
+        "note": "てはいけない forbids the action; てもいい permits it."
+      }
+    ],
+    "related": [
+      {
+        "slug": "nakute-mo-ii",
+        "note": "なくてもいい says you don't HAVE to do it; てもいい says you MAY do it."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "to-and",
+    "title": "と",
+    "kana": "と",
+    "romaji": "to",
+    "meaning": "and (listing nouns)",
+    "jlpt": 5,
+    "summary": "Joins nouns into a complete list: place と between nouns to connect them, like 'and' in English. It presents the listed items as the full set, implying nothing else is included.",
+    "structure": [
+      "Noun ＋ と ＋ Noun（＋ と ＋ Noun …）"
+    ],
+    "pitfalls": [
+      "と links nouns only — it cannot join verbs or whole sentences.",
+      "と implies a complete list; use や when you want to give just a few examples out of more."
+    ],
+    "examples": [
+      {
+        "ja": "パンと牛乳を買いました。",
+        "en": "I bought bread and milk.",
+        "f": "パンと｜牛乳[ぎゅうにゅう]を｜買[か]いました。"
+      },
+      {
+        "ja": "私と妹は学生です。",
+        "en": "My younger sister and I are students.",
+        "f": "｜私[わたし]と｜妹[いもうと]は｜学生[がくせい]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ya",
+        "note": "や lists a few representative examples; と lists the items exhaustively."
+      },
+      {
+        "slug": "to-with",
+        "note": "The same particle と in its other core use, 'together with' someone."
+      },
+      {
+        "slug": "nado",
+        "note": "など ('etc.') marks an open-ended list; と marks a closed, complete one."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "to-with",
+    "title": "と",
+    "kana": "と",
+    "romaji": "to",
+    "meaning": "with; together with",
+    "jlpt": 5,
+    "summary": "Marks the person or thing you do something together with: place と after a noun to show a companion or partner in the action. It answers 'with whom?' and often pairs with 一緒に for emphasis.",
+    "structure": [
+      "Noun ＋ と ＋ Verb",
+      "Noun ＋ と ＋ 一緒に ＋ Verb"
+    ],
+    "pitfalls": [
+      "This と marks a co-participant; it is a different use from the と that lists nouns ('A and B').",
+      "For a tool or means ('with a pen'), use で, not と."
+    ],
+    "examples": [
+      {
+        "ja": "友達と映画を見ました。",
+        "en": "I watched a movie with a friend.",
+        "f": "｜友達[ともだち]と｜映画[えいが]を｜見[み]ました。"
+      },
+      {
+        "ja": "家族と一緒に旅行します。",
+        "en": "I travel together with my family.",
+        "f": "｜家族[かぞく]と｜一緒[いっしょ]に｜旅行[りょこう]します。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "issho-ni",
+        "note": "一緒に ('together') often teams up with と to stress doing the action jointly."
+      },
+      {
+        "slug": "to-and",
+        "note": "The same particle と in its listing use, 'A and B'."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "doushite",
+    "title": "どうして",
+    "kana": "どうして",
+    "romaji": "doushite",
+    "meaning": "why; how come",
+    "jlpt": 5,
+    "summary": "Asks for a reason: put どうして at the start of a question to ask why something is the case. It is neutral and very common in everyday conversation, and the answer is usually given with から or ので.",
+    "structure": [
+      "どうして ＋ Sentence ＋ か／の？"
+    ],
+    "pitfalls": [
+      "Etymologically どうして literally means 'doing how', but in modern Japanese it only asks for a reason ('why'); to ask about a method, use どうやって instead.",
+      "Replies to どうして typically end in から or ので to give the reason."
+    ],
+    "examples": [
+      {
+        "ja": "どうして遅れましたか。",
+        "en": "Why were you late?",
+        "f": "どうして｜遅[おく]れましたか。"
+      },
+      {
+        "ja": "どうして日本語を勉強しているのですか。",
+        "en": "Why are you studying Japanese?",
+        "f": "どうして｜日本語[にほんご]を｜勉強[べんきょう]しているのですか。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "naze",
+        "note": "なぜ asks 'why' in a more formal or written tone; どうして is everyday and conversational."
+      },
+      {
+        "slug": "nande",
+        "note": "なんで is the casual, spoken 'why'; どうして is neutral and slightly more polite."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "douyatte",
+        "note": "どうやって asks 'by what method'; どうして asks 'for what reason'."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "verb-non-past",
+    "title": "動詞（非過去）",
+    "kana": "どうしひかこ",
+    "romaji": "doushi hikako",
+    "meaning": "non-past verb form (present / future)",
+    "jlpt": 5,
+    "summary": "The non-past is the verb form that covers both the present and the future in Japanese — there is no separate future tense. Its plain shape is the dictionary form, and its polite shape ends in ます; context and time words tell you whether it means 'do' or 'will do'.",
+    "structure": [
+      "Verb［dictionary form］（plain non-past）",
+      "Verb［stem］＋ ます（polite non-past）"
+    ],
+    "pitfalls": [
+      "Japanese has no dedicated future tense — the same non-past form covers 'do' and 'will do'.",
+      "The non-past also expresses habits and general truths, not only single upcoming actions."
+    ],
+    "examples": [
+      {
+        "ja": "毎朝コーヒーを飲みます。",
+        "en": "I drink coffee every morning.",
+        "f": "｜毎朝[まいあさ]コーヒーを｜飲[の]みます。"
+      },
+      {
+        "ja": "明日、友達に会います。",
+        "en": "I will meet a friend tomorrow.",
+        "f": "｜明日[あした]、｜友達[ともだち]に｜会[あ]います。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "masu",
+        "note": "ます is the polite ending that makes a non-past verb formal."
+      },
+      {
+        "slug": "verb-noun",
+        "note": "A verb modifying a noun normally appears in this non-past plain form."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "verb-noun",
+    "title": "動詞＋名詞",
+    "kana": "どうしめいし",
+    "romaji": "doushi meishi",
+    "meaning": "verb modifying a noun (relative clause)",
+    "jlpt": 5,
+    "summary": "Lets a verb describe a noun directly, the way a relative clause does in English: put a plain-form verb right before the noun it modifies, with no の or extra word in between. This is how Japanese builds phrases like 'the book I read' or 'the person who came'.",
+    "structure": [
+      "Verb［plain form］＋ Noun"
+    ],
+    "pitfalls": [
+      "Use the plain form before the noun, never the ます form — 食べる人, not 食べます人.",
+      "Do not insert の between the verb and the noun the way you would after another noun."
+    ],
+    "examples": [
+      {
+        "ja": "これは母が作った料理です。",
+        "en": "This is the dish my mother made.",
+        "f": "これは｜母[はは]が｜作[つく]った｜料理[りょうり]です。"
+      },
+      {
+        "ja": "昨日会った人は先生です。",
+        "en": "The person I met yesterday is a teacher.",
+        "f": "｜昨日[きのう]｜会[あ]った｜人[ひと]は｜先生[せんせい]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "verb-non-past",
+        "note": "Modifying verbs usually take the plain non-past form."
+      },
+      {
+        "slug": "i-adjective-noun",
+        "note": "い-adjectives modify nouns the same direct way, with no linking word."
+      },
+      {
+        "slug": "na-adjective-noun",
+        "note": "な-adjectives need な before the noun; verbs attach with nothing in between."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "douyatte",
+    "title": "どうやって",
+    "kana": "どうやって",
+    "romaji": "douyatte",
+    "meaning": "how; by what means",
+    "jlpt": 5,
+    "summary": "Asks about the method or means of doing something: put どうやって before a verb to ask 'how / in what way' an action is done. It focuses on the process or steps, such as how to reach a place or how to make something.",
+    "structure": [
+      "どうやって ＋ Verb"
+    ],
+    "pitfalls": [
+      "どうやって asks about method; to ask 'why', use どうして instead.",
+      "To ask what something is like or how it turned out, どう alone is used rather than どうやって."
+    ],
+    "examples": [
+      {
+        "ja": "駅までどうやって行きますか。",
+        "en": "How do you get to the station?",
+        "f": "｜駅[えき]までどうやって｜行[い]きますか。"
+      },
+      {
+        "ja": "これはどうやって作りますか。",
+        "en": "How do you make this?",
+        "f": "これはどうやって｜作[つく]りますか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "doushite",
+        "note": "どうして asks 'why'; どうやって asks 'by what method'."
+      },
+      {
+        "slug": "kata",
+        "note": "〜方 ('way of doing') turns a verb into a noun; どうやって asks the same idea as a question."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "toki",
+    "title": "とき",
+    "kana": "とき",
+    "romaji": "toki",
+    "meaning": "when; at the time of ~",
+    "jlpt": 5,
+    "summary": "Marks the time or occasion when something happens: place とき after a verb, adjective, or noun phrase to mean 'when ~'. The form and tense of the word before とき shows whether the action is before, during, or after the main event.",
+    "structure": [
+      "Verb ／ い-adjective［plain form］＋ とき",
+      "な-adjective ＋ な ＋ とき",
+      "Noun ＋ の ＋ とき"
+    ],
+    "pitfalls": [
+      "The tense before とき matters: 食べるとき is 'when about to eat', 食べたとき is 'when I had eaten'.",
+      "It is often written in kana (とき) in this grammatical 'when' use, rather than as the plain noun 時."
+    ],
+    "examples": [
+      {
+        "ja": "子供のとき、田舎に住んでいました。",
+        "en": "When I was a child, I lived in the countryside.",
+        "f": "｜子供[こども]のとき、｜田舎[いなか]に｜住[す]んでいました。"
+      },
+      {
+        "ja": "暇なとき、本を読みます。",
+        "en": "When I'm free, I read books.",
+        "f": "｜暇[ひま]なとき、｜本[ほん]を｜読[よ]みます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "mae-ni",
+        "note": "まえに pins the action to just before an event; とき marks the general time it happens."
+      },
+      {
+        "slug": "ato-de",
+        "note": "あとで marks 'after'; とき marks the moment 'when' something is the case."
+      },
+      {
+        "slug": "aida",
+        "note": "あいだ covers a whole span 'while'; とき points to a particular time or occasion."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "totemo",
+    "title": "とても",
+    "kana": "とても",
+    "romaji": "totemo",
+    "meaning": "very; extremely",
+    "jlpt": 5,
+    "summary": "Intensifies an adjective or adverb: put とても before it to say 'very'. It is a neutral, everyday booster that works in both polite and casual speech, and it is one of the first intensifiers a learner uses.",
+    "structure": [
+      "とても ＋ い-adjective ／ な-adjective"
+    ],
+    "pitfalls": [
+      "Place it before the word it strengthens, never after — とても おいしい, not おいしい とても.",
+      "With a negative verb, とても can mean 'cannot possibly', but the plain 'very' use is by far the most common at this level."
+    ],
+    "examples": [
+      {
+        "ja": "この料理はとてもおいしいです。",
+        "en": "This dish is very delicious.",
+        "f": "この｜料理[りょうり]はとてもおいしいです。"
+      },
+      {
+        "ja": "昨日はとても寒かったです。",
+        "en": "Yesterday was very cold.",
+        "f": "｜昨日[きのう]はとても｜寒[さむ]かったです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "amari",
+        "note": "あまり pairs with a negative to mean 'not very'; とても boosts toward 'very'."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "donna",
+    "title": "どんな",
+    "kana": "どんな",
+    "romaji": "donna",
+    "meaning": "what kind of ~",
+    "jlpt": 5,
+    "summary": "Asks about the type or nature of something: put どんな before a noun to ask 'what kind of ~?'. It requests a description of qualities rather than a specific name, so answers describe what the thing is like.",
+    "structure": [
+      "どんな ＋ Noun"
+    ],
+    "pitfalls": [
+      "どんな is always followed by a noun; it cannot stand alone the way 'what' can.",
+      "To ask which specific one out of a known set, use どの instead of どんな."
+    ],
+    "examples": [
+      {
+        "ja": "どんな音楽が好きですか。",
+        "en": "What kind of music do you like?",
+        "f": "どんな｜音楽[おんがく]が｜好[す]きですか。"
+      },
+      {
+        "ja": "あの人はどんな人ですか。",
+        "en": "What kind of person is he?",
+        "f": "あの｜人[ひと]はどんな｜人[ひと]ですか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "souiu",
+        "note": "そういう answers with 'that kind of'; どんな asks 'what kind of'."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "na-prohibitive",
+    "title": "な",
+    "kana": "な",
+    "romaji": "na",
+    "meaning": "don't ~ (blunt prohibition)",
+    "jlpt": 5,
+    "summary": "Forbids an action bluntly: attach な to the dictionary form of a verb to say 'don't do that'. It is strong, direct, and rather rough, heard in commands, warnings, and emphatic speech, mostly among men or in urgent situations.",
+    "structure": [
+      "Verb［dictionary form］＋ な"
+    ],
+    "pitfalls": [
+      "This is harsh and can sound rude — for everyday polite prohibition, use 〜ないでください instead.",
+      "Do not confuse it with the sentence-softening な or the な that links な-adjectives; the prohibitive attaches to a dictionary-form verb."
+    ],
+    "examples": [
+      {
+        "ja": "ここに入るな。",
+        "en": "Don't come in here.",
+        "f": "ここに｜入[はい]るな。"
+      },
+      {
+        "ja": "嘘をつくな。",
+        "en": "Don't tell lies.",
+        "f": "｜嘘[うそ]をつくな。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "meirei-kei",
+        "note": "The imperative form orders someone TO do something; な orders them NOT to."
+      }
+    ],
+    "related": [
+      {
+        "slug": "te-wa-ikenai",
+        "note": "てはいけない is the calmer, explanatory 'must not'; な is the blunt spoken 'don't'."
+      },
+      {
+        "slug": "naide-kudasai",
+        "note": "〜ないでください is the polite 'please don't'; な is its rough, abrupt counterpart."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "jlptsensei lists N4"
+  },
+  {
+    "slug": "naa",
+    "title": "なあ",
+    "kana": "なあ",
+    "romaji": "naa",
+    "meaning": "sentence-ending particle: feeling, admiration",
+    "jlpt": 5,
+    "summary": "Adds emotional color at the end of a sentence: なあ voices admiration, strong feeling, or musing to oneself, often a drawn-out, more emotional version of ね. It is casual and typical of talking to yourself or chatting with close friends.",
+    "structure": [
+      "Sentence［plain form］＋ なあ"
+    ],
+    "pitfalls": [
+      "It is casual — avoid it in polite ですます speech with people you don't know well.",
+      "Unlike ね, which seeks the listener's agreement, なあ often just voices your own feeling out loud."
+    ],
+    "examples": [
+      {
+        "ja": "いい天気だなあ。",
+        "en": "What nice weather.",
+        "f": "いい｜天気[てんき]だなあ。"
+      },
+      {
+        "ja": "富士山は本当に大きいなあ。",
+        "en": "Mt. Fuji is really big.",
+        "f": "｜富士山[ふじさん]は｜本当[ほんとう]に｜大[おお]きいなあ。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ne",
+        "note": "ね checks for the listener's agreement; なあ more often expresses your own emotion."
+      },
+      {
+        "slug": "kana",
+        "note": "かな wonders 'I wonder ~'; なあ voices admiration or feeling."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
     "slug": "naide",
     "title": "ないで",
     "kana": "ないで",
     "romaji": "naide",
     "meaning": "without doing ~",
     "jlpt": 5,
-    "summary": "Connects two actions where the first one does not happen: attach で to the ない form of a verb to say \"do B without doing A\". The clause before ないで describes the missing action, and the main verb after it carries the sentence.",
+    "summary": "Links two actions where the first one does not happen: attach で to the ない form of a verb to say \"do B without doing A\". The clause before ないで names the action that is skipped, and the verb after it carries the sentence. Reach for it when you want to describe doing one thing while leaving another undone.",
     "structure": [
       "Verb［ない form］＋ で ＋ Verb-B"
     ],
     "pitfalls": [
-      "Don't confuse ないで with なくて — both are negative connectors, but ないで attaches an accompanying (non-)action to the main verb, while なくて usually states a cause or reason.",
-      "ないで attaches only to verbs. For nouns and な-adjectives, use ではなくて instead."
+      "Don't confuse ないで with なくて — both are negative connectors, but ないで attaches an accompanying non-action to the main verb, while なくて usually gives a cause or reason.",
+      "ないで attaches only to verbs — nouns and な-adjectives have no direct equivalent; ではなく expresses a different contrast ('not X, but Y'), not 'without doing'."
     ],
     "examples": [
       {
@@ -28,10 +3149,122 @@
     ],
     "synonyms": [],
     "antonyms": [],
-    "related": [],
+    "related": [
+      {
+        "slug": "naide-kudasai",
+        "note": "Add でください to ないで to turn it into a polite request not to do something."
+      },
+      {
+        "slug": "nakute",
+        "note": "なくて also links a negative clause but usually states a cause or reason rather than an accompanying non-action."
+      }
+    ],
     "sources": [
       "jlptsensei",
       "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "naide-kudasai",
+    "title": "ないでください",
+    "kana": "ないでください",
+    "romaji": "naide kudasai",
+    "meaning": "please don't do ~",
+    "jlpt": 5,
+    "summary": "Politely asks someone not to do something: attach でください to the ない form of a verb. It is the negative partner of てください, so it is what you use to stop or warn someone gently in everyday polite speech.",
+    "structure": [
+      "Verb［ない form］＋ で ＋ ください"
+    ],
+    "pitfalls": [
+      "The verb goes into the plain ない form before で — 入らないでください, never 入りませんでください.",
+      "Dropping ください leaves plain ないで, which is a casual version fine among friends but too blunt in polite situations."
+    ],
+    "examples": [
+      {
+        "ja": "ここで写真を撮らないでください。",
+        "en": "Please don't take photos here.",
+        "f": "ここで｜写真[しゃしん]を｜撮[と]らないでください。"
+      },
+      {
+        "ja": "心配しないでください。",
+        "en": "Please don't worry.",
+        "f": "｜心配[しんぱい]しないでください。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "naide-request",
+        "note": "Plain ないで on its own is the casual version of this same 'please don't' request."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "te-kudasai",
+        "note": "てください asks someone TO do something; ないでください asks them NOT to."
+      }
+    ],
+    "related": [
+      {
+        "slug": "naide",
+        "note": "The plain ないで connector this polite request is built on."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "naito-ikenai",
+    "title": "ないといけない",
+    "kana": "ないといけない",
+    "romaji": "nai to ikenai",
+    "meaning": "must do; have to do ~",
+    "jlpt": 5,
+    "summary": "States an obligation: attach といけない to the ない form of a verb to say \"if you don't do it, it won't do\", i.e. \"you have to do it\". It literally sets up a negative condition (ないと) and says that outcome is no good (いけない), which together mean the action is necessary.",
+    "structure": [
+      "Verb［ない form］＋ と ＋ いけない"
+    ],
+    "pitfalls": [
+      "The と here is the conditional 'if', so the verb before it must be in the plain ない form.",
+      "In casual speech the いけない half is often dropped, leaving just ～ないと (\"I've gotta...\")."
+    ],
+    "examples": [
+      {
+        "ja": "明日は早く起きないといけません。",
+        "en": "I have to get up early tomorrow.",
+        "f": "｜明日[あした]は｜早[はや]く｜起[お]きないといけません。"
+      },
+      {
+        "ja": "毎日くすりを飲まないといけない。",
+        "en": "I have to take my medicine every day.",
+        "f": "｜毎日[まいにち]くすりを｜飲[の]まないといけない。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "nakute-wa-ikenai",
+        "note": "Same 'must do' meaning; なくてはいけない is built with なくては instead of と."
+      },
+      {
+        "slug": "nakute-wa-naranai",
+        "note": "Also 'must do', but ならない sounds more formal or written."
+      },
+      {
+        "slug": "nakucha",
+        "note": "Casual spoken contraction of the same obligation."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "naito",
+        "note": "Dropping いけない leaves ないと, the N4 way to imply the same obligation casually."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
     ]
   },
   {
@@ -67,9 +3300,1327 @@
         "note": "ほうがいい recommends doing something; ないほうがいい advises against it."
       }
     ],
+    "related": [
+      {
+        "slug": "te-wa-ikenai",
+        "note": "てはいけない forbids an action outright; ないほうがいい only gently advises against it."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nakucha",
+    "title": "なくちゃ・なきゃ",
+    "kana": "なくちゃ・なきゃ",
+    "romaji": "nakucha / nakya",
+    "meaning": "gotta do; must do (casual)",
+    "jlpt": 5,
+    "summary": "Casual spoken contractions of the 'must do' forms: なくちゃ shortens なくては and なきゃ shortens なければ. Both say \"I've gotta do it\". The いけない/ならない ending is usually left off, so the contraction alone carries the sense of obligation in relaxed conversation.",
+    "structure": [
+      "Verb［ない → なくては］→ なくちゃ",
+      "Verb［ない → なければ］→ なきゃ"
+    ],
+    "pitfalls": [
+      "These are casual and spoken — avoid them in formal writing or polite situations, where the full なくてはいけない is expected.",
+      "The trailing いけない is normally dropped, so 行かなくちゃ already means \"I have to go\"."
+    ],
+    "examples": [
+      {
+        "ja": "もう帰らなくちゃ。",
+        "en": "I've gotta head home now.",
+        "f": "もう｜帰[かえ]らなくちゃ。"
+      },
+      {
+        "ja": "宿題をしなきゃ。",
+        "en": "I've gotta do my homework.",
+        "f": "｜宿題[しゅくだい]をしなきゃ。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "nakute-wa-ikenai",
+        "note": "The full form なくては behind なくちゃ, used when speaking more carefully."
+      },
+      {
+        "slug": "naito-ikenai",
+        "note": "Another everyday way to express the same obligation."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "nakute-wa-naranai",
+        "note": "The なければ/ならない forms these contractions come from, more formal in tone."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nakute-wa-ikenai",
+    "title": "なくてはいけない",
+    "kana": "なくてはいけない",
+    "romaji": "nakute wa ikenai",
+    "meaning": "must do; have to do ~",
+    "jlpt": 5,
+    "summary": "States an obligation: change the verb's ない form to なくて and add はいけない to say \"you have to do it\". It literally means \"not doing it won't do\", so it expresses a rule or necessity in a neutral, everyday register.",
+    "structure": [
+      "Verb［ない → なくて］＋ は ＋ いけない"
+    ],
+    "pitfalls": [
+      "The は is often pronounced わ and, in casual speech, contracts to なくちゃ.",
+      "Don't mix this up with てはいけない — なくてはいけない means you MUST do something, while てはいけない means you must NOT."
+    ],
+    "examples": [
+      {
+        "ja": "学生は毎日勉強しなくてはいけません。",
+        "en": "Students have to study every day.",
+        "f": "｜学生[がくせい]は｜毎日[まいにち]｜勉強[べんきょう]しなくてはいけません。"
+      },
+      {
+        "ja": "もう行かなくてはいけない。",
+        "en": "I have to go now.",
+        "f": "もう｜行[い]かなくてはいけない。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "nakute-wa-naranai",
+        "note": "Nearly identical; ならない sounds a little more formal or written."
+      },
+      {
+        "slug": "naito-ikenai",
+        "note": "Same obligation built with と instead of なくては."
+      },
+      {
+        "slug": "nakucha",
+        "note": "Casual spoken contraction of this pattern."
+      }
+    ],
+    "antonyms": [
+      {
+        "slug": "nakute-mo-ii",
+        "note": "なくてもいい says you DON'T have to; なくてはいけない says you must."
+      }
+    ],
+    "related": [
+      {
+        "slug": "te-wa-ikenai",
+        "note": "てはいけない forbids an action; なくてはいけない requires one."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nakute-wa-naranai",
+    "title": "なくてはならない",
+    "kana": "なくてはならない",
+    "romaji": "nakute wa naranai",
+    "meaning": "must do; need to do ~",
+    "jlpt": 5,
+    "summary": "States an obligation, like なくてはいけない but with ならない: change the verb's ない form to なくて and add はならない. It carries a slightly more formal or written tone and often describes rules, duties, and general necessities.",
+    "structure": [
+      "Verb［ない → なくて］＋ は ＋ ならない"
+    ],
+    "pitfalls": [
+      "ならない leans formal and written; in casual conversation people usually say なくちゃ or なきゃ instead.",
+      "The は is commonly read わ, and the whole thing can shorten to なくちゃ in speech."
+    ],
+    "examples": [
+      {
+        "ja": "図書館では静かにしなくてはならない。",
+        "en": "You must be quiet in the library.",
+        "f": "｜図書館[としょかん]では｜静[しず]かにしなくてはならない。"
+      },
+      {
+        "ja": "約束を守らなくてはなりません。",
+        "en": "You must keep your promises.",
+        "f": "｜約束[やくそく]を｜守[まも]らなくてはなりません。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "nakute-wa-ikenai",
+        "note": "Same meaning; いけない is a little more conversational."
+      },
+      {
+        "slug": "naito-ikenai",
+        "note": "Same obligation expressed with と."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "nakucha",
+        "note": "Casual contraction of the なくては/なければ obligation forms."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nakute-mo-ii",
+    "title": "なくてもいい",
+    "kana": "なくてもいい",
+    "romaji": "nakute mo ii",
+    "meaning": "don't have to do ~",
+    "jlpt": 5,
+    "summary": "Says an action is not required: change the verb's ない form to なくて and add もいい to mean \"it's okay even if you don't do it\", i.e. \"you don't have to\". Reach for it to give permission to skip something or to reassure someone that an action is optional.",
+    "structure": [
+      "Verb［ない → なくて］＋ も ＋ いい"
+    ],
+    "pitfalls": [
+      "This is the opposite of なくてはいけない — なくてもいい lifts the obligation, なくてはいけない imposes it.",
+      "いい can be replaced by 大丈夫 or かまわない with the same 'no need to' meaning."
+    ],
+    "examples": [
+      {
+        "ja": "明日は来なくてもいいです。",
+        "en": "You don't have to come tomorrow.",
+        "f": "｜明日[あした]は｜来[こ]なくてもいいです。"
+      },
+      {
+        "ja": "全部食べなくてもいい。",
+        "en": "You don't have to eat all of it.",
+        "f": "｜全部[ぜんぶ]｜食[た]べなくてもいい。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "nakute-wa-ikenai",
+        "note": "なくてはいけない says you must do it; なくてもいい says you needn't."
+      }
+    ],
+    "related": [
+      {
+        "slug": "temo-ii",
+        "note": "てもいい grants permission to do something; なくてもいい grants permission NOT to."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ],
+    "levelNote": "bunpro lists N4"
+  },
+  {
+    "slug": "na-adjective-da",
+    "title": "な形容詞＋だ",
+    "kana": "なけいようしだ",
+    "romaji": "na keiyoushi da",
+    "meaning": "na-adjective as a predicate (~だ/です)",
+    "jlpt": 5,
+    "summary": "Uses a な-adjective to end a sentence: add だ (plain) or です (polite) directly after the adjective, with no な. This is how you say \"X is [adjective]\" — the な only appears when the adjective sits in front of a noun.",
+    "structure": [
+      "な-adjective ＋ だ ／ です"
+    ],
+    "pitfalls": [
+      "Drop the な when the adjective is the predicate — 静かだ, not 静かなだ.",
+      "な-adjectives need だ/です to become a statement; unlike い-adjectives, they cannot stand as a sentence on their own."
+    ],
+    "examples": [
+      {
+        "ja": "この町はとても静かだ。",
+        "en": "This town is very quiet.",
+        "f": "この｜町[まち]はとても｜静[しず]かだ。"
+      },
+      {
+        "ja": "彼女は歌が上手です。",
+        "en": "She is good at singing.",
+        "f": "｜彼女[かのじょ]は｜歌[うた]が｜上手[じょうず]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "da-desu",
+        "note": "The copula だ／です that turns the adjective into a full statement."
+      },
+      {
+        "slug": "na-adjective-noun",
+        "note": "The same adjective takes な (not だ) when it modifies a following noun."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "na-adjective-noun",
+    "title": "な形容詞＋名詞",
+    "kana": "なけいようしめいし",
+    "romaji": "na keiyoushi meishi",
+    "meaning": "na-adjective modifying a noun (~な＋noun)",
+    "jlpt": 5,
+    "summary": "Puts a な-adjective in front of a noun to describe it: insert な between the adjective and the noun. This な is exactly what gives these adjectives their name, and it appears only in this attributive position.",
+    "structure": [
+      "な-adjective ＋ な ＋ Noun"
+    ],
+    "pitfalls": [
+      "You must insert な — 静かな部屋, never 静か部屋.",
+      "い-adjectives don't take な; they attach straight to the noun (静かな部屋 but 高い部屋)."
+    ],
+    "examples": [
+      {
+        "ja": "ここは静かな町です。",
+        "en": "This is a quiet town.",
+        "f": "ここは｜静[しず]かな｜町[まち]です。"
+      },
+      {
+        "ja": "有名なレストランに行きました。",
+        "en": "I went to a famous restaurant.",
+        "f": "｜有名[ゆうめい]なレストランに｜行[い]きました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "na-adjective-da",
+        "note": "Uses だ／です instead of な when the adjective ends the sentence."
+      },
+      {
+        "slug": "i-adjective-noun",
+        "note": "い-adjectives attach straight to the noun with no extra な."
+      },
+      {
+        "slug": "adjective-no",
+        "note": "A noun needs の to modify another noun, where a な-adjective uses な."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "naze",
+    "title": "なぜ",
+    "kana": "なぜ",
+    "romaji": "naze",
+    "meaning": "why",
+    "jlpt": 5,
+    "summary": "Asks for a reason: place なぜ near the start of a question to mean \"why\". It sits alongside どうして and なんで, but なぜ feels a little more formal and is common in writing, explanations, and thoughtful questions.",
+    "structure": [
+      "なぜ ＋ Sentence ＋ か"
+    ],
+    "pitfalls": [
+      "なぜ is more formal than casual なんで; in everyday chat どうして or なんで sound more natural.",
+      "Answers to a なぜ question are typically given with から or ので."
+    ],
+    "examples": [
+      {
+        "ja": "なぜ来なかったのですか。",
+        "en": "Why didn't you come?",
+        "f": "なぜ｜来[こ]なかったのですか。"
+      },
+      {
+        "ja": "なぜこの本が好きなのですか。",
+        "en": "Why do you like this book?",
+        "f": "なぜこの｜本[ほん]が｜好[す]きなのですか。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "doushite",
+        "note": "どうして is the neutral everyday 'why'; なぜ sounds a bit more formal or written."
+      },
+      {
+        "slug": "nande",
+        "note": "なんで is the casual, spoken 'why'."
+      }
+    ],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nanika-nanimo",
+    "title": "何か・何も",
+    "kana": "なにか・なにも",
+    "romaji": "nanika / nanimo",
+    "meaning": "something / not anything",
+    "jlpt": 5,
+    "summary": "Builds indefinite expressions from 何 (what): 何か means \"something / anything\", while 何も plus a negative verb means \"nothing / not anything\". The particle decides the meaning — か opens up an unspecified possibility, も with a negative rules everything out.",
+    "structure": [
+      "何 ＋ か",
+      "何 ＋ も ＋ Verb［negative］"
+    ],
+    "pitfalls": [
+      "何も must pair with a negative verb — 何もない (there's nothing), not 何もある.",
+      "何か is always the indefinite 'something/anything' — to ask directly 'what is it?', use 何ですか or 何が~ instead, not 何か alone."
+    ],
+    "examples": [
+      {
+        "ja": "何か食べたいです。",
+        "en": "I want to eat something.",
+        "f": "｜何[なに]か｜食[た]べたいです。"
+      },
+      {
+        "ja": "今日は何もしませんでした。",
+        "en": "I didn't do anything today.",
+        "f": "｜今日[きょう]は｜何[なに]もしませんでした。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "dareka-dokoka",
+        "note": "The same か pattern applied to だれ and どこ (someone / somewhere)."
+      },
+      {
+        "slug": "ka-nani-ka",
+        "note": "か何か tacks 'or something' onto a noun — a different use of 何か."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "nande",
+    "title": "なんで",
+    "kana": "なんで",
+    "romaji": "nande",
+    "meaning": "why; how come (casual)",
+    "jlpt": 5,
+    "summary": "Asks \"why\" in a casual, conversational way. It means the same as どうして and なぜ but sounds the most relaxed, so it fits chatting with friends and family rather than formal writing or business speech.",
+    "structure": [
+      "なんで ＋ Sentence ＋ の ／ か"
+    ],
+    "pitfalls": [
+      "Written 何で, it can also mean 'by what means' (どうやって); context usually makes 'why' clear, but the double sense can trip readers up.",
+      "It is casual — in polite or formal situations, choose どうして or なぜ instead."
+    ],
+    "examples": [
+      {
+        "ja": "なんで泣いているの？",
+        "en": "Why are you crying?",
+        "f": "なんで｜泣[な]いているの？"
+      },
+      {
+        "ja": "なんで学校を休んだの？",
+        "en": "How come you skipped school?",
+        "f": "なんで｜学校[がっこう]を｜休[やす]んだの？"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "doushite",
+        "note": "どうして is the neutral standard 'why'."
+      },
+      {
+        "slug": "naze",
+        "note": "なぜ is more formal or written than casual なんで."
+      }
+    ],
+    "antonyms": [],
+    "related": [],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ni",
+    "title": "に",
+    "kana": "に",
+    "romaji": "ni",
+    "meaning": "particle: to, at, in (destination, time, location)",
+    "jlpt": 5,
+    "summary": "One of the busiest N5 particles. に marks a point in time when something happens, the destination of movement, and the place where a person or thing exists. In every case it pins the sentence to a specific point — a moment, an endpoint, or a location of being.",
+    "structure": [
+      "Noun［time］＋ に",
+      "Noun［place］＋ に ＋ 行く／来る",
+      "Noun［place］＋ に ＋ ある／いる"
+    ],
+    "pitfalls": [
+      "For location, に marks where something exists (家にいる), while で marks where an action happens (家で食べる).",
+      "Relative time words like 今日, 明日, 毎日 don't take に; use に mainly with clock times, dates, and days."
+    ],
+    "examples": [
+      {
+        "ja": "六時に起きます。",
+        "en": "I get up at six o'clock.",
+        "f": "｜六[ろく]｜時[じ]に｜起[お]きます。"
+      },
+      {
+        "ja": "机の上に本があります。",
+        "en": "There is a book on the desk.",
+        "f": "｜机[つくえ]の｜上[うえ]に｜本[ほん]があります。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "e",
+        "note": "へ also marks a destination and is often interchangeable with に for 'to a place'."
+      },
+      {
+        "slug": "de",
+        "note": "で marks where an action takes place; に marks existence or a destination."
+      },
+      {
+        "slug": "ni-frequency",
+        "note": "Counting how often within a period (週に二回) is a separate N4 use of に."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ni-iku",
+    "title": "〜に行く",
+    "kana": "にいく",
+    "romaji": "ni iku",
+    "meaning": "go (somewhere) to do ~",
+    "jlpt": 5,
+    "summary": "Expresses the purpose of going: put a verb stem (or a する-type noun) before に行く to say you go somewhere in order to do something. It pairs a purpose with a motion verb like 行く, 来る, or 帰る.",
+    "structure": [
+      "Verb［stem］＋ に ＋ 行く／来る／帰る",
+      "Noun［する-verb］＋ に ＋ 行く"
+    ],
+    "pitfalls": [
+      "Use the verb stem, not the dictionary form — 食べに行く, not 食べるに行く.",
+      "The place you head to is still marked with に or へ, separate from the purpose に (デパートへ買い物に行く)."
+    ],
+    "examples": [
+      {
+        "ja": "友だちに会いに行きます。",
+        "en": "I'm going to meet a friend.",
+        "f": "｜友[とも]だちに｜会[あ]いに｜行[い]きます。"
+      },
+      {
+        "ja": "デパートへ買い物に行きました。",
+        "en": "I went to the department store to shop.",
+        "f": "デパートへ｜買い物[かいもの]に｜行[い]きました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ni",
+        "note": "Built on the に particle, here marking the purpose of the going."
+      },
+      {
+        "slug": "e",
+        "note": "へ marks the destination place, often appearing alongside this 〜に行く purpose pattern."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ni-suru",
+    "title": "にする",
+    "kana": "にする",
+    "romaji": "ni suru",
+    "meaning": "to decide on; to choose ~",
+    "jlpt": 5,
+    "summary": "Expresses a deliberate choice: put a noun before にする to say \"I'll go with ~\" or \"I've decided on ~\". It is the everyday phrase for choosing from options, especially ordering food or settling on a plan.",
+    "structure": [
+      "Noun ＋ に ＋ する"
+    ],
+    "pitfalls": [
+      "にする is a decision you make; になる is a change that happens on its own — don't swap them (コーヒーにする = I'll have coffee; 秋になる = it becomes autumn).",
+      "The choice is marked with に, not を: コーヒーにします, not コーヒーをします."
+    ],
+    "examples": [
+      {
+        "ja": "私はコーヒーにします。",
+        "en": "I'll have coffee.",
+        "f": "｜私[わたし]はコーヒーにします。"
+      },
+      {
+        "ja": "旅行は来月にしましょう。",
+        "en": "Let's set the trip for next month.",
+        "f": "｜旅行[りょこう]は｜来月[らいげつ]にしましょう。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "naru",
+        "note": "〜になる is a natural change; 〜にする is a deliberate choice you make."
+      },
+      {
+        "slug": "ni-suru-ku-suru",
+        "note": "The 'make X into' sense (大きくする) is a separate N4 use of にする/くする."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "naru",
+    "title": "〜になる・〜くなる",
+    "kana": "になる・くなる",
+    "romaji": "ni naru / ku naru",
+    "meaning": "to become ~",
+    "jlpt": 5,
+    "summary": "Describes a change of state that happens naturally. Nouns and な-adjectives take に before なる, while い-adjectives change their final い to く and add なる. It captures how something turns into a new condition over time, without anyone deciding it.",
+    "structure": [
+      "Noun ＋ に ＋ なる",
+      "な-adjective ＋ に ＋ なる",
+      "い-adjective［く］＋ なる"
+    ],
+    "pitfalls": [
+      "い-adjectives drop い for く — 高い → 高くなる, not 高いになる.",
+      "なる is a natural change; for a choice you deliberately make, use にする instead."
+    ],
+    "examples": [
+      {
+        "ja": "弟は来年大学生になります。",
+        "en": "My younger brother will become a university student next year.",
+        "f": "｜弟[おとうと]は｜来年[らいねん]｜大学生[だいがくせい]になります。"
+      },
+      {
+        "ja": "最近寒くなりました。",
+        "en": "It has gotten cold recently.",
+        "f": "｜最近[さいきん]｜寒[さむ]くなりました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "ni-suru",
+        "note": "〜にする is the deliberate-choice counterpart to the natural change 〜になる."
+      }
+    ],
+    "related": [
+      {
+        "slug": "ni",
+        "note": "Uses the に particle to mark the noun or な-adjective result of the change."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ne",
+    "title": "ね",
+    "kana": "ね",
+    "romaji": "ne",
+    "meaning": "isn't it?; right?",
+    "jlpt": 5,
+    "summary": "A sentence-ending particle that invites the listener to agree or share a feeling, roughly like the English tag \"isn't it?\" or \"right?\". You reach for it when you expect the other person already knows or feels the same, so it makes a remark sound friendly and shared rather than blunt.",
+    "structure": [
+      "Sentence ＋ ね"
+    ],
+    "pitfalls": [
+      "Don't mix up ね and よ: ね assumes shared knowledge and seeks agreement, while よ pushes new information toward a listener who doesn't have it yet.",
+      "It softens speech and sounds warm, but stacking ね on every sentence can come across as needy or overly chatty."
+    ],
+    "examples": [
+      {
+        "ja": "今日はいい天気ですね。",
+        "en": "It's nice weather today, isn't it?",
+        "f": "｜今日[きょう]はいい｜天気[てんき]ですね。"
+      },
+      {
+        "ja": "この店は静かですね。",
+        "en": "This shop is quiet, isn't it?",
+        "f": "この｜店[みせ]は｜静[しず]かですね。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "yo",
+        "note": "よ tells the listener something new; ね seeks agreement about something shared."
+      },
+      {
+        "slug": "naa",
+        "note": "なあ voices your own admiration to yourself; ね turns the feeling toward the listener."
+      },
+      {
+        "slug": "ka",
+        "note": "か asks a plain question; ね just checks that the listener agrees."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-possession",
+    "title": "の",
+    "kana": "の",
+    "romaji": "no",
+    "meaning": "'s; of (noun-linking)",
+    "jlpt": 5,
+    "summary": "The particle の joins two nouns so the first one describes or owns the second, like English \"'s\" or \"of\". It covers possession, belonging, and general relationships, and the describing noun always comes first: 私の本 is \"my book\".",
+    "structure": [
+      "Noun ＋ の ＋ Noun"
+    ],
+    "pitfalls": [
+      "The order is fixed: the modifier goes before の. 私の本 means \"my book\", while 本の私 makes no sense.",
+      "Japanese needs の between two nouns where English can just stack them — 日本語の先生 (\"a teacher of Japanese\"), not 日本語先生.",
+      "You can chain several: 友達のお父さんの車 (\"my friend's father's car\")."
+    ],
+    "examples": [
+      {
+        "ja": "これは私の本です。",
+        "en": "This is my book.",
+        "f": "これは｜私[わたし]の｜本[ほん]です。"
+      },
+      {
+        "ja": "日本語の先生はやさしいです。",
+        "en": "The Japanese teacher is kind.",
+        "f": "｜日本語[にほんご]の｜先生[せんせい]はやさしいです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-substitute",
+        "note": "The same の can stand in for a noun as \"one\", dropping the second noun."
+      },
+      {
+        "slug": "no-nominalizer",
+        "note": "の also turns a whole verb clause into a noun, a different job from linking two nouns."
+      },
+      {
+        "slug": "ga-no-conversion",
+        "note": "Inside a noun-modifying clause, this same の can replace が as the subject marker."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-explanatory",
+    "title": "の",
+    "kana": "の",
+    "romaji": "no",
+    "meaning": "casual explanatory の (question or statement)",
+    "jlpt": 5,
+    "summary": "In casual speech, ending a sentence with の shows warm interest or offers an explanation. Rising intonation turns it into a question asking what's going on (どうしたの？), while falling intonation softly explains or states a reason. It is the relaxed, spoken cousin of んですか／んです, so you use it with friends and family rather than in formal situations.",
+    "structure": [
+      "Verb／い-adjective［plain form］＋ の",
+      "な-adjective／Noun ＋ な ＋ の"
+    ],
+    "pitfalls": [
+      "After a な-adjective or a noun you must add な first: 元気なの？, not 元気の.",
+      "Rising intonation makes it a question (どうしたの？); with falling intonation the same の softly explains or states a reason.",
+      "As a question, どうしたの？ is gender-neutral and used by everyone; ending a plain statement in の rather than んだ leans toward a softer, traditionally feminine or child-like tone, and many male speakers use んだ instead when explaining something."
+    ],
+    "examples": [
+      {
+        "ja": "どうしたの？",
+        "en": "What's the matter?"
+      },
+      {
+        "ja": "眠いから、もう寝るの。",
+        "en": "I'm sleepy, so I'm going to bed now.",
+        "f": "｜眠[ねむ]いから、もう｜寝[ね]るの。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "ndesu",
+        "note": "んです／のです is the polite full form; casual speech drops it to just の."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-nominalizer",
+        "note": "Same particle の, but here it colors a whole sentence — question or soft statement — rather than turning a clause into a noun."
+      },
+      {
+        "slug": "ka",
+        "note": "か is a neutral question marker; explanatory の asks \"tell me the reason/story\"."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-nominalizer",
+    "title": "の",
+    "kana": "の",
+    "romaji": "no",
+    "meaning": "the act of ~ (nominalizer)",
+    "jlpt": 5,
+    "summary": "Placing の after a plain verb or clause turns that whole idea into a noun, so it can then take particles like が, を, or は. You reach for it to talk about doing something as a thing in itself, especially with verbs of perception such as 見る and 聞く.",
+    "structure": [
+      "Verb［dictionary form］＋ の ＋ ［が／を／は …］",
+      "Sentence［plain form］＋ の"
+    ],
+    "pitfalls": [
+      "For things you perceive directly (見る, 聞く) use の; for abstract or reported ideas (言う, 思う) こと is more natural.",
+      "Don't confuse this nominalizing の with the explanatory の at the end of casual questions — this one sits in the middle of the sentence and carries a particle."
+    ],
+    "examples": [
+      {
+        "ja": "日本語を話すのは難しいです。",
+        "en": "Speaking Japanese is difficult.",
+        "f": "｜日本語[にほんご]を｜話[はな]すのは｜難[むずか]しいです。"
+      },
+      {
+        "ja": "彼が走るのを見ました。",
+        "en": "I saw him running.",
+        "f": "｜彼[かれ]が｜走[はし]るのを｜見[み]ました。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "koto",
+        "note": "こと also nominalizes; の suits perceived, concrete events while こと suits abstract or stated ones."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-ga-suki",
+        "note": "のが好き is built on this nominalizing の plus が好き."
+      },
+      {
+        "slug": "no-substitute",
+        "note": "の as \"one\" replaces a known noun, whereas this の repackages a whole clause."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-substitute",
+    "title": "の",
+    "kana": "の",
+    "romaji": "no",
+    "meaning": "one (a known noun)",
+    "jlpt": 5,
+    "summary": "の can stand in for a noun that both speakers already understand, exactly like English \"one\" in \"the red one\". It lets you drop a repeated noun and just describe the choice with an adjective.",
+    "structure": [
+      "い-adjective ＋ の",
+      "な-adjective ＋ な ＋ の"
+    ],
+    "pitfalls": [
+      "After a な-adjective, insert な before の: 静かなの (\"a quiet one\").",
+      "Don't repeat the noun after の — 赤いの already means \"the red one\", so 赤いの本 is wrong."
+    ],
+    "examples": [
+      {
+        "ja": "赤いのをください。",
+        "en": "I'll take the red one, please.",
+        "f": "｜赤[あか]いのをください。"
+      },
+      {
+        "ja": "もっと大きいのはありますか。",
+        "en": "Do you have a bigger one?",
+        "f": "もっと｜大[おお]きいのはありますか。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "adjective-no",
+        "note": "の as \"one\" after an adjective is the very same usage seen from the adjective side."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-possession",
+        "note": "The possessive/linking の joins two nouns; this の replaces a noun altogether."
+      },
+      {
+        "slug": "no-nominalizer",
+        "note": "Both hide a noun, but the nominalizer packages a whole action rather than a single 'one'."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-ga-jouzu",
+    "title": "のが上手",
+    "kana": "のがじょうず",
+    "romaji": "no ga jouzu",
+    "meaning": "good at doing ~",
+    "jlpt": 5,
+    "summary": "To say someone is skilled at an activity, nominalize the verb with の, mark it with が, and finish with 上手. It describes a learned ability, so it fits things like cooking, singing, or a language.",
+    "structure": [
+      "Verb［dictionary form］＋ のが ＋ 上手（です）"
+    ],
+    "pitfalls": [
+      "上手 is a な-adjective and takes が, not を, right before it: 料理を作るのが上手 is correct, not 料理を作るのを上手.",
+      "It sounds boastful about yourself, so 上手 is usually used to praise others; be modest about your own skills."
+    ],
+    "examples": [
+      {
+        "ja": "姉は料理を作るのが上手です。",
+        "en": "My older sister is good at cooking.",
+        "f": "｜姉[あね]は｜料理[りょうり]を｜作[つく]るのが｜上手[じょうず]です。"
+      },
+      {
+        "ja": "田中さんは日本語を教えるのが上手です。",
+        "en": "Mr. Tanaka is good at teaching Japanese.",
+        "f": "｜田中[たなか]さんは｜日本語[にほんご]を｜教[おし]えるのが｜上手[じょうず]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "no-ga-heta",
+        "note": "のが下手 says someone is bad at an activity; のが上手 says they are good at it."
+      }
+    ],
+    "related": [
+      {
+        "slug": "no-ga-suki",
+        "note": "Same のが frame, but 好き is about liking the activity rather than being skilled."
+      },
+      {
+        "slug": "koto-ga-dekiru",
+        "note": "ことができる states plain ability (can do); のが上手 rates the quality of that skill."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-ga-suki",
+    "title": "のが好き",
+    "kana": "のがすき",
+    "romaji": "no ga suki",
+    "meaning": "like doing ~",
+    "jlpt": 5,
+    "summary": "To say you like doing an activity, nominalize the verb with の, mark it with が, and add 好き. It expresses an ongoing preference or hobby rather than a one-time wish.",
+    "structure": [
+      "Verb［dictionary form］＋ のが ＋ 好き（です）"
+    ],
+    "pitfalls": [
+      "好き is a な-adjective and takes が, not を, right before it: 本を読むのが好き is correct, not 本を読むのを好き.",
+      "This describes a general liking; for a specific \"I want to do it now\" feeling use the たい form instead."
+    ],
+    "examples": [
+      {
+        "ja": "私は本を読むのが好きです。",
+        "en": "I like reading books.",
+        "f": "｜私[わたし]は｜本[ほん]を｜読[よ]むのが｜好[す]きです。"
+      },
+      {
+        "ja": "弟は音楽を聞くのが好きです。",
+        "en": "My little brother likes listening to music.",
+        "f": "｜弟[おとうと]は｜音楽[おんがく]を｜聞[き]くのが｜好[す]きです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-ga-jouzu",
+        "note": "Same のが frame; 上手 rates skill while 好き reports enjoyment."
+      },
+      {
+        "slug": "no-nominalizer",
+        "note": "のが好き relies on this nominalizing の to make the verb something you can like."
+      },
+      {
+        "slug": "tai",
+        "note": "たい expresses wanting to do something once; のが好き expresses a standing liking for it."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-ga-heta",
+    "title": "のが下手",
+    "kana": "のがへた",
+    "romaji": "no ga heta",
+    "meaning": "bad at doing ~",
+    "jlpt": 5,
+    "summary": "To say someone is poor at an activity, nominalize the verb with の, mark it with が, and finish with 下手. Speakers often use it about themselves as a modest admission.",
+    "structure": [
+      "Verb［dictionary form］＋ のが ＋ 下手（です）"
+    ],
+    "pitfalls": [
+      "下手 is a な-adjective and takes が, not を, right before it: 泳ぐのが下手 is correct, not 泳ぐのを下手.",
+      "Calling someone else 下手 can sound rude, so it is safest to apply it to yourself."
+    ],
+    "examples": [
+      {
+        "ja": "私は泳ぐのが下手です。",
+        "en": "I'm bad at swimming.",
+        "f": "｜私[わたし]は｜泳[およ]ぐのが｜下手[へた]です。"
+      },
+      {
+        "ja": "父は字を書くのが下手です。",
+        "en": "My father is bad at writing characters.",
+        "f": "｜父[ちち]は｜字[じ]を｜書[か]くのが｜下手[へた]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "no-ga-jouzu",
+        "note": "のが上手 praises skill; のが下手 admits a lack of it."
+      }
+    ],
+    "related": [
+      {
+        "slug": "no-ga-suki",
+        "note": "Same のが frame, but 好き reports liking rather than poor skill."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "node",
+    "title": "ので",
+    "kana": "ので",
+    "romaji": "node",
+    "meaning": "because; since",
+    "jlpt": 5,
+    "summary": "ので connects a reason to its result, joining the cause clause to the main clause. Compared with から it feels softer and more matter-of-fact, so it is common in polite explanations, excuses, and requests.",
+    "structure": [
+      "Verb／い-adjective［plain form］＋ ので",
+      "な-adjective／Noun ＋ な ＋ ので"
+    ],
+    "pitfalls": [
+      "After a な-adjective or a noun, add な before ので: 静かなので, 学生なので.",
+      "ので presents the reason as objective and gentle, so it sounds more polite than から when you make an excuse or ask a favor."
+    ],
+    "examples": [
+      {
+        "ja": "電車が遅れたので、遅刻しました。",
+        "en": "I was late because the train was delayed.",
+        "f": "｜電車[でんしゃ]が｜遅[おく]れたので、｜遅刻[ちこく]しました。"
+      },
+      {
+        "ja": "今日は寒いので、コートを着ます。",
+        "en": "Since it's cold today, I'll wear a coat.",
+        "f": "｜今日[きょう]は｜寒[さむ]いので、コートを｜着[き]ます。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "kara",
+        "note": "から states a reason more directly and personally; ので sounds softer and more polite."
+      }
+    ],
+    "antonyms": [],
     "related": [],
     "sources": [
       "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "no-naka-de-ichiban",
+    "title": "〜の中で〜が一番",
+    "kana": "のなかでがいちばん",
+    "romaji": "no naka de ga ichiban",
+    "meaning": "the most ~ in (a group)",
+    "jlpt": 5,
+    "summary": "This pattern picks the top member of a defined group: の中で marks the range or category, and が一番 plus an adjective names what stands out the most. It is the everyday way to make a superlative statement about a set of things.",
+    "structure": [
+      "Noun［group］＋ の中で ＋ Noun ＋ が ＋ 一番 ＋ い-adjective／な-adjective"
+    ],
+    "pitfalls": [
+      "Use の中で to compare within a whole category; when choosing between just two items, use 〜と〜とどちら instead.",
+      "一番 here means \"number one / the most\", turning the adjective into a superlative."
+    ],
+    "examples": [
+      {
+        "ja": "果物の中でりんごが一番好きです。",
+        "en": "Of all fruits, I like apples the most.",
+        "f": "｜果物[くだもの]の｜中[なか]でりんごが｜一番[いちばん]｜好[す]きです。"
+      },
+      {
+        "ja": "クラスの中で田中さんが一番背が高いです。",
+        "en": "In the class, Tanaka is the tallest.",
+        "f": "クラスの｜中[なか]で｜田中[たなか]さんが｜一番[いちばん]｜背[せ]が｜高[たか]いです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ichiban",
+        "note": "一番 is the superlative word this pattern is built around."
+      },
+      {
+        "slug": "yori-hou-ga",
+        "note": "より〜のほうが compares two items; の中で〜が一番 ranks the top of a whole group."
+      },
+      {
+        "slug": "wa-yori-desu",
+        "note": "は〜より…です compares two nouns directly, without singling out a group's best."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "wa-topic",
+    "title": "は",
+    "kana": "は",
+    "romaji": "wa",
+    "meaning": "as for ~ (topic)",
+    "jlpt": 5,
+    "summary": "は marks the topic of a sentence — the thing you are talking about — and the rest of the sentence comments on it. It sets the stage, roughly like \"as for ~\", and is one of the first particles a learner meets.",
+    "structure": [
+      "Noun ＋ は ＋ Sentence"
+    ],
+    "pitfalls": [
+      "Although written with the hiragana は, as a topic particle it is pronounced wa.",
+      "は marks the topic (often already known), while が introduces or identifies a subject; 私は学生です presents \"me\" as the topic, 私が学生です answers \"who is the student?\""
+    ],
+    "examples": [
+      {
+        "ja": "私は学生です。",
+        "en": "I am a student.",
+        "f": "｜私[わたし]は｜学生[がくせい]です。"
+      },
+      {
+        "ja": "東京は人が多いです。",
+        "en": "Tokyo has a lot of people.",
+        "f": "｜東京[とうきょう]は｜人[ひと]が｜多[おお]いです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga",
+        "note": "が identifies or introduces a subject; は sets up a known topic to comment on."
+      },
+      {
+        "slug": "mo",
+        "note": "も replaces は to mean \"also / too\" instead of marking a plain topic."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "wa-dou-desu-ka",
+    "title": "はどうですか",
+    "kana": "はどうですか",
+    "romaji": "wa dou desu ka",
+    "meaning": "how about ~?",
+    "jlpt": 5,
+    "summary": "はどうですか offers something or asks for an opinion about it, like \"how about ~?\" or \"how is ~?\". You use it to suggest an option politely or to ask how something is going.",
+    "structure": [
+      "Noun ＋ は ＋ どうですか"
+    ],
+    "pitfalls": [
+      "いかがですか is a politer version for formal situations or when serving guests.",
+      "The same phrase both offers something (コーヒーはどうですか) and asks for an evaluation (仕事はどうですか); tone and context tell them apart."
+    ],
+    "examples": [
+      {
+        "ja": "コーヒーはどうですか。",
+        "en": "How about some coffee?"
+      },
+      {
+        "ja": "新しい仕事はどうですか。",
+        "en": "How's the new job?",
+        "f": "｜新[あたら]しい｜仕事[しごと]はどうですか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "masen-ka",
+        "note": "ませんか invites someone to do a verb; はどうですか offers or asks about a noun."
+      },
+      {
+        "slug": "wa-topic",
+        "note": "The は here is the topic marker, setting up what you are asking about."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "wa-yori-desu",
+    "title": "は〜より…です",
+    "kana": "はよりです",
+    "romaji": "wa yori desu",
+    "meaning": "A is more ~ than B",
+    "jlpt": 5,
+    "summary": "This is the basic comparison pattern: A は B より [adjective] です says that A is more ~ than B. A is the topic, B より marks the thing compared against, and the adjective states how A wins out.",
+    "structure": [
+      "Noun-A ＋ は ＋ Noun-B ＋ より ＋ い-adjective／な-adjective ＋ です"
+    ],
+    "pitfalls": [
+      "より attaches to the standard of comparison (B), which is the one being beaten: 電車より速い means \"faster than the train\".",
+      "To shift the spotlight onto the winner, the same idea can be phrased as B より A のほうが."
+    ],
+    "examples": [
+      {
+        "ja": "飛行機は電車より速いです。",
+        "en": "Planes are faster than trains.",
+        "f": "｜飛行機[ひこうき]は｜電車[でんしゃ]より｜速[はや]いです。"
+      },
+      {
+        "ja": "今日は昨日より寒いです。",
+        "en": "Today is colder than yesterday.",
+        "f": "｜今日[きょう]は｜昨日[きのう]より｜寒[さむ]いです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "yori-hou-ga",
+        "note": "より〜のほうが says the same comparison but puts the focus on the item that comes out ahead."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "yori",
+        "note": "より is the \"than\" particle at the heart of this pattern."
+      },
+      {
+        "slug": "no-naka-de-ichiban",
+        "note": "This compares two nouns; の中で〜が一番 picks the top of a whole group."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "e",
+    "title": "へ",
+    "kana": "へ",
+    "romaji": "e",
+    "meaning": "to; toward",
+    "jlpt": 5,
+    "summary": "へ marks the direction of movement, pointing the verb toward a place, like \"to\" or \"toward\". With motion verbs it is very close to に, but へ stresses the heading or direction rather than the exact arrival point.",
+    "structure": [
+      "Noun［place］＋ へ ＋ Verb［motion］"
+    ],
+    "pitfalls": [
+      "As a direction particle, へ is written with the hiragana へ but pronounced e.",
+      "For destinations, に and へ are often interchangeable; に leans toward the arrival point, while へ leans toward the direction of travel."
+    ],
+    "examples": [
+      {
+        "ja": "海へ行きたいです。",
+        "en": "I want to go to the sea.",
+        "f": "｜海[うみ]へ｜行[い]きたいです。"
+      },
+      {
+        "ja": "そろそろうちへ帰ります。",
+        "en": "I'll head home soon.",
+        "f": "そろそろうちへ｜帰[かえ]ります。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "ni",
+        "note": "に marks the destination or arrival point; へ emphasizes the direction you move in."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "e-iku",
+        "note": "へ行く is the common set phrase of this particle with the verb 行く."
+      },
+      {
+        "slug": "made",
+        "note": "まで marks the end point \"as far as / up to\"; へ just points toward a direction."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "e-iku",
+    "title": "へ行く",
+    "kana": "へいく",
+    "romaji": "e iku",
+    "meaning": "go to (a place)",
+    "jlpt": 5,
+    "summary": "へ行く combines the direction particle へ with 行く to say you go toward or to a place. It is one of the most common motion patterns, used whenever you name where you are heading.",
+    "structure": [
+      "Noun［place］＋ へ ＋ 行く"
+    ],
+    "pitfalls": [
+      "に行く works too and is equally common; へ just highlights the direction.",
+      "Keep this apart from Verb［stem］＋ に行く, which means going in order to do something, not simply going to a place."
+    ],
+    "examples": [
+      {
+        "ja": "来週、東京へ行きます。",
+        "en": "I'm going to Tokyo next week.",
+        "f": "｜来週[らいしゅう]、｜東京[とうきょう]へ｜行[い]きます。"
+      },
+      {
+        "ja": "日曜日に公園へ行きました。",
+        "en": "I went to the park on Sunday.",
+        "f": "｜日曜日[にちようび]に｜公園[こうえん]へ｜行[い]きました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "e",
+        "note": "へ is the direction particle that this set phrase is built on."
+      },
+      {
+        "slug": "ni-iku",
+        "note": "Verb-stem に行く means \"go in order to do\"; へ行く simply names the place you go to."
+      },
+      {
+        "slug": "kuru",
+        "note": "来る is the matching \"come\" verb for movement toward the speaker."
+      }
+    ],
+    "sources": [
       "bunpro"
     ]
   },
@@ -90,14 +4641,14 @@
     ],
     "examples": [
       {
-        "ja": "疲れているなら、早く寝たほうがいいですよ。",
-        "en": "If you're tired, you should go to bed early.",
-        "f": "｜疲[つか]れているなら、｜早[はや]く｜寝[ね]たほうがいいですよ。"
+        "ja": "疲れているから、早く寝たほうがいいですよ。",
+        "en": "You're tired, so you should go to bed early.",
+        "f": "｜疲[つか]れているから、｜早[はや]く｜寝[ね]たほうがいいですよ。"
       },
       {
-        "ja": "雨になりそうだから、傘を持って行ったほうがいい。",
-        "en": "It looks like rain, so you'd better take an umbrella.",
-        "f": "｜雨[あめ]になりそうだから、｜傘[かさ]を｜持[も]って｜行[い]ったほうがいい。"
+        "ja": "テストがあるから、今日は勉強したほうがいいですよ。",
+        "en": "You have a test, so you should study today.",
+        "f": "テストがあるから、｜今日[きょう]は｜勉強[べんきょう]したほうがいいですよ。"
       }
     ],
     "synonyms": [],
@@ -108,6 +4659,862 @@
       }
     ],
     "related": [],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mae-ni",
+    "title": "前に",
+    "kana": "まえに",
+    "romaji": "mae ni",
+    "meaning": "before doing ~; in front of",
+    "jlpt": 5,
+    "summary": "前に marks what happens before something else. After a dictionary-form verb it means \"before doing ~\"; after a noun plus の it means \"before\" that event or, in a spatial sense, \"in front of\" it.",
+    "structure": [
+      "Verb［dictionary form］＋ 前に",
+      "Noun ＋ の ＋ 前に"
+    ],
+    "pitfalls": [
+      "The verb before 前に stays in the dictionary (non-past) form even when the whole sentence is about the past: 寝る前に, never 寝た前に.",
+      "A noun needs の before 前に: 食事の前に, not 食事前に."
+    ],
+    "examples": [
+      {
+        "ja": "寝る前に歯を磨きます。",
+        "en": "I brush my teeth before going to bed.",
+        "f": "｜寝[ね]る｜前[まえ]に｜歯[は]を｜磨[みが]きます。"
+      },
+      {
+        "ja": "食事の前に手を洗います。",
+        "en": "I wash my hands before meals.",
+        "f": "｜食事[しょくじ]の｜前[まえ]に｜手[て]を｜洗[あら]います。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "ato-de",
+        "note": "後で means \"after\"; 前に marks what comes before."
+      }
+    ],
+    "related": [
+      {
+        "slug": "te-kara",
+        "note": "てから marks doing B after finishing A; 前に marks doing B before A happens."
+      },
+      {
+        "slug": "toki",
+        "note": "とき marks \"when / at the time of\"; 前に pins the moment just before an event."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mashou",
+    "title": "ましょう",
+    "kana": "ましょう",
+    "romaji": "mashou",
+    "meaning": "let's ~",
+    "jlpt": 5,
+    "summary": "Politely suggests doing something together, or offers to do something. Replace the ます of a verb's polite form with ましょう. It invites the listener into an action you assume they will happily agree to, so it sounds confident and upbeat.",
+    "structure": [
+      "Verb［stem］＋ ましょう"
+    ],
+    "pitfalls": [
+      "ましょう assumes the other person already wants to join; to invite more gently and leave room to decline, ませんか sounds softer.",
+      "It is the polite form — among friends the plain volitional (行こう) is used instead."
+    ],
+    "examples": [
+      {
+        "ja": "一緒に昼ご飯を食べましょう。",
+        "en": "Let's eat lunch together.",
+        "f": "｜一緒[いっしょ]に｜昼[ひる]ご｜飯[はん]を｜食[た]べましょう。"
+      },
+      {
+        "ja": "三時に駅で会いましょう。",
+        "en": "Let's meet at the station at three.",
+        "f": "｜三[さん]｜時[じ]に｜駅[えき]で｜会[あ]いましょう。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "masen-ka",
+        "note": "ませんか invites more softly by asking, leaving the listener room to decline."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "mashou-ka",
+        "note": "ましょうか adds か to propose and check the listener's wishes rather than assume them."
+      },
+      {
+        "slug": "ikou-kei",
+        "note": "The plain volitional (行こう) is the casual equivalent of ましょう."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mashou-ka",
+    "title": "ましょうか",
+    "kana": "ましょうか",
+    "romaji": "mashou ka",
+    "meaning": "shall I ~?; shall we ~?",
+    "jlpt": 5,
+    "summary": "Adds か to ましょう to turn a suggestion into a question. With one doer it offers help (\"shall I ~?\"); with a shared doer it proposes a joint action and checks whether the listener agrees (\"shall we ~?\"). Unlike plain ましょう, it asks rather than assumes.",
+    "structure": [
+      "Verb［stem］＋ ましょうか"
+    ],
+    "pitfalls": [
+      "One subject means offering to do something for someone (手伝いましょうか = shall I help?); a shared subject means proposing to do it together.",
+      "It is more tentative than ましょう because it invites a yes-or-no answer."
+    ],
+    "examples": [
+      {
+        "ja": "荷物を持ちましょうか。",
+        "en": "Shall I carry your bags?",
+        "f": "｜荷物[にもつ]を｜持[も]ちましょうか。"
+      },
+      {
+        "ja": "そろそろ帰りましょうか。",
+        "en": "Shall we head home soon?",
+        "f": "そろそろ｜帰[かえ]りましょうか。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "mashou",
+        "note": "ましょう states the suggestion directly; ましょうか asks the listener first."
+      },
+      {
+        "slug": "masen-ka",
+        "note": "ませんか is a negative-question invitation; ましょうか proposes and checks agreement."
+      },
+      {
+        "slug": "wa-dou-desu-ka",
+        "note": "はどうですか (how about ~?) is another gentle way to float a suggestion."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "masu",
+    "title": "ます",
+    "kana": "ます",
+    "romaji": "masu",
+    "meaning": "polite verb ending",
+    "jlpt": 5,
+    "summary": "Marks a verb as polite (the ます form), used in everyday conversation with people you are not close to, in public, and at work. It attaches to the verb stem and carries the tense: negative ません, past ました, negative-past ませんでした.",
+    "structure": [
+      "Verb［stem］＋ ます",
+      "Verb［stem］＋ ません ／ ました ／ ませんでした"
+    ],
+    "pitfalls": [
+      "ます attaches to the stem, not the dictionary form — 飲む becomes 飲みます, never 飲むます.",
+      "The plain (dictionary) form is used with friends and family; switching registers mid-conversation can sound off."
+    ],
+    "examples": [
+      {
+        "ja": "毎朝コーヒーを飲みます。",
+        "en": "I drink coffee every morning.",
+        "f": "｜毎朝[まいあさ]コーヒーを｜飲[の]みます。"
+      },
+      {
+        "ja": "昨日は学校に行きませんでした。",
+        "en": "I didn't go to school yesterday.",
+        "f": "｜昨日[きのう]は｜学校[がっこう]に｜行[い]きませんでした。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "da-desu",
+        "note": "です is the polite copula for nouns and adjectives; ます does the same job for verbs."
+      },
+      {
+        "slug": "u-verbs",
+        "note": "How godan (う) verbs form the stem that ます attaches to."
+      },
+      {
+        "slug": "ru-verbs",
+        "note": "How ichidan (る) verbs form the stem that ます attaches to."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "masen-ka",
+    "title": "ませんか",
+    "kana": "ませんか",
+    "romaji": "masen ka",
+    "meaning": "won't you ~?; why don't we ~?",
+    "jlpt": 5,
+    "summary": "Invites someone to do something by asking a negative question: \"won't you ~?\" or \"why don't we ~?\". Because it is phrased negatively, it leaves the listener free to say no, so it feels softer and more considerate than a direct ましょう.",
+    "structure": [
+      "Verb［stem］＋ ませんか"
+    ],
+    "pitfalls": [
+      "Despite the negative ません, the meaning is a positive invitation, not a literal \"don't you?\".",
+      "ましょう assumes the listener will join in, while ませんか politely offers a choice."
+    ],
+    "examples": [
+      {
+        "ja": "週末に映画を見ませんか。",
+        "en": "Why don't we watch a movie this weekend?",
+        "f": "｜週末[しゅうまつ]に｜映画[えいが]を｜見[み]ませんか。"
+      },
+      {
+        "ja": "お茶を飲みませんか。",
+        "en": "Would you like to have some tea?",
+        "f": "お｜茶[ちゃ]を｜飲[の]みませんか。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "mashou",
+        "note": "ましょう also invites, but assumes agreement instead of asking for it."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "mashou-ka",
+        "note": "ましょうか proposes and checks; ませんか frames the invitation as a negative question."
+      },
+      {
+        "slug": "wa-dou-desu-ka",
+        "note": "はどうですか (how about ~?) suggests something in a similarly soft way."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mada",
+    "title": "まだ",
+    "kana": "まだ",
+    "romaji": "mada",
+    "meaning": "still; not yet",
+    "jlpt": 5,
+    "summary": "まだ means \"still\" with an affirmative verb (a state keeps going) and \"not yet\" with a negative verb (something expected hasn't happened). Either way, the situation has not moved on to the next stage.",
+    "structure": [
+      "まだ ＋ Sentence［affirmative］",
+      "まだ ＋ Sentence［negative］"
+    ],
+    "pitfalls": [
+      "まだ (still / not yet) is the mirror image of もう (already); learners often confuse the two.",
+      "A bare まだです can answer \"not yet\" on its own."
+    ],
+    "examples": [
+      {
+        "ja": "母はまだ寝ています。",
+        "en": "My mother is still sleeping.",
+        "f": "｜母[はは]はまだ｜寝[ね]ています。"
+      },
+      {
+        "ja": "答えはまだ分かりません。",
+        "en": "I don't know the answer yet.",
+        "f": "｜答[こた]えはまだ｜分[わ]かりません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "mou",
+        "note": "もう marks that the change has already happened; まだ marks that it hasn't."
+      }
+    ],
+    "related": [
+      {
+        "slug": "mada-te-imasen",
+        "note": "まだ〜ていません uses the negative ている form to say an action hasn't been done yet."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mada-te-imasen",
+    "title": "まだ〜ていません",
+    "kana": "まだていません",
+    "romaji": "mada te imasen",
+    "meaning": "have not done ~ yet",
+    "jlpt": 5,
+    "summary": "Says an expected action still hasn't happened, viewed as of now: pair まだ with the negative ている form (ていません). Japanese uses the negative present here, not the past, because you are describing the current unfinished state rather than a past event.",
+    "structure": [
+      "まだ ＋ Verb［て form］＋ いません"
+    ],
+    "pitfalls": [
+      "Answer with ていません, not ませんでした — ませんでした means \"didn't do it (back then)\", while まだ〜ていません means \"haven't done it (but still might)\".",
+      "In casual speech いません shortens to ない: まだ食べてない."
+    ],
+    "examples": [
+      {
+        "ja": "昼ご飯をまだ食べていません。",
+        "en": "I haven't eaten lunch yet.",
+        "f": "｜昼[ひる]ご｜飯[はん]をまだ｜食[た]べていません。"
+      },
+      {
+        "ja": "そのメールはまだ読んでいません。",
+        "en": "I haven't read that email yet.",
+        "f": "そのメールはまだ｜読[よ]んでいません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "mada",
+        "note": "The adverb まだ on its own; this pattern pins it to the ている form."
+      },
+      {
+        "slug": "te-iru",
+        "note": "The ている form that this pattern negates to express \"not yet done\"."
+      },
+      {
+        "slug": "mou",
+        "note": "もう plus a past verb is the affirmative counterpart: already done."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "made",
+    "title": "まで",
+    "kana": "まで",
+    "romaji": "made",
+    "meaning": "until; as far as",
+    "jlpt": 5,
+    "summary": "まで marks the end point of a span — a time (\"until\") or a place reached (\"as far as, all the way to\"). The action or state continues right up to that limit. It frequently pairs with から, which marks where the span begins.",
+    "structure": [
+      "Noun［time／place］＋ まで",
+      "Verb［dictionary form］＋ まで"
+    ],
+    "pitfalls": [
+      "まで means \"continuously up until\"; to give a deadline (\"by a time\"), use までに instead.",
+      "Pair it with から for a \"from ~ to ~\" range: 九時から五時まで."
+    ],
+    "examples": [
+      {
+        "ja": "昨日は夜十時まで働きました。",
+        "en": "Yesterday I worked until ten at night.",
+        "f": "｜昨日[きのう]は｜夜[よる]｜十[じゅう]｜時[じ]まで｜働[はたら]きました。"
+      },
+      {
+        "ja": "この電車は横浜まで行きます。",
+        "en": "This train goes as far as Yokohama.",
+        "f": "この｜電車[でんしゃ]は｜横浜[よこはま]まで｜行[い]きます。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "kara",
+        "note": "から marks the start point, the \"from\" that pairs with まで."
+      },
+      {
+        "slug": "made-ni",
+        "note": "までに sets a deadline (\"by\"); まで means continuously until."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mo",
+    "title": "も",
+    "kana": "も",
+    "romaji": "mo",
+    "meaning": "too; also; as well",
+    "jlpt": 5,
+    "summary": "も replaces は, が, or を to mean \"too, also\", adding one item to something already mentioned. Repeat も on two items to mean \"both ~ and ~\". It marks the noun as sharing whatever was just said.",
+    "structure": [
+      "Noun ＋ も",
+      "Noun ＋ も ＋ Noun ＋ も"
+    ],
+    "pitfalls": [
+      "も takes the place of は, が, or を; don't stack them — say 私も, not 私はも.",
+      "With a negative verb, ...も means \"not ~ either\": 私も行きません = I'm not going either."
+    ],
+    "examples": [
+      {
+        "ja": "私も学生です。",
+        "en": "I am a student too.",
+        "f": "｜私[わたし]も｜学生[がくせい]です。"
+      },
+      {
+        "ja": "田中さんも山田さんも日本人です。",
+        "en": "Both Tanaka and Yamada are Japanese.",
+        "f": "｜田中[たなか]さんも｜山田[やまだ]さんも｜日本人[にっぽんじん]です。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "wa-topic",
+        "note": "は marks the topic and can contrast; も adds \"this one as well\"."
+      },
+      {
+        "slug": "ya",
+        "note": "や lists example items; も adds one more item that shares the statement."
+      },
+      {
+        "slug": "to-and",
+        "note": "と links nouns into one exhaustive list; も tacks an extra item onto the idea."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "mou",
+    "title": "もう",
+    "kana": "もう",
+    "romaji": "mou",
+    "meaning": "already; not anymore",
+    "jlpt": 5,
+    "summary": "もう means \"already\" with an affirmative verb (it has happened by now) and \"not anymore, no longer\" with a negative verb (a state has ended). It signals that a change to the next stage has taken place.",
+    "structure": [
+      "もう ＋ Sentence［affirmative］",
+      "もう ＋ Sentence［negative］"
+    ],
+    "pitfalls": [
+      "もう (already) is the opposite of まだ (still / not yet).",
+      "もう plus a negative means \"no longer\": もう子供ではありません = not a child anymore.",
+      "もう also means \"more\" with amounts (もう一つ = one more) — a separate use."
+    ],
+    "examples": [
+      {
+        "ja": "昼ご飯はもう食べました。",
+        "en": "I've already eaten lunch.",
+        "f": "｜昼[ひる]ご｜飯[はん]はもう｜食[た]べました。"
+      },
+      {
+        "ja": "彼はもうここにいません。",
+        "en": "He isn't here anymore.",
+        "f": "｜彼[かれ]はもうここにいません。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "mada",
+        "note": "まだ marks that the change hasn't happened; もう marks that it has."
+      }
+    ],
+    "related": [
+      {
+        "slug": "mada-te-imasen",
+        "note": "まだ〜ていません is the \"not yet done\" counterpart to もう plus a past verb."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "morau",
+    "title": "もらう",
+    "kana": "もらう",
+    "romaji": "morau",
+    "meaning": "to receive; to get",
+    "jlpt": 5,
+    "summary": "もらう means the subject receives something from someone else. The receiver is the subject (は/が), the giver is marked with に (or から), and the thing received takes を. Choose もらう when you focus on the receiver; use くれる when the giver hands something to you.",
+    "structure": [
+      "Noun［receiver］＋ は ＋ Noun［giver］＋ に／から ＋ Noun ＋ を ＋ もらう"
+    ],
+    "pitfalls": [
+      "The giver is marked with に or から, not が — が marks the receiver.",
+      "もらう takes the receiver's point of view; あげる (give away) and くれる (give to me) view the same exchange from the giver's side."
+    ],
+    "examples": [
+      {
+        "ja": "友達に本をもらいました。",
+        "en": "I received a book from my friend.",
+        "f": "｜友達[ともだち]に｜本[ほん]をもらいました。"
+      },
+      {
+        "ja": "姉から古い自転車をもらいました。",
+        "en": "I got an old bicycle from my older sister.",
+        "f": "｜姉[あね]から｜古[ふる]い｜自転車[じてんしゃ]をもらいました。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [
+      {
+        "slug": "ageru-giving",
+        "note": "あげる is to give something away; もらう is to receive it — opposite viewpoints."
+      }
+    ],
+    "related": [
+      {
+        "slug": "kureru",
+        "note": "くれる is someone giving to me; もらう is me receiving — receiver-focus vs giver-focus."
+      },
+      {
+        "slug": "te-morau",
+        "note": "てもらう is the verb version: to have someone do an action for you."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ya",
+    "title": "や",
+    "kana": "や",
+    "romaji": "ya",
+    "meaning": "and (such as); things like",
+    "jlpt": 5,
+    "summary": "や links nouns as examples from a larger set, meaning \"things like A and B (among others)\". Unlike と, which lists everything, や implies the list is not complete. It often finishes with など (\"and so on\") to make that \"among others\" sense explicit.",
+    "structure": [
+      "Noun ＋ や ＋ Noun",
+      "Noun ＋ や ＋ Noun ＋ など"
+    ],
+    "pitfalls": [
+      "や joins only nouns, and hints there are more items; と joins nouns exhaustively (exactly these).",
+      "You can add など after the last item to underline \"and such\"."
+    ],
+    "examples": [
+      {
+        "ja": "机の上に本やノートがあります。",
+        "en": "There are books and notebooks (among other things) on the desk.",
+        "f": "｜机[つくえ]の｜上[うえ]に｜本[ほん]やノートがあります。"
+      },
+      {
+        "ja": "冷蔵庫に卵や牛乳が入っています。",
+        "en": "There are things like eggs and milk in the fridge.",
+        "f": "｜冷蔵庫[れいぞうこ]に｜卵[たまご]や｜牛乳[ぎゅうにゅう]が｜入[はい]っています。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "to-and",
+        "note": "と lists nouns exhaustively; や implies the list is only a sample."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "nado",
+        "note": "など pairs with や to spell out \"and so on\"."
+      },
+      {
+        "slug": "mo",
+        "note": "も adds \"also\" to a set; や lists example members of a set."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "yo",
+    "title": "よ",
+    "kana": "よ",
+    "romaji": "yo",
+    "meaning": "emphasis / informing particle",
+    "jlpt": 5,
+    "summary": "よ at the end of a sentence tells the listener something you think they don't already know, or drives your point home — like adding \"you know\" or \"I'm telling you\". It presents new information or reassurance from the speaker to the listener.",
+    "structure": [
+      "Sentence ＋ よ"
+    ],
+    "pitfalls": [
+      "よ presents information the speaker assumes is new; ね instead seeks the listener's agreement about something shared.",
+      "Overusing よ can sound pushy, so save it for when you are genuinely informing or reassuring."
+    ],
+    "examples": [
+      {
+        "ja": "この店のケーキはおいしいですよ。",
+        "en": "The cake at this shop is delicious, you know.",
+        "f": "この｜店[みせ]のケーキはおいしいですよ。"
+      },
+      {
+        "ja": "鍵はテーブルの上にありますよ。",
+        "en": "Your keys are on the table, you know.",
+        "f": "｜鍵[かぎ]はテーブルの｜上[うえ]にありますよ。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ne",
+        "note": "ね seeks the listener's agreement; よ informs them of something new."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "yori-hou-ga",
+    "title": "より〜のほうが",
+    "kana": "よりのほうが",
+    "romaji": "yori no hou ga",
+    "meaning": "B is more ~ than A",
+    "jlpt": 5,
+    "summary": "Compares two things and states which one has more of a quality: \"compared to A, B is more ~\". A takes より (\"than\") and B takes のほうが (\"the ~ side is more\"). The order of the two parts is flexible, but the item marked のほうが is always the one that wins the comparison.",
+    "structure": [
+      "Noun-A ＋ より ＋ Noun-B ＋ のほうが ＋ い-adjective／な-adjective",
+      "Noun-B ＋ のほうが ＋ Noun-A ＋ より ＋ い-adjective／な-adjective"
+    ],
+    "pitfalls": [
+      "のほうが marks the item that is \"more\"; より marks the baseline it beats — swap them and the meaning flips.",
+      "To pick the top out of three or more, use 一番 instead of this two-way comparison."
+    ],
+    "examples": [
+      {
+        "ja": "バスより電車のほうが速いです。",
+        "en": "The train is faster than the bus.",
+        "f": "バスより｜電車[でんしゃ]のほうが｜速[はや]いです。"
+      },
+      {
+        "ja": "夏より冬のほうが好きです。",
+        "en": "I like winter more than summer.",
+        "f": "｜夏[なつ]より｜冬[ふゆ]のほうが｜好[す]きです。"
+      }
+    ],
+    "synonyms": [
+      {
+        "slug": "wa-yori-desu",
+        "note": "は〜より…です makes the same comparison with A as the topic instead of のほうが on B."
+      }
+    ],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "yori",
+        "note": "より on its own is the \"than\" that this fuller pattern is built around."
+      },
+      {
+        "slug": "ichiban",
+        "note": "一番 picks the single most out of three or more, not a two-way comparison."
+      },
+      {
+        "slug": "no-naka-de-ichiban",
+        "note": "〜の中で〜が一番 says which is the most within a group; this compares just two."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "ru-verbs",
+    "title": "る動詞",
+    "kana": "るどうし",
+    "romaji": "ru doushi",
+    "meaning": "ichidan (る) verb conjugation",
+    "jlpt": 5,
+    "summary": "る-verbs (ichidan verbs) are the simpler verb group: to conjugate, just drop the final る and add the ending. Their dictionary form ends in -eる or -iる, like 食べる and 見る. This one regular pattern gives the polite, negative, past, and て forms.",
+    "structure": [
+      "Verb［stem］＋ る ／ ない ／ た ／ ます"
+    ],
+    "pitfalls": [
+      "Not every verb ending in る is a る-verb — 帰る and 入る look like one but conjugate as う-verbs.",
+      "Drop only the final る; don't cut into the stem (食べる → 食べない, never 食る)."
+    ],
+    "examples": [
+      {
+        "ja": "毎晩テレビを見ます。",
+        "en": "I watch TV every night.",
+        "f": "｜毎晩[まいばん]テレビを｜見[み]ます。"
+      },
+      {
+        "ja": "朝ご飯を食べませんでした。",
+        "en": "I didn't eat breakfast.",
+        "f": "｜朝[あさ]ご｜飯[はん]を｜食[た]べませんでした。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "u-verbs",
+        "note": "う動詞 are the godan group, whose stem shifts sound before each ending."
+      },
+      {
+        "slug": "masu",
+        "note": "ます attaches to the stem that dropping る leaves behind."
+      },
+      {
+        "slug": "verb-non-past",
+        "note": "The dictionary (non-past) form is the starting point these conjugations build from."
+      }
+    ],
+    "sources": [
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "wo",
+    "title": "を",
+    "kana": "を",
+    "romaji": "wo",
+    "meaning": "direct object particle",
+    "jlpt": 5,
+    "summary": "を marks the direct object — the thing a transitive verb acts on (what you eat, read, buy). It can also mark the place a motion verb moves through or leaves (公園を歩く, 家を出る). Though written を, it is pronounced \"o\".",
+    "structure": [
+      "Noun ＋ を ＋ Verb［transitive］",
+      "Noun［place］＋ を ＋ Verb［motion］"
+    ],
+    "pitfalls": [
+      "を is pronounced the same as お (\"o\"), but this particle is always written を.",
+      "Intransitive verbs take が, not を — say ドアが開く for \"the door opens\", not ドアを開く."
+    ],
+    "examples": [
+      {
+        "ja": "毎朝新聞を読みます。",
+        "en": "I read the newspaper every morning.",
+        "f": "｜毎朝[まいあさ]｜新聞[しんぶん]を｜読[よ]みます。"
+      },
+      {
+        "ja": "公園を散歩します。",
+        "en": "I take a walk through the park.",
+        "f": "｜公園[こうえん]を｜散歩[さんぽ]します。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "ga",
+        "note": "が marks the subject that acts; を marks the object acted on."
+      },
+      {
+        "slug": "ni",
+        "note": "に marks a destination or target; を marks the thing the verb acts on."
+      }
+    ],
+    "sources": [
+      "jlptsensei",
+      "bunpro"
+    ]
+  },
+  {
+    "slug": "wo-kudasai",
+    "title": "をください",
+    "kana": "をください",
+    "romaji": "wo kudasai",
+    "meaning": "please give me ~",
+    "jlpt": 5,
+    "summary": "Politely asks for an object by naming it, marking it with を, and adding ください: \"please give me ~\". Use it to request a thing — in a shop or at a restaurant. To ask someone to do an action instead, use the て form plus ください.",
+    "structure": [
+      "Noun ＋ を ＋ ください"
+    ],
+    "pitfalls": [
+      "をください requests a thing (a noun); to request an action, attach ください to the て form: 待ってください.",
+      "Put a number and counter before ください to ask for a quantity: 切符を二枚ください."
+    ],
+    "examples": [
+      {
+        "ja": "すみません、水をください。",
+        "en": "Excuse me, water please.",
+        "f": "すみません、｜水[みず]をください。"
+      },
+      {
+        "ja": "この赤いりんごをください。",
+        "en": "I'll take this red apple, please.",
+        "f": "この｜赤[あか]いりんごをください。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "te-kudasai",
+        "note": "てください requests an action; をください requests a thing."
+      },
+      {
+        "slug": "morau",
+        "note": "もらう describes receiving; をください is how you politely ask to receive."
+      }
+    ],
+    "sources": [
+      "jlptsensei"
+    ]
+  },
+  {
+    "slug": "ndesu",
+    "title": "んです・のです",
+    "kana": "んです・のです",
+    "romaji": "n desu / no desu",
+    "meaning": "the fact is ~; explanatory",
+    "jlpt": 5,
+    "summary": "Frames a statement or question as an explanation — giving the reason or backstory behind a situation, or asking for one. Attach んです (spoken) or のです (formal, written) to the plain form of a verb or い-adjective; nouns and な-adjectives take な first (学生なんです). It signals \"the thing is...\" rather than a bare report of fact.",
+    "structure": [
+      "Verb／い-adjective［plain form］＋ んです ／ のです",
+      "Noun／な-adjective ＋ な ＋ んです ／ のです"
+    ],
+    "pitfalls": [
+      "Don't drop the な after a noun or な-adjective — 病気なんです, not 病気んです.",
+      "Plain です simply reports a fact; んです frames it as an explanation, so overusing it in statements can sound like over-explaining, and in questions can feel like prying.",
+      "んです is simply the contracted, conversational form of のです."
+    ],
+    "examples": [
+      {
+        "ja": "どうして遅れたんですか。",
+        "en": "How come you were late?",
+        "f": "どうして｜遅[おく]れたんですか。"
+      },
+      {
+        "ja": "すみません、少し頭が痛いんです。",
+        "en": "Sorry — the thing is, my head hurts a little.",
+        "f": "すみません、｜少[すこ]し｜頭[あたま]が｜痛[いた]いんです。"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "related": [
+      {
+        "slug": "no-explanatory",
+        "note": "The casual explanatory の in questions (どうしたの) — same backstory function, softer register."
+      },
+      {
+        "slug": "kara",
+        "note": "から states a reason directly; んです frames the whole sentence as the explanation."
+      },
+      {
+        "slug": "node",
+        "note": "ので attaches a reason clause; んです colours a standalone statement as explanatory."
+      }
+    ],
     "sources": [
       "jlptsensei",
       "bunpro"
