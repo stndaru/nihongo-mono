@@ -909,6 +909,28 @@ feedback on many of these — treat them as requirements, not suggestions.
     refetching on the next parse, and the dictionary reloading on
     refocus.
 
+61. **Explanatory の is grammar, not 野, 2026-07-09.** Owner reported a
+    recurring smart-mode mistag: the の of the explanatory のだ/のです
+    construction (使えばいいのですか, 購入したいのですが — see Tofugu's
+    explanatory-んです article) linked to 野 "field; hidden interior
+    part" (N3). Root cause: IPADIC tags this の (and its contraction
+    ん) as 名詞・非自立 — a *noun* — so `linkToken` skipped the
+    function-word gate and the bare-kana lookup found 野, whose kana is
+    の. Greedy mode was never affected (`acceptable()` already blocks
+    single-kana matches to non-particles). Rule (`isExplanatoryNo`):
+    a 名詞・非自立 token whose surface is exactly の or ん is
+    reclassified as a particle — gray rendering, skipped by the Beyond
+    pass, and routed through `linkToken`'s function-word branch, so it
+    may link to a real の *particle* entry if the lists ever carry one
+    (same behavior as the possessive 助詞 の) but never to a noun
+    sharing its kana. Deliberately keyed to the surface: other 非自立
+    nouns (こと, よう) are real listed words and must keep linking
+    (decision 49's よう test and the こと homograph test pin this).
+    Covers every use of the tag — のです/のだ/のですが, sentence-final
+    の, and the nominalizer (走るのが好き) — since 非自立 by definition
+    marks the grammatical use; a content-word 野 arrives as its own
+    kanji surface (名詞・一般) and still links normally.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

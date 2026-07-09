@@ -352,6 +352,13 @@ regardless of host compression config.
   stricter: an entry contradicting the token's reading is never attached
   — no link (faded underline, correct furigana) beats the wrong
   homograph (owner-reported: 帽子屋's 屋/や got tagged 屋/おく "house").
+- **Explanatory の/ん (smart mode)**: IPADIC tags the の of のだ/のです
+  (and the nominalizer, and the contraction ん) as 名詞・非自立 — a noun
+  — which used to link it by kana to 野 "field". `isExplanatoryNo`
+  reclassifies exactly those surfaces as particles: gray rendering,
+  skipped by the Beyond pass, linkable only to a real の particle entry
+  (never a kana-sharing noun). Keyed to the surface so other 非自立
+  nouns (こと, よう) keep linking (decision 61).
 - **Beyond linking (smart mode)**: content-word tokens the JLPT maps
   missed get a second pass against the extended indexes
   (`findVerbRowsBySurface`/`findVocabRowsBySurface` in ext-search.ts —

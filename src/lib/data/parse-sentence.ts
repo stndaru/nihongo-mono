@@ -543,7 +543,29 @@ function baseOf(t: JaToken): string {
   return t.basic_form && t.basic_form !== '*' ? t.basic_form : t.surface_form
 }
 
+/**
+ * The explanatory/nominalizing の (使えばいいのですか, 購入したいのですが,
+ * 走るのが好き) and its contraction ん (んです). IPADIC tags these 名詞・
+ * 非自立, so the noun path would link the bare kana to 野 "field" — but this
+ * の is grammar (the のだ/のです construction), not a vocabulary word. It
+ * renders as a gray particle and never links, exactly like the possessive
+ * の (助詞・連体化) already does. Keyed to the surface: other 非自立 nouns
+ * (こと, よう) are real listed words and keep linking (decision 61).
+ */
+function isExplanatoryNo(t: JaToken): boolean {
+  return (
+    t.pos === '名詞' &&
+    t.pos_detail_1 === '非自立' &&
+    (t.surface_form === 'の' || t.surface_form === 'ん')
+  )
+}
+
 function tokenInfo(t: JaToken): TokenInfo {
+  if (isExplanatoryNo(t)) {
+    const info: TokenInfo = { pos: 'particle', posLabel: 'Particle' }
+    if (t.reading) info.reading = toHiragana(t.reading)
+    return info
+  }
   const naAdj = t.pos === '名詞' && t.pos_detail_1 === '形容動詞語幹'
   const info: TokenInfo = {
     pos: naAdj ? 'adjective' : (POS_KEYS[t.pos] ?? 'other'),
@@ -634,7 +656,10 @@ function entryReadsAs(entry: VerbEntry | VocabEntry, reading: string | undefined
 function linkToken(t: JaToken, dicts: ParserDicts): ParsedWord | null {
   let hit = dicts.lookup.get(t.surface_form) ?? dicts.lookup.get(baseOf(t))
   const surfaceHit = hit
-  const functionWord = t.pos === '助詞' || t.pos === '助動詞'
+  // explanatory の/ん takes the particle path below: it may link to a real
+  // の particle entry (like the possessive の does) but never to the 野
+  // noun that merely shares its kana
+  const functionWord = t.pos === '助詞' || t.pos === '助動詞' || isExplanatoryNo(t)
   const reading = t.reading ? toHiragana(t.reading) : undefined
   // kuromoji's reading disambiguates homograph surfaces: 頃 read ころ must
   // not link to the けい entry (the Chinese land unit). When the surface hit

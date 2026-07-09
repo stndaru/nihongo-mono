@@ -368,6 +368,52 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(no[0].word?.entry.id).toBe('w5')
   })
 
+  it('never links explanatory の (名詞・非自立) to 野 — renders as a particle', () => {
+    // the の of のだ/のです (使えばいいのですか) and the nominalizer
+    // (走るのが好き): IPADIC calls it a non-independent NOUN, so without a
+    // rule it links by kana to 野 "field" (N3) — but it's pure grammar
+    const dicts = buildParserDicts([], [word('no-field', '野', 'の')])
+    const segs = tokensToSegments([tok('の', '名詞', '非自立', 'の', 'ノ')], dicts)
+    expect(segs[0].word).toBeUndefined()
+    expect(segs[0].token?.pos).toBe('particle')
+    expect(segs[0].token?.posLabel).toBe('Particle')
+  })
+
+  it('treats the ん contraction (んです) the same as explanatory の', () => {
+    const dicts = buildParserDicts([], [word('no-field', '野', 'の')])
+    const segs = tokensToSegments([tok('ん', '名詞', '非自立', 'ん', 'ン')], dicts)
+    expect(segs[0].word).toBeUndefined()
+    expect(segs[0].token?.pos).toBe('particle')
+  })
+
+  it('explanatory の may link to a real の particle entry, never a noun', () => {
+    // same behavior as the possessive の: when the lists carry a particle
+    // entry written の it links; a noun sharing the kana never does
+    const dicts = buildParserDicts(
+      [],
+      [word('no-field', '野', 'の'), word('no-prt', 'の', 'の', 'particle')],
+    )
+    const segs = tokensToSegments([tok('の', '名詞', '非自立', 'の', 'ノ')], dicts)
+    expect(segs[0].word?.entry.id).toBe('no-prt')
+    expect(segs[0].token?.pos).toBe('particle')
+  })
+
+  it('keeps explanatory の out of the Beyond surface collection', () => {
+    const segs = tokensToSegments(
+      [tok('の', '名詞', '非自立', 'の', 'ノ')],
+      buildParserDicts([], []),
+    )
+    const { words, readings } = collectUnlinkedSurfaces(segs)
+    expect(words.has('の')).toBe(false)
+    expect(readings.has('の')).toBe(false)
+  })
+
+  it('written 野 still links to the field entry (rule keys on the kana surface)', () => {
+    const dicts = buildParserDicts([], [word('no-field', '野', 'の')])
+    const segs = tokensToSegments([tok('野', '名詞', '一般', '野', 'ノ')], dicts)
+    expect(segs[0].word?.entry.id).toBe('no-field')
+  })
+
   it('labels unidentified conjugations generically instead of dropping them', () => {
     // 食べている isn't one of the 22 forms — still one segment, still linked
     const segs = tokensToSegments(
