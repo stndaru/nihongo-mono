@@ -133,6 +133,10 @@ const RULES: Rule[] = [
   { suffix: 'される', apply: (p) => [p + 'する', ...fromNaiStem(p)] },
   { suffix: 'れる', apply: (p) => [p + 'る', ...fromNaiStem(p)] },
   { suffix: 'せる', apply: fromNaiStem },
+  // godan potential: e-row + る → u-row (行ける → 行く, 読める → 読む).
+  // IPADIC lexicalizes these as their own dictionary forms, so the parser
+  // needs this rule to trace them back to the real verb.
+  { suffix: 'る', apply: (_p, w) => rowEnding(w, 'る', E2U) },
   // ---- irregulars ----
   { suffix: 'できる', apply: (p) => [p + 'する'] },
   { suffix: 'こない', apply: (p) => [p + 'くる'] },

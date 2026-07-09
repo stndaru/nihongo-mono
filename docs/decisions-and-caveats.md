@@ -731,6 +731,37 @@ feedback on many of these — treat them as requirements, not suggestions.
     130→214px on a 120-char paste with no inner scrollbar, drag adds
     height, double-click resets, no horizontal overflow.
 
+55. **Lexicalized potentials: 行ける links 行く "Potential", not 生ける,
+    2026-07-09.** Owner-reported on …新幹線「のぞみ」なら、2時間半くらい
+    で行ける。: 行ける tagged as 生ける "to arrange (flowers)" (N1),
+    ignoring the kanji 行. Two root causes. (a) IPADIC *lexicalizes*
+    godan potentials — 行ける tokenizes as its own dictionary form
+    (base 行ける), which no JLPT list carries, so the variant-spelling
+    reading fallback looked up bare いける and hit 生ける's kana key.
+    (b) `deconjugate` had no godan-potential rule at all (e-row + る →
+    u-row), so nothing could trace 行ける back to 行く in either
+    engine. Fixes: the rule was added to `deconjugate` (also improves
+    dictionary search: querying 行ける now finds 行く), and
+    `verbSegment` gained a kanji-preserving step BEFORE the reading
+    fallback: when the chain's base misses the verb map, deconjugate
+    the BASE (行ける → 行く, kanji intact) and link with proof — the
+    entry must reproduce the surface as a named form ("Potential"), or
+    the surface must provably be a form of the lexicalized base itself
+    (行けない — negative of the ichidan-conjugating 行ける), which gets
+    the generic "Conjugated" label since potential-negative isn't one
+    of the 22 named forms. Kana surfaces stay genuinely ambiguous:
+    いける still links 生ける (its own dictionary form wins), but
+    dict-form verb surfaces now ALSO run the conjugated-alternatives
+    scan, so いける/かえる offer 行く "Potential"/買う "Potential" in
+    the popup's Could Also Be (decision 53 machinery). 生ける written
+    with its own kanji is untouched (exact base hit runs first).
+    Accepted trade-offs: a lexicalized potential that is ALSO a real
+    lexeme links the base verb when the lexeme isn't JLPT-listed
+    (もてる → 持つ "Potential" — defensible, the derivation is real);
+    potentials of Beyond-only verbs still rely on the ext pass as
+    before. Verified on the owner's sentence in both engines: popup
+    shows 行く + Potential badge + kanji 行, no "arrange" anywhere.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

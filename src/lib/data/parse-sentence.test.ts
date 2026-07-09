@@ -886,3 +886,68 @@ describe('digits in the input', () => {
     expect(words.has('30')).toBe(false)
   })
 })
+
+describe('lexicalized potentials (行ける ≠ 生ける)', () => {
+  // owner report: 新幹線「のぞみ」なら、2時間半くらいで行ける。tagged 行ける
+  // as 生ける "to arrange flowers". IPADIC lexicalizes godan potentials
+  // (base 行ける), the base misses the JLPT lists, and the reading fallback
+  // found 生ける through the shared kana いける — ignoring the kanji 行.
+  const mkDicts = () =>
+    buildParserDicts(
+      [verb('iku', '行く', 'いく', 'v5k-s'), verb('ikeru', '生ける', 'いける', 'v1')],
+      [],
+    )
+
+  it('smart mode: 行ける links 行く as Potential, never 生ける', () => {
+    const segs = tokensToSegments(
+      [tok('行ける', '動詞', '自立', '行ける', 'イケル')],
+      mkDicts(),
+    )
+    expect(segs[0].word?.entry.id).toBe('iku')
+    expect(segs[0].word?.formLabel).toBe('Potential')
+  })
+
+  it('smart mode: a potential chain (行けない) still links 行く', () => {
+    const segs = tokensToSegments(
+      [tok('行け', '動詞', '自立', '行ける', 'イケ'), tok('ない', '助動詞', '*', 'ない', 'ナイ')],
+      mkDicts(),
+    )
+    expect(segs[0].text).toBe('行けない')
+    expect(segs[0].word?.entry.id).toBe('iku')
+    // not one of 行く's 22 named forms, but provably a form of the
+    // lexicalized base 行ける — generic label, honest link
+    expect(segs[0].word?.formLabel).toBe('Conjugated')
+  })
+
+  it('smart mode: 生ける written with its own kanji still links itself', () => {
+    const segs = tokensToSegments(
+      [tok('生ける', '動詞', '自立', '生ける', 'イケル')],
+      mkDicts(),
+    )
+    expect(segs[0].word?.entry.id).toBe('ikeru')
+    expect(segs[0].word?.formLabel).toBeNull()
+  })
+
+  it('smart mode: kana いける keeps 生ける but offers 行く Potential as alternative', () => {
+    const segs = tokensToSegments(
+      [tok('いける', '動詞', '自立', 'いける', 'イケル')],
+      mkDicts(),
+    )
+    expect(segs[0].word?.entry.id).toBe('ikeru')
+    const alt = segs[0].word?.alternatives?.find((a) => a.entry.id === 'iku')
+    expect(alt?.formLabel).toBe('Potential')
+  })
+
+  it('greedy: 行ける links 行く as Potential too', () => {
+    const [seg] = parseSentence('行ける', mkDicts())
+    expect(seg.word?.entry.id).toBe('iku')
+    expect(seg.word?.formLabel).toBe('Potential')
+  })
+
+  it('greedy: kana いける keeps 生ける with the 行く Potential alternative', () => {
+    const [seg] = parseSentence('いける', mkDicts())
+    expect(seg.word?.entry.id).toBe('ikeru')
+    const alt = seg.word?.alternatives?.find((a) => a.entry.id === 'iku')
+    expect(alt?.formLabel).toBe('Potential')
+  })
+})

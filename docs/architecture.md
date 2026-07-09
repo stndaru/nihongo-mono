@@ -308,6 +308,13 @@ regardless of host compression config.
   spellings by conjugating the TOKEN's own spelling
   (`identifyVerbFormAs`/`identifyAdjFormAs`) — 温かかった is "Past",
   and dictionary-form 温かい gets no bogus "Inflected" label.
+  Before any reading-keyed candidate, a missing verb base is
+  deconjugated **with its kanji intact**: IPADIC lexicalizes godan
+  potentials (行ける tokenizes with base 行ける), and the kanji must
+  pin the word — 行ける links 行く "Potential", never 生ける through
+  the shared kana いける. Proof required: a named form, or the surface
+  being a form of the lexicalized base itself (行けない → 行く,
+  generic "Conjugated" label).
 - **Kuromoji's reading disambiguates homograph surfaces** (owner-reported:
   頃 read ころ linked to the 頃/けい entry, "qing, Chinese land unit").
   When a surface hit contradicts the token's reading (`entryReadsAs` —

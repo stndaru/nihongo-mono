@@ -346,6 +346,20 @@ function directAlternatives(
   return out.length > 0 ? out : undefined
 }
 
+/** Merge two alternative lists, first-list-first, deduped, capped. */
+function mergeAlternatives(
+  a: ParsedWord[] | undefined,
+  b: ParsedWord[] | undefined,
+): ParsedWord[] | undefined {
+  if (!a || !b) return a ?? b
+  const seen = new Set(a.map((w) => altKey({ entry: w.entry, isVerb: w.isVerb })))
+  const out = [...a]
+  for (const w of b) {
+    if (!seen.has(altKey({ entry: w.entry, isVerb: w.isVerb }))) out.push(w)
+  }
+  return out.slice(0, MAX_ALTERNATIVES)
+}
+
 /**
  * Other verbs/adjectives whose conjugation also produces this exact surface
  * (いった is the past of both 行く and 言う). Each candidate must reproduce
@@ -395,7 +409,12 @@ function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null
         surface: s,
         formLabel: null,
       }
-      const alts = directAlternatives(s, direct, dicts)
+      // both directions: いける is 生ける's own form AND the potential of
+      // 行く — the latter only surfaces as a conjugated alternative
+      const alts = mergeAlternatives(
+        directAlternatives(s, direct, dicts),
+        len >= 2 ? conjugatedAlternatives(s, direct, dicts) : undefined,
+      )
       if (alts) word.alternatives = alts
       return word
     }
@@ -669,24 +688,59 @@ function verbSegment(
   const reading = joinReading(tokens, i, j)
   if (reading) info.reading = reading
   if (base !== surface) info.baseForm = base
-  let verb: VerbEntry | undefined
-  for (const cand of baseCandidates(base, surface, reading)) {
-    verb = dicts.verbs.get(cand)
-    if (verb) break
+  let verb = dicts.verbs.get(base)
+  let baseDeconjLabel: string | null = null
+  if (!verb) {
+    // IPADIC lexicalizes godan potentials: 行ける tokenizes with base 行ける,
+    // which no JLPT list carries — and the reading fallback below would find
+    // 生ける "to arrange flowers" through the shared kana いける, ignoring
+    // the kanji. Deconjugating the BASE keeps its kanji (行ける → 行く), so
+    // that runs first, with proof (honest-boundary rule): the entry must
+    // reproduce the surface as a named form ("Potential"), or the surface
+    // must at least be a form of the lexicalized base itself (行けない —
+    // negative of the ichidan-conjugating 行ける), earning the generic
+    // "Conjugated" label.
+    for (const cand of deconjugate(base)) {
+      const v = dicts.verbs.get(cand)
+      if (!v) continue
+      const label =
+        identifyVerbForm(v, surface) ??
+        (identifyVerbFormAs(base, 'v1', surface) ? 'Conjugated' : null)
+      if (!label) continue
+      verb = v
+      baseDeconjLabel = label
+      break
+    }
+  }
+  if (!verb) {
+    for (const cand of baseCandidates(base, surface, reading)) {
+      verb = dicts.verbs.get(cand)
+      if (verb) break
+    }
   }
   if (!verb) return { text: surface, token: info }
-  // surface === base covers variant-spelling links (温かい → 暖かい entry)
-  const isDictForm = surface === base || surface === verb.kanji || surface === verb.kana
-  const formLabel = isDictForm
-    ? null
-    : (identifyVerbForm(verb, surface) ??
-      identifyVerbFormAs(base, verb.class, surface) ??
-      'Conjugated')
+  const formLabel = baseDeconjLabel
+    ? surface === verb.kanji || surface === verb.kana
+      ? null
+      : baseDeconjLabel
+    : // surface === base covers variant-spelling links (温かい → 暖かい entry)
+      surface === base || surface === verb.kanji || surface === verb.kana
+      ? null
+      : (identifyVerbForm(verb, surface) ??
+        identifyVerbFormAs(base, verb.class, surface) ??
+        'Conjugated')
   const word: ParsedWord = { entry: verb, isVerb: true, surface, formLabel }
   const chosen = { entry: verb, isVerb: true }
-  const alts = isDictForm
-    ? directAlternatives(surface, chosen, dicts)
-    : conjugatedAlternatives(surface, chosen, dicts)
+  // dict-form surfaces check both directions: いける is 生ける's own form
+  // AND the potential of 行く — the latter is only reachable as a
+  // conjugated alternative
+  const alts =
+    formLabel === null
+      ? mergeAlternatives(
+          directAlternatives(surface, chosen, dicts),
+          conjugatedAlternatives(surface, chosen, dicts),
+        )
+      : conjugatedAlternatives(surface, chosen, dicts)
   if (alts) word.alternatives = alts
   return { text: surface, token: info, word }
 }

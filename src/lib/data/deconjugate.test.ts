@@ -41,6 +41,11 @@ const CASES: [string, string][] = [
   ['いこう', 'いく'],
   ['かかれる', 'かく'],
   ['のませる', 'のむ'],
+  // godan potential (IPADIC lexicalizes these as their own dictionary forms)
+  ['いける', 'いく'],
+  ['行ける', '行く'],
+  ['よめる', 'よむ'],
+  ['よめます', 'よむ'],
   // する / くる
   ['した', 'する'],
   ['します', 'する'],
