@@ -585,6 +585,23 @@ function tokenInfo(t: JaToken): TokenInfo {
 const VOICE_SUFFIXES = new Set(['れる', 'られる', 'せる', 'させる'])
 
 /**
+ * Benefactive helpers after て say who does/receives the favor — real
+ * dictionary words (all JLPT-listed), not inflection. Absorbing them
+ * mislabeled the blob as a conjugation of the head verb: 待って+いただけ
+ * ませんか is 待って plus a form of いただく, and no named form of 待つ can
+ * reproduce it (honest-boundary rule). These break the chain and head
+ * their own segment; purely ASPECTUAL helpers (いる, ある, おく, しまう,
+ * みる, いく, くる…) keep merging — 食べている reads as one word.
+ * Includes the potentials IPADIC lexicalizes as their own base forms
+ * (いただけ→いただける, もらえ→もらえる).
+ */
+const BENEFACTIVE_HELPERS = new Set([
+  'いただく', 'いただける', '頂く', '頂ける', 'くださる', '下さる',
+  'もらう', 'もらえる', '貰う', '貰える', 'くれる', '呉れる',
+  'あげる', '上げる', 'さしあげる', '差し上げる', 'やる',
+])
+
+/**
  * A verb/adjective plus the endings glued onto it (た, ます, て + helper
  * verbs…) reads as one word — merge them so 食べませんでした is a single
  * segment whose base form is 食べる.
@@ -618,6 +635,7 @@ function chainEnd(tokens: JaToken[], start: number): number {
       continue
     }
     if (t.pos === '動詞' && t.pos_detail_1 === '非自立' && sawConnective) {
+      if (BENEFACTIVE_HELPERS.has(baseOf(t))) break
       j += 1
       continue
     }
@@ -933,11 +951,56 @@ function scanCompound(tokens: JaToken[], i: number, dicts: ParserDicts): Compoun
 }
 
 /**
+ * IPADIC lattice repair: 〜ていただけません／〜ていただけませんか
+ * mis-tokenizes as て+い［いる］+た+だけ+ませ…, reading the potential
+ * いただけ as the past いた plus the particle だけ — which merged
+ * 待っていた as a "conjugation" of 待つ and stranded ませんか (owner
+ * report). The giveaway is a ます auxiliary directly after the particle
+ * だけ: ます attaches to verb stems, never to だけ, so that sequence only
+ * exists on this lattice error. Re-join い+た+だけ into いただけ（る）so
+ * the benefactive rule and the honest-boundary labels see the real word.
+ * Genuine 〜ていただけ＋だ／です ("it's just that…") never has ます there
+ * and is untouched.
+ */
+function repairItadake(tokens: JaToken[]): JaToken[] {
+  const out: JaToken[] = []
+  for (let k = 0; k < tokens.length; k += 1) {
+    const [a, b, c, d] = [tokens[k], tokens[k + 1], tokens[k + 2], tokens[k + 3]]
+    if (
+      a.pos === '動詞' &&
+      a.pos_detail_1 === '非自立' &&
+      a.surface_form === 'い' &&
+      baseOf(a) === 'いる' &&
+      tokens[k - 1]?.pos_detail_1 === '接続助詞' &&
+      b?.pos === '助動詞' &&
+      b.surface_form === 'た' &&
+      c?.pos === '助詞' &&
+      c.surface_form === 'だけ' &&
+      d?.pos === '助動詞' &&
+      baseOf(d) === 'ます'
+    ) {
+      out.push({
+        surface_form: 'いただけ',
+        pos: '動詞',
+        pos_detail_1: '非自立',
+        basic_form: 'いただける',
+        reading: 'イタダケ',
+      })
+      k += 2 // consumed た and だけ as well
+      continue
+    }
+    out.push(a)
+  }
+  return out
+}
+
+/**
  * Turns kuromoji tokens into the same ParsedSegment shape the greedy parser
  * emits, so the page renders both engines identically — with `token`
  * annotations (reading/POS/base form) on everything kuromoji analyzed.
  */
-export function tokensToSegments(tokens: JaToken[], dicts: ParserDicts): ParsedSegment[] {
+export function tokensToSegments(rawTokens: JaToken[], dicts: ParserDicts): ParsedSegment[] {
+  const tokens = repairItadake(rawTokens)
   const segments: ParsedSegment[] = []
   let i = 0
   while (i < tokens.length) {

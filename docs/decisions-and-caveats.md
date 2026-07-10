@@ -1043,6 +1043,27 @@ feedback on many of these — treat them as requirements, not suggestions.
     race against a fast first keystroke (both measured); it runs in the
     post-open reading gap, once per session, results discarded.
 
+66. **Smart parser: benefactive helpers break the て chain + いただけ
+    lattice repair, 2026-07-10** (owner report: 待っていただけませんか
+    tagged "Conjugated form of 待つ"). Two-part fix in parse-sentence.ts.
+    (a) `chainEnd` no longer absorbs BENEFACTIVE 非自立 verbs after a
+    て/で connective (いただく／くださる／もらう／くれる／あげる／やる
+    and their IPADIC-lexicalized potentials): they carry their own
+    meaning (who does/receives the favor), are all JLPT-listed words,
+    and no named form of the head verb can reproduce the merged blob
+    (honest-boundary rule). They now head their own segment — 待って +
+    ください, 見て + いただきました. Purely ASPECTUAL helpers (いる,
+    ある, おく, しまう, みる, いく, くる) keep merging: 食べている stays
+    one word, pinned by tests. (b) IPADIC itself mis-tokenizes
+    〜ていただけません as て+い［いる］+た+だけ+ませ…, so the chain
+    legitimately built 待っていた and stranded ませんか. `repairItadake`
+    re-joins that run into いただけ（る）before segmentation; the guard
+    is a ます auxiliary DIRECTLY after the particle だけ, which no real
+    sentence produces (ます needs a verb stem) — genuine ていた+だけ+だ
+    ("it's just that…") is untouched, also pinned by a test. The greedy
+    engine never had this bug (its identifyVerbForm proof already
+    rejected 待っていた).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

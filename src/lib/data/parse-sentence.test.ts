@@ -466,6 +466,98 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].text).toBe('食べてしまった')
     expect(segs[0].word?.entry.id).toBe('v1')
   })
+
+  it('repairs the いただけ lattice error (待っていただけませんか — owner report)', () => {
+    // IPADIC's real tokenization reads the potential いただけ as い[いる]+
+    // た+だけ, so the chain merged 待っていた as a "conjugation" of 待つ and
+    // stranded ませんか. The ます auxiliary directly after the particle だけ
+    // only exists on this lattice error — repairItadake re-joins the run.
+    const dicts = buildParserDicts(
+      [verb('v-matsu', '待つ', 'まつ', 'v5t'), verb('v-itadaku', 'いただく', 'いただく', 'v5k')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('待っ', '動詞', '自立', '待つ', 'マッ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('い', '動詞', '非自立', 'いる', 'イ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+        tok('だけ', '助詞', '副助詞', 'だけ', 'ダケ'),
+        tok('ませ', '助動詞', '*', 'ます', 'マセ'),
+        tok('ん', '助動詞', '*', 'ん', 'ン'),
+        tok('か', '助詞', '副助詞／並立助詞／終助詞', 'か', 'カ'),
+      ],
+      dicts,
+    )
+    expect(segs.map((s) => s.text)).toEqual(['待って', 'いただけません', 'か'])
+    expect(segs[0].word?.entry.id).toBe('v-matsu')
+    expect(segs[0].word?.formLabel).toBe('Te form')
+    // the repaired potential base (いただける) deconjugates back to いただく
+    expect(segs[1].word?.entry.id).toBe('v-itadaku')
+    expect(segs[1].word?.formLabel).toBe('Conjugated')
+  })
+
+  it('genuine ていた + だけ (no ます after) is NOT repaired (待っていただけだ)', () => {
+    const dicts = buildParserDicts(
+      [verb('v-matsu', '待つ', 'まつ', 'v5t'), verb('v-itadaku', 'いただく', 'いただく', 'v5k')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('待っ', '動詞', '自立', '待つ', 'マッ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('い', '動詞', '非自立', 'いる', 'イ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+        tok('だけ', '助詞', '副助詞', 'だけ', 'ダケ'),
+        tok('だ', '助動詞', '*', 'だ', 'ダ'),
+      ],
+      dicts,
+    )
+    expect(segs[0].text).toBe('待っていた')
+    expect(segs[0].word?.entry.id).toBe('v-matsu')
+  })
+
+  it('benefactive helpers after て stay their own word (見て + いただきました)', () => {
+    // いただく adds its own meaning (who receives the favor) and no named
+    // form of 見る reproduces 見ていただきました — merging it mislabeled
+    // the blob "Conjugated form of 見る"
+    const dicts = buildParserDicts(
+      [verb('v-miru', '見る', 'みる', 'v1'), verb('v-itadaku', 'いただく', 'いただく', 'v5k')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('見', '動詞', '自立', '見る', 'ミ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('いただき', '動詞', '非自立', 'いただく', 'イタダキ'),
+        tok('まし', '助動詞', '*', 'ます', 'マシ'),
+        tok('た', '助動詞', '*', 'た', 'タ'),
+      ],
+      dicts,
+    )
+    expect(segs.map((s) => s.text)).toEqual(['見て', 'いただきました'])
+    expect(segs[0].word?.entry.id).toBe('v-miru')
+    expect(segs[1].word?.entry.id).toBe('v-itadaku')
+    expect(segs[1].word?.formLabel).toBe('Past polite')
+  })
+
+  it('ください after て is its own linked word (待って + ください)', () => {
+    const dicts = buildParserDicts(
+      [verb('v-matsu', '待つ', 'まつ', 'v5t'), verb('v-kudasaru', 'くださる', 'くださる', 'v5aru')],
+      [],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('待っ', '動詞', '自立', '待つ', 'マッ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('ください', '動詞', '非自立', 'くださる', 'クダサイ'),
+      ],
+      dicts,
+    )
+    expect(segs.map((s) => s.text)).toEqual(['待って', 'ください'])
+    expect(segs[0].word?.entry.id).toBe('v-matsu')
+    expect(segs[1].word?.entry.id).toBe('v-kudasaru')
+  })
 })
 
 describe('compound merging (smart mode)', () => {
