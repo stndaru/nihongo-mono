@@ -57,6 +57,13 @@ import { cn } from '@/lib/utils'
 
 const MAX_LEN = MAX_SENTENCE_LEN
 const EN_MAX_LEN = MAX_EN_SENTENCE_LEN
+/**
+ * The textarea may exceed the parse cap — a whole OCR dump (or long paste)
+ * lands intact and gets edited down, with Break Down blocked until it fits —
+ * but never this ceiling, which protects the auto-grow box. The committed
+ * ?q=/?en= params stay capped at MAX_LEN/EN_MAX_LEN via validateSearch.
+ */
+const EDIT_CEILING = 2000
 const SMART_KEY = 'nihongo-mono:parser-smart'
 /** pre-rename key ("Accurate Parsing") — still read so early opt-ins stick */
 const LEGACY_SMART_KEY = 'nihongo-mono:parser-accurate'
@@ -484,6 +491,8 @@ function ParserPage() {
   const analyzerFailed = active.analyzerFailed || manualFailed
   const extLoading = active.extLoading
   const activeText = dir === 'en' ? enText : text
+  const maxLen = dir === 'en' ? EN_MAX_LEN : MAX_LEN
+  const overLimit = activeText.length > maxLen
 
   // custom resize handle: the native corner grip is nearly unhittable once
   // the textarea's scrollbar appears, so a full-width drag strip replaces it
@@ -521,20 +530,21 @@ function ParserPage() {
   const onInput = (raw: string) => {
     setDictsWanted(true)
     if (dir === 'en') {
-      const clean = stripNonEnglish(raw).slice(0, EN_MAX_LEN)
+      const clean = stripNonEnglish(raw)
       setEnBlocked(clean.length !== raw.length)
-      setEnText(clean)
+      setEnText(clean.slice(0, EDIT_CEILING))
       return
     }
-    const clean = stripNonJapanese(raw).slice(0, MAX_LEN)
+    const clean = stripNonJapanese(raw)
     setBlocked(clean.length !== raw.length)
-    setText(clean)
+    setText(clean.slice(0, EDIT_CEILING))
   }
 
   // inputs live in ?q=/?en= so the breakdowns survive navigating to a word's
   // detail page and coming back (and palette hand-offs auto-run). Functional
   // search updates keep the OTHER tab's committed sentence intact.
   const breakDown = () => {
+    if (overLimit) return // over-cap text is edited down first, never committed
     if (dir === 'en') {
       const trimmed = enText.trim()
       if (trimmed) {
@@ -742,7 +752,16 @@ function ParserPage() {
                   only.{' '}
                 </span>
               )}
-              {activeText.length}/{dir === 'en' ? EN_MAX_LEN : MAX_LEN}
+              <span className={overLimit ? 'font-medium text-destructive' : undefined}>
+                {activeText.length}/{maxLen}
+              </span>
+              {overLimit && (
+                <span className="text-destructive">
+                  {' '}
+                  — {activeText.length - maxLen} over the limit; shorten the text
+                  to break it down
+                </span>
+              )}
             </p>
             <div className="flex items-center gap-2">
               <Chip
@@ -754,7 +773,10 @@ function ParserPage() {
                   <Sparkles className="size-3" /> Smart Parsing
                 </span>
               </Chip>
-              <Button onClick={breakDown} disabled={!dicts || !activeText.trim()}>
+              <Button
+                onClick={breakDown}
+                disabled={!dicts || !activeText.trim() || overLimit}
+              >
                 {dicts || !dictsWanted
                   ? dir === 'en'
                     ? 'Translate & Break Down'
