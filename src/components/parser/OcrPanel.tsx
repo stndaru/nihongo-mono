@@ -28,6 +28,7 @@ import {
 import { ReactCrop, type PercentCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/ui/copy-button'
 import {
   Dialog,
@@ -78,6 +79,9 @@ const CAN_READ_CLIPBOARD =
  */
 let cameraDeniedThisSession = false
 
+/** sticky "crop before scanning" preference — '0' skips the crop dialog */
+const CROP_KEY = 'nihongo-mono:parser-ocr-crop'
+
 const MB = (bytes: number) => (bytes / 1048576).toFixed(1)
 
 export default function OcrPanel({
@@ -109,13 +113,26 @@ export default function OcrPanel({
   const [dragOver, setDragOver] = useState(false)
   const [pasteHint, setPasteHint] = useState<string | null>(null)
   const [cameraOpen, setCameraOpen] = useState(false)
-  // the single image slot: each scan overwrites it (image + the raw OCR
-  // output before filtering), reviewable via the accordion below
-  const [lastScan, setLastScan] = useState<{ url: string; raw: string } | null>(null)
+  // the single image slot: each scan overwrites it (blob + image + the raw
+  // OCR output before filtering), reviewable via the accordion below — the
+  // blob stays so the stored scan can be re-cropped
+  const [lastScan, setLastScan] = useState<{ blob: Blob; url: string; raw: string } | null>(
+    null,
+  )
   const [reviewOpen, setReviewOpen] = useState(false)
   // every acquired image stops here first: the crop dialog lets the user
-  // cut away distractions before the OCR sees it (owner requirement)
-  const [pending, setPending] = useState<{ blob: Blob; url: string } | null>(null)
+  // cut away distractions before the OCR sees it (owner requirement).
+  // `rescan` marks a re-crop of the stored scan — it overwrites the slot.
+  const [pending, setPending] = useState<{ blob: Blob; url: string; rescan: boolean } | null>(
+    null,
+  )
+  // sticky preference: skip the crop dialog entirely when unchecked
+  const [cropFirst, setCropFirst] = useState(() => localStorage.getItem(CROP_KEY) !== '0')
+  const toggleCropFirst = () =>
+    setCropFirst((v) => {
+      localStorage.setItem(CROP_KEY, v ? '0' : '1')
+      return !v
+    })
 
   const runRef = useRef(0)
   const busyRef = useRef(false)
@@ -189,7 +206,7 @@ export default function OcrPanel({
           }
         })
         if (!alive()) return // panel unmounted mid-recognition — drop the result
-        setLastScan({ url: previewUrl, raw })
+        setLastScan({ blob: source, url: previewUrl, raw })
         const clean = dir === 'en' ? cleanOcrEnglish(raw) : cleanOcrJapanese(raw)
         const outcome = onText(clean)
         setStatus(
@@ -212,14 +229,24 @@ export default function OcrPanel({
   )
 
   /**
-   * Every input path funnels here: the image parks in `pending` and the
-   * crop dialog opens. One image at a time — a newer acquisition replaces
-   * the parked one; its object URL is revoked by the effect below.
+   * Every input path funnels here. With crop-first on (or an explicit
+   * re-crop of the stored scan) the image parks in `pending` and the crop
+   * dialog opens; with it off the scan starts straight away. One image at
+   * a time — a newer acquisition replaces the parked one; its object URL
+   * is revoked by the effect below.
    */
-  const beginCrop = useCallback((blob: Blob) => {
-    if (busyRef.current) return
-    setPending({ blob, url: URL.createObjectURL(blob) })
-  }, [])
+  const beginCrop = useCallback(
+    (blob: Blob, opts?: { rescan?: boolean }) => {
+      if (busyRef.current) return
+      const rescan = opts?.rescan ?? false
+      if (!rescan && !cropFirst) {
+        void scan(blob)
+        return
+      }
+      setPending({ blob, url: URL.createObjectURL(blob), rescan })
+    },
+    [cropFirst, scan],
+  )
 
   // revoke each parked image's URL when it's replaced or on unmount
   useEffect(() => {
@@ -419,10 +446,16 @@ export default function OcrPanel({
         )}
       </button>
 
-      <p className="text-xs text-pretty text-muted-foreground">
-        Best on clear printed text. Furigana can confuse detection — verify
-        in Review last scan.
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+        <p className="text-xs text-pretty text-muted-foreground">
+          Best on clear printed text. Furigana can confuse detection — verify
+          in Review last scan.
+        </p>
+        <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-muted-foreground">
+          <Checkbox checked={cropFirst} onCheckedChange={toggleCropFirst} />
+          Crop before scanning
+        </label>
+      </div>
 
       {pasteHint && <p className="text-xs text-muted-foreground">{pasteHint}</p>}
 
@@ -487,6 +520,16 @@ export default function OcrPanel({
                 alt="The scanned image"
                 className="max-h-56 w-auto max-w-full rounded-md border object-contain"
               />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 px-2 text-xs"
+                disabled={scanning}
+                onClick={() => beginCrop(lastScan.blob, { rescan: true })}
+                title="crop this image further and scan it again"
+              >
+                <CropIcon className="size-3.5" /> Crop &amp; Rescan
+              </Button>
               <div>
                 <div className="flex flex-wrap items-center gap-1">
                   <p className="text-xs text-muted-foreground">
@@ -611,7 +654,7 @@ function OcrCropDialog({
   onConfirm,
   onDecodeError,
 }: {
-  pending: { blob: Blob; url: string } | null
+  pending: { blob: Blob; url: string; rescan: boolean } | null
   onCancel: () => void
   onConfirm: (crop: PercentCrop) => void
   onDecodeError: () => void
@@ -649,6 +692,12 @@ function OcrCropDialog({
               />
             </ReactCrop>
           </div>
+        )}
+        {pending?.rescan && (
+          <p className="text-xs text-muted-foreground">
+            Replaces the stored scan — the uncropped original won&apos;t be
+            kept.
+          </p>
         )}
         <DialogFooter>
           <Button variant="outline" onClick={onCancel}>

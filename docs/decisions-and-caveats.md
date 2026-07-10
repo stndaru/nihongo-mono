@@ -1173,7 +1173,15 @@ feedback on many of these — treat them as requirements, not suggestions.
       the canvas re-encode entirely (cropToBlob returns the source
       blob); real crops cut at natural resolution, keeping PNG for PNG
       sources (crisp screenshot text) and JPEG 0.92 otherwise. One
-      parked image at a time — a newer acquisition replaces it.
+      parked image at a time — a newer acquisition replaces it. The
+      dialog is optional per user: a "Crop before scanning" checkbox
+      (sticky `nihongo-mono:parser-ocr-crop`, default on) skips it for
+      acquisitions when unchecked. The stored last scan can also be
+      **re-cropped** ("Crop & Rescan" in the review accordion, keeps
+      the blob for this) — always dialogs regardless of the checkbox,
+      carries a discreet "replaces the stored scan" note, and the
+      cropped result overwrites the slot; successive crops compound by
+      design.
     - **Review accordion "Use as Input"** (owner request): puts the RAW
       detected text through the normal typing filter into the textarea
       and flips to the text view — deliberately NO auto-breakdown

@@ -842,5 +842,6 @@ streak) · `theme` · `font-text` / `font-ja` · `font-size` /
 toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
 `parser-accurate` key is still read as a fallback) · `parser-ocr`
 (sticky Scan Image opt-in — non-null means the OCR download was
-announced once) · `palette-ext` (sticky "Include Full Dictionary"
-palette opt-in).
+announced once) · `parser-ocr-crop` (Scan Image "crop before scanning"
+preference; `'0'` skips the crop dialog) · `palette-ext` (sticky
+"Include Full Dictionary" palette opt-in).
