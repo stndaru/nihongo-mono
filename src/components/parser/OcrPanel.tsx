@@ -20,9 +20,13 @@ import {
   CheckCircle2,
   ChevronDown,
   ClipboardPaste,
+  Crop as CropIcon,
   ImageUp,
+  ScanText,
   TextCursorInput,
 } from 'lucide-react'
+import { ReactCrop, type PercentCrop } from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
 import { Button } from '@/components/ui/button'
 import { CopyButton } from '@/components/ui/copy-button'
 import {
@@ -36,7 +40,7 @@ import {
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
-import { toImageData } from '@/lib/ocr/preprocess'
+import { cropToBlob, toImageData } from '@/lib/ocr/preprocess'
 import type { OcrLang } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
@@ -109,6 +113,9 @@ export default function OcrPanel({
   // output before filtering), reviewable via the accordion below
   const [lastScan, setLastScan] = useState<{ url: string; raw: string } | null>(null)
   const [reviewOpen, setReviewOpen] = useState(false)
+  // every acquired image stops here first: the crop dialog lets the user
+  // cut away distractions before the OCR sees it (owner requirement)
+  const [pending, setPending] = useState<{ blob: Blob; url: string } | null>(null)
 
   const runRef = useRef(0)
   const busyRef = useRef(false)
@@ -204,6 +211,38 @@ export default function OcrPanel({
     [dir, lang, onText],
   )
 
+  /**
+   * Every input path funnels here: the image parks in `pending` and the
+   * crop dialog opens. One image at a time — a newer acquisition replaces
+   * the parked one; its object URL is revoked by the effect below.
+   */
+  const beginCrop = useCallback((blob: Blob) => {
+    if (busyRef.current) return
+    setPending({ blob, url: URL.createObjectURL(blob) })
+  }, [])
+
+  // revoke each parked image's URL when it's replaced or on unmount
+  useEffect(() => {
+    const url = pending?.url
+    return () => {
+      if (url) URL.revokeObjectURL(url)
+    }
+  }, [pending])
+
+  const confirmCrop = async (crop: PercentCrop) => {
+    if (!pending) return
+    const source = pending.blob
+    setPending(null)
+    let cropped: Blob
+    try {
+      cropped = await cropToBlob(source, crop)
+    } catch {
+      setStatus({ phase: 'error', kind: 'decode' })
+      return
+    }
+    void scan(cropped)
+  }
+
   // Ctrl+V works anywhere on the page while the scan view is showing — the
   // one paste path every browser supports. Not while hidden: pasting into
   // the textarea must never secretly start a scan.
@@ -216,11 +255,11 @@ export default function OcrPanel({
       const file = item?.getAsFile()
       if (!file) return
       e.preventDefault()
-      void scan(file)
+      beginCrop(file)
     }
     window.addEventListener('paste', onPaste)
     return () => window.removeEventListener('paste', onPaste)
-  }, [scan, visible])
+  }, [beginCrop, visible])
 
   // flipping to the text view closes the viewfinder (its stream must not
   // keep the camera light on behind a hidden panel)
@@ -251,7 +290,7 @@ export default function OcrPanel({
       for (const item of items) {
         const type = item.types.find((t) => t.startsWith('image/'))
         if (type) {
-          void scan(await item.getType(type))
+          beginCrop(await item.getType(type))
           return
         }
       }
@@ -264,14 +303,14 @@ export default function OcrPanel({
   const onFilePicked = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     e.target.value = '' // re-picking the same file must re-fire
-    if (file) void scan(file)
+    if (file) beginCrop(file)
   }
 
   const onDrop = (e: ReactDragEvent) => {
     e.preventDefault()
     setDragOver(false)
     const file = Array.from(e.dataTransfer.files).find((f) => f.type.startsWith('image/'))
-    if (file) void scan(file)
+    if (file) beginCrop(file)
   }
 
   const openCamera = () => {
@@ -506,13 +545,23 @@ export default function OcrPanel({
         <OcrCameraDialog
           open={cameraOpen}
           onClose={() => setCameraOpen(false)}
-          onCapture={(blob) => void scan(blob)}
+          onCapture={beginCrop}
           onUploadInstead={() => {
             setCameraOpen(false)
             uploadRef.current?.click()
           }}
         />
       )}
+
+      <OcrCropDialog
+        pending={pending}
+        onCancel={() => setPending(null)}
+        onConfirm={confirmCrop}
+        onDecodeError={() => {
+          setPending(null)
+          setStatus({ phase: 'error', kind: 'decode' })
+        }}
+      />
     </div>
   )
 }
@@ -546,6 +595,72 @@ function ProgressBar({ value }: { value: number }) {
 
 function IndeterminateBar() {
   return <div className="h-1 w-48 max-w-full animate-pulse rounded-full bg-muted-foreground/30" />
+}
+
+const FULL_CROP: PercentCrop = { unit: '%', x: 0, y: 0, width: 100, height: 100 }
+
+/**
+ * The interstitial between acquiring an image and scanning it: crop away
+ * distractions first. The selection defaults to the whole image, so
+ * "just scan it" is a single click; a near-full selection skips the
+ * re-encode entirely (see cropToBlob).
+ */
+function OcrCropDialog({
+  pending,
+  onCancel,
+  onConfirm,
+  onDecodeError,
+}: {
+  pending: { blob: Blob; url: string } | null
+  onCancel: () => void
+  onConfirm: (crop: PercentCrop) => void
+  onDecodeError: () => void
+}) {
+  const [crop, setCrop] = useState<PercentCrop>(FULL_CROP)
+  // fresh image → fresh full-frame selection
+  useEffect(() => {
+    setCrop(FULL_CROP)
+  }, [pending?.url])
+
+  return (
+    <Dialog open={pending !== null} onOpenChange={(o) => !o && onCancel()}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <CropIcon className="size-4 text-primary" /> Crop Before Scanning
+          </DialogTitle>
+          <DialogDescription>
+            Drag the corners to keep just the text — cropping away clutter
+            improves recognition.
+          </DialogDescription>
+        </DialogHeader>
+        {pending && (
+          <div className="flex justify-center">
+            <ReactCrop
+              crop={crop}
+              onChange={(_, percent) => setCrop(percent)}
+              keepSelection
+            >
+              <img
+                src={pending.url}
+                alt="The image about to be scanned"
+                className="max-h-[55vh] w-auto max-w-full rounded-md"
+                onError={onDecodeError}
+              />
+            </ReactCrop>
+          </div>
+        )}
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button onClick={() => onConfirm(crop)}>
+            <ScanText /> Scan
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 type CameraPhase = 'starting' | 'streaming' | 'denied' | 'no-device' | 'failed'

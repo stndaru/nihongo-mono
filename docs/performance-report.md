@@ -109,10 +109,11 @@ session or across visits (verified: repeat `/dictionary` = 3.2 KB total).
 - **Scan Image opt-in** (added after this tour, decision 68): confirm-gated
   like Smart Parsing — ~1.8 MB engine wasm + 1.5 MB (Japanese) or 2.0 MB
   (English) model, one-time, HTTP-cached. Zero initial-chunk impact
-  (verified per build: `tesseract` appears only in the lazy OcrPanel
-  chunks; the parser route chunk stays ~34 kB raw). Recognition runs in a
-  Web Worker, so the main thread never blocks; images are downscaled to
-  ≤2000 px before OCR.
+  (verified per build: `tesseract` and `react-image-crop` — the ~5 KB gz
+  crop-before-scan widget — appear only in the lazy OcrPanel chunks; the
+  parser route chunk stays ~37 kB raw). Recognition runs in a Web Worker,
+  so the main thread never blocks; images are downscaled to ≤2000 px
+  before OCR, and crop dragging is CSS-transform only.
 - **Maximum non-opt-in action**: the antonyms page (1.03 MB — it needs
   adjectives from every level to build pairs). Second place: names kanji
   search 田中 (3.19 MB) — names *is* opt-in-shaped (a dedicated page for a

@@ -28,6 +28,7 @@ export default defineConfig({
       'kuromoji/src/dict/DynamicDictionaries.js',
       'kuromoji/src/Tokenizer.js',
       'tesseract-wasm',
+      'react-image-crop',
     ],
   },
 })

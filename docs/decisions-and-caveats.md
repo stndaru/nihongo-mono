@@ -1161,6 +1161,19 @@ feedback on many of these — treat them as requirements, not suggestions.
       the panel hint discloses it ("Furigana … can confuse detection")
       and points at the review accordion, which exists precisely to
       catch these misses.
+    - **Crop-before-scan** (owner request): every acquired image (paste,
+      upload, drop, camera capture) parks in a crop dialog before OCR so
+      distractions get cut away — clutter measurably confuses Tesseract.
+      Library: **react-image-crop** (~5 KB gz, zero deps, CSS-transform
+      dragging, touch + keyboard handles) — cropperjs rejected as ~6×
+      heavier, hand-rolling rejected for a11y/touch cost; it and its CSS
+      live inside the lazy OcrPanel chunk (zero initial-load impact,
+      verified per build). The selection defaults to the full frame so
+      "just scan it" stays one click, and a near-full selection skips
+      the canvas re-encode entirely (cropToBlob returns the source
+      blob); real crops cut at natural resolution, keeping PNG for PNG
+      sources (crisp screenshot text) and JPEG 0.92 otherwise. One
+      parked image at a time — a newer acquisition replaces it.
     - **Review accordion "Use as Input"** (owner request): puts the RAW
       detected text through the normal typing filter into the textarea
       and flips to the text view — deliberately NO auto-breakdown

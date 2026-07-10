@@ -77,7 +77,8 @@ exported as a file.
   Image** toggle (Tesseract OCR compiled to WebAssembly, ~3.5 MB
   one-time, confirm-gated) swaps the input box for an on-device image
   scanner — paste an image from the clipboard, upload a file, or take a
-  photo with a live camera viewfinder — keeps only the active tab's
+  photo with a live camera viewfinder, then crop away everything but the
+  text — keeps only the active tab's
   script (Japanese or English), drops the result back into the input
   box, and breaks it down automatically when it fits the length limit
   (longer scans stay editable until they do). Toggling back and forth
