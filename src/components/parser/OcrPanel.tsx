@@ -21,6 +21,7 @@ import {
   ChevronDown,
   ClipboardPaste,
   ImageUp,
+  TextCursorInput,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CopyButton } from '@/components/ui/copy-button'
@@ -79,6 +80,7 @@ export default function OcrPanel({
   dir,
   visible,
   onText,
+  onUseRaw,
   onClose,
 }: {
   dir: 'ja' | 'en'
@@ -90,6 +92,8 @@ export default function OcrPanel({
   visible: boolean
   /** receives cleaned text; returns what the route did with it */
   onText: (clean: string) => OcrOutcome
+  /** "Use as Input": the RAW text goes to the textarea for hand-editing */
+  onUseRaw: (raw: string) => void
   onClose: () => void
 }) {
   const lang: OcrLang = dir === 'en' ? 'eng' : 'jpn'
@@ -443,12 +447,23 @@ export default function OcrPanel({
                 className="max-h-56 w-auto max-w-full rounded-md border object-contain"
               />
               <div>
-                <div className="flex items-center gap-1">
+                <div className="flex flex-wrap items-center gap-1">
                   <p className="text-xs text-muted-foreground">
                     Raw detected text (before filtering):
                   </p>
                   {lastScan.raw.trim() !== '' && (
-                    <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
+                    <>
+                      <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="ml-auto h-6 px-2 text-xs"
+                        onClick={() => onUseRaw(lastScan.raw)}
+                        title="put this raw text into the input box for editing"
+                      >
+                        <TextCursorInput className="size-3.5" /> Use as Input
+                      </Button>
+                    </>
                   )}
                 </div>
                 {lastScan.raw.trim() ? (

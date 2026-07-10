@@ -1161,6 +1161,16 @@ feedback on many of these — treat them as requirements, not suggestions.
       the panel hint discloses it ("Furigana … can confuse detection")
       and points at the review accordion, which exists precisely to
       catch these misses.
+    - **Review accordion "Use as Input"** (owner request): puts the RAW
+      detected text through the normal typing filter into the textarea
+      and flips to the text view — deliberately NO auto-breakdown
+      (choosing raw over the cleaned result means the user wants to fix
+      it up first). Both opt-in consent dialogs (Smart Parsing + Scan
+      Image) share a restyled shape: tinted feature-icon header,
+      one-line pitch, and the one-time-download size in a highlighted
+      primary-tinted callout box (plus a shield privacy line for OCR) —
+      the size is the thing the user is consenting to, so it gets the
+      visual emphasis.
     - **Scan surface layout** (owner feedback round): the drop zone is
       the primary affordance — a large dashed click-to-browse target
       (icon + "Drag & drop an image here", drag-over highlight +

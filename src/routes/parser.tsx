@@ -11,7 +11,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { ChevronDown, ScanText, Sparkles, TriangleAlert } from 'lucide-react'
+import {
+  ChevronDown,
+  HardDriveDownload,
+  ScanText,
+  ShieldCheck,
+  Sparkles,
+  TriangleAlert,
+} from 'lucide-react'
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { TranslationSection, useTranslation } from '@/components/parser/TranslationSection'
@@ -717,6 +724,18 @@ function ParserPage() {
     return outcome
   }
 
+  /**
+   * "Use as Input" from the review accordion: the RAW detected text goes
+   * through the normal typing filter (charset strip + ceiling, blocked
+   * notice if characters fall away) and the view flips to the textarea for
+   * editing — deliberately NO auto-breakdown; picking raw over the cleaned
+   * result means the user wants to fix it up first.
+   */
+  const useRawAsInput = (raw: string) => {
+    onInput(raw.trim()) // Tesseract output ends in newlines — drop the edges
+    setOcrView(false)
+  }
+
   const words = useMemo(() => (result ? uniqueWords(result.segments) : []), [result])
 
   return (
@@ -931,6 +950,7 @@ function ParserPage() {
                   dir={dir}
                   visible={ocrView}
                   onText={applyOcrText}
+                  onUseRaw={useRawAsInput}
                   onClose={() => setOcrView(false)}
                 />
               </Suspense>
@@ -1116,25 +1136,42 @@ function ParserPage() {
 
         <WordSummaryDialog word={selectedWord} onClose={() => setSelectedWord(null)} />
 
+        {/* both opt-in dialogs share one shape: tinted feature icon +
+            title, one-line pitch, and the download callout as the visual
+            centerpiece — the user should never be surprised by the size */}
         <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Enable Smart Parsing?</DialogTitle>
-              <DialogDescription>
-                This downloads the kuromoji morphological analyzer and its IPADIC
-                dictionary — a one-time download of about 17&nbsp;MB, cached by
-                your browser afterwards (plus a ~6&nbsp;MB full-dictionary index
-                the first time a sentence contains words outside the JLPT
-                lists). Sentences are then segmented by a real analyzer: better
-                word boundaries, furigana on every word, and clickable entries
-                even beyond the JLPT lists.
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <Sparkles className="size-5 text-primary" />
+                </div>
+                <DialogTitle>Enable Smart Parsing?</DialogTitle>
+              </div>
+              <DialogDescription className="text-left">
+                Sentences get segmented by the kuromoji morphological
+                analyzer: better word boundaries, furigana on every word, and
+                clickable entries even beyond the JLPT lists.
               </DialogDescription>
             </DialogHeader>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+              <p className="flex items-center gap-2 text-sm font-semibold">
+                <HardDriveDownload className="size-4 shrink-0 text-primary" />
+                One-time download: ~17&nbsp;MB
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                The analyzer + its IPADIC dictionary, cached by your browser
+                afterwards. Sentences with words beyond the JLPT lists add a
+                ~6&nbsp;MB full-dictionary index on first use.
+              </p>
+            </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setConfirmOpen(false)}>
                 Cancel
               </Button>
-              <Button onClick={confirmSmart}>Download &amp; Enable</Button>
+              <Button onClick={confirmSmart}>
+                <HardDriveDownload /> Download &amp; Enable
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -1142,21 +1179,41 @@ function ParserPage() {
         <Dialog open={ocrConfirmOpen} onOpenChange={setOcrConfirmOpen}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Enable Image Scanning?</DialogTitle>
-              <DialogDescription>
-                This downloads the Tesseract OCR engine (~1.8&nbsp;MB) plus a
-                recognition model for the active tab (Japanese ~1.5&nbsp;MB,
-                English ~2&nbsp;MB) — one-time, cached by your browser
-                afterwards. Scanning runs entirely on this device; your images
-                never leave the browser. Works best on clear, horizontal
-                printed text.
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <ScanText className="size-5 text-primary" />
+                </div>
+                <DialogTitle>Enable Image Scanning?</DialogTitle>
+              </div>
+              <DialogDescription className="text-left">
+                Read printed text straight out of images — paste, upload, or
+                photograph it, and the result lands in the input box ready to
+                break down.
               </DialogDescription>
             </DialogHeader>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+              <p className="flex items-center gap-2 text-sm font-semibold">
+                <HardDriveDownload className="size-4 shrink-0 text-primary" />
+                One-time download: ~3.5&nbsp;MB
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                The Tesseract OCR engine (~1.8&nbsp;MB) plus the active
+                tab&apos;s recognition model (Japanese ~1.5&nbsp;MB / English
+                ~2&nbsp;MB), cached by your browser afterwards.
+              </p>
+            </div>
+            <p className="flex items-center gap-2 text-xs text-muted-foreground">
+              <ShieldCheck className="size-4 shrink-0 text-success" />
+              Scanning runs entirely on this device — images never leave your
+              browser.
+            </p>
             <DialogFooter>
               <Button variant="outline" onClick={() => setOcrConfirmOpen(false)}>
                 Cancel
               </Button>
-              <Button onClick={confirmOcr}>Download &amp; Enable</Button>
+              <Button onClick={confirmOcr}>
+                <HardDriveDownload /> Download &amp; Enable
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
