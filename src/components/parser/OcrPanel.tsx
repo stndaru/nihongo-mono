@@ -469,12 +469,12 @@ export default function OcrPanel({
                 {lastScan.raw.trim() ? (
                   <p
                     lang={dir === 'en' ? 'en' : 'ja'}
-                    className="mt-1 max-h-40 overflow-y-auto rounded-md border bg-muted/30 p-2 text-sm break-words whitespace-pre-wrap"
+                    className="mt-2 max-h-40 overflow-y-auto rounded-md border bg-muted/30 p-2 text-sm break-words whitespace-pre-wrap"
                   >
                     {lastScan.raw}
                   </p>
                 ) : (
-                  <p className="mt-1 text-xs text-muted-foreground">(nothing was detected)</p>
+                  <p className="mt-2 text-xs text-muted-foreground">(nothing was detected)</p>
                 )}
               </div>
             </div>
