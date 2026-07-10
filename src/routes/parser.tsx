@@ -18,6 +18,7 @@ import { TranslationSection, useTranslation } from '@/components/parser/Translat
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Chip } from '@/components/ui/chip'
+import { CopyButton } from '@/components/ui/copy-button'
 import {
   Dialog,
   DialogContent,
@@ -975,7 +976,13 @@ function ParserPage() {
         {result && (
           <>
             <section>
-              <h2 className="mb-2 text-lg font-semibold">Breakdown</h2>
+              <div className="mb-2 flex items-center gap-1.5">
+                <h2 className="text-lg font-semibold">Breakdown</h2>
+                <CopyButton
+                  text={result.segments.map((seg) => seg.text).join('')}
+                  label="Copy the broken-down sentence"
+                />
+              </div>
               <p className="mb-3 text-xs text-muted-foreground">
                 Dotted words are recognized — hover for a quick look, click for a
                 summary popup.

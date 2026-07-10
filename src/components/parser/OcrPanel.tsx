@@ -14,8 +14,9 @@ import {
   type ChangeEvent,
   type DragEvent as ReactDragEvent,
 } from 'react'
-import { Camera, ChevronDown, ClipboardPaste, ImageUp, X } from 'lucide-react'
+import { ArrowLeft, Camera, ChevronDown, ClipboardPaste, ImageUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { CopyButton } from '@/components/ui/copy-button'
 import {
   Dialog,
   DialogContent,
@@ -270,8 +271,7 @@ export default function OcrPanel({
       onDragLeave={() => setDragOver(false)}
       onDrop={onDrop}
       className={cn(
-        'space-y-2 rounded-lg border p-3 transition-colors duration-100',
-        dragOver && 'border-primary bg-primary/5',
+        'space-y-2 rounded-lg border p-3',
         animateIn &&
           'motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-150 motion-safe:ease-snap origin-bottom',
       )}
@@ -293,14 +293,6 @@ export default function OcrPanel({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => uploadRef.current?.click()}
-          disabled={scanning}
-        >
-          <ImageUp /> Upload Image…
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
           onClick={openCamera}
           disabled={scanning || CAMERA === 'none'}
           title={
@@ -315,19 +307,48 @@ export default function OcrPanel({
         </Button>
         <Button
           variant="ghost"
-          size="icon-sm"
+          size="sm"
           onClick={onClose}
-          aria-label="Back to text input"
           title="back to typing (the scanned image is kept)"
-          className="ml-auto"
+          className="ml-auto text-muted-foreground"
         >
-          <X />
+          <ArrowLeft /> Back to Text
         </Button>
       </div>
 
+      {/* the drop zone is the primary affordance — big target, click to
+          browse, highlighted while a drag hovers anywhere over the panel */}
+      <button
+        type="button"
+        onClick={() => uploadRef.current?.click()}
+        disabled={scanning}
+        className={cn(
+          'flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed px-4 py-8 text-center transition-colors duration-100',
+          dragOver
+            ? 'border-primary bg-primary/5'
+            : 'border-border hover:border-muted-foreground/50 hover:bg-muted/30',
+          scanning && 'opacity-50',
+        )}
+      >
+        <ImageUp
+          className={cn(
+            'size-8 transition-colors duration-100',
+            dragOver ? 'text-primary' : 'text-muted-foreground/60',
+          )}
+        />
+        <span className="text-sm font-medium">
+          {dragOver ? 'Drop the image to scan it' : 'Drag & drop an image here'}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          click to browse your files, or press Ctrl+V to paste — only{' '}
+          {langLabel} characters are kept
+        </span>
+      </button>
+
       <p className="text-xs text-muted-foreground">
-        …or drag an image here / press Ctrl+V. Works best on clear, horizontal
-        printed text — only {langLabel} characters are kept.
+        Works best on clear, horizontal printed text. Furigana (small kana
+        above kanji) can confuse detection — double-check with Review last
+        scan below.
       </p>
 
       {pasteHint && <p className="text-xs text-muted-foreground">{pasteHint}</p>}
@@ -394,9 +415,14 @@ export default function OcrPanel({
                 className="max-h-56 w-auto max-w-full rounded-md border object-contain"
               />
               <div>
-                <p className="text-xs text-muted-foreground">
-                  Raw detected text (before keeping only {langLabel} characters):
-                </p>
+                <div className="flex items-center gap-1">
+                  <p className="text-xs text-muted-foreground">
+                    Raw detected text (before keeping only {langLabel} characters):
+                  </p>
+                  {lastScan.raw.trim() !== '' && (
+                    <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
+                  )}
+                </div>
                 {lastScan.raw.trim() ? (
                   <p
                     lang={dir === 'en' ? 'en' : 'ja'}

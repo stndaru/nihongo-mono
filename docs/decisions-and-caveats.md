@@ -1148,6 +1148,30 @@ feedback on many of these — treat them as requirements, not suggestions.
       ease-snap fade+zoom-from-95%, suppressed when the chip was
       keyboard-activated (`event.detail === 0`, decision 48); progress
       bars animate `transform: scaleX` only.
+    - **Furigana breaks Tesseract's Japanese line segmentation** (owner
+      report: 日曜日どこも… scanned from an app example sentence lost
+      日曜日ど). Measured with the exact sentence rendered with/without
+      ruby: plain text is near-perfect at every size; with ruby the
+      damage varies by scale (42 px kept everything, 28 px dropped 日曜日
+      entirely and leaked stray furigana kana in, 84 px worse) and
+      canvas-upscaling the failing image ×2/×3 does NOT rescue it — the
+      kanji under the ruby are never recognized, so post-hoc box
+      filtering can't recover them either. OCRClient exposes no
+      setVariable/PSM to tune. Accepted as an engine-level limitation:
+      the panel hint discloses it ("Furigana … can confuse detection")
+      and points at the review accordion, which exists precisely to
+      catch these misses.
+    - **Scan surface layout** (owner feedback round): the drop zone is
+      the primary affordance — a large dashed click-to-browse target
+      (icon + "Drag & drop an image here", drag-over highlight +
+      label swap) that absorbed the separate Upload button and the old
+      awkward "…or drag an image here" hint line; Paste Image and Open
+      Camera stay as buttons. The X close icon (read as "dismiss")
+      became an explicit "← Back to Text" ghost button. Icon-only
+      CopyButton (`components/ui/copy-button.tsx`, transient ✓ swap as
+      the state feedback) on the Breakdown heading (copies the
+      broken-down sentence, reconstructed from segments so it's
+      engine-agnostic) and on the review accordion's raw detected text.
     - **Scan Image is a VIEW TOGGLE, not an add-on** (owner revision): the
       chip sits on the direction-tabs row (with the input controls, not
       among the parse actions — it swaps what the input area IS) and flips
