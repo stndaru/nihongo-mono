@@ -17,6 +17,11 @@ const CHEATSHEETS: { name: string; to: LinkProps['to']; what: string }[] = [
     to: '/cheatsheet/counters',
     what: 'How counting words work — the grammar, the two number systems, asking how many — plus tables of the universal つ series, the must-know counters, and the common tier, with the sound changes to expect.',
   },
+  {
+    name: 'Ways to Say "Wear"',
+    to: '/cheatsheet/wearing',
+    what: 'Japanese picks the wearing verb by body part: 着る for the torso, 履く from the waist down, かぶる on the head, かける for glasses — a table of all ten with an example each, plus the ている state, the する catch-all, and how to take things off.',
+  },
 ]
 
 function CheatsheetIndexPage() {

@@ -84,7 +84,10 @@ exported as a file.
   type. Japanese Counters covers how counting words work (grammar,
   number systems, asking "how many") with tables of the universal つ
   series and the must-know and common counters, sound-change rules,
-  and the irregular dates.
+  and the irregular dates. Ways to Say "Wear" covers the body-part
+  verb system (着る/履く/かぶる/かける…, ten verbs with an example
+  each), the ている wearing-state, the する catch-all, and the
+  matching take-off verbs.
 - **Resources** — a curated page of external learning sites (dictionaries,
   grammar guides, JLPT practice) with short descriptions, under the
   Language menu.
