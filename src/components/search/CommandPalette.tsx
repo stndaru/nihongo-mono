@@ -89,15 +89,33 @@ export function CommandPalette() {
   useEffect(() => {
     if (!open || words) return
     let alive = true
+    let warmup: ReturnType<typeof setTimeout> | undefined
     Promise.all([
       loadVerbLevels(ALL_LEVELS),
       loadVocabLevels(ALL_LEVELS),
       loadGrammarLevels(ALL_LEVELS),
     ]).then(([verbs, vocab, grammar]) => {
-      if (alive) setWords({ verbs, vocab, grammar })
+      if (!alive) return
+      setWords({ verbs, vocab, grammar })
+      // Prime the search caches off the interaction path: a throwaway search
+      // fills the kanaKey/foldKeys WeakMaps (~9.6k toHiragana calls) and warms
+      // wanakana + deconjugate once, so the first real keystroke doesn't pay
+      // that one-time ~300ms fill synchronously; results are discarded.
+      // A macrotask (not requestIdleCallback): the data has just loaded and the
+      // user hasn't typed yet, so this runs in the post-open reading gap, ahead
+      // of any keystroke and the search debounce. requestIdleCallback would
+      // defer past a fast first keystroke (and starves entirely on a hidden
+      // tab), which is exactly the cold search we're trying to avoid.
+      warmup = setTimeout(() => {
+        if (!alive) return
+        searchWordsScored(verbs, 'a')
+        searchWordsScored(vocab, 'a')
+        searchGrammarScored(grammar, 'a')
+      }, 0)
     })
     return () => {
       alive = false
+      clearTimeout(warmup)
     }
   }, [open, words])
 

@@ -83,4 +83,14 @@ describe('searchGrammarScored', () => {
     expect(hits).toHaveLength(ENTRIES.length)
     expect(hits.every((h) => h.score === 0)).toBe(true)
   })
+
+  it('returns identical results across repeated calls (fold-key memoization is stable)', () => {
+    // The per-entry fold keys are cached in a WeakMap; a stale or mutated
+    // cache would make the second search diverge from the first.
+    for (const q of ['naide', 'ないで', 'hou ga ii', 'takotogaaru', 'had better', 'zzz']) {
+      const first = searchGrammarScored(ENTRIES, q)
+      const second = searchGrammarScored(ENTRIES, q)
+      expect(second).toEqual(first)
+    }
+  })
 })

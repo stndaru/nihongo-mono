@@ -195,6 +195,17 @@ sentences across five level files) was measured with the same CDP
 | Any non-grammar route | 0 KB — the loaders live in the route chunks; grammar data is fetched only on `/grammar*` or the palette's first open |
 | Palette first open (decision 65: grammar joins the word levels) | +539 KB over the word files, one-time — shares the grammar routes' promise cache, so a session that visited `/grammar` first pays 0 extra (and vice versa); cold page load still fetches nothing |
 
+Palette search CPU (same-day tester → improver → QA pass, 4× CPU
+throttle): grammar adds 0.2–0.68 ms per keystroke after the fold-key
+WeakMap memoization (was 3.9–4.5 ms unmemoized); the one-time
+first-search-of-session warmup (word `kanaKey` fill + wanakana +
+deconjugate — ~296 ms at 4×, ~75 ms real) now runs as a throwaway
+search in the post-open gap, cutting the first visible keystroke to
+~74 ms at 4×. Steady-state searches 50–80 ms at 4× (unthrottled well
+under the 100 ms bar); main bundle +0.09 KB gz; b2de650's
+splitTokens/JaText rendering measured cost-free (6.6 µs worst-case
+structure render, no DOM growth).
+
 Within the app's bars: the default visit (47 KB) is far under the ~1 MB
 non-opt-in ceiling, the full catalogue is a deliberate five-chip action
 comparable to enabling all word levels, per-level promise caches

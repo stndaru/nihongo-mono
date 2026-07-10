@@ -47,10 +47,29 @@ export function searchGrammarScored(
   return scored
 }
 
+/**
+ * Folded title/kana/romaji keys, memoized per entry — the entries are the
+ * immutable, module-cached lists (loader.ts), so each key is computed once
+ * instead of re-folding + re-toHiragana'ing all ~1,000 entries every
+ * keystroke. Mirrors search.ts's kanaKey WeakMap.
+ */
+const foldKeys = new WeakMap<GrammarEntry, { title: string; kana: string; romaji: string }>()
+
+function entryKeys(entry: GrammarEntry): { title: string; kana: string; romaji: string } {
+  let keys = foldKeys.get(entry)
+  if (keys === undefined) {
+    keys = {
+      title: foldKey(entry.title),
+      kana: toHiragana(foldKey(entry.kana)),
+      romaji: foldKey(entry.romaji.toLowerCase()),
+    }
+    foldKeys.set(entry, keys)
+  }
+  return keys
+}
+
 function scoreEntry(entry: GrammarEntry, q: string, qFold: string, qKana: string): number {
-  const title = foldKey(entry.title)
-  const kana = toHiragana(foldKey(entry.kana))
-  const romaji = foldKey(entry.romaji.toLowerCase())
+  const { title, kana, romaji } = entryKeys(entry)
   // exact
   if (kana === qKana || title === qFold || romaji === qFold) return 0
   // prefix

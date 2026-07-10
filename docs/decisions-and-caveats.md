@@ -1032,7 +1032,16 @@ feedback on many of these — treat them as requirements, not suggestions.
     promise-cached with the grammar routes (opening the palette after
     visiting `/grammar` costs 0 extra requests, and vice versa). Grammar
     stays out of the per-page word tables and the parser — the palette is
-    the only cross-surface entry point.
+    the only cross-surface entry point. Perf pass (tester → improver →
+    QA, same day): grammar keystroke cost 3.9–4.5 ms → 0.2–0.68 ms via a
+    per-entry fold-key WeakMap in grammar-search.ts (mirrors search.ts's
+    `kanaKey`), and the one-time first-search-of-session spike (~296 ms
+    at 4× CPU — mostly the pre-existing word `kanaKey` fill) → ~74 ms by
+    pre-warming the caches with a throwaway search on the palette's
+    first open. The warmup is a deliberate `setTimeout(0)` macrotask,
+    NOT `requestIdleCallback` — rIC starves on hidden tabs and loses the
+    race against a fast first keystroke (both measured); it runs in the
+    post-open reading gap, once per session, results discarded.
 
 ## Known limitations / accepted trade-offs
 
