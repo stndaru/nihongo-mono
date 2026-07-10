@@ -46,6 +46,8 @@ the decision log. Core ideas:
 - **Search everywhere**: list pages, and a Ctrl/Cmd+K command palette
   (header button on desktop, floating button on phones). Queries match
   kanji/kana/romaji/English and **conjugated forms** ("tabeta" → 食べる).
+  The palette also searches all 1,031 grammar points ("naide" → ないで),
+  tagged GRAMMAR beside the level badge (decision 65).
 
 ## Route map (all under TanStack Router file-based routing, `src/routes/`)
 
@@ -61,7 +63,7 @@ the decision log. Core ideas:
 | `/vocab` | Non-Verb Vocabulary list — same level model, 14 part-of-speech filters (renamed from "Vocabulary" to avoid confusion with the combined Dictionary) |
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
-| `/grammar` | Grammar Points list — all 1,031 JLPT grammar patterns (N5 119 / N4 189 / N3 248 / N2 208 / N1 267), level chips + search over pattern/kana/romaji/meaning, 100-row pages. Data loads per level, only on grammar routes |
+| `/grammar` | Grammar Points list — all 1,031 JLPT grammar patterns (N5 119 / N4 189 / N3 248 / N2 208 / N1 267), level chips + search over pattern/kana/romaji/meaning, 100-row pages. Data loads per level, only on grammar routes or the palette's first open |
 | `/grammar/$slug` | Grammar point detail: what it does, "How to Use" formation chips, Watch Out pitfalls, 2 original examples with furigana, and Similar/Opposite/See-Also cards cross-linking other grammar points (levels are all session-cached, so relation cards work across levels) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Language dropdown) |
 | `/parser` | Sentence parser: paste kana/kanji text with numbers (≤120 chars; auto-growing, drag-resizable input) for a word-by-word breakdown. A direction toggle adds an independent English → Japanese tab (≤200 chars of English → machine-translated JP → same breakdown; separate ?en=/?dir= state, standing accuracy warning). Greedy matching by default; confirm-gated "Smart Parsing" opt-in (~17 MB kuromoji) adds furigana, POS-colored underlines, Beyond-tier links, a reading fallback for variant spellings, and dictionary-validated compound merging (参加者/非常に as single words, with clickable parts in the summary popup). Clicking a word opens a summary popup with a "Could Also Be" section for contested homographs (うち "house" vs 内 "while" — click to compare); detail pages open in a new tab; carries an accuracy caveat. An async English translation section loads alongside the breakdown (Google → MyMemory → external-link fallback) |

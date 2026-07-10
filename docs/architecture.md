@@ -47,7 +47,8 @@
 - **Grammar points are Tier-1 too, but authored rather than generated**:
   `src/data/grammar/n{1..5}.json` (original content — see decision 63 and
   data-pipeline.md), packed to `jlpt/grammar-n{level}.json.gz`, loaded by
-  `loadGrammarLevel(s)` only on the `/grammar*` routes. The full catalogue
+  `loadGrammarLevel(s)` on the `/grammar*` routes and on the command
+  palette's first open (decision 65 — never on cold page load). The full catalogue
   is 1,031 points (N5 119 / N4 189 / N3 248 / N2 208 / N1 267) with 2,062
   example sentences; on the wire the level files are 47–163 KB gz each,
   ~539 KB for all five (measured 2026-07-10), session-cached and ~0 on
@@ -174,8 +175,12 @@ regardless of host compression config.
   60+-case test suite (`deconjugate.test.ts`).
 - **Command palette** (`src/components/search/CommandPalette.tsx`,
   Ctrl/Cmd+K, the header Search button, or the mobile FAB): searches all
-  JLPT verbs+vocab with typed result rows (Verb/Noun/な-adj… + level
-  badge), arrow-key navigation, Enter/click opens the detail page. The
+  JLPT verbs+vocab+grammar points with typed result rows (Verb/Noun/
+  な-adj…/Grammar + level badge), arrow-key navigation, Enter/click opens
+  the detail page. Grammar hits come from `searchGrammarScored` (same 0–3
+  score tiers as `searchWordsScored`, so the lists merge into one
+  ranking) and navigate to `/grammar/$slug`; the five grammar level files
+  load together with the word levels on the palette's first open. The
   multi-MB extended indexes join only via the explicit "Include Full
   Dictionary" footer action. That opt-in is **sticky**
   (`nihongo-mono:palette-ext`): after a reload the palette re-includes the

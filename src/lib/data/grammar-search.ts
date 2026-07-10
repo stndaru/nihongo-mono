@@ -20,6 +20,19 @@ function foldKey(s: string): string {
 export function searchGrammar(entries: GrammarEntry[], query: string): GrammarEntry[] {
   const q = normalizeQuery(query)
   if (!q) return entries
+  return searchGrammarScored(entries, query).map((s) => s.entry)
+}
+
+/**
+ * Same, keeping scores — the tiers share searchWordsScored's 0–3 scale, so
+ * the command palette can merge grammar hits into one ranked word list.
+ */
+export function searchGrammarScored(
+  entries: GrammarEntry[],
+  query: string,
+): { entry: GrammarEntry; score: number }[] {
+  const q = normalizeQuery(query)
+  if (!q) return entries.map((entry) => ({ entry, score: 0 }))
   const qFold = foldKey(q)
   const qKana = toHiragana(qFold)
 
@@ -31,7 +44,7 @@ export function searchGrammar(entries: GrammarEntry[], query: string): GrammarEn
   scored.sort(
     (a, b) => a.score - b.score || a.entry.kana.localeCompare(b.entry.kana, 'ja'),
   )
-  return scored.map((s) => s.entry)
+  return scored
 }
 
 function scoreEntry(entry: GrammarEntry, q: string, qFold: string, qKana: string): number {

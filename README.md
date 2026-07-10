@@ -49,7 +49,8 @@ exported as a file.
   word with "Load All Words".
 - **Search everywhere** — a Ctrl/Cmd+K command palette plus per-page search;
   queries match kanji, kana, romaji, English, and **conjugated forms**
-  ("tabeta" finds 食べる).
+  ("tabeta" finds 食べる). The palette covers words and all 1,031 grammar
+  points, each hit tagged with its type and JLPT level.
 - **Sentence parser** — paste a Japanese sentence (kana/kanji plus numbers,
   up to 120 characters; the input box auto-grows to fit) and get a clickable
   word-by-word breakdown. A direction toggle adds an independent

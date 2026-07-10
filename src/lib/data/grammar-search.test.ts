@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { searchGrammar } from './grammar-search'
+import { searchGrammar, searchGrammarScored } from './grammar-search'
 import type { GrammarEntry } from './types'
 
 const entry = (
@@ -67,5 +67,20 @@ describe('searchGrammar', () => {
       entry('ta-koto-ga-aru', '〜たことがある', 'たことがある', 'ta koto ga aru', 'have done'),
     ]
     expect(searchGrammar(list, 'こと')[0].slug).toBe('koto')
+  })
+})
+
+describe('searchGrammarScored', () => {
+  it("keeps scores on the words' 0–3 scale for palette merging", () => {
+    const hits = searchGrammarScored(ENTRIES, 'naide')
+    expect(hits[0]).toMatchObject({ entry: { slug: 'naide' }, score: 0 })
+    // meaning substring lands in the last tier, like searchWordsScored
+    expect(searchGrammarScored(ENTRIES, 'had better')[0].score).toBe(3)
+  })
+
+  it('scores every entry 0 for an empty query', () => {
+    const hits = searchGrammarScored(ENTRIES, '')
+    expect(hits).toHaveLength(ENTRIES.length)
+    expect(hits.every((h) => h.score === 0)).toBe(true)
   })
 })

@@ -984,8 +984,8 @@ feedback on many of these — treat them as requirements, not suggestions.
     chunks of 30 points (owner-specified protocol), which also authors
     the two final example sentences per point; reviewers edit only
     string values. Scope cuts for v1: no Beyond tier, no command-palette
-    integration (would fetch grammar data outside grammar pages), no
-    progress/practice integration. **Shipped complete 2026-07-10**: all
+    integration (would fetch grammar data outside grammar pages — lifted
+    by owner request in decision 65), no progress/practice integration. **Shipped complete 2026-07-10**: all
     1,031 points (N5 119 / N4 189 / N3 248 / N2 208 / N1 267), 2,062
     original example sentences. Protocol evolved by owner instruction
     mid-flight: review chunks 30 (N5, sonnet) → ~100 (N4, opus) → 150
@@ -1019,6 +1019,20 @@ feedback on many of these — treat them as requirements, not suggestions.
     changed); `scripts/grammar-data.test.ts` now fails on any structure
     line whose brackets would split across chips, so the cut-off-bracket
     bug can't be reintroduced by future authoring.
+
+65. **Grammar points in the command palette, 2026-07-10** (owner request,
+    lifting decision 63's v1 scope cut). The palette searches the 1,031
+    grammar points alongside JLPT words: hits are tagged GRAMMAR beside
+    the level badge and open `/grammar/$slug`. `searchGrammarScored`
+    (grammar-search.ts) keeps the same 0–3 score tiers as
+    `searchWordsScored`, so the three lists merge into one ranking (ties
+    go to common words — grammar counts as non-common). The five grammar
+    level files (~539 KB gz total, one-time) load with the word levels on
+    the palette's **first open** — still never on cold page load, still
+    promise-cached with the grammar routes (opening the palette after
+    visiting `/grammar` costs 0 extra requests, and vice versa). Grammar
+    stays out of the per-page word tables and the parser — the palette is
+    the only cross-surface entry point.
 
 ## Known limitations / accepted trade-offs
 

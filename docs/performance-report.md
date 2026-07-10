@@ -192,7 +192,8 @@ sentences across five level files) was measured with the same CDP
 | Toggle all five level chips (full 1,031-point table) | 539 KB total: n5 47 / n4 90 / n3 125 / n2 114 / n1 163 KB — exactly 5 requests, ever |
 | Detail page (`findGrammar` loads all five levels for cross-level relation cards) | same five files — already session-cached after a list visit |
 | Repeat `/grammar` visit with all levels, same session | 0.6 KB (revalidations) |
-| Any non-grammar route | 0 KB — the loaders live in the route chunks; grammar data is fetched only on `/grammar*` |
+| Any non-grammar route | 0 KB — the loaders live in the route chunks; grammar data is fetched only on `/grammar*` or the palette's first open |
+| Palette first open (decision 65: grammar joins the word levels) | +539 KB over the word files, one-time — shares the grammar routes' promise cache, so a session that visited `/grammar` first pays 0 extra (and vice versa); cold page load still fetches nothing |
 
 Within the app's bars: the default visit (47 KB) is far under the ~1 MB
 non-opt-in ceiling, the full catalogue is a deliberate five-chip action

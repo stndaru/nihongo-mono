@@ -8,7 +8,9 @@ import { SEARCH_DEBOUNCE_MS } from '@/components/verbs/SearchBox'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { POS_LABELS } from '@/components/vocab/PosBadge'
 import { searchVerbRows, searchVocabRows } from '@/lib/data/ext-search'
+import { searchGrammarScored } from '@/lib/data/grammar-search'
 import {
+  loadGrammarLevels,
   loadVerbExtIndex,
   loadVerbLevels,
   loadVocabExtIndex,
@@ -17,6 +19,7 @@ import {
 import { MAX_SENTENCE_LEN, isJapaneseOnly } from '@/lib/data/parse-sentence'
 import { searchWordsScored } from '@/lib/data/search'
 import type {
+  GrammarEntry,
   VerbEntry,
   VerbIndexRow,
   VocabEntry,
@@ -27,6 +30,7 @@ import { cn } from '@/lib/utils'
 type Hit =
   | { kind: 'verb'; word: VerbEntry; score: number }
   | { kind: 'vocab'; word: VocabEntry; score: number }
+  | { kind: 'grammar'; entry: GrammarEntry; score: number }
 
 const LIMIT = 20
 const EXT_LIMIT = 8
@@ -39,10 +43,11 @@ const PALETTE_EXT_KEY = 'nihongo-mono:palette-ext'
 export const OPEN_PALETTE_EVENT = 'nihongo-mono:open-palette'
 
 /**
- * Quick-access search (Ctrl/Cmd+K): one input over all JLPT verbs and
- * vocabulary, each hit labeled with its type, Enter/click opens the detail
- * page. The full-dictionary indexes join in only on demand — they're a
- * multi-MB download, so the default palette stays instant and light.
+ * Quick-access search (Ctrl/Cmd+K): one input over all JLPT verbs,
+ * vocabulary, and grammar points, each hit labeled with its type,
+ * Enter/click opens the detail page. The full-dictionary indexes join in
+ * only on demand — they're a multi-MB download, so the default palette
+ * stays instant and light.
  */
 export function CommandPalette() {
   const navigate = useNavigate()
@@ -52,7 +57,11 @@ export function CommandPalette() {
   const [active, setActive] = useState(0)
   const listRef = useRef<HTMLDivElement>(null)
 
-  const [words, setWords] = useState<{ verbs: VerbEntry[]; vocab: VocabEntry[] } | null>(null)
+  const [words, setWords] = useState<{
+    verbs: VerbEntry[]
+    vocab: VocabEntry[]
+    grammar: GrammarEntry[]
+  } | null>(null)
   const [ext, setExt] = useState<{ verbs: VerbIndexRow[]; vocab: VocabIndexRow[] } | null>(null)
   const [extLoading, setExtLoading] = useState(false)
 
@@ -75,15 +84,18 @@ export function CommandPalette() {
     }
   }, [isMac])
 
-  // JLPT tiers load on first open (module-cached afterwards)
+  // JLPT tiers (words + grammar points) load on first open — never on cold
+  // page load — and are module-cached afterwards (decision 65)
   useEffect(() => {
     if (!open || words) return
     let alive = true
-    Promise.all([loadVerbLevels(ALL_LEVELS), loadVocabLevels(ALL_LEVELS)]).then(
-      ([verbs, vocab]) => {
-        if (alive) setWords({ verbs, vocab })
-      },
-    )
+    Promise.all([
+      loadVerbLevels(ALL_LEVELS),
+      loadVocabLevels(ALL_LEVELS),
+      loadGrammarLevels(ALL_LEVELS),
+    ]).then(([verbs, vocab, grammar]) => {
+      if (alive) setWords({ verbs, vocab, grammar })
+    })
     return () => {
       alive = false
     }
@@ -107,10 +119,13 @@ export function CommandPalette() {
       ...searchWordsScored(words.vocab, q).map(
         (s): Hit => ({ kind: 'vocab', word: s.word, score: s.score }),
       ),
+      ...searchGrammarScored(words.grammar, q).map(
+        (s): Hit => ({ kind: 'grammar', entry: s.entry, score: s.score }),
+      ),
     ]
-    merged.sort(
-      (a, b) => a.score - b.score || Number(b.word.common) - Number(a.word.common),
-    )
+    // grammar shares the words' 0–3 score scale; on ties, common words first
+    const common = (h: Hit) => (h.kind === 'grammar' ? 0 : Number(h.word.common))
+    merged.sort((a, b) => a.score - b.score || common(b) - common(a))
     let top = merged.slice(0, LIMIT)
     if (ext) {
       top = [
@@ -131,7 +146,9 @@ export function CommandPalette() {
   const openHit = (hit: Hit) => {
     setOpen(false)
     setQuery('')
-    if (hit.kind === 'verb') {
+    if (hit.kind === 'grammar') {
+      navigate({ to: '/grammar/$slug', params: { slug: hit.entry.slug } })
+    } else if (hit.kind === 'verb') {
       navigate({ to: '/verbs/$verbId', params: { verbId: hit.word.id } })
     } else {
       navigate({ to: '/vocab/$wordId', params: { wordId: hit.word.id } })
@@ -213,7 +230,7 @@ export function CommandPalette() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={onInputKey}
-              placeholder="Search words — kanji, kana, romaji, English, or a conjugated form…"
+              placeholder="Search words & grammar — kanji, kana, romaji, English, or a conjugated form…"
               className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>
@@ -226,7 +243,7 @@ export function CommandPalette() {
               <p className="px-3 py-8 text-center text-sm text-muted-foreground">Loading…</p>
             ) : hits.length === 0 ? (
               <div className="px-3 py-8 text-center text-sm text-muted-foreground">
-                <p>No matches{ext ? '' : ' among JLPT words'}.</p>
+                <p>No matches{ext ? '' : ' among JLPT words & grammar'}.</p>
                 {/* a whole sentence isn't a dictionary lookup — offer the
                     parser, but only for pure-Japanese input (romaji or mixed
                     text would mess with the breakdown) */}
@@ -249,7 +266,7 @@ export function CommandPalette() {
             ) : (
               hits.map((hit, i) => (
                 <button
-                  key={`${hit.kind}:${hit.word.id}`}
+                  key={hit.kind === 'grammar' ? `grammar:${hit.entry.slug}` : `${hit.kind}:${hit.word.id}`}
                   type="button"
                   onClick={() => openHit(hit)}
                   onMouseMove={() => setActive(i)}
@@ -258,14 +275,31 @@ export function CommandPalette() {
                     i === active && 'bg-muted',
                   )}
                 >
-                  <Furigana segments={hit.word.furigana} className="shrink-0 text-base" />
-                  <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
-                    {hit.word.gloss[0]}
-                  </span>
-                  <span className="shrink-0 text-[10px] tracking-wide text-muted-foreground uppercase">
-                    {hit.kind === 'verb' ? 'Verb' : POS_LABELS[hit.word.pos]}
-                  </span>
-                  <LevelBadge level={hit.word.jlpt} className="shrink-0" />
+                  {hit.kind === 'grammar' ? (
+                    <>
+                      <span lang="ja" className="shrink-0 text-base">
+                        {hit.entry.title}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+                        {hit.entry.meaning}
+                      </span>
+                      <span className="shrink-0 text-[10px] tracking-wide text-muted-foreground uppercase">
+                        Grammar
+                      </span>
+                      <LevelBadge level={hit.entry.jlpt} className="shrink-0" />
+                    </>
+                  ) : (
+                    <>
+                      <Furigana segments={hit.word.furigana} className="shrink-0 text-base" />
+                      <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+                        {hit.word.gloss[0]}
+                      </span>
+                      <span className="shrink-0 text-[10px] tracking-wide text-muted-foreground uppercase">
+                        {hit.kind === 'verb' ? 'Verb' : POS_LABELS[hit.word.pos]}
+                      </span>
+                      <LevelBadge level={hit.word.jlpt} className="shrink-0" />
+                    </>
+                  )}
                 </button>
               ))
             )}
