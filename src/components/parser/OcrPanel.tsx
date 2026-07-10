@@ -520,34 +520,39 @@ export default function OcrPanel({
                 alt="The scanned image"
                 className="max-h-56 w-auto max-w-full rounded-md border object-contain"
               />
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-6 px-2 text-xs"
-                disabled={scanning}
-                onClick={() => beginCrop(lastScan.blob, { rescan: true })}
-                title="crop this image further and scan it again"
-              >
-                <CropIcon className="size-3.5" /> Crop &amp; Rescan
-              </Button>
+              {/* one row for both actions — splitting them (rescan under the
+                  image, use-as-input beside the label) wrapped raggedly and
+                  read as two competing levels on narrow screens */}
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  disabled={scanning}
+                  onClick={() => beginCrop(lastScan.blob, { rescan: true })}
+                  title="crop this image further and scan it again"
+                >
+                  <CropIcon className="size-3.5" /> Crop &amp; Rescan
+                </Button>
+                {lastScan.raw.trim() !== '' && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => onUseRaw(lastScan.raw)}
+                    title="put this raw text into the input box for editing"
+                  >
+                    <TextCursorInput className="size-3.5" /> Use as Input
+                  </Button>
+                )}
+              </div>
               <div>
-                <div className="flex flex-wrap items-center gap-1">
+                <div className="flex items-center gap-1">
                   <p className="text-xs text-muted-foreground">
                     Raw detected text (before filtering):
                   </p>
                   {lastScan.raw.trim() !== '' && (
-                    <>
-                      <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="ml-auto h-6 px-2 text-xs"
-                        onClick={() => onUseRaw(lastScan.raw)}
-                        title="put this raw text into the input box for editing"
-                      >
-                        <TextCursorInput className="size-3.5" /> Use as Input
-                      </Button>
-                    </>
+                    <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
                   )}
                 </div>
                 {lastScan.raw.trim() ? (
@@ -668,13 +673,15 @@ function OcrCropDialog({
   return (
     <Dialog open={pending !== null} onOpenChange={(o) => !o && onCancel()}>
       <DialogContent className="max-w-lg">
-        <DialogHeader>
+        {/* text-left: the title (a flex row) can't center, so the shared
+            header's mobile text-center would misalign the description */}
+        <DialogHeader className="text-left">
           <DialogTitle className="flex items-center gap-2">
             <CropIcon className="size-4 text-primary" /> Crop Before Scanning
           </DialogTitle>
-          <DialogDescription>
-            Drag the corners to keep just the text — cropping away clutter
-            improves recognition.
+          <DialogDescription className="text-pretty">
+            Drag the corners to keep just the text — less clutter scans
+            better.
           </DialogDescription>
         </DialogHeader>
         {pending && (
@@ -694,9 +701,8 @@ function OcrCropDialog({
           </div>
         )}
         {pending?.rescan && (
-          <p className="text-xs text-muted-foreground">
-            Replaces the stored scan — the uncropped original won&apos;t be
-            kept.
+          <p className="text-xs text-pretty text-muted-foreground">
+            Replaces the stored scan.
           </p>
         )}
         <DialogFooter>
