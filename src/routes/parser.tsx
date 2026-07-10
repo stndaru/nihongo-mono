@@ -534,6 +534,29 @@ function ParserPage() {
     // style.height is border-box; scrollHeight excludes the borders
     setTaHeight(Math.max(128, ta.scrollHeight + ta.offsetHeight - ta.clientHeight))
   }, [text, enText, dir, ocrView])
+
+  // the type↔scan swap gets a barely-there entrance on the incoming view
+  // (120 ms fade + 3 px rise — views are display-toggled so a CSS class
+  // can't replay; WAAPI is the one JS-driven motion, decision 68). Skipped
+  // for keyboard activation (decision 48) and for reduced motion — the
+  // global CSS clamp can't reach WAAPI.
+  const textViewRef = useRef<HTMLDivElement>(null)
+  const scanViewRef = useRef<HTMLDivElement>(null)
+  const prevOcrView = useRef(ocrView)
+  useLayoutEffect(() => {
+    if (prevOcrView.current === ocrView) return
+    prevOcrView.current = ocrView
+    if (ocrByKeyboard.current) return
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const el = ocrView ? scanViewRef.current : textViewRef.current
+    el?.animate(
+      [
+        { opacity: 0, transform: 'translateY(3px)' },
+        { opacity: 1, transform: 'none' },
+      ],
+      { duration: 120, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+    )
+  }, [ocrView])
   const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
     const ta = taRef.current
     if (!ta) return
@@ -640,11 +663,11 @@ function ParserPage() {
   // stays mounted (hidden) so an accidental flip loses no image, and the
   // typed text lives in route state regardless.
   const toggleOcr = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    ocrByKeyboard.current = e.detail === 0
     if (ocrView) {
       setOcrView(false)
       return
     }
-    ocrByKeyboard.current = e.detail === 0
     if (localStorage.getItem(OCR_KEY) !== null) {
       setOcrMounted(true)
       setOcrView(true)
@@ -688,9 +711,9 @@ function ParserPage() {
         navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
       }
     }
-    // text landed → flip back to the text view so it's visible/editable;
-    // on empty/error the scan surface stays up with its notice
-    if (outcome !== 'empty') setOcrView(false)
+    // NO auto-flip back to the text view — a surprise view swap read as
+    // confusing (owner feedback); the panel shows the outcome in place and
+    // the user leaves via Back to Text when ready
     return outcome
   }
 
@@ -818,7 +841,10 @@ function ParserPage() {
               then broken down.
             </p>
           )}
-          <div className={cn(ocrView && 'hidden')}>
+          {/* one wrapper per view so the swap can animate the whole
+              incoming side (textarea + its controls) as a unit */}
+          <div ref={textViewRef} className={cn('space-y-2', ocrView && 'hidden')}>
+          <div>
             <textarea
               ref={taRef}
               value={activeText}
@@ -846,26 +872,7 @@ function ParserPage() {
               <div className="h-1 w-16 rounded-full bg-border transition-colors duration-100 group-hover:bg-muted-foreground/40" />
             </div>
           </div>
-          {/* mounted once, then only hidden — a toggle never drops the
-              scanned image, the warm engine, or an in-flight recognition */}
-          {ocrMounted && (
-            <div className={cn(!ocrView && 'hidden')}>
-              <Suspense
-                fallback={<div className="h-24 animate-pulse rounded-lg border bg-muted/30" />}
-              >
-                <OcrPanel
-                  dir={dir}
-                  visible={ocrView}
-                  onText={applyOcrText}
-                  onClose={() => setOcrView(false)}
-                  animateIn={!ocrByKeyboard.current}
-                />
-              </Suspense>
-            </div>
-          )}
-          <div
-            className={cn('flex flex-wrap items-center justify-between gap-3', ocrView && 'hidden')}
-          >
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
               {dir === 'ja' && blocked && (
                 <span className="text-destructive">
@@ -912,6 +919,23 @@ function ParserPage() {
               </Button>
             </div>
           </div>
+          </div>
+          {/* mounted once, then only hidden — a toggle never drops the
+              scanned image, the warm engine, or an in-flight recognition */}
+          {ocrMounted && (
+            <div ref={scanViewRef} className={cn(!ocrView && 'hidden')}>
+              <Suspense
+                fallback={<div className="h-24 animate-pulse rounded-lg border bg-muted/30" />}
+              >
+                <OcrPanel
+                  dir={dir}
+                  visible={ocrView}
+                  onText={applyOcrText}
+                  onClose={() => setOcrView(false)}
+                />
+              </Suspense>
+            </div>
+          )}
           {dir === 'en' && enToJa?.status === 'loading' && (
             <p className="text-xs text-muted-foreground">Translating to Japanese…</p>
           )}

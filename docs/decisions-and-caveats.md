@@ -1181,9 +1181,17 @@ feedback on many of these — treat them as requirements, not suggestions.
       image nor the input. Pastes are ignored while hidden (`visible`
       prop; pasting an image into the textarea must not secretly scan)
       and hiding force-closes the viewfinder (camera light). A finished
-      scan flips back to the text view automatically on commit AND
-      over-limit (the text needs to be visible/editable); empty/error
-      keeps the scan surface up with its notice. One image slot: each
+      scan NEVER auto-flips the view (a surprise swap read as confusing
+      — owner feedback superseding the earlier flip-on-commit): the
+      drop zone itself becomes the success surface (green check,
+      "Scanned — N characters added", auto-resets after 2.5 s) while
+      the committed breakdown renders below the panel; over-limit shows
+      its trim notice pointing at Back to Text. The type↔scan swap
+      animates the incoming view with a 120 ms fade + 3 px rise via
+      WAAPI — the views are display-toggled so a CSS animation class
+      can't replay, making this the app's one JS-driven motion; it
+      checks prefers-reduced-motion itself (the global CSS clamp can't
+      reach WAAPI) and skips keyboard activation. One image slot: each
       scan revokes and overwrites the last. A "Review last scan"
       accordion (collapsed by default) shows the stored image and the
       RAW detected text before script filtering, so misreads can be

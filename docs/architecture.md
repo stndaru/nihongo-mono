@@ -277,11 +277,12 @@ regardless of host compression config.
   Recognized text is filtered to the active tab's charset (JA
   additionally drops ALL whitespace — Tesseract's spurious CJK gaps),
   lands in the textarea, and auto-commits to `?q=`/`?en=` when it fits
-  the cap — flipping back to the text view whenever text landed; over
-  the cap the box holds up to 2,000 chars with Break Down blocked until
-  edited down. The route frees the worker's wasm heap on unmount via
-  the static `lib/ocr/handle.ts` registry, keeping the code split
-  intact.
+  the cap — the view never swaps by itself: the drop zone shows a
+  transient success state and the breakdown renders below, with Back
+  to Text revealing the inserted text; over the cap the box holds up
+  to 2,000 chars with Break Down blocked until edited down. The route
+  frees the worker's wasm heap on unmount via the static
+  `lib/ocr/handle.ts` registry, keeping the code split intact.
 - **Breakdown results render as a React transition** (`useBreakdown`
   wraps its `setResult` in `startTransition`): committing dozens of
   ruby+tooltip spans in one blocking render was the page's only >50 ms

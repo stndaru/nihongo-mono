@@ -14,7 +14,14 @@ import {
   type ChangeEvent,
   type DragEvent as ReactDragEvent,
 } from 'react'
-import { ArrowLeft, Camera, ChevronDown, ClipboardPaste, ImageUp } from 'lucide-react'
+import {
+  ArrowLeft,
+  Camera,
+  CheckCircle2,
+  ChevronDown,
+  ClipboardPaste,
+  ImageUp,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CopyButton } from '@/components/ui/copy-button'
 import {
@@ -37,6 +44,7 @@ type OcrStatus =
   | { phase: 'engine' } // wasm+worker init — no byte progress (the worker fetches its own wasm)
   | { phase: 'model'; done: number; total: number }
   | { phase: 'recognizing'; previewUrl: string; progress: number }
+  | { phase: 'done'; chars: number } // success — shown in the drop zone, then auto-resets
   | { phase: 'empty'; previewUrl: string }
   | { phase: 'over-limit'; previewUrl: string; length: number }
   | { phase: 'error'; kind: 'decode' | 'engine' | 'recognize' }
@@ -72,7 +80,6 @@ export default function OcrPanel({
   visible,
   onText,
   onClose,
-  animateIn,
 }: {
   dir: 'ja' | 'en'
   /**
@@ -84,8 +91,6 @@ export default function OcrPanel({
   /** receives cleaned text; returns what the route did with it */
   onText: (clean: string) => OcrOutcome
   onClose: () => void
-  /** false when the panel was summoned by keyboard (decision 48: no motion) */
-  animateIn: boolean
 }) {
   const lang: OcrLang = dir === 'en' ? 'eng' : 'jpn'
   const maxLen = dir === 'en' ? MAX_EN_SENTENCE_LEN : MAX_SENTENCE_LEN
@@ -178,7 +183,7 @@ export default function OcrPanel({
         const outcome = onText(clean)
         setStatus(
           outcome === 'commit'
-            ? { phase: 'idle' }
+            ? { phase: 'done', chars: clean.length }
             : outcome === 'empty'
               ? { phase: 'empty', previewUrl }
               : { phase: 'over-limit', previewUrl, length: clean.length },
@@ -226,6 +231,16 @@ export default function OcrPanel({
     return () => clearTimeout(timer)
   }, [pasteHint])
 
+  // the success state lives in the drop zone for a beat, then it's ready
+  // for the next image
+  useEffect(() => {
+    if (status.phase !== 'done') return
+    const timer = setTimeout(() => {
+      setStatus((s) => (s.phase === 'done' ? { phase: 'idle' } : s))
+    }, 2500)
+    return () => clearTimeout(timer)
+  }, [status.phase])
+
   const pasteFromClipboard = async () => {
     try {
       const items = await navigator.clipboard.read()
@@ -270,85 +285,98 @@ export default function OcrPanel({
       }}
       onDragLeave={() => setDragOver(false)}
       onDrop={onDrop}
-      className={cn(
-        'space-y-2 rounded-lg border p-3',
-        animateIn &&
-          'motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-150 motion-safe:ease-snap origin-bottom',
-      )}
+      className="space-y-3 rounded-lg border p-3"
     >
       <div className="flex flex-wrap items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={pasteFromClipboard}
-          disabled={scanning || !CAN_READ_CLIPBOARD}
-          title={
-            CAN_READ_CLIPBOARD
-              ? 'read an image from the clipboard'
-              : "this browser doesn't allow reading images from a script — press Ctrl+V instead"
-          }
-        >
-          <ClipboardPaste /> Paste Image
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={openCamera}
-          disabled={scanning || CAMERA === 'none'}
-          title={
-            CAMERA !== 'none'
-              ? 'take a photo of the text'
-              : typeof window !== 'undefined' && !window.isSecureContext
-                ? 'the camera needs a secure (https) connection'
-                : 'no camera access available in this browser'
-          }
-        >
-          <Camera /> Open Camera
-        </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={onClose}
           title="back to typing (the scanned image is kept)"
-          className="ml-auto text-muted-foreground"
+          className="text-muted-foreground"
         >
           <ArrowLeft /> Back to Text
         </Button>
+        <div className="ml-auto flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={pasteFromClipboard}
+            disabled={scanning || !CAN_READ_CLIPBOARD}
+            title={
+              CAN_READ_CLIPBOARD
+                ? 'read an image from the clipboard'
+                : "this browser doesn't allow reading images from a script — press Ctrl+V instead"
+            }
+          >
+            <ClipboardPaste /> Paste Image
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={openCamera}
+            disabled={scanning || CAMERA === 'none'}
+            title={
+              CAMERA !== 'none'
+                ? 'take a photo of the text'
+                : typeof window !== 'undefined' && !window.isSecureContext
+                  ? 'the camera needs a secure (https) connection'
+                  : 'no camera access available in this browser'
+            }
+          >
+            <Camera /> Open Camera
+          </Button>
+        </div>
       </div>
 
       {/* the drop zone is the primary affordance — big target, click to
-          browse, highlighted while a drag hovers anywhere over the panel */}
+          browse, highlighted while a drag hovers anywhere over the panel;
+          it doubles as the success surface when a scan lands */}
       <button
         type="button"
         onClick={() => uploadRef.current?.click()}
         disabled={scanning}
         className={cn(
-          'flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed px-4 py-8 text-center transition-colors duration-100',
-          dragOver
-            ? 'border-primary bg-primary/5'
-            : 'border-border hover:border-muted-foreground/50 hover:bg-muted/30',
+          'flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-4 py-9 text-center transition-colors duration-100',
+          status.phase === 'done'
+            ? 'border-success/50 bg-success/5'
+            : dragOver
+              ? 'border-primary bg-primary/5'
+              : 'border-border hover:border-muted-foreground/50 hover:bg-muted/30',
           scanning && 'opacity-50',
         )}
       >
-        <ImageUp
-          className={cn(
-            'size-8 transition-colors duration-100',
-            dragOver ? 'text-primary' : 'text-muted-foreground/60',
-          )}
-        />
-        <span className="text-sm font-medium">
-          {dragOver ? 'Drop the image to scan it' : 'Drag & drop an image here'}
-        </span>
-        <span className="text-xs text-muted-foreground">
-          click to browse your files, or press Ctrl+V to paste — only{' '}
-          {langLabel} characters are kept
-        </span>
+        {status.phase === 'done' ? (
+          <span className="flex flex-col items-center gap-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-150 motion-safe:ease-snap">
+            <CheckCircle2 className="size-8 text-success" />
+            <span className="text-sm font-medium">
+              Scanned — {status.chars} characters added
+            </span>
+            <span className="text-xs text-muted-foreground">
+              breaking the sentence down below
+            </span>
+          </span>
+        ) : (
+          <>
+            <ImageUp
+              className={cn(
+                'size-8 transition-colors duration-100',
+                dragOver ? 'text-primary' : 'text-muted-foreground/60',
+              )}
+            />
+            <span className="text-sm font-medium">
+              {dragOver ? 'Drop to scan' : 'Drop an image here'}
+            </span>
+            <span className="text-xs text-pretty text-muted-foreground">
+              click to browse · Ctrl+V pastes · {langLabel} text only
+            </span>
+          </>
+        )}
       </button>
 
-      <p className="text-xs text-muted-foreground">
-        Works best on clear, horizontal printed text. Furigana (small kana
-        above kanji) can confuse detection — double-check with Review last
-        scan below.
+      <p className="text-xs text-pretty text-muted-foreground">
+        Best on clear printed text. Furigana can confuse detection — verify
+        in Review last scan.
       </p>
 
       {pasteHint && <p className="text-xs text-muted-foreground">{pasteHint}</p>}
@@ -379,8 +407,8 @@ export default function OcrPanel({
       {status.phase === 'over-limit' && (
         <StatusRow thumb={preview}>
           <span className="text-destructive">
-            Found {status.length} characters — over the {maxLen} limit. Edit the text down,
-            then Break Down.
+            Found {status.length} characters — over the {maxLen} limit. Go
+            Back to Text to trim it, then Break Down.
           </span>
         </StatusRow>
       )}
@@ -417,7 +445,7 @@ export default function OcrPanel({
               <div>
                 <div className="flex items-center gap-1">
                   <p className="text-xs text-muted-foreground">
-                    Raw detected text (before keeping only {langLabel} characters):
+                    Raw detected text (before filtering):
                   </p>
                   {lastScan.raw.trim() !== '' && (
                     <CopyButton text={lastScan.raw} label="Copy the raw detected text" />
