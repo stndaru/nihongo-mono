@@ -73,7 +73,15 @@ exported as a file.
   (marked "Beyond"), reading-based matching of variant kanji spellings
   (温かい finds the 暖かい entry), and dictionary-validated compound
   merging (参加者 and 非常に link as single words; their summary popup
-  lists the parts — 参加 + 者 — each clickable). Every example sentence in the app links
+  lists the parts — 参加 + 者 — each clickable). A separate opt-in **Scan
+  Image** mode (Tesseract OCR compiled to WebAssembly, ~3.5 MB one-time,
+  confirm-gated) reads printed text out of images entirely on-device —
+  paste an image from the clipboard, upload a file, or take a photo with
+  a live camera viewfinder — keeps only the active tab's script
+  (Japanese or English), drops the result into the input box for
+  correction, and breaks it down automatically when it fits the length
+  limit (longer scans stay editable until they do; images never leave
+  the browser). Every example sentence in the app links
   into the parser (small icon, opens a new tab).
 - **Cheatsheets** — an in-app cheatsheet section (under Language). The
   Japanese Verb Summary covers the three verb types

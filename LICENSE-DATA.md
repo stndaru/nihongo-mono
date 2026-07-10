@@ -14,6 +14,7 @@ source, including attribution.
 | `public/data/names/` | [JMnedict/ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) (EDRDG) | [CC BY-SA 4.0 under the EDRDG licence](https://www.edrdg.org/edrdg/licence.html) |
 | `public/data/strokes/` | [KanjiVG](https://kanjivg.tagaini.net/) © Ulrich Apel | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `src/data/grammar/`, `public/data/jlpt/grammar-*` | Original content written for this project (explanations, structures, example sentences); the inventory of which grammar points exist per JLPT level was cross-referenced against public JLPT study lists | [MIT](LICENSE), same as the source code |
+| `public/ocr/models/` | Japanese + English recognition models from [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast) (Tesseract project), redistributed unmodified apart from gzip | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) |
 
 Content embedded inside the word-entry files above (attribution-only
 licences, compatible with inclusion in the CC BY-SA files):
@@ -34,6 +35,13 @@ licences, compatible with inclusion in the CC BY-SA files):
   IPADIC is distributed under its own permissive licence — the required
   notice travels with the data at `public/kuromoji/NOTICE.md` and is
   linked from the About page.
+- **On-device OCR** (the parser's opt-in "Scan Image") is powered by
+  [tesseract-wasm](https://github.com/robertknight/tesseract-wasm)
+  (BSD-2-Clause, embedding the Apache-2.0 Tesseract engine and the
+  Leptonica library), copied from the npm package into
+  `public/ocr/engine/` by `scripts/copy-tesseract.ts` (gitignored here,
+  shipped by deployments). The combined notice travels with the data at
+  `public/ocr/NOTICE.md` and is linked from the About page.
 
 The EDRDG-derived files and the KanjiVG-derived files are kept in separate
 files/directories precisely so each stays under its own share-alike licence

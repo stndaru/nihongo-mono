@@ -4,10 +4,10 @@
 
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
-bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
+bun run dev             # copies the kuromoji dict + tesseract-wasm engine to public/, then Vite dev server (localhost:5173)
 bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search + the grammar data-integrity suite (311 tests)
 bun run lint            # oxlint
-bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
+bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
 bun run data:build      # regenerate all datasets (see data-pipeline.md)
 bun run data:grammar    # regenerate grammar example furigana + pack (after grammar content edits)
@@ -132,6 +132,12 @@ Playwright gotchas learned the hard way:
   step breaks Smart Parsing (it degrades to the greedy engine with a
   notice, but still). The deep kuromoji imports are pinned in
   `vite.config.ts` `optimizeDeps.include`.
+- `public/ocr/engine/` is likewise **gitignored** — `scripts/copy-tesseract.ts`
+  (same `dev`/`build` chains) copies the tesseract-wasm worker + wasm from
+  node_modules. A deploy built without it breaks the parser's Scan Image
+  panel (its engine-error state explains and retries, but still). The
+  committed halves live next to it: `public/ocr/models/*.traineddata.gz`
+  and `public/ocr/NOTICE.md`.
 
 ## Deploying
 

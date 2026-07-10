@@ -1,10 +1,13 @@
 import {
+  lazy,
   startTransition,
+  Suspense,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
@@ -34,6 +37,8 @@ import {
   loadVocabLevels,
 } from '@/lib/data/loader'
 import { loadTokenizer, tokenizerReady } from '@/lib/data/kuromoji'
+import { destroyOcrIfLoaded } from '@/lib/ocr/handle'
+import { ocrOutcome, type OcrOutcome } from '@/lib/ocr/postprocess'
 import {
   MAX_EN_SENTENCE_LEN,
   MAX_SENTENCE_LEN,
@@ -67,6 +72,16 @@ const EDIT_CEILING = 2000
 const SMART_KEY = 'nihongo-mono:parser-smart'
 /** pre-rename key ("Accurate Parsing") — still read so early opt-ins stick */
 const LEGACY_SMART_KEY = 'nihongo-mono:parser-accurate'
+/** sticky Scan Image opt-in — non-null means the download was announced once */
+const OCR_KEY = 'nihongo-mono:parser-ocr'
+
+// the OCR panel (and with it tesseract-wasm) loads only when rendered —
+// users who never scan an image download none of it
+const OcrPanel = lazy(() => import('@/components/parser/OcrPanel'))
+
+/** Scan Image needs wasm + workers; anything this old hides the feature. */
+const OCR_SUPPORTED =
+  typeof WebAssembly !== 'undefined' && typeof Worker !== 'undefined'
 
 interface ParserSearch {
   /** JP→EN sentence (the palette's "Break Down as Sentence" hand-off) */
@@ -607,6 +622,60 @@ function ParserPage() {
     enableSmart()
   }
 
+  // "Scan Image" (OCR) mirrors the Smart Parsing gating: a consent dialog
+  // announces the download once, then the sticky key skips straight to the
+  // panel. The panel itself eager-loads the engine + active-tab model.
+  const [ocrOpen, setOcrOpen] = useState(false)
+  const [ocrConfirmOpen, setOcrConfirmOpen] = useState(false)
+  // keyboard-summoned surfaces don't animate (decision 48)
+  const ocrByKeyboard = useRef(false)
+  const toggleOcr = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    if (ocrOpen) {
+      setOcrOpen(false)
+      return
+    }
+    ocrByKeyboard.current = e.detail === 0
+    if (localStorage.getItem(OCR_KEY) !== null) setOcrOpen(true)
+    else setOcrConfirmOpen(true)
+  }
+  const confirmOcr = () => {
+    localStorage.setItem(OCR_KEY, '1')
+    setOcrConfirmOpen(false)
+    setOcrOpen(true)
+  }
+  // free the OCR worker's wasm heap when leaving the page — no-op unless
+  // the lazy chunk actually loaded this visit
+  useEffect(() => () => destroyOcrIfLoaded(), [])
+
+  /**
+   * OCR result hand-off. `clean` already passed the mode's cleaner; land it
+   * in the active tab and break down immediately when it fits the cap —
+   * committing before the dicts finish loading is safe, useBreakdown re-runs
+   * when they arrive. Over the cap: the text stays editable, Break Down is
+   * already blocked by overLimit, and the panel shows what happened.
+   */
+  const applyOcrText = (clean: string): OcrOutcome => {
+    setDictsWanted(true)
+    const capped = clean.slice(0, EDIT_CEILING)
+    if (dir === 'en') {
+      setEnBlocked(false)
+      setEnText(capped)
+    } else {
+      setBlocked(false)
+      setText(capped)
+    }
+    const outcome = ocrOutcome(capped, dir === 'en' ? EN_MAX_LEN : MAX_LEN)
+    if (outcome === 'commit') {
+      const trimmed = capped.trim()
+      if (dir === 'en') {
+        navigate({ search: (prev) => ({ ...prev, en: trimmed, dir: 'en' }), replace: true })
+      } else {
+        navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
+      }
+    }
+    return outcome
+  }
+
   const words = useMemo(() => (result ? uniqueWords(result.segments) : []), [result])
 
   return (
@@ -738,6 +807,18 @@ function ParserPage() {
               <div className="h-1 w-16 rounded-full bg-border transition-colors duration-100 group-hover:bg-muted-foreground/40" />
             </div>
           </div>
+          {ocrOpen && (
+            <Suspense
+              fallback={<div className="h-24 animate-pulse rounded-lg border bg-muted/30" />}
+            >
+              <OcrPanel
+                dir={dir}
+                onText={applyOcrText}
+                onClose={() => setOcrOpen(false)}
+                animateIn={!ocrByKeyboard.current}
+              />
+            </Suspense>
+          )}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
               {dir === 'ja' && blocked && (
@@ -764,6 +845,20 @@ function ParserPage() {
               )}
             </p>
             <div className="flex items-center gap-2">
+              <Chip
+                active={ocrOpen}
+                onClick={toggleOcr}
+                disabled={!OCR_SUPPORTED}
+                title={
+                  OCR_SUPPORTED
+                    ? 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
+                    : "this browser can't run the on-device OCR engine (WebAssembly required)"
+                }
+              >
+                <span className="flex items-center gap-1">
+                  <ScanText className="size-3" /> Scan Image
+                </span>
+              </Chip>
               <Chip
                 active={smart}
                 onClick={toggleSmart}
@@ -978,6 +1073,28 @@ function ParserPage() {
                 Cancel
               </Button>
               <Button onClick={confirmSmart}>Download &amp; Enable</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={ocrConfirmOpen} onOpenChange={setOcrConfirmOpen}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Enable Image Scanning?</DialogTitle>
+              <DialogDescription>
+                This downloads the Tesseract OCR engine (~1.8&nbsp;MB) plus a
+                recognition model for the active tab (Japanese ~1.5&nbsp;MB,
+                English ~2&nbsp;MB) — one-time, cached by your browser
+                afterwards. Scanning runs entirely on this device; your images
+                never leave the browser. Works best on clear, horizontal
+                printed text.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setOcrConfirmOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={confirmOcr}>Download &amp; Enable</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

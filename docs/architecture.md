@@ -257,6 +257,24 @@ regardless of host compression config.
   the tool parses and never fixes input — lives in the page's Important
   Notice, which covers both tabs. The JP tab's Translation section is
   hidden on the EN tab (the English is the user's own input).
+- **"Scan Image" — opt-in on-device OCR** (`src/lib/ocr/` +
+  `components/parser/OcrPanel.tsx`, decision 68): a chip beside Smart
+  Parsing gates a tesseract-wasm worker behind the same consent-dialog +
+  sticky-key pattern (`nihongo-mono:parser-ocr`). The panel — one lazy
+  chunk holding tesseract-wasm and all OCR code — offers clipboard paste
+  (button where `clipboard.read()` exists, Ctrl+V listener everywhere),
+  file upload, and a live camera viewfinder (native-camera `capture`
+  input fallback, disabled-with-reason last resort). Engine files are
+  copied to `public/ocr/engine/` (gitignored) by
+  `scripts/copy-tesseract.ts`; the jpn/eng tessdata_fast models are
+  pre-gzipped and **committed** under `public/ocr/models/`, fetched per
+  active tab with byte progress. Recognized text is filtered to the
+  active tab's charset (JA additionally drops ALL whitespace —
+  Tesseract's spurious CJK gaps), lands in the textarea, and
+  auto-commits to `?q=`/`?en=` when it fits the cap; over the cap the
+  box holds up to 2,000 chars with Break Down blocked until edited
+  down. The route frees the worker's wasm heap on unmount via the
+  static `lib/ocr/handle.ts` registry, keeping the code split intact.
 - **Breakdown results render as a React transition** (`useBreakdown`
   wraps its `setResult` in `startTransition`): committing dozens of
   ruby+tooltip spans in one blocking render was the page's only >50 ms
@@ -814,5 +832,7 @@ streak) · `theme` · `font-text` / `font-ja` · `font-size` /
 `font-ja-size` / `font-furigana-size` · `last-quiz-config` /
 `last-vocab-quiz-config` · `quiz-display` (session furigana/word-info
 toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
-`parser-accurate` key is still read as a fallback) · `palette-ext`
-(sticky "Include Full Dictionary" palette opt-in).
+`parser-accurate` key is still read as a fallback) · `parser-ocr`
+(sticky Scan Image opt-in — non-null means the OCR download was
+announced once) · `palette-ext` (sticky "Include Full Dictionary"
+palette opt-in).

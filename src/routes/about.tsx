@@ -76,6 +76,13 @@ const SOURCES = [
     licenseHref: '/kuromoji/NOTICE.md',
     what: 'Morphological analysis: example-sentence furigana at build time, and the sentence parser’s optional "Smart Parsing" mode (the IPADIC dictionary downloads on first use; its licence notice ships alongside it).',
   },
+  {
+    name: 'tesseract-wasm + Tesseract tessdata_fast models',
+    href: 'https://github.com/robertknight/tesseract-wasm',
+    license: 'BSD-2-Clause + Apache-2.0',
+    licenseHref: '/ocr/NOTICE.md',
+    what: 'The sentence parser’s optional "Scan Image" mode: on-device image-to-text (engine and Japanese/English models download on first use; images never leave the browser).',
+  },
 ] as const
 
 const FURTHER_REFERENCES = [

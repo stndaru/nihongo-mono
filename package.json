@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "bun scripts/copy-kuromoji.ts && vite",
-    "build": "bun scripts/copy-kuromoji.ts && vite build && tsc -b",
+    "dev": "bun scripts/copy-kuromoji.ts && bun scripts/copy-tesseract.ts && vite",
+    "build": "bun scripts/copy-kuromoji.ts && bun scripts/copy-tesseract.ts && vite build && tsc -b",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
@@ -27,6 +27,7 @@
     "react-dom": "^19.2.7",
     "serve": "^14.2.6",
     "tailwind-merge": "^3.6.0",
+    "tesseract-wasm": "^0.11.0",
     "wanakana": "^5.3.1"
   },
   "devDependencies": {

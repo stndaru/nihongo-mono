@@ -17,6 +17,9 @@ src/routeTree.gen.ts
 .tanstack
 # copied from node_modules/kuromoji by scripts/copy-kuromoji.ts
 public/kuromoji
+# copied from node_modules/tesseract-wasm by scripts/copy-tesseract.ts
+# (public/ocr/models + NOTICE.md stay committed)
+public/ocr/engine
 
 # data pipeline raw sources
 scripts/.cache

@@ -1083,6 +1083,72 @@ feedback on many of these — treat them as requirements, not suggestions.
     test + browser check). Greedy's mangling of ては as は+い ("yes") is
     the pre-existing, disclosed greedy limitation — not addressed.
 
+68. **Parser "Scan Image": opt-in on-device OCR via tesseract-wasm,
+    2026-07-11** (owner feature request). A "Scan Image" chip beside Smart
+    Parsing opens an inline panel with three inputs — clipboard paste
+    (button via `navigator.clipboard.read()` where it exists, else a
+    Ctrl+V window listener that works everywhere incl. Firefox), file
+    upload, and a live getUserMedia viewfinder dialog (falling back to a
+    native-camera `capture` input on touch devices, then to a disabled
+    button whose tooltip names the reason — insecure context vs no API).
+    Decisions and their whys:
+    - **Engine: `tesseract-wasm`** (robertknight, BSD-2) over Tesseract.js
+      (2× the wrapper for the same engine) and PaddleOCR-on-ONNX (better
+      photo accuracy but ~15–25 MB + a detection/recognition pipeline).
+      Worker-based `OCRClient`, SIMD auto-detected. The engine files are
+      **copied from node_modules to `public/ocr/engine/` (gitignored)** by
+      `scripts/copy-tesseract.ts` in the dev/build chains — the worker
+      resolves its wasm relative to its own URL, so the three files live
+      together, and an explicit `workerURL` avoids Vite dev's pre-bundle
+      worker breakage. Vite also emits a duplicate hashed worker+wasm
+      asset pair into dist (from the lib's internal `new URL` default) —
+      dead weight, never fetched, accepted.
+    - **Models: tessdata_fast jpn+eng, pre-gzipped and COMMITTED** under
+      `public/ocr/models/` (owner choice: deterministic builds, no
+      build-time network; gzip 2.47→1.5 MB / 4.11→2.0 MB). Loaded per
+      active tab with byte progress (`content-length`; done clamped —
+      hosts that mark .gz with Content-Encoding stream inflated bytes
+      against a compressed total). Apache-2.0 + BSD notices in
+      `public/ocr/NOTICE.md`, credited on About.
+    - **Gating mirrors Smart Parsing**: consent dialog announcing the
+      sizes, sticky `nihongo-mono:parser-ocr`, dialog skipped once
+      confirmed; the panel (one lazy chunk holding tesseract-wasm and all
+      OCR code) eager-loads engine + active-tab model on mount so the
+      first scan doesn't stack waits. The route frees the worker's wasm
+      heap on unmount through a static `handle.ts` registry — importing
+      the engine there would defeat the code split. tesseract-wasm's
+      typings are hidden by its exports map (no `types` condition) — local
+      declaration in `src/lib/ocr/tesseract-wasm.d.ts`.
+    - **Mode-aware filtering**: JA tab keeps only parser-allowed Japanese
+      then strips ALL whitespace (Tesseract's spurious CJK gaps;
+      JA_ALLOWED deliberately keeps `\s` so `stripNonJapanese` alone is
+      not enough); EN tab keeps English and collapses layout whitespace.
+      Result ≤ cap → auto-commit to `?q=`/`?en=` (safe pre-dicts; the
+      breakdown effect re-runs when they arrive); over → the textarea
+      holds it (EDIT_CEILING 2000), Break Down blocks with a destructive
+      counter, the user edits down. Committed URL params keep the old
+      caps.
+    - **Preprocessing**: EXIF-aware decode, downscale to ≤2000 px longest
+      side (recognition time scales with area; LSTM gains nothing above).
+      Accuracy measured on rendered fixtures: exact at 28/64 px Meiryo &
+      Yu Gothic; a 42 px Yu Gothic render dropped/confused 2 chars —
+      Tesseract-typical, disclosed by the panel's "works best on clear,
+      horizontal printed text" hint, and the editable-textarea flow exists
+      precisely so users fix OCR errors before breakdown. Vertical
+      Japanese and handwriting are out of scope (jpn_vert is a separate
+      model with known issues).
+    - **No cancel API** in tesseract-wasm: closing the panel
+      mid-recognition drops the result via a run counter and the worker
+      idles to completion; scans are serialized by a busy flag. A denied
+      camera permission is remembered per session (re-prompting hits a
+      browser-suppressed prompt and hangs).
+    - Camera capture states are explicit (`starting/streaming/denied/
+      no-device/failed`), each with an escape hatch (Upload Instead / Try
+      Again); `playsInline` is mandatory on iOS. Panel entrance is 150 ms
+      ease-snap fade+zoom-from-95%, suppressed when the chip was
+      keyboard-activated (`event.detail === 0`, decision 48); progress
+      bars animate `transform: scaleX` only.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
