@@ -291,7 +291,9 @@ export default function OcrPanel({
       onDrop={onDrop}
       className="space-y-3 rounded-lg border p-3"
     >
-      <div className="flex flex-wrap items-center gap-2">
+      {/* on narrow screens the action pair becomes two equal columns under
+          Back to Text — free-wrapping left ragged holes at 390 px */}
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <Button
           variant="ghost"
           size="sm"
@@ -301,7 +303,7 @@ export default function OcrPanel({
         >
           <ArrowLeft /> Back to Text
         </Button>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center">
           <Button
             variant="outline"
             size="sm"
@@ -641,13 +643,16 @@ function OcrCameraDialog({
           <p className="text-sm text-muted-foreground">Waiting for camera permission…</p>
         )}
         {phase === 'streaming' && (
-          // playsInline is mandatory on iOS — without it the stream fullscreens
+          // playsInline is mandatory on iOS — without it the stream
+          // fullscreens. NO fixed aspect / object-cover: the preview must
+          // show the sensor's full frame — exactly what Capture grabs — or a
+          // portrait phone photo would be cropped to a misleading 16:9 strip
           <video
             ref={videoRef}
             autoPlay
             playsInline
             muted
-            className="aspect-video w-full rounded-md border bg-black object-cover"
+            className="max-h-[60vh] w-full rounded-md border bg-black object-contain"
           />
         )}
         {phase === 'denied' && (
