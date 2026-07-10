@@ -3,6 +3,7 @@ import { Check, X } from 'lucide-react'
 import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { FeedbackAccordion } from '@/components/quiz/FeedbackAccordion'
 import { Button } from '@/components/ui/button'
+import { JaText } from '@/components/ui/ja-text'
 import { Furigana } from '@/components/verbs/Furigana'
 import { RuleCheatsheet } from '@/components/verbs/RuleCheatsheet'
 import { CONJUGATION_FORMS, conjugate, FORM_LABELS } from '@/lib/conjugation'
@@ -53,8 +54,8 @@ export function AnswerFeedback({
         {correct ? 'Correct!' : (
           <span>
             Not quite — you answered{' '}
-            <span lang="ja" className="font-semibold">
-              {given || '(nothing)'}
+            <span className="font-semibold">
+              {given ? <JaText text={given} /> : '(nothing)'}
             </span>
           </span>
         )}

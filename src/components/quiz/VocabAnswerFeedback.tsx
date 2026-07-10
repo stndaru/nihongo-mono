@@ -4,6 +4,7 @@ import { WordSummaryDialog } from '@/components/parser/WordSummary'
 import { FeedbackAccordion } from '@/components/quiz/FeedbackAccordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { JaText } from '@/components/ui/ja-text'
 import { ExampleJa, ParseSentenceLink } from '@/components/verbs/ExampleSentences'
 import { Furigana } from '@/components/verbs/Furigana'
 import { PosBadge } from '@/components/vocab/PosBadge'
@@ -52,8 +53,8 @@ export function VocabAnswerFeedback({
         {correct ? 'Correct!' : (
           <span>
             Not quite — you answered{' '}
-            <span lang="ja" className="font-semibold">
-              {given || '(nothing)'}
+            <span className="font-semibold">
+              {given ? <JaText text={given} /> : '(nothing)'}
             </span>
           </span>
         )}

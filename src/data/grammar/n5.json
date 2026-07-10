@@ -222,7 +222,7 @@
     "jlpt": 5,
     "summary": "う-verbs (godan verbs) are the verb group whose final -u kana shifts across a whole row of the kana chart when you conjugate. For the plain negative, change the final -u kana to its -a row form and add ない (書く→書かない); the past uses the sound-change た／だ endings (飲む→飲んだ); the negative-past ends in なかった. Recognising this group is the first big step to conjugating Japanese verbs.",
     "structure": [
-      "Dictionary ＋ 書く・飲む・話す (ends in an う-row kana)",
+      "Dictionary ＋ 書く・飲む・話す［ends in an う-row kana］",
       "Negative: final kana → あ-row ＋ ない — 書く→書かない",
       "Past: 書く→書いた／飲む→飲んだ／話す→話した",
       "Negative-past: あ-row ＋ なかった — 書く→書かなかった"
@@ -272,8 +272,8 @@
     "jlpt": 5,
     "summary": "お and ご are polite prefixes placed on the front of nouns (and some adjectives) to make speech sound more refined or to show respect toward the listener or the thing's owner. As a rough rule, お joins native Japanese words (お金, お花) and ご joins words of Chinese origin (ご家族, ご住所). Some very common Chinese-origin words take お anyway by convention (お茶, お電話), so treat this as a starting guideline, not a strict rule.",
     "structure": [
-      "お ＋ Noun (native word)",
-      "ご ＋ Noun (Sino-Japanese word)"
+      "お ＋ Noun［native word］",
+      "ご ＋ Noun［Sino-Japanese word］"
     ],
     "pitfalls": [
       "As a guideline お joins native (訓読み) words and ご joins Sino-Japanese (音読み) words, but there are common exceptions — お茶, お電話, お時間 all take お even though the noun is Chinese-origin — so learn set phrases as you meet them.",
@@ -640,7 +640,7 @@
     "summary": "To put an い-adjective into the past, drop the final い and add かった: 高い→高かった (was expensive), 楽しい→楽しかった (was fun). It works both as the sentence predicate (楽しかったです) and when describing a past state. In polite speech, add です after かった — never でした.",
     "structure": [
       "い-adjective［drop い］＋ かった",
-      "い-adjective［drop い］＋ かった ＋ です (polite)"
+      "い-adjective［drop い］＋ かった ＋ です［polite］"
     ],
     "pitfalls": [
       "The polite past is 〜かったです, not 〜いでした: 高かったです, never 高いでした.",
@@ -1433,7 +1433,7 @@
     "structure": [
       "する ＋ ［polite: します］／［negative: しない］",
       "する ＋ ［past: した］／［て form: して］",
-      "Noun ＋ する （勉強する, 電話する）"
+      "Noun ＋ する［勉強する・電話する］"
     ],
     "pitfalls": [
       "する is irregular: it becomes し- in most forms (します, しない, して), not the regular verb patterns.",
@@ -2630,7 +2630,7 @@
     "jlpt": 5,
     "summary": "Joins nouns into a complete list: place と between nouns to connect them, like 'and' in English. It presents the listed items as the full set, implying nothing else is included.",
     "structure": [
-      "Noun ＋ と ＋ Noun（＋ と ＋ Noun …）"
+      "Noun ＋ と ＋ Noun［repeatable with と］"
     ],
     "pitfalls": [
       "と links nouns only — it cannot join verbs or whole sentences.",
@@ -2771,8 +2771,8 @@
     "jlpt": 5,
     "summary": "The non-past is the verb form that covers both the present and the future in Japanese — there is no separate future tense. Its plain shape is the dictionary form, and its polite shape ends in ます; context and time words tell you whether it means 'do' or 'will do'.",
     "structure": [
-      "Verb［dictionary form］（plain non-past）",
-      "Verb［stem］＋ ます（polite non-past）"
+      "Verb［dictionary form, plain non-past］",
+      "Verb［stem］＋ ます［polite non-past］"
     ],
     "pitfalls": [
       "Japanese has no dedicated future tense — the same non-past form covers 'do' and 'will do'.",

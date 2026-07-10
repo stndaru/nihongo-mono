@@ -124,7 +124,7 @@
     "jlpt": 1,
     "summary": "あらかじめ is an adverb meaning that something is done ahead of time in preparation for what is to come: あらかじめ調べておく = look into it in advance, あらかじめ予約する = reserve beforehand. It frequently pairs with 〜ておく to mark preparatory action. It belongs to somewhat formal or written speech; 前もって is a plainer everyday equivalent.",
     "structure": [
-      "あらかじめ＋Verb（often ＋ておく）"
+      "あらかじめ＋Verb［often + ておく］"
     ],
     "pitfalls": [
       "あらかじめ leans formal/written; in casual speech 前もって or 先に is more natural."
@@ -288,7 +288,7 @@
     "jlpt": 1,
     "summary": "いかにも emphasizes that something looks or feels exactly as one would expect of its type — 'truly, indeed, every bit the ~'. いかにも高級そうだ = looks every bit as upscale as you'd imagine, いかにも彼らしい = so typical of him. It often pairs with 〜そう or 〜らしい and conveys that appearances strongly match a stereotype. It can also simply intensify, meaning 'truly / really'.",
     "structure": [
-      "いかにも＋Adjective／Noun（＋そう／らしい）"
+      "いかにも＋Adjective／Noun＋（そう／らしい）"
     ],
     "pitfalls": [
       "いかにも frequently teams with 〜らしい or 〜そう to say 'looks exactly like a typical ~'.",
@@ -332,7 +332,7 @@
     "jlpt": 1,
     "summary": "〜いかんだ (from 如何) makes an outcome depend on the nature or state of the preceding noun — 'it depends on ~'. 君の努力いかんだ = it hinges on your effort; 結果いかんでは中止もありうる = depending on the results, it may even be called off. It attaches to a noun, sometimes with の (成績のいかんによっては). The register is formal and often official.",
     "structure": [
-      "Noun（＋の）＋いかんだ／いかんでは／いかんによっては"
+      "Noun＋（の）＋いかんだ／いかんでは／いかんによっては"
     ],
     "pitfalls": [
       "This いかん means 如何 ('how / what state'); it is unrelated to the いかん of 〜てはいかん ('must not').",
@@ -376,7 +376,7 @@
     "jlpt": 1,
     "summary": "〜いかんにかかわらず (also いかんによらず／いかんを問わず) says that whatever the state of the preceding noun, the result is unaffected — 'regardless of ~'. 理由のいかんにかかわらず = regardless of the reason; 結果いかんによらず = whatever the outcome. It attaches to a noun, often with の, and is firmly formal, common in rules and notices.",
     "structure": [
-      "Noun（＋の）＋いかんにかかわらず／いかんによらず／いかんを問わず"
+      "Noun＋（の）＋いかんにかかわらず／いかんによらず／いかんを問わず"
     ],
     "pitfalls": [
       "Contrast いかんでは ('depending on ~', outcome varies) with いかんにかかわらず ('regardless of ~', outcome does not vary)."
@@ -699,7 +699,7 @@
     "summary": "〜か否か is the formal, written equivalent of 〜かどうか — 'whether or not'. 実現できるか否か = whether or not it can be realized; 事実か否かを確かめる = verify whether or not it is true. 否 (いな) is a literary 'no', so the phrase reads as stiff and is common in essays, reports, and formal speech. It follows a plain form or a noun.",
     "structure": [
       "Verb／い-adjective［plain form］＋か否か",
-      "Noun／な-adjective（＋である）＋か否か"
+      "Noun／な-adjective＋（である）＋か否か"
     ],
     "pitfalls": [
       "か否か is markedly formal/written; in ordinary conversation かどうか is the natural choice."
@@ -1242,7 +1242,7 @@
     "jlpt": 1,
     "summary": "かれ〜かれ pairs two opposite adjective stems in a fixed idiom meaning that whichever of the two holds, the same conclusion applies. It survives only in set phrases: 遅かれ早かれ (sooner or later), 多かれ少なかれ (more or less, to some degree), 良かれ悪しかれ (for better or worse). The かれ is a classical adjective ending, so these are memorized wholes rather than a freely built pattern.",
     "structure": [
-      "い-adjective［classical stem］＋かれ＋（opposite）＋かれ（fixed set phrase）"
+      "い-adjective［classical stem］＋かれ＋（opposite）＋かれ［fixed set phrase］"
     ],
     "pitfalls": [
       "Occurs only in fixed pairs (遅かれ早かれ, 多かれ少なかれ, 良かれ悪しかれ); not freely productive.",
@@ -3739,7 +3739,7 @@
     "jlpt": 1,
     "summary": "After a question word (or a noun paired with one), であれ and であろうと concede that the outcome holds regardless — どんな事情であれ = whatever the circumstances, 誰であろうと = no matter who it is. であろうと adds a slightly stronger 'even supposing' nuance. Both are the concessive of である and belong to formal or written Japanese; the main clause states what applies in every case.",
     "structure": [
-      "（どんな＋）Noun＋であれ／であろうと",
+      "（どんな）＋Noun＋であれ／であろうと",
       "Question word＋であれ／であろうと"
     ],
     "pitfalls": [
@@ -4643,7 +4643,7 @@
     "jlpt": 1,
     "summary": "〜というか〜というか lines up two ways of describing something when neither quite fits, letting the speaker grope toward the right characterization — '~, or should I say ~'. うれしいというか、ほっとしたというか = happy, or rather relieved. It conveys a mixed, hard-to-pin-down impression in a casual, thinking-aloud tone, and the two terms are often near-synonyms or two facets of one feeling.",
     "structure": [
-      "Noun／な-adjective／い-adjective／Sentence＋というか（＋…）＋というか"
+      "［first phrase］＋というか＋［second phrase］＋というか"
     ],
     "pitfalls": [
       "It signals that the speaker is searching for the right words and settling fully on neither; it is conversational in tone.",
@@ -5571,7 +5571,7 @@
     "summary": "とはいうものの concedes what was just stated and then presents a reality that runs against the expectation it creates — 'having said that, ...'. 春とはいうものの、まだ寒い = it may be spring, but it's still cold. It can join clauses within a sentence or open a new one after a full stop. The contrast clause describes an actual situation, not a hypothetical one.",
     "structure": [
       "Sentence＋とはいうものの",
-      "Noun／な-adjective（＋だ）＋とはいうものの"
+      "Noun／な-adjective＋（だ）＋とはいうものの"
     ],
     "pitfalls": [
       "Concedes the previous statement, then states a fact that cuts against the expectation it raises.",
@@ -6025,8 +6025,8 @@
     "jlpt": 1,
     "summary": "〜ともなく・〜ともなしに has two uses. With an action verb it repeats the verb to mean doing it without conscious intent — 見るともなく見る = look without really meaning to, absent-mindedly. With a question word it means 'from/at no definite ~': どこからともなく = from somewhere or other, 誰からともなく = from no one in particular. Despite the ない-like なしに, it is not a plain negative form.",
     "structure": [
-      "Verb［dictionary form］＋ともなく／ともなしに（＋same verb）",
-      "Question word（＋particle）＋ともなく"
+      "Verb［dictionary form］＋ともなく／ともなしに＋（same verb）",
+      "Question word＋（particle）＋ともなく"
     ],
     "pitfalls": [
       "With an action verb the verb is repeated (聞くともなく聞く) to mean 'doing it without meaning to'.",
@@ -7222,7 +7222,7 @@
     "summary": "〜に至るまで stresses that a range reaches all the way to an extreme, minor, or surprising endpoint — 'from ~ right down to ~'. It commonly pairs with から: 服装から言葉遣いに至るまで = everything from clothing down to word choice. The point is that even the far or trivial end is covered, which plain まで does not emphasize. It is a formal expression.",
     "structure": [
       "Noun＋に至るまで",
-      "（Noun＋から）＋Noun＋に至るまで"
+      "（Nounから）＋Noun＋に至るまで"
     ],
     "pitfalls": [
       "It emphasizes that the range extends even to an extreme or trivial endpoint; it is stronger than a bare まで.",
@@ -10375,7 +10375,7 @@
     "jlpt": 1,
     "summary": "やれ〜やれ〜 lists one troublesome thing after another, usually with a tone of exasperation at how much is piling up: やれ会議だやれ報告書だ = what with meetings and reports and everything. Each item is often a noun + だ, and the string is frequently rounded off with と before a verb like 忙しい. It conveys the speaker's weariness at a barrage of demands, and is colloquial.",
     "structure": [
-      "やれ＋Noun／Sentence＋やれ＋Noun／Sentence（＋と）"
+      "やれ＋Noun／Sentence＋やれ＋Noun／Sentence＋（と）"
     ],
     "pitfalls": [
       "Do not confuse this listing construction with the standalone interjection やれやれ ('good grief', a sigh).",
@@ -11550,7 +11550,7 @@
     "jlpt": 1,
     "summary": "〜を余儀なくさせる is the causative side of this pair: an impersonal cause — a circumstance, event, or condition — is the subject and forces some outcome to happen. The forced outcome is a noun of action (中止, 撤退, 変更) marked with を, and the person pushed into it takes に. 不況が事業の縮小を余儀なくさせた = the recession forced a scaling-back of the business. It is stiff, written register typical of news and reports.",
     "structure": [
-      "Noun［cause］＋が＋（Noun［person］＋に）＋Noun［action］＋を余儀なくさせる"
+      "Noun［cause］＋が＋（Noun［person］に）＋Noun［action］＋を余儀なくさせる"
     ],
     "pitfalls": [
       "The subject is the impersonal cause that does the forcing; contrast 〜を余儀なくされる, where the affected person is the subject.",

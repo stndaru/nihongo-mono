@@ -999,6 +999,27 @@ feedback on many of these — treat them as requirements, not suggestions.
     never by hand-editing `f`; sentences in the shipped set were
     spot-verified after every regeneration.
 
+64. **Mixed-script sizing + structure-notation bracket rules,
+    2026-07-10.** Two owner-reported rendering bugs, fixed structurally.
+    (a) `lang="ja"` switches to the Japanese font (whose Latin glyphs
+    render visibly larger) and applies the ja font-size setting — so
+    putting it on a whole mixed string bloats its Latin part ("Verb" in
+    a structure chip, an English gloss in the quiz's "you answered"
+    line). The shared `JaText` component (`src/components/ui/ja-text.tsx`)
+    wraps **only the Japanese runs** in `lang="ja"` spans; use it for any
+    mixed Japanese/Latin string, and keep plain `lang="ja"` only on
+    known-pure-Japanese content. (b) Grammar `structure` lines are
+    chip-split on ＋ at bracket depth 0 (`GrammarStructure` never splits
+    inside （…） or ［…］), and the data must keep every bracket pair
+    within one chip: （…） marks an optional element, English prose
+    belongs in ［…］ annotations (never in （…）), and a plus inside an
+    ［…］ annotation is written as ASCII `+` (full-width ＋ is the chip
+    separator). A japanese-expert sweep (opus, max 2 concurrent)
+    normalized all 1,031 points against these rules (65 entries
+    changed); `scripts/grammar-data.test.ts` now fails on any structure
+    line whose brackets would split across chips, so the cut-off-bracket
+    bug can't be reintroduced by future authoring.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

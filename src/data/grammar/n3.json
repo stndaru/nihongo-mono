@@ -852,7 +852,7 @@
     "summary": "〜かける attaches to the ます-stem to mean an action is only half carried out or is just about to happen — 言いかける = start to say, 倒れかける = be on the verge of falling. The noun form 〜かけ describes a left-unfinished thing — 食べかけ = half-eaten, 読みかけ = half-read. Either way, the action is not seen through to the end.",
     "structure": [
       "Verb［stem］＋ かける",
-      "Verb［stem］＋ かけ（の＋Noun）"
+      "Verb［stem］＋ かけの ＋ Noun"
     ],
     "pitfalls": [
       "Attach it to the stem: 読みかける, not 読むかける.",
@@ -2585,7 +2585,7 @@
     "jlpt": 3,
     "summary": "さえ singles out an extreme or surprising example to imply the rest follows — 子どもでさえ知っている (even a child knows), 時間さえない (I don't even have time). The idea is 'if even this, then surely everything else.' It is emphatic and often a touch more formal than も.",
     "structure": [
-      "Noun（＋ で／に）＋ さえ"
+      "Noun ＋ （で／に）＋ さえ"
     ],
     "pitfalls": [
       "さえ picks an extreme case to make its point; it is more emphatic and often more written-sounding than も.",
@@ -4539,7 +4539,7 @@
     "jlpt": 3,
     "summary": "つい marks doing something you didn't really mean to do — you slip and do it despite knowing better, often out of habit or weak willpower. It very frequently pairs with 〜てしまう, which underlines the unintended result. Typical of everyday confessions like eating sweets or staying up too late.",
     "structure": [
-      "つい ＋ Verb（＋てしまう）"
+      "つい ＋ Verb ＋ （てしまう）"
     ],
     "pitfalls": [
       "つい is about slipping into an unintended action; don't confuse it with ついに (finally, at last).",
@@ -5073,7 +5073,8 @@
     "jlpt": 3,
     "summary": "的 attaches to a noun to make an adjective-like word meaning 'relating to / -al / -ic' — 一般的 = general, 科学的 = scientific, 積極的 = proactive. Add な before a noun (的な考え) and に to use it adverbially (的に説明する). It's extremely common in both writing and speech.",
     "structure": [
-      "Noun ＋ 的（な ＋ Noun／に ＋ Verb）"
+      "Noun ＋ 的な ＋ Noun",
+      "Noun ＋ 的に ＋ Verb"
     ],
     "pitfalls": [
       "Use 的な before a noun and 的に as an adverb: 具体的な例, 具体的に説明する.",
@@ -5462,7 +5463,7 @@
     "jlpt": 3,
     "summary": "〜ではなくて (casual じゃなくて) negates one noun and connects on to the correct one — これは私のではなくて、姉のです = this isn't mine, it's my sister's. It is the connective (て) form of ではない, used to swap out a wrong choice for the right one.",
     "structure": [
-      "Noun／な-adjective ＋ ではなくて／じゃなくて（＋ B）"
+      "Noun／な-adjective ＋ ではなくて／じゃなくて ＋ B"
     ],
     "pitfalls": [
       "で is copula-based, so this frame is for nouns and な-adjectives; for verbs and い-adjectives use the plain negative + くて (安くなくて) or 〜のではなくて.",
@@ -5764,8 +5765,8 @@
     "jlpt": 3,
     "summary": "〜点 uses 点 as an abstract 'point/respect' to name the angle from which something is judged — usually as 〜という点で ('in the respect that') or 〜点で(は) ('in terms of'). 値段が安いという点で = in terms of being cheap. It pins down which aspect you're evaluating.",
     "structure": [
-      "Sentence［plain form］＋ という点で(は)",
-      "Noun ＋ の点で(は)"
+      "Sentence［plain form］＋ という点で（は）",
+      "Noun ＋ の点で（は）"
     ],
     "pitfalls": [
       "Common frames: 〜という点で ('in the respect that ~') and 〜点では ('in terms of ~').",
@@ -6249,8 +6250,8 @@
     "jlpt": 3,
     "summary": "どうしても is an adverb with two related sides. With a wish or a will (〜たい, 〜なければ) it means 'no matter what, at any cost' — どうしても行きたい = I want to go no matter what. With a negative, usually a potential negative, it means 'however hard I try, I just can't' — どうしても思い出せない = I just can't remember it. Both share the feeling of an unmovable situation.",
     "structure": [
-      "どうしても ＋ ［expression of will or desire (〜たい／〜なければ)］",
-      "どうしても ＋ ［negative potential (〜られない)］"
+      "どうしても ＋ ［expression of will or desire （〜たい／〜なければ）］",
+      "どうしても ＋ ［negative potential （〜られない）］"
     ],
     "pitfalls": [
       "Watch which side you mean: with a wish it is 'by all means', but with a negative potential it flips to 'simply cannot' — the English changes completely.",
@@ -10085,7 +10086,7 @@
     "jlpt": 3,
     "summary": "As a conjunction, もっとも starts a follow-up remark that partly limits what was just said — '..., though' / 'that said, ...'. It is often rounded off with が／けれど. This もっとも is different from the superlative adverb もっとも ('the most').",
     "structure": [
-      "Sentence。 ＋ もっとも、 ＋ Sentence（＋ が／けれど）"
+      "Sentence。 ＋ もっとも、 ＋ Sentence ＋ （が／けれど）"
     ],
     "pitfalls": [
       "This もっとも joins sentences as a conjunction; don't confuse it with the adverb もっとも meaning 'the most'.",

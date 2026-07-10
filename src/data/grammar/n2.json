@@ -860,7 +860,7 @@
     "jlpt": 2,
     "summary": "思うように means 'as one wishes / as one expects things to go'. In practice it appears most often with a negative verb — 思うようにいかない, 思うようにできない — to say that things are not going the way one had hoped, usually with a note of frustration.",
     "structure": [
-      "思うように ＋ Verb（frequently a negative）"
+      "思うように ＋ Verb ［frequently negative］"
     ],
     "pitfalls": [
       "It most naturally pairs with a negative verb (思うように進まない = it isn't going as I'd hoped); a plain affirmative is comparatively rare.",
@@ -2312,7 +2312,7 @@
     "jlpt": 2,
     "summary": "次第に is an adverb meaning 'gradually, little by little'. It describes a change that unfolds step by step — 空が次第に暗くなった = the sky gradually darkened. It is a somewhat formal, written-flavored synonym of だんだん.",
     "structure": [
-      "次第に ＋ Verb（describing change）"
+      "次第に ＋ Verb ［describing change］"
     ],
     "pitfalls": [
       "It describes a gradual change over time, so it pairs with verbs of becoming/changing, not one-off actions.",
@@ -2362,7 +2362,7 @@
     "jlpt": 2,
     "summary": "したがって is a formal conjunction that draws a logical conclusion from what precedes — 'therefore, accordingly'. 需要が増えた。したがって、価格も上がった = demand rose; therefore prices went up too. Common in academic and business writing.",
     "structure": [
-      "Sentence。 ＋ したがって、 ＋ Sentence（conclusion）"
+      "Sentence。 ＋ したがって、 ＋ Sentence ［conclusion］"
     ],
     "pitfalls": [
       "It is written and formal; in speech だから or それで is more natural.",
@@ -2633,7 +2633,7 @@
     "jlpt": 2,
     "summary": "せめて expresses a small minimum the speaker hopes for when the ideal is out of reach — 'if nothing else, at least this much'. Because it voices a wish or request, it typically pairs with a desiderative or volitional ending such as 〜たい, 〜てほしい, or 〜よう.",
     "structure": [
-      "せめて ＋ Noun／amount （＋ でも／だけでも）"
+      "せめて ＋ Noun／amount ＋ （でも／だけでも）"
     ],
     "pitfalls": [
       "せめて states a hoped-for minimum, so it leans on a wish or request (〜たい, 〜てほしい); for a plain factual minimum, use 少なくとも instead."
@@ -2912,7 +2912,7 @@
     "jlpt": 2,
     "summary": "だけあって introduces a fitting reason for an admirable result — 'being ~, it's no surprise that...'. The speaker praises an outcome as living up to the status, effort, or quality just named, so the result is usually positive and deserved.",
     "structure": [
-      "Noun／Verb・い-adjective・な-adjective［plain form］ ＋ だけあって （な-adjective takes な）"
+      "Noun／Verb・い-adjective・な-adjective［plain form］ ＋ だけあって ［な-adjective takes な］"
     ],
     "pitfalls": [
       "The result is presented as a natural, deserved consequence — usually praise; it does not fit purely negative or accidental outcomes.",
@@ -2961,7 +2961,7 @@
     "jlpt": 2,
     "summary": "だけに says that because a condition holds strongly, the result is all the greater or all the more understandable — 'being ~, all the more so'. Unlike だけあって, the outcome can be positive or negative, including heightened disappointment.",
     "structure": [
-      "Noun／Verb・い-adjective・な-adjective［plain form］ ＋ だけに （な-adjective takes な）"
+      "Noun／Verb・い-adjective・な-adjective［plain form］ ＋ だけに ［な-adjective takes な］"
     ],
     "pitfalls": [
       "Distinct from だけあって: だけに freely takes negative or emotional results (期待していただけに、残念だ), where だけあって leans toward deserved praise."
@@ -3057,7 +3057,7 @@
     "jlpt": 2,
     "summary": "だけは singles out one thing as a guaranteed minimum — whatever else happens, at least this holds or gets done. A common shape repeats the verb: やるだけはやる = 'do at least all I can'. It stresses that one point, and only that, is assured, often staying non-committal about the outcome.",
     "structure": [
-      "Verb［dictionary form］ ＋ だけは （＋ same Verb）",
+      "Verb［dictionary form］ ＋ だけは ＋ （Verb）［same verb repeated］",
       "Noun ＋ だけは"
     ],
     "pitfalls": [
@@ -3322,7 +3322,7 @@
     "jlpt": 2,
     "summary": "ちっとも pairs with a negative to stress 'not even a little' — a colloquial, emphatic way to deny something completely. 少しも and 全然 are close in meaning; ちっとも sounds the most casual and conversational of them.",
     "structure": [
-      "ちっとも ＋ … ＋ ない（negative predicate）"
+      "ちっとも ＋ … ＋ ない ［negative predicate］"
     ],
     "pitfalls": [
       "It requires a negative predicate; ちっとも with an affirmative is ungrammatical.",
@@ -5017,7 +5017,7 @@
     "jlpt": 2,
     "summary": "とっくに is a casual adverb meaning something happened well before now — 'long ago / already (ages ago)'. とっくに終わったよ = 'it finished ages ago'. It stresses that the event lies far in the past relative to the moment being discussed, often with mild surprise the listener didn't already know.",
     "structure": [
-      "とっくに ＋ Sentence（past / already-completed）"
+      "とっくに ＋ Sentence ［past／already-completed］"
     ],
     "pitfalls": [
       "It emphasizes 'already, a long time ago' and is colloquial, so it goes with a completed or past state.",
@@ -5300,8 +5300,8 @@
     "jlpt": 2,
     "summary": "〜中を・〜中で(は) marks a surrounding situation — often busy, difficult, or inconvenient — against which something is nonetheless done. Here 中 is figurative ('amid such circumstances'), not a literal inside. 中を tends to accompany an action carried out despite the conditions, as in the set polite phrase お忙しい中を ('amid your busy schedule'); 中で(は) frames the prevailing situation.",
     "structure": [
-      "Noun＋の＋中を／中で(は)",
-      "Clause［plain］＋中を／中で(は)"
+      "Noun＋の＋中を／中で（は）",
+      "Clause［plain］＋中を／中で（は）"
     ],
     "pitfalls": [
       "中 here is figurative — 'amid a situation' — not a physical interior.",
@@ -5892,7 +5892,7 @@
     "summary": "〜にかかわらず means a result holds no matter which of the possibilities applies. It attaches to a noun (天候にかかわらず) or to a paired affirmative-and-negative (参加するしないにかかわらず, 有無にかかわらず). The point is that variation in the condition makes no difference to the outcome.",
     "structure": [
       "Noun＋にかかわらず",
-      "Verb／い-adjective［affirmative ＋ negative pair］＋にかかわらず"
+      "Verb／い-adjective［affirmative + negative pair］＋にかかわらず"
     ],
     "pitfalls": [
       "にかかわらず ('regardless of') is not にもかかわらず ('despite the fact that'); the latter concedes a real, established fact.",
@@ -5941,7 +5941,7 @@
     "jlpt": 2,
     "summary": "〜に関わる means to have a weighty bearing on something important — life, honor, credibility, a future. 命に関わる = 'a matter of life and death'; 信用に関わる問題 = 'an issue that affects one's credibility'. It implies serious stakes, not a casual 'about', and often modifies the noun that follows.",
     "structure": [
-      "Noun＋に関わる（＋Noun）"
+      "Noun＋に関わる＋（Noun）"
     ],
     "pitfalls": [
       "It implies a serious, high-stakes bearing (命・名誉・信用); for the neutral 'concerning / about', use に関して or について.",
@@ -7203,7 +7203,7 @@
     "structure": [
       "Noun ＋ 抜きで／抜きにして",
       "Noun ＋ は抜きにして",
-      "Noun ＋ を抜きにしては ＋ ［negative］"
+      "Noun ＋ を抜きにしては ＋ ～ない"
     ],
     "pitfalls": [
       "It attaches to a noun; to say 'without doing (a verb)', use ないで or ずに, not 抜き.",
@@ -7385,8 +7385,8 @@
     "jlpt": 2,
     "summary": "〜のうち(で) marks the group or range from which something is singled out — 'among / out of.' 四人のうちで一番背が高い = the tallest of the four; 一年のうちで = within (the span of) a year. It commonly appears with superlatives or when picking a subset out of a whole, and is close to 〜の中で.",
     "structure": [
-      "Noun ＋ のうち(で)",
-      "Number＋Counter ＋ のうち(で)"
+      "Noun ＋ のうち（で）",
+      "Number＋Counter ＋ のうち（で）"
     ],
     "pitfalls": [
       "With comparisons it names the set being compared (three of us, this list); it overlaps closely with 〜の中で.",
@@ -7899,7 +7899,7 @@
     "jlpt": 2,
     "summary": "〜はもとより presents X as an obvious given ('X, of course') and then adds Y as a further, often more notable case — 'not only X but also Y'. It is formal and written. The Y that follows usually carries も or まで ('even Y').",
     "structure": [
-      "Noun ＋ はもとより ＋ （Noun ＋ も／まで）"
+      "Noun ＋ はもとより ＋ Noun ＋ も／まで"
     ],
     "pitfalls": [
       "X はもとより treats X as taken for granted and adds Y; the second item normally carries も/まで.",
@@ -8091,7 +8091,7 @@
     "summary": "まだしも marks something as still tolerable compared with a worse alternative — 'X would be one thing, but Y is too much'. It very often appears as ならまだしも: X ならまだしも Y = 'if it were just X, fine, but Y…'. It concedes X grudgingly in order to condemn Y.",
     "structure": [
       "Noun／Sentence ＋ ならまだしも",
-      "まだしも ＋ Noun／Clause（the less-bad option）"
+      "まだしも ＋ Noun／Clause ［the less-bad option］"
     ],
     "pitfalls": [
       "It is comparative: X is not good, only 'less bad' than Y; don't read まだしも as X being genuinely fine.",
@@ -8226,7 +8226,7 @@
     "summary": "もう少しで says that something almost happened but was narrowly avoided — 'nearly / came within an inch of'. It usually pairs with ところだった, describing an outcome that did not actually occur. The 'not quite' nuance is the point.",
     "structure": [
       "もう少しで ＋ Verb ＋ ところだった",
-      "もう少しで ＋ Verb（near-miss result）"
+      "もう少しで ＋ Verb ［near-miss result］"
     ],
     "pitfalls": [
       "It describes a near miss — the thing did NOT happen; もう少しで転ぶところだった means you did not actually fall.",
@@ -8540,7 +8540,7 @@
     "summary": "〜ものなら follows a potential verb to set up a difficult or unlikely 'if you could…' — できるものなら ('if it were at all possible'). It implies the thing is hard to achieve, and the main clause says what one would then do, often a wish. Note the separate, harsher 〜（よ）うものなら pattern.",
     "structure": [
       "Verb［potential form］＋ ものなら",
-      "Verb［volitional］＋ ものなら（separate 'if you dare' pattern）"
+      "Verb［volitional］＋ ものなら ［if you dare］"
     ],
     "pitfalls": [
       "With a potential verb it means 'if you could (but it's hard)': 戻れるものなら戻りたい ('I'd go back if only I could').",

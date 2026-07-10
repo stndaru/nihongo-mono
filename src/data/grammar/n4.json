@@ -501,7 +501,7 @@
     "jlpt": 4,
     "summary": "A bare て-form at the end of a sentence is a casual request — 'do this for me'. It is 〜てください with ください dropped, so 待って = wait (please), 見て = look. It sounds friendly but informal, so keep it for people you're close to.",
     "structure": [
-      "Verb［te-form］"
+      "Verb［て form］"
     ],
     "pitfalls": [
       "This is casual: to a boss, teacher, or stranger, use 〜てください rather than a bare 〜て.",
@@ -858,7 +858,8 @@
     "structure": [
       "Verb［て form］いる ＋ 間",
       "Noun ＋ の ＋ 間",
-      "い-adjective ＋ 間 ／ な-adjective ＋ な ＋ 間"
+      "い-adjective ＋ 間",
+      "な-adjective ＋ な ＋ 間"
     ],
     "pitfalls": [
       "間 covers the entire period, so the main clause should also last the whole time (待っていた, 静かにしていた). If instead one thing happens at a single point inside the period, use 間に, not 間.",
@@ -1142,8 +1143,8 @@
     "jlpt": 4,
     "summary": "The volitional form is the plain 'let's ~' or 'I'll ~' ending — the casual counterpart of ましょう. For う-verbs, change the final -u sound to -ou (行く → 行こう); for る-verbs, drop る and add よう (食べる → 食べよう). It expresses a suggestion to a friend or your own resolve to do something.",
     "structure": [
-      "Verb［u-verb：〜う → 〜おう］ (書く → 書こう)",
-      "Verb［ru-verb：〜る → 〜よう］ (食べる → 食べよう)",
+      "Verb［u-verb：〜う → 〜おう］（書く → 書こう）",
+      "Verb［ru-verb：〜る → 〜よう］（食べる → 食べよう）",
       "する → しよう ／ 来る → こよう"
     ],
     "pitfalls": [
@@ -1238,7 +1239,8 @@
     "summary": "いたす is the humble (kenjougo) verb for する. You use it to lower your own actions before someone you are being polite to, usually as いたします: 私がいたします = I'll do it. It also builds the humble お＋stem＋いたす pattern (お送りいたします), which is a notch more formal than お～する.",
     "structure": [
       "いたす ＝ する［humble］",
-      "お ＋ Verb［stem］ ＋ いたす ／ ご ＋ Noun［する-verb］ ＋ いたす"
+      "お ＋ Verb［stem］ ＋ いたす",
+      "ご ＋ Noun［する-verb］ ＋ いたす"
     ],
     "pitfalls": [
       "いたす is humble, so it is only for your own or your group's actions. A respected person's 'doing' is なさる (honorific), never いたす.",
@@ -2668,7 +2670,7 @@
     "jlpt": 4,
     "summary": "さすが expresses admiration that someone or something lives up to its reputation: さすがプロだ = 'that's a pro for you'. As さすがに it can also mean that, given the circumstances, even a tough person or thing finally reaches a limit: さすがに疲れた = 'understandably, even I got tired'.",
     "structure": [
-      "さすが（＋ Noun ＋ だ）",
+      "さすが（＋ Noun）＋ だ",
       "さすがに ＋ Sentence"
     ],
     "pitfalls": [
@@ -4621,7 +4623,7 @@
     "summary": "From 置く (to place), ておく means doing something ahead of time as preparation, or deliberately leaving something in a certain state. In casual speech it contracts: 〜ておく → 〜とく, 〜でおく → 〜どく.",
     "structure": [
       "Verb［て form］＋ おく／おきます",
-      "Verb［て form］＋ とく（casual）"
+      "Verb［て form］＋ とく［casual］"
     ],
     "pitfalls": [
       "Two senses share the form: preparing beforehand (予約しておく) and leaving something as-is on purpose (窓を開けておく).",
@@ -4710,7 +4712,7 @@
     "summary": "Thanks someone for doing something for you. It joins てくれる (someone does a favor for me) with ありがとう. Because it rests on てくれる, the action being thanked benefits the speaker. Polite: 〜てくれてありがとうございます, or with the honorific 〜てくださってありがとうございます.",
     "structure": [
       "Verb［て form］＋ くれてありがとう",
-      "Verb［て form］＋ くださってありがとうございます（polite）"
+      "Verb［て form］＋ くださってありがとうございます［polite］"
     ],
     "pitfalls": [
       "Because it uses てくれる, the thanked action must be a favor toward you: 手伝ってくれてありがとう.",
@@ -4897,7 +4899,7 @@
     "summary": "てしまう adds one of two nuances: (1) completion — doing something fully, all the way through — or (2) regret — an action that turned out badly or happened by mistake. Context decides which. Casual contractions: 〜てしまう → 〜ちゃう, 〜でしまう → 〜じゃう.",
     "structure": [
       "Verb［て form］＋ しまう／しまいます",
-      "Verb［て form］＋ ちゃう／じゃう（casual）"
+      "Verb［て form］＋ ちゃう／じゃう［casual］"
     ],
     "pitfalls": [
       "The two nuances overlap: 全部食べてしまった can mean 'ate it all up' (completion) or 'ate it, oops' (regret).",
@@ -5067,7 +5069,7 @@
     "summary": "てほしい expresses wanting another person to do something. The person you want to act is marked with に, and ほしい inflects like an い-adjective. The negative 'want you NOT to' is 〜ないでほしい.",
     "structure": [
       "Noun［person］＋ に ＋ Verb［て form］＋ ほしい",
-      "Verb［ない form］＋ でほしい（negative）"
+      "Verb［ない form］＋ でほしい［negative］"
     ],
     "pitfalls": [
       "The subject differs from 〜たい: 〜たい = I want to do it myself; てほしい = I want another person to do it.",
@@ -6126,7 +6128,7 @@
     "jlpt": 4,
     "summary": "〜ないと states an obligation by leaving a conditional hanging: literally 'if you don't ~, (it won't do)'. The consequence いけない／だめ is usually left unsaid, so 〜ないと by itself means 'I have to ~' or 'you must ~'.",
     "structure": [
-      "Verb［ない form］＋ と （＋ いけない／だめ, often left off）"
+      "Verb［ない form］＋ と ＋ （いけない／だめ）［often dropped］"
     ],
     "pitfalls": [
       "Casual and spoken. The fuller form is 〜ないといけない; in formal writing use 〜なければならない.",
@@ -6504,7 +6506,7 @@
     "structure": [
       "する → なさる［honorific］",
       "Noun ＋ を ＋ なさる",
-      "ます form: なさいます"
+      "なさいます［ます form］"
     ],
     "pitfalls": [
       "The polite form drops the り: it's なさいます, not なさります.",
@@ -6740,7 +6742,7 @@
     "jlpt": 4,
     "summary": "This に marks a period of time as the base for a frequency: 'X times per that period'. The pattern is [time span] に [number + counter]: 一週間に三回 = three times a week, 一日に二回 = twice a day. The time span comes first with に, then the count of how often within it.",
     "structure": [
-      "Noun［time period］ ＋ に ＋ Noun［number ＋ counter］"
+      "Noun［time period］ ＋ に ＋ Noun［number + counter］"
     ],
     "pitfalls": [
       "Order matters: the period takes に and comes first — 一週間に三回, not 三回に一週間.",
@@ -7635,7 +7637,7 @@
     "jlpt": 4,
     "summary": "ほとんど means 'almost / nearly all' in positive sentences and 'hardly / almost never' when the verb is negative. As an adverb it comes before the verb: ほとんど終わった (almost finished), ほとんど分からない (hardly understand). Its meaning flips entirely with the polarity of the verb.",
     "structure": [
-      "ほとんど ＋ Verb（positive）",
+      "ほとんど ＋ Verb［affirmative］",
       "ほとんど ＋ Verb［ない form］",
       "ほとんど（の）＋ Noun"
     ],
@@ -7837,7 +7839,8 @@
     "structure": [
       "Verb［た form］＋ まま",
       "Verb［ない form］＋ まま",
-      "Noun ＋ の ／ な-adjective ＋ な ＋ まま"
+      "Noun ＋ の ＋ まま",
+      "な-adjective ＋ な ＋ まま"
     ],
     "pitfalls": [
       "The state carries over into the next action: 靴をはいたまま入る (enter with shoes still on).",
@@ -8179,7 +8182,7 @@
     "summary": "Volitional verb ＋ と思う states a personal intention the speaker has more or less just formed. It is softer than declaring a fixed plan — it presents the decision as your current thinking. Use ようと思っている for an intention you have been holding for a while.",
     "structure": [
       "Verb［volitional］＋ と思う",
-      "食べよう ＋ と思う／行こう ＋ と思う"
+      "食べようと思う ／ 行こうと思う"
     ],
     "pitfalls": [
       "Attach it to the volitional (行こう), not the dictionary form: 行こうと思う, not 行くと思う (which just means 'I think he'll go').",
@@ -8430,7 +8433,7 @@
     "summary": "ように祈る expresses a hope or prayer that something will come about. The ように clause names the wished-for outcome — usually something outside your control — and 祈る ('pray') or 願う ('wish') voices the hope. It is common in well-wishes and set phrases.",
     "structure": [
       "Verb［dictionary form］／Verb［ない form］＋ ように ＋ 祈る／願う",
-      "治るように／成功するように (often a potential or change-of-state verb)"
+      "治るように／成功するように［often a potential or change-of-state verb］"
     ],
     "pitfalls": [
       "The wished-for verb is non-volitional — a state or event you cannot force: 合格できるように祈る, not a plain action you would just do yourself.",
@@ -8526,7 +8529,7 @@
     "structure": [
       "Verb［dictionary form］＋ ようになる",
       "Verb［potential form］＋ ようになる",
-      "Verb［ない form → なくなる］ for the negative"
+      "Verb［ない form → なくなる, negative］"
     ],
     "pitfalls": [
       "For 'stopped doing / can no longer', use なくなる, not ないようになる: 食べなくなった rather than 食べないようになった.",
@@ -8730,7 +8733,7 @@
     "summary": "This らしい is a suffix saying something has the ideal qualities of what it attaches to — 男らしい ('manly'), 子どもらしい ('fittingly childlike'), 春らしい ('spring-like'). It is praise for being a good, typical example of its kind, and it behaves like an い-adjective.",
     "structure": [
       "Noun ＋ らしい",
-      "conjugates like an い-adjective: らしくない, らしかった"
+      "らしくない／らしかった［conjugates like an い-adjective］"
     ],
     "pitfalls": [
       "Positive nuance: 学生らしい means 'admirably student-like', not merely 'resembles a student' (which would be 学生のよう).",
@@ -8824,10 +8827,10 @@
     "jlpt": 4,
     "summary": "The passive れる・られる recasts a sentence so the receiver of an action becomes the subject. Group 1 verbs take the あ-row ＋ れる (読む → 読まれる), Group 2 take られる (食べる → 食べられる). The doer, when mentioned, is marked with に. Japanese often uses the passive to spotlight the affected person, including the 'suffering passive'.",
     "structure": [
-      "Verb Group 1: ［あ-row stem］＋ れる (読む → 読まれる)",
-      "Verb Group 2: ［stem］＋ られる (見る → 見られる)",
+      "Verb Group 1: ［あ-row stem］＋ れる（読む → 読まれる）",
+      "Verb Group 2: ［stem］＋ られる（見る → 見られる）",
       "する → される／来る → 来られる",
-      "Doer marked with に: A ＋ に ＋ 〜される"
+      "Noun［doer］＋ に ＋ Verb［passive］"
     ],
     "pitfalls": [
       "The agent is marked with に: 先生にしかられた ('was scolded by the teacher').",
@@ -8876,8 +8879,8 @@
     "jlpt": 4,
     "summary": "The potential れる・られる says an action is possible. Group 1 verbs shift to the え-row ＋ る (書く → 書ける), Group 2 take られる (食べる → 食べられる, casually 食べれる). What is possible is usually marked with が rather than を. It is the single-word alternative to ことができる.",
     "structure": [
-      "Verb Group 1: ［え-row］＋ る (泳ぐ → 泳げる)",
-      "Verb Group 2: ［stem］＋ られる (見る → 見られる)",
+      "Verb Group 1: ［え-row］＋ る（泳ぐ → 泳げる）",
+      "Verb Group 2: ［stem］＋ られる（見る → 見られる）",
       "する → できる／来る → 来られる"
     ],
     "pitfalls": [

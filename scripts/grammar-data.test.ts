@@ -84,6 +84,47 @@ describe('grammar data integrity', () => {
     expect(bad).toEqual([])
   })
 
+  it('structure lines keep brackets whole within each ＋-chip', () => {
+    // GrammarStructure splits lines on ＋ at （…） depth 0 into boxed chips —
+    // a （ or ［ that closes in a different chip renders as a cut-off bracket.
+    const balanced = (str: string, open: string, close: string) => {
+      let depth = 0
+      for (const ch of str) {
+        if (ch === open) depth++
+        else if (ch === close) depth--
+        if (depth < 0) return false
+      }
+      return depth === 0
+    }
+    const bad: string[] = []
+    for (const e of all) {
+      for (const line of e.structure) {
+        if (!balanced(line, '（', '）') || !balanced(line, '［', '］')) {
+          bad.push(`${e.slug}: unbalanced brackets in "${line}"`)
+          continue
+        }
+        let depth = 0
+        let token = ''
+        const tokens: string[] = []
+        for (const ch of line) {
+          if (ch === '（') depth++
+          else if (ch === '）') depth--
+          if (ch === '＋' && depth === 0) {
+            tokens.push(token)
+            token = ''
+          } else token += ch
+        }
+        tokens.push(token)
+        for (const t of tokens) {
+          if (t.trim() === '') bad.push(`${e.slug}: empty chip in "${line}"`)
+          else if (!balanced(t, '［', '］'))
+            bad.push(`${e.slug}: ［…］ split across chips in "${line}"`)
+        }
+      }
+    }
+    expect(bad).toEqual([])
+  })
+
   it('every entry has exactly 2 examples with ja and en', () => {
     const bad: string[] = []
     for (const e of all) {
