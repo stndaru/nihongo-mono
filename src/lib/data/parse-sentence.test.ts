@@ -517,6 +517,66 @@ describe('tokensToSegments (accurate mode)', () => {
     expect(segs[0].word?.entry.id).toBe('v-matsu')
   })
 
+  it('kana いけません links to the いけない expression, not 生ける (owner report)', () => {
+    // 生ける's polite negative would be written 生けません — a fully-kana
+    // surface never pins the kanji-written verb (decision 52). Both verbs
+    // stay reachable as alternatives.
+    const dicts = buildParserDicts(
+      [
+        verb('v-neru', '寝る', 'ねる', 'v1'),
+        verb('v-ikeru', '生ける', 'いける', 'v1'),
+        verb('v-iku', '行く', 'いく', 'v5k-s'),
+      ],
+      [word('w-ikenai', 'いけない', 'いけない', 'expression')],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('寝', '動詞', '自立', '寝る', 'ネ'),
+        tok('て', '助詞', '接続助詞', 'て', 'テ'),
+        tok('は', '助詞', '係助詞', 'は', 'ハ'),
+        tok('いけ', '動詞', '非自立', 'いける', 'イケ'),
+        tok('ませ', '助動詞', '*', 'ます', 'マセ'),
+        tok('ん', '助動詞', '*', 'ん', 'ン'),
+      ],
+      dicts,
+    )
+    expect(segs.map((s) => s.text)).toEqual(['寝て', 'は', 'いけません'])
+    const w = segs[2].word
+    expect(w?.entry.id).toBe('w-ikenai')
+    expect(w?.formLabel).toBe('Conjugated')
+    const altIds = (w?.alternatives ?? []).map((a) => a.entry.id)
+    expect(altIds).toContain('v-ikeru') // Negative polite of 生ける — honest claim
+    expect(altIds).toContain('v-iku') // via the lexicalized base いける
+  })
+
+  it('kana いけない links to its own expression entry with a null formLabel', () => {
+    const dicts = buildParserDicts(
+      [verb('v-ikeru', '生ける', 'いける', 'v1')],
+      [word('w-ikenai', 'いけない', 'いけない', 'expression')],
+    )
+    const segs = tokensToSegments(
+      [
+        tok('いけ', '動詞', '非自立', 'いける', 'イケ'),
+        tok('ない', '助動詞', '*', 'ない', 'ナイ'),
+      ],
+      dicts,
+    )
+    expect(segs[0].text).toBe('いけない')
+    expect(segs[0].word?.entry.id).toBe('w-ikenai')
+    expect(segs[0].word?.formLabel).toBeNull()
+  })
+
+  it('greedy engine: kana いけません also prefers いけない over 生ける', () => {
+    const dicts = buildParserDicts(
+      [verb('v-ikeru', '生ける', 'いける', 'v1'), verb('v-neru', '寝る', 'ねる', 'v1')],
+      [word('w-ikenai', 'いけない', 'いけない', 'expression')],
+    )
+    const segs = parseSentence('寝てはいけません', dicts)
+    const hit = segs.find((s) => s.text === 'いけません')
+    expect(hit?.word?.entry.id).toBe('w-ikenai')
+    expect(hit?.word?.formLabel).toBe('Conjugated')
+  })
+
   it('benefactive helpers after て stay their own word (見て + いただきました)', () => {
     // いただく adds its own meaning (who receives the favor) and no named
     // form of 見る reproduces 見ていただきました — merging it mislabeled

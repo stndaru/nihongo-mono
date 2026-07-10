@@ -390,11 +390,16 @@ function mergeAlternatives(
  * Other verbs/adjectives whose conjugation also produces this exact surface
  * (いった is the past of both 行く and 言う). Each candidate must reproduce
  * the surface through a named form — same honesty bar as the primary link.
+ * `base` (smart mode's lexicalized base, e.g. いける) extends the bar the
+ * way the primary link's does: a candidate reached by deconjugating a
+ * lexicalized potential (いけません → いける → 行く) can't name a form of
+ * itself, but the base reproduces the surface — generic "Conjugated".
  */
 function conjugatedAlternatives(
   surface: string,
   chosen: DictHit,
   dicts: ParserDicts,
+  base?: string,
 ): ParsedWord[] | undefined {
   const seen = new Set([altKey(chosen)])
   const out: ParsedWord[] = []
@@ -409,7 +414,8 @@ function conjugatedAlternatives(
       const key = altKey(hit)
       if (seen.has(key)) continue
       const label = hit.isVerb
-        ? identifyVerbForm(hit.entry as VerbEntry, surface)
+        ? (identifyVerbForm(hit.entry as VerbEntry, surface) ??
+          (base && identifyVerbFormAs(base, 'v1', surface) ? 'Conjugated' : null))
         : (hit.entry as VocabEntry).pos === 'adj-i'
           ? identifyAdjForm(hit.entry as VocabEntry, surface)
           : null
@@ -420,6 +426,28 @@ function conjugatedAlternatives(
     }
   }
   return out.length > 0 ? out : undefined
+}
+
+/**
+ * The kana-native claimant of an all-kana surface, when the surface (or its
+ * ません↔ない sibling — both attach to the same stem here) is EXACTLY a
+ * kana-written expression/い-adjective entry: (寝ては)いけません belongs to
+ * the いけない entry, not to 生ける "to arrange flowers", whose polite
+ * negative would be written 生けません. A kanji-written entry is never
+ * pinned by a kana surface (decision 52) — the kana-native word is.
+ */
+function kanaNativeWord(surface: string, dicts: ParserDicts): DictHit | null {
+  if (KANJI.test(surface)) return null
+  // the ません↔ない swap needs a real stem — bare stranded ません (greedy
+  // sometimes isolates it) must not link to the ない entry itself
+  const key =
+    dicts.lookup.has(surface) ? surface
+    : surface.length > 3 && surface.endsWith('ません') ? surface.slice(0, -3) + 'ない'
+    : surface
+  const hit = dicts.lookup.get(key)
+  if (!hit || hit.isVerb || hit.entry.kanji !== hit.entry.kana) return null
+  const pos = (hit.entry as VocabEntry).pos
+  return pos === 'expression' || pos === 'adj-i' ? hit : null
 }
 
 /** Longest dictionary match starting at `i`, or null. */
@@ -445,6 +473,21 @@ function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null
       return word
     }
     if (len >= 2) {
+      // an all-kana surface may be the ません form of a kana-native
+      // expression (いけません → いけない) — that claim beats a kanji-written
+      // verb's conjugation (生ける), which a kana surface never pins
+      const native = kanaNativeWord(s, dicts)
+      if (native) {
+        const word: ParsedWord = {
+          entry: native.entry,
+          isVerb: false,
+          surface: s,
+          formLabel: s === native.entry.kana ? null : 'Conjugated',
+        }
+        const alts = conjugatedAlternatives(s, native, dicts)
+        if (alts) word.alternatives = alts
+        return word
+      }
       // conjugated? recover dictionary-form candidates, then demand that the
       // surface is EXACTLY one of the candidate's forms — that keeps the
       // segment boundary honest (食べてい never matches; 食べて does)
@@ -767,6 +810,22 @@ function verbSegment(
   const reading = joinReading(tokens, i, j)
   if (reading) info.reading = reading
   if (base !== surface) info.baseForm = base
+  // all-kana surfaces: a kana-native expression outranks the base's
+  // kanji-written verb — (寝ては)いけません is the いけない entry, not the
+  // polite negative of 生ける (that would be written 生けません). The verb
+  // (and 行く through the lexicalized base) stays reachable as alternatives.
+  const native = kanaNativeWord(surface, dicts)
+  if (native) {
+    const word: ParsedWord = {
+      entry: native.entry,
+      isVerb: false,
+      surface,
+      formLabel: surface === native.entry.kana ? null : 'Conjugated',
+    }
+    const alts = conjugatedAlternatives(surface, native, dicts, base)
+    if (alts) word.alternatives = alts
+    return { text: surface, token: info, word }
+  }
   let verb = dicts.verbs.get(base)
   let baseDeconjLabel: string | null = null
   if (!verb) {
@@ -817,9 +876,9 @@ function verbSegment(
     formLabel === null
       ? mergeAlternatives(
           directAlternatives(surface, chosen, dicts),
-          conjugatedAlternatives(surface, chosen, dicts),
+          conjugatedAlternatives(surface, chosen, dicts, base),
         )
-      : conjugatedAlternatives(surface, chosen, dicts)
+      : conjugatedAlternatives(surface, chosen, dicts, base)
   if (alts) word.alternatives = alts
   return { text: surface, token: info, word }
 }

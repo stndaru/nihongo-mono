@@ -1064,6 +1064,25 @@ feedback on many of these — treat them as requirements, not suggestions.
     engine never had this bug (its identifyVerbForm proof already
     rejected 待っていた).
 
+67. **Kana-native expressions outrank kanji-written verbs on all-kana
+    surfaces, 2026-07-10** (owner report: (寝ては)いけません linked to
+    生ける "to arrange flowers" N1, no alternatives). A kana surface never
+    pins a kanji-written entry (decision 52's converse): 生ける's polite
+    negative would be written 生けません, so fully-kana いけません belongs
+    to the kana-native いけない expression (N3, "must not"). New
+    `kanaNativeWord` in parse-sentence.ts: an all-kana surface that IS a
+    kana-written (kanji===kana) expression/い-adjective entry — or whose
+    ません↔ない sibling is (both attach to the same stem there; guarded so
+    a bare stranded ません can't claim the ない entry) — links to that
+    entry in both engines, with the displaced verb kept reachable via
+    alternatives. `conjugatedAlternatives` also gained smart mode's
+    lexicalized-base fallback (いけません → いける → 行く earns the
+    generic "Conjugated" label the primary path already used), so the
+    popup now offers 生ける AND 行く under "Could Also Be". Kanji
+    surfaces are untouched: 生けました still links 生ける (pinned by
+    test + browser check). Greedy's mangling of ては as は+い ("yes") is
+    the pre-existing, disclosed greedy limitation — not addressed.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
