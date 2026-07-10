@@ -1,0 +1,12 @@
+# Netlify SPA fallback — lives at the repo root so it never enters dist/.
+# (The same rule as a public/_redirects file broke Cloudflare deploys:
+# wrangler validates dist/_redirects and rejects "/* /index.html 200" as an
+# infinite loop. Cloudflare gets its fallback from wrangler.jsonc instead.)
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,15 @@
+// Cloudflare Workers static-assets deploy (bunx wrangler deploy).
+// SPA deep links (/grammar/naide …) are served index.html via
+// not_found_handling — Cloudflare's native equivalent of the
+// "/* /index.html 200" rule its validator rejects in a _redirects file.
+{
+  "name": "nihongo-mono",
+  "compatibility_date": "2026-07-10",
+  "assets": {
+    "directory": "dist",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

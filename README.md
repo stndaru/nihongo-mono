@@ -165,8 +165,11 @@ page.
 
 ## Deploying
 
-Static hosting only — build and serve `dist/`. SPA fallback rewrites for deep
-links are included for Netlify (`public/_redirects`) and Vercel
+Static hosting only — build and serve `dist/`. SPA fallback rewrites for
+deep links are included per host: Cloudflare Workers (`wrangler.jsonc`,
+`assets.not_found_handling: "single-page-application"` — never use a
+`_redirects` file with `/* /index.html 200`, Cloudflare's validator rejects
+it as an infinite loop), Netlify (`netlify.toml`), and Vercel
 (`vercel.json`); on other hosts, rewrite all paths to `/index.html`.
 
 ## Licence

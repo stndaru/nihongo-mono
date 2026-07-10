@@ -31,3 +31,6 @@ scripts/.cache
 *.njsproj
 *.sln
 *.sw?
+
+# wrangler (Cloudflare deploys)
+.wrangler/

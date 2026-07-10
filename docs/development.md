@@ -136,8 +136,13 @@ Playwright gotchas learned the hard way:
 ## Deploying
 
 Static hosting only: build and serve `dist/`. SPA fallback rewrites exist
-for Netlify (`public/_redirects`) and Vercel (`vercel.json`); the owner
-also deploys to a VPS with `bun run start-vps` (`serve -s dist -l 4050`).
+per host: Cloudflare Workers via `wrangler.jsonc`
+(`assets.not_found_handling: "single-page-application"`), Netlify via
+`netlify.toml` (root-level, NOT a `public/_redirects` file — that ships
+inside `dist/` and Cloudflare's validator rejects `/* /index.html 200` as
+an infinite loop, failing the whole deploy), and Vercel via `vercel.json`;
+the owner also deploys to a VPS with `bun run start-vps`
+(`serve -s dist -l 4050`, whose `-s` flag is its own SPA fallback).
 The `public/data/*.json.gz` files are fetched at runtime — any static host
 works since decompression happens client-side (`DecompressionStream`,
 baseline-2023 browsers) with a magic-byte fallback when a server already
