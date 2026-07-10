@@ -157,7 +157,12 @@ function AboutPage() {
         CC BY-SA 4.0 (EDRDG licence) for everything derived from JMdict,
         JMnedict, KANJIDIC2, and KRADFILE, and CC BY-SA 3.0 for the KanjiVG
         stroke-order data — see the repository&apos;s LICENSE and
-        LICENSE-DATA files for the exact per-directory breakdown.
+        LICENSE-DATA files for the exact per-directory breakdown. The
+        Grammar Points explanations, formation structures, pitfalls, and
+        example sentences are original content written for this app (MIT,
+        like the code); only the inventory of which grammar points exist at
+        each JLPT level was cross-referenced against public JLPT study
+        lists.
       </p>
 
       <h2 className="mt-8 text-lg font-semibold">A note on JLPT levels</h2>

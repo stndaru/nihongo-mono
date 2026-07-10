@@ -1,4 +1,4 @@
-# Performance report — 2026-07-08 (addendum 2026-07-09)
+# Performance report — 2026-07-08 (addenda 2026-07-09, 2026-07-10)
 
 > **Addendum, 2026-07-09** — see [the section at the end](#addendum-2026-07-09--parser-audit-after-decisions-4958)
 > for a re-audit of the parser after the homograph/compound/counter/EN-tab
@@ -179,3 +179,24 @@ The remaining smart-mode task is kuromoji's synchronous `tokenize`
 moving it to a worker is the next lever if it ever matters. Zero page
 errors throughout; all 290 unit tests, lint, and build green before and
 after the change.
+
+## Addendum 2026-07-10 — Grammar Points network audit
+
+The new Grammar Points dataset (decision 63: 1,031 points, 2,062 example
+sentences across five level files) was measured with the same CDP
+`encodedDataLength` methodology against the production preview.
+
+| Action | Wire |
+| --- | ---: |
+| `/grammar` first visit (default = N5 chip only) | 47 KB (`grammar-n5.json.gz`) — 1 request |
+| Toggle all five level chips (full 1,031-point table) | 539 KB total: n5 47 / n4 90 / n3 125 / n2 114 / n1 163 KB — exactly 5 requests, ever |
+| Detail page (`findGrammar` loads all five levels for cross-level relation cards) | same five files — already session-cached after a list visit |
+| Repeat `/grammar` visit with all levels, same session | 0.6 KB (revalidations) |
+| Any non-grammar route | 0 KB — the loaders live in the route chunks; grammar data is fetched only on `/grammar*` |
+
+Within the app's bars: the default visit (47 KB) is far under the ~1 MB
+non-opt-in ceiling, the full catalogue is a deliberate five-chip action
+comparable to enabling all word levels, per-level promise caches
+self-clear on failure (decision 60), and repeats cost ~0. Verified in the
+2026-07-10 full-feature Playwright pass (20/20 checks incl. zero
+pageerrors and 390 px/xxlarge overflow).

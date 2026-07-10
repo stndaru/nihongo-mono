@@ -50,7 +50,9 @@ page only (spec says no proper nouns in vocab).
 all summaries, structures, pitfalls, and example sentences are original
 content (decision 63) — jlptsensei and Bunpro supplied only the inventory
 (which points exist, level, one-line meaning hint), reconciled in the
-committed worksheet `src/data/grammar/inventory.json`. The flow per level:
+committed worksheet `src/data/grammar/inventory.json`. Shipped complete
+2026-07-10: 1,031 points (N5 119 / N4 189 / N3 248 / N2 208 / N1 267),
+2,062 example sentences. The flow per level:
 
 1. Author entries into `src/data/grammar/n{level}.json` (examples carry
    `ja`/`en` only — never write `f` by hand).

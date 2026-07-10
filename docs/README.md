@@ -7,11 +7,11 @@ at the repo root. Read in this order:
 
 | Doc | What it covers |
 | --- | --- |
-| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing + auto translation), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
+| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes, grammar points), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing + auto translation), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
 | [data-pipeline.md](data-pipeline.md) | Every data source, the build scripts, file formats, licensing obligations, how to regenerate |
 | [development.md](development.md) | Commands, environment quirks (Bun, Windows, Playwright), testing, the browser-verification workflow |
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
-| [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — plus a 2026-07-09 parser re-audit addendum (micro-benchmarks, transition-rendered results). Re-measure and update after big data or route changes |
+| [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — plus a 2026-07-09 parser re-audit addendum (micro-benchmarks, transition-rendered results) and a 2026-07-10 Grammar Points network audit (per-level gz sizes, chip gating, ~0 repeats). Re-measure and update after big data or route changes |
 
 ## What this project is
 
@@ -26,10 +26,13 @@ the decision log. Core ideas:
   stored), conjugation & vocabulary quizzes, antonym pairs, adjective
   inflections, kanji pages with KanjiVG stroke-order frames, a sentence
   parser (greedy by default, opt-in kuromoji "Smart Parsing", automatic
-  English translation of the parsed sentence), a progress
-  analytics page (per-word encounters/accuracy/status, per-form accuracy,
-  session trend), an in-app cheatsheet section (verb summary, counters),
-  and a curated external-resources page.
+  English translation of the parsed sentence), a **Grammar Points
+  reference** (all 1,031 JLPT N5–N1 grammar patterns with original
+  explanations, formation structures, pitfalls, 2 example sentences each,
+  and cross-linked synonym/antonym/related grammar — decision 63), a
+  progress analytics page (per-word encounters/accuracy/status, per-form
+  accuracy, session trend), an in-app cheatsheet section (verb summary,
+  counters), and a curated external-resources page.
 - **No backend**: static hosting only (the owner deploys with
   `bun run start-vps`). All user progress lives in `localStorage` with file
   export/import. All dictionary data is generated JSON committed to the repo.
@@ -58,6 +61,8 @@ the decision log. Core ideas:
 | `/vocab` | Non-Verb Vocabulary list — same level model, 14 part-of-speech filters (renamed from "Vocabulary" to avoid confusion with the combined Dictionary) |
 | `/vocab/$wordId` | Word detail: meanings, examples, adjective inflections, antonyms/see-also, kanji |
 | `/vocab/antonyms` | Side-by-side adjective antonym table (strictly adjectives — user requirement) |
+| `/grammar` | Grammar Points list — all 1,031 JLPT grammar patterns (N5 119 / N4 189 / N3 248 / N2 208 / N1 267), level chips + search over pattern/kana/romaji/meaning, 100-row pages. Data loads per level, only on grammar routes |
+| `/grammar/$slug` | Grammar point detail: what it does, "How to Use" formation chips, Watch Out pitfalls, 2 original examples with furigana, and Similar/Opposite/See-Also cards cross-linking other grammar points (levels are all session-cached, so relation cards work across levels) |
 | `/names` | Prefix search over 743k JMnedict proper names (reached via the Language dropdown) |
 | `/parser` | Sentence parser: paste kana/kanji text with numbers (≤120 chars; auto-growing, drag-resizable input) for a word-by-word breakdown. A direction toggle adds an independent English → Japanese tab (≤200 chars of English → machine-translated JP → same breakdown; separate ?en=/?dir= state, standing accuracy warning). Greedy matching by default; confirm-gated "Smart Parsing" opt-in (~17 MB kuromoji) adds furigana, POS-colored underlines, Beyond-tier links, a reading fallback for variant spellings, and dictionary-validated compound merging (参加者/非常に as single words, with clickable parts in the summary popup). Clicking a word opens a summary popup with a "Could Also Be" section for contested homographs (うち "house" vs 内 "while" — click to compare); detail pages open in a new tab; carries an accuracy caveat. An async English translation section loads alongside the breakdown (Google → MyMemory → external-link fallback) |
 | `/kanji` | Kanji table — modern JLPT levels N5–N1 + "Beyond", searchable by character, reading, or meaning |
@@ -70,7 +75,8 @@ the decision log. Core ideas:
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**
 (Linear-style dropdown: Verb Vocabulary / Non-Verb Vocabulary / Antonyms /
-Proper Names / Cheatsheet / Resources, each with a one-line description) ·
+Grammar Points / Proper Names / Cheatsheet / Resources, each with a
+one-line description) ·
 **Tools** (Sentence Parser / Quiz / Progress); Settings is the gear icon
 at far right. The homepage repeats both menus as quick-access shortcut cards. Phones get a burger
 side-drawer (Essentials — Dictionary + Kanji, grouped only on mobile —
@@ -83,7 +89,11 @@ Detail pages have a back control that returns to the exact previous page
 JLPT-listed words (~9.6k) are the curated learning core: rich,
 pretty-printed JSON under `src/data/` (the hand-editable source of truth),
 packed by `bun run data:pack` into `public/data/jlpt/*.json.gz` — which is
-what the app fetches per level. Everything else — ~228k more JMdict entries
+what the app fetches per level. The 1,031 grammar points live in the same
+tier but are *authored* rather than generated (original prose; see
+decision 63) — edit them under `src/data/grammar/` and run
+`bun run data:grammar` (regenerates example furigana from `ja`, then
+packs). Everything else — ~228k more JMdict entries
 and 743k names — also lives pre-gzipped under `public/data/` and is fetched
 only when the user opts in (the "Beyond" level chip, the Names page, or the
 palette's "Include Full Dictionary"). Nothing bulky goes through the JS

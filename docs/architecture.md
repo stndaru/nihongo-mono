@@ -47,12 +47,15 @@
 - **Grammar points are Tier-1 too, but authored rather than generated**:
   `src/data/grammar/n{1..5}.json` (original content — see decision 63 and
   data-pipeline.md), packed to `jlpt/grammar-n{level}.json.gz`, loaded by
-  `loadGrammarLevel(s)` only on the `/grammar*` routes. Detail lookup
-  (`findGrammar(slug)`) loads **all five** level files instead of an ids
-  map — slugs are level-free/stable by design and the detail page needs
-  the other levels anyway for its cross-level synonym/antonym/related
-  cards. Routes: `grammar.index.tsx` (level chips + search over
-  title/kana/romaji/meaning via `grammar-search.ts`) and
+  `loadGrammarLevel(s)` only on the `/grammar*` routes. The full catalogue
+  is 1,031 points (N5 119 / N4 189 / N3 248 / N2 208 / N1 267) with 2,062
+  example sentences; on the wire the level files are 47–163 KB gz each,
+  ~539 KB for all five (measured 2026-07-10), session-cached and ~0 on
+  repeats. Detail lookup (`findGrammar(slug)`) loads **all five** level
+  files instead of an ids map — slugs are level-free/stable by design and
+  the detail page needs the other levels anyway for its cross-level
+  synonym/antonym/related cards. Routes: `grammar.index.tsx` (level chips
+  + search over title/kana/romaji/meaning via `grammar-search.ts`) and
   `grammar.$slug.tsx` (summary → structure chips — `GrammarStructure`
   renders the `＋`/［…］ notation — → pitfalls → 2 examples via the shared
   `ExampleSentences`, ruby from the same bracket-furigana format →

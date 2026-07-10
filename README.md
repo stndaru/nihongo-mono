@@ -32,12 +32,14 @@ exported as a file.
   expressions…) with meanings, examples, antonym pairs, and adjective
   inflections; the "Beyond" level extends the list to the full JMdict
   (204,000+ entries).
-- **Grammar Points** — the JLPT N5–N1 grammar patterns (reconciled from
-  the jlptsensei and Bunpro inventories) in the same filterable table
-  style, each with a plain-English summary, a visual "how to build it"
-  structure, pitfalls, two original example sentences with furigana, and
-  cross-linked synonym/antonym/related grammar. All explanations and
-  examples are original content, reviewed for linguistic accuracy.
+- **Grammar Points** — all 1,031 JLPT grammar patterns (N5 119 · N4 189 ·
+  N3 248 · N2 208 · N1 267, a reconciled union of the jlptsensei and
+  Bunpro inventories) in the same filterable table style, each with a
+  plain-English summary, a visual "how to build it" structure, pitfalls,
+  two original example sentences with furigana, and cross-linked
+  synonym/antonym/related grammar spanning levels. All 2,000+ explanations
+  and examples are original content, expert-reviewed for linguistic
+  accuracy; data loads per level and only on the grammar pages.
 - **Proper names** — prefix search over all 743,000+ JMnedict (ENAMDICT)
   surnames, given names, places, companies, and other proper nouns.
 - **Kanji** — a browsable table (JLPT levels + "Beyond", 10,000+ KANJIDIC2
@@ -113,7 +115,7 @@ the parser's lazy-loaded Smart Parsing mode) · Vite 8 · Bun.
 ```bash
 bun install
 bun run dev        # dev server (first copies the kuromoji dict into public/)
-bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser, translation providers (vitest)
+bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser, translation providers, grammar data integrity (vitest)
 bun run lint       # oxlint
 bun run build      # production build (vite build && tsc -b)
 ```

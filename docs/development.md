@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers (175 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search + the grammar data-integrity suite (311 tests)
 bun run lint            # oxlint
 bun run build           # copy-kuromoji, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
 bun run data:download   # sources → scripts/.cache/
@@ -121,7 +121,12 @@ Playwright gotchas learned the hard way:
   `transform`/`opacity` only, ≤150 ms (exits 100 ms), `ease-snap` for
   deliberate motion, none on keyboard-summoned surfaces — see decision 48.
 - After hand-editing anything under `src/data/`, run `bun run data:pack` —
-  the app serves the packed copies, not the pretty files.
+  the app serves the packed copies, not the pretty files. Grammar content
+  (`src/data/grammar/`) uses `bun run data:grammar` instead: it regenerates
+  every example's furigana from its `ja` sentence *and then* packs. Never
+  hand-edit an `f` field — the integrity suite fails on stale/mismatched
+  furigana, and kuromoji misreads are fixed by rewording the sentence or
+  writing the word in kana (decision 63 lists the known trap readings).
 - `public/kuromoji/` is **gitignored** — `scripts/copy-kuromoji.ts` (run by
   `dev`/`build`) copies it from node_modules. A deploy built without that
   step breaks Smart Parsing (it degrades to the greedy engine with a

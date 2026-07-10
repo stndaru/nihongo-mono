@@ -13,6 +13,7 @@ bun run test         # vitest — must stay green
 bun run lint         # oxlint — must stay clean
 bun run build        # vite build && tsc -b — must pass (type-checks scripts/ too)
 bun run data:pack    # after any hand edit under src/data/
+bun run data:grammar # after any grammar-content edit (regenerates example furigana, then packs)
 bun run data:build   # full dataset regen (needs scripts/.cache/)
 ```
 
@@ -65,6 +66,12 @@ bun run data:build   # full dataset regen (needs scripts/.cache/)
 - Settings: localStorage `nihongo-mono:*`, applied pre-paint by the inline
   script in `index.html`; default = no attribute; helpers in `src/lib/theme.ts`.
 - Search queries: NFKC-normalize (`normalizeQuery`) at every new entry point.
+- Grammar points (`src/data/grammar/`, decision 63): slugs are level-free
+  and NEVER renamed once committed; example furigana `f` is machine-derived
+  — never hand-edit it, fix misreads by rewording or writing the word in
+  kana, then `bun run data:grammar`; the integrity suite
+  (`scripts/grammar-data.test.ts`) enforces all of this. All prose there is
+  original content — never paste from grammar sites/textbooks.
 - UI: Title Case buttons; `lang="ja"` on Japanese text; motion is CSS-only
   (no JS animation lib), ≤150 ms with 100 ms exits, `transform`/`opacity`
   only, never on keyboard-summoned surfaces (palette), reduced-motion
