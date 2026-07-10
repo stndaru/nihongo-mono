@@ -985,7 +985,19 @@ feedback on many of these — treat them as requirements, not suggestions.
     the two final example sentences per point; reviewers edit only
     string values. Scope cuts for v1: no Beyond tier, no command-palette
     integration (would fetch grammar data outside grammar pages), no
-    progress/practice integration.
+    progress/practice integration. **Shipped complete 2026-07-10**: all
+    1,031 points (N5 119 / N4 189 / N3 248 / N2 208 / N1 267), 2,062
+    original example sentences. Protocol evolved by owner instruction
+    mid-flight: review chunks 30 (N5, sonnet) → ~100 (N4, opus) → 150
+    (N3–N1, opus), and from N3 on at most 2 subagents ran concurrently;
+    japanese-expert.md was temporarily switched to opus for N4–N1 and
+    restored to sonnet after. A recurring review finding worth knowing:
+    kuromoji's machine furigana misreads context-dependent kanji
+    (counter rendaku/gemination like 三千円/一冊, 一人/二人, 者=もの vs
+    しゃ, 術=すべ, 間=あいだ, 中=じゅう, 方=かた, 大勢) — per rule (d)
+    these were always fixed by rewording or writing the word in kana,
+    never by hand-editing `f`; sentences in the shipped set were
+    spot-verified after every regeneration.
 
 ## Known limitations / accepted trade-offs
 
