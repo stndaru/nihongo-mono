@@ -98,6 +98,9 @@ export function AnswerFeedback({
         <div className="quiz-info mt-1 text-sm text-muted-foreground">
           {question.verb.gloss.join('; ')}
         </div>
+        {(question.form === 'te-negative' || question.form === 'te-negative-naide') && (
+          <TeNegativeContrast verb={question.verb} asked={question.form} />
+        )}
       </div>
 
       {question.choices && question.choices.length > 1 && (
@@ -113,6 +116,47 @@ export function AnswerFeedback({
       </Button>
 
       <WordSummaryDialog word={summary} onClose={() => setSummary(null)} />
+    </div>
+  )
+}
+
+/**
+ * The two negative te connectors are the quiz's most confusable pair, so
+ * every negative-te answer spells out which one was asked and how it
+ * differs from its sibling — with this verb's own surfaces, not abstract
+ * endings. ある never reaches here with ないで (the form is null for it).
+ */
+function TeNegativeContrast({
+  verb,
+  asked,
+}: {
+  verb: Question['verb']
+  asked: 'te-negative' | 'te-negative-naide'
+}) {
+  const nakute = conjugate(verb, 'te-negative')
+  const naide = conjugate(verb, 'te-negative-naide')
+  if (!nakute || !naide) return null
+  const row = (form: 'te-negative' | 'te-negative-naide', surface: string, text: string) => (
+    <p className={asked === form ? 'text-foreground' : ''}>
+      <span lang="ja" className={cn('font-medium', asked === form && 'text-primary')}>
+        {surface}
+      </span>{' '}
+      — {text}
+      {asked === form && <span className="text-xs text-muted-foreground"> (asked here)</span>}
+    </p>
+  )
+  return (
+    <div className="mt-3 space-y-1 border-t border-border/60 pt-2 text-sm text-muted-foreground">
+      {row(
+        'te-negative',
+        nakute.kanji,
+        '"not doing so" — links the negative clause as a cause or contrast (〜なくて、…).',
+      )}
+      {row(
+        'te-negative-naide',
+        naide.kanji,
+        '"without doing so" — the skipped action accompanies the main verb (〜ないで…); also negative requests (〜ないでください).',
+      )}
     </div>
   )
 }

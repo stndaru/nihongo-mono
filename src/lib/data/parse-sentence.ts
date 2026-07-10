@@ -258,7 +258,7 @@ export function buildParserDicts(verbs: VerbEntry[], vocab: VocabEntry[]): Parse
   return { lookup, verbs: verbMap, adjectives: adjMap, alternates }
 }
 
-/** Which of the 22 verb forms produces this exact surface, if any. */
+/** Which of the 23 verb forms produces this exact surface, if any. */
 function identifyVerbForm(verb: VerbEntry, surface: string): string | null {
   for (const form of CONJUGATION_FORMS) {
     const c = conjugate(verb, form)

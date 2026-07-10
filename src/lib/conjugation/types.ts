@@ -44,6 +44,7 @@ export type ConjugationForm =
   | 'past-negative-polite'
   | 'te'
   | 'te-negative'
+  | 'te-negative-naide'
   | 'stem'
   | 'potential'
   | 'passive'
@@ -80,6 +81,7 @@ export const CONJUGATION_FORMS: readonly ConjugationForm[] = [
   'past-negative-polite',
   'te',
   'te-negative',
+  'te-negative-naide',
   'stem',
   'potential',
   'passive',
@@ -165,12 +167,23 @@ export const FORM_LABELS: Record<ConjugationForm, FormLabel> = {
     usage:
       'The connector form: linking actions (食べて行く), requests (〜てください), ongoing states (〜ている), and permission (〜てもいい). Probably the most useful form to master.',
   },
+  // The two negative te connectors are separate forms so the whole app —
+  // detail tables, cheatsheets, quiz — teaches the なくて/ないで split the
+  // same way. The id 'te-negative' keeps meaning なくて: stored progress
+  // and shared quiz URLs predate the split and must stay valid.
   'te-negative': {
-    label: 'Negative te',
+    label: 'Negative te なくて',
     ja: 'なくて',
     hint: 'not doing, so…',
     usage:
-      '"Not doing X, (so)…" — states a cause or contrast. For "without doing" or negative requests, use 〜ないで instead.',
+      '"Not doing so, (so)…" — links a negative clause as a cause or contrast: 朝ご飯を食べなくて、お腹が空いた ("didn\'t eat, so I\'m hungry"). For "without doing so", use the ないで form.',
+  },
+  'te-negative-naide': {
+    label: 'Negative te ないで',
+    ja: 'ないで',
+    hint: 'without doing so',
+    usage:
+      '"Without doing so" — the skipped action accompanies the main verb: 朝ご飯を食べないで出かけた ("went out without eating"). Also the base of negative requests (〜ないでください). For a cause or contrast, use なくて.',
   },
   stem: {
     label: 'Stem',
@@ -273,13 +286,14 @@ export const NEGATIVE_FORMS: ReadonlySet<ConjugationForm> = new Set([
   'past-negative',
   'past-negative-polite',
   'te-negative',
+  'te-negative-naide',
 ])
 
 /** Display grouping used by the detail page's conjugation table and quiz setup. */
 export const FORM_GROUPS: readonly { label: string; forms: readonly ConjugationForm[] }[] = [
   { label: 'Basic', forms: ['non-past', 'non-past-polite', 'negative', 'negative-polite'] },
   { label: 'Past', forms: ['past', 'past-polite', 'past-negative', 'past-negative-polite'] },
-  { label: 'Te form & stem', forms: ['te', 'te-negative', 'stem'] },
+  { label: 'Te form & stem', forms: ['te', 'te-negative', 'te-negative-naide', 'stem'] },
   {
     label: 'Potential, passive & causative',
     forms: ['potential', 'passive', 'causative', 'causative-passive'],

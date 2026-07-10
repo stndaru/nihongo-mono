@@ -38,6 +38,8 @@ const ARU_MISSING: ReadonlySet<ConjugationForm> = new Set([
   'causative-passive',
   'imperative',
   'prohibitive',
+  // stative ある takes なくて only — "without existing" isn't a thing
+  'te-negative-naide',
 ])
 
 /** ある's plain negatives replace the whole verb with ない. */
@@ -94,6 +96,8 @@ export function godanSuffix(cls: GodanClass, form: ConjugationForm): string | nu
       return e.te
     case 'te-negative':
       return e.a + 'なくて'
+    case 'te-negative-naide':
+      return e.a + 'ないで'
     case 'stem':
       return e.i
     case 'potential':

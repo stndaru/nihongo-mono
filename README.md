@@ -15,7 +15,8 @@ exported as a file.
   Search by kanji, kana, romaji, or English; filter by level, verb class
   (godan/ichidan/する/来る), る-ending, transitivity, and commonness. The
   "Beyond" level adds every other conjugatable JMdict verb (23,000+).
-- **Verb detail** — every conjugation (22 forms, computed at runtime), with
+- **Verb detail** — every conjugation (23 forms, computed at runtime — the
+  negative te split into なくて and ないで), with
   per-form "how to build it" rule cards, example sentences, and a kanji
   breakdown.
 - **Conjugation quiz** — pick levels, forms, verb types, session length, and
@@ -92,7 +93,7 @@ exported as a file.
   (godan/ichidan/する・来る), how to spot each (including the 帰る/走る
   ichidan-lookalike trap list) and how each conjugates, with a
   side-by-side form table and a per-form "how to build it" guide
-  covering all 22 conjugations with rules and examples for every verb
+  covering all 23 conjugations with rules and examples for every verb
   type. Japanese Counters covers how counting words work (grammar,
   number systems, asking "how many") with tables of the universal つ
   series and the must-know and common counters, sound-change rules,

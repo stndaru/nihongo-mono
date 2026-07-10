@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { VerbEntry, VocabEntry } from '@/lib/data/types'
-import type { QuizConfig } from './config'
+import { parseConfig, type QuizConfig } from './config'
 import { generateSession } from './engine'
 import { generateVocabSession, verbQuizWords } from './vocab-engine'
 import type { VocabQuizConfig } from './vocab-config'
@@ -95,6 +95,31 @@ describe('generateSession (verbs)', () => {
       )
     }
     expect(askedNonPast).toBe(true)
+  })
+
+  it('the two negative te forms flow through as ordinary forms', () => {
+    const questions = generateSession(
+      verbConfig(['te-negative', 'te-negative-naide']),
+      VERBS,
+    )
+    expect(questions.length).toBeGreaterThan(0)
+    for (const q of questions) {
+      if (q.form === 'te-negative') expect(q.answer.kana.endsWith('なくて')).toBe(true)
+      else expect(q.answer.kana.endsWith('ないで')).toBe(true)
+    }
+  })
+
+  it('ある is never asked for ないで — the form is null for it', () => {
+    const aru = verb('4', 'ある', 'ある', 'v5r-i')
+    const questions = generateSession(verbConfig(['te-negative-naide']), [aru])
+    expect(questions).toHaveLength(0)
+  })
+
+  it('pre-split quiz URLs and stored configs stay valid (te-negative = なくて)', () => {
+    const config = parseConfig({ forms: 'te-negative', levels: '5' })
+    expect(config.forms).toEqual(['te-negative'])
+    const questions = generateSession({ ...verbConfig(config.forms) }, VERBS)
+    for (const q of questions) expect(q.answer.kana.endsWith('なくて')).toBe(true)
   })
 
   it('randomShown: choice options never duplicate the shown surface', () => {

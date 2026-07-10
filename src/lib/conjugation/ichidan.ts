@@ -12,6 +12,7 @@ const ICHIDAN_SUFFIXES: Record<ConjugationForm, string> = {
   'past-negative-polite': 'ませんでした',
   te: 'て',
   'te-negative': 'なくて',
+  'te-negative-naide': 'ないで',
   stem: '',
   potential: 'られる',
   passive: 'られる',

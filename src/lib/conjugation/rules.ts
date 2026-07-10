@@ -90,6 +90,12 @@ const EXPLANATIONS: Record<ConjugationForm, Record<ClassGroup, string>> = {
     suru: 'する becomes しなくて.',
     kuru: '来る becomes 来なくて, read こなくて.',
   },
+  'te-negative-naide': {
+    godan: 'Make the negative (-a row + ない), then add で.',
+    ichidan: 'Drop る and add ないで.',
+    suru: 'する becomes しないで.',
+    kuru: '来る becomes 来ないで, read こないで.',
+  },
   stem: {
     godan: 'Change the final -u sound to its -i row sound. This is the stem ます attaches to.',
     ichidan: 'Just drop る.',
@@ -179,10 +185,18 @@ const EXCEPTIONS: Partial<Record<ConjugationForm, Partial<Record<ClassGroup, str
   },
   'te-negative': {
     godan:
-      'ある → なくて. Use 〜ないで instead of 〜なくて for "without doing" and requests (行かないで).',
-    ichidan: 'Use 〜ないで instead of 〜なくて for "without doing" and requests (食べないで).',
-    suru: 'Use 〜ないで instead of 〜なくて for "without doing" and requests (しないで).',
-    kuru: 'Use 〜ないで instead of 〜なくて for "without doing" and requests (来ないで).',
+      'ある → なくて. For "without doing so" and negative requests, use the ないで form instead (行かないで).',
+    ichidan:
+      'For "without doing so" and negative requests, use the ないで form instead (食べないで).',
+    suru: 'For "without doing so" and negative requests, use the ないで form instead (しないで).',
+    kuru: 'For "without doing so" and negative requests, use the ないで form instead (来ないで).',
+  },
+  'te-negative-naide': {
+    godan:
+      'ある has no ないで form — its negative te is なくて only. For a cause or contrast ("not doing so, (so)…"), use なくて instead.',
+    ichidan: 'For a cause or contrast ("not doing so, (so)…"), use なくて instead (食べなくて).',
+    suru: 'For a cause or contrast ("not doing so, (so)…"), use なくて instead (しなくて).',
+    kuru: 'For a cause or contrast ("not doing so, (so)…"), use なくて instead (来なくて).',
   },
   potential: {
     ichidan: 'Colloquial speech often drops ら (ら抜き): 食べれる — the standard form is 食べられる.',
@@ -218,6 +232,7 @@ const ICHIDAN_PATTERNS: Record<ConjugationForm, string> = {
   'past-negative-polite': '〜る → 〜ませんでした',
   te: '〜る → 〜て',
   'te-negative': '〜る → 〜なくて',
+  'te-negative-naide': '〜る → 〜ないで',
   stem: '〜る → 〜',
   potential: '〜る → 〜られる',
   passive: '〜る → 〜られる',
@@ -243,6 +258,7 @@ const SURU_PATTERNS: Record<ConjugationForm, string> = {
   'past-negative-polite': 'する → しませんでした',
   te: 'する → して',
   'te-negative': 'する → しなくて',
+  'te-negative-naide': 'する → しないで',
   stem: 'する → し',
   potential: 'する → できる',
   passive: 'する → される',
@@ -268,6 +284,7 @@ const KURU_PATTERNS: Record<ConjugationForm, string> = {
   'past-negative-polite': '来る → 来ませんでした（きませんでした）',
   te: '来る → 来て（きて）',
   'te-negative': '来る → 来なくて（こなくて）',
+  'te-negative-naide': '来る → 来ないで（こないで）',
   stem: '来る → 来（き）',
   potential: '来る → 来られる（こられる）',
   passive: '来る → 来られる（こられる）',

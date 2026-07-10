@@ -40,6 +40,7 @@ describe('godan (regular rows)', () => {
       'past-negative-polite': 'かきませんでした',
       te: 'かいて',
       'te-negative': 'かかなくて',
+      'te-negative-naide': 'かかないで',
       stem: 'かき',
       potential: 'かける',
       passive: 'かかれる',
@@ -145,6 +146,7 @@ describe('godan (regular rows)', () => {
       'non-past-polite': 'かいます',
       negative: 'かわない',
       'past-negative': 'かわなかった',
+      'te-negative-naide': 'かわないで',
       past: 'かった',
       te: 'かって',
       potential: 'かえる',
@@ -203,6 +205,7 @@ describe('godan (special)', () => {
       'causative-passive',
       'imperative',
       'prohibitive',
+      'te-negative-naide',
     ] as const) {
       expect(conjugate(aru, form), `ある → ${form}`).toBeNull()
     }
@@ -215,6 +218,7 @@ describe('godan (special)', () => {
       'non-past-polite': 'くださいます',
       negative: 'くださらない',
       'negative-polite': 'くださいません',
+      'te-negative-naide': 'くださらないで',
       past: 'くださった',
       'past-polite': 'くださいました',
       te: 'くださって',
@@ -251,6 +255,7 @@ describe('ichidan', () => {
       'past-negative-polite': 'たべませんでした',
       te: 'たべて',
       'te-negative': 'たべなくて',
+      'te-negative-naide': 'たべないで',
       stem: 'たべ',
       potential: 'たべられる',
       passive: 'たべられる',
@@ -296,6 +301,7 @@ describe('irregular', () => {
       'past-negative-polite': 'しませんでした',
       te: 'して',
       'te-negative': 'しなくて',
+      'te-negative-naide': 'しないで',
       stem: 'し',
       potential: 'できる',
       passive: 'される',
@@ -339,6 +345,7 @@ describe('irregular', () => {
       'past-negative-polite': 'きませんでした',
       te: 'きて',
       'te-negative': 'こなくて',
+      'te-negative-naide': 'こないで',
       stem: 'き',
       potential: 'こられる',
       passive: 'こられる',
@@ -356,6 +363,7 @@ describe('irregular', () => {
       negative: '来ない',
       'non-past-polite': '来ます',
       te: '来て',
+      'te-negative-naide': '来ないで',
       imperative: '来い',
       potential: '来られる',
     })

@@ -1228,6 +1228,38 @@ feedback on many of these — treat them as requirements, not suggestions.
       RAW detected text before script filtering, so misreads can be
       spotted.
 
+69. **The negative te is two forms: なくて and ないで, split platform-wide,
+    2026-07-11** (owner request; initially asked for the quiz, then widened
+    so the quiz needs no unique logic). `te-negative-naide` is a new
+    first-class `ConjugationForm` (23 total) — it conjugates in the engine
+    (negative + で per class), rows in the verb-detail table and the
+    cheatsheet's conjugation guide, gets its own rule card, and is a
+    separately selectable quiz chip. Because everything is data-driven
+    through the exhaustive form records, the quiz prompt ("Negative te
+    ないで · without doing so"), answer checking, distractors, summary, and
+    progress tracking all just work with zero special-casing.
+    - **The id `te-negative` keeps meaning なくて** and only its label
+      changed ("Negative te なくて", hint "not doing so"): stored progress
+      (`nihongo-mono:progress:v1` form tallies + session records), saved
+      quiz configs, and shared `?forms=` URLs predate the split and stay
+      valid without migration — everything that id ever measured WAS
+      なくて answers. Old configs quiz なくて only until the user also
+      ticks the new ないで chip (explicit, not silently expanded).
+    - Labels follow the `Conditional ば`/`Conditional たら` precedent —
+      English name + the Japanese morpheme, short enough for the setup
+      chips and detail-table rows at mobile widths.
+    - **ある has no ないで form** (`ARU_MISSING`): stative ある takes
+      なくて only, so the row hides on its detail page and the quiz never
+      asks it (null conjugations are skipped by the session generator).
+    - Quiz answer feedback for either form renders a contrast block with
+      THIS verb's two surfaces (e.g. 書かなくて vs 書かないで), marking
+      which was asked — the pair is the most confusable in the system, so
+      the difference is taught at the moment of answering, not just in
+      the rule card. The なくて rule card's watch-out points to ないで
+      for "without doing so"/requests and vice versa.
+    - The parser's `identifyVerbForm` iterates the form list, so parsed
+      ないで surfaces now label themselves correctly for free.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render
