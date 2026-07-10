@@ -14,7 +14,7 @@ import {
   type ChangeEvent,
   type DragEvent as ReactDragEvent,
 } from 'react'
-import { Camera, ClipboardPaste, ImageUp, X } from 'lucide-react'
+import { Camera, ChevronDown, ClipboardPaste, ImageUp, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -68,11 +68,18 @@ const MB = (bytes: number) => (bytes / 1048576).toFixed(1)
 
 export default function OcrPanel({
   dir,
+  visible,
   onText,
   onClose,
   animateIn,
 }: {
   dir: 'ja' | 'en'
+  /**
+   * The panel stays mounted after its first open (a view toggle must not
+   * drop the scanned image or an in-flight recognition) — false while the
+   * text view is showing: ignore pastes, keep the camera closed.
+   */
+  visible: boolean
   /** receives cleaned text; returns what the route did with it */
   onText: (clean: string) => OcrOutcome
   onClose: () => void
@@ -88,6 +95,10 @@ export default function OcrPanel({
   const [dragOver, setDragOver] = useState(false)
   const [pasteHint, setPasteHint] = useState<string | null>(null)
   const [cameraOpen, setCameraOpen] = useState(false)
+  // the single image slot: each scan overwrites it (image + the raw OCR
+  // output before filtering), reviewable via the accordion below
+  const [lastScan, setLastScan] = useState<{ url: string; raw: string } | null>(null)
+  const [reviewOpen, setReviewOpen] = useState(false)
 
   const runRef = useRef(0)
   const busyRef = useRef(false)
@@ -137,7 +148,8 @@ export default function OcrPanel({
       setScanning(true)
       const run = ++runRef.current
       const alive = () => runRef.current === run
-      dropPreview()
+      dropPreview() // one image at a time — the new scan overwrites the slot
+      setLastScan(null)
       const previewUrl = URL.createObjectURL(source)
       previewUrlRef.current = previewUrl
       try {
@@ -159,7 +171,8 @@ export default function OcrPanel({
             setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))
           }
         })
-        if (!alive()) return // panel closed mid-recognition — drop the result
+        if (!alive()) return // panel unmounted mid-recognition — drop the result
+        setLastScan({ url: previewUrl, raw })
         const clean = dir === 'en' ? cleanOcrEnglish(raw) : cleanOcrJapanese(raw)
         const outcome = onText(clean)
         setStatus(
@@ -181,9 +194,11 @@ export default function OcrPanel({
     [dir, lang, onText],
   )
 
-  // Ctrl+V works anywhere on the page while the panel is open — the one
-  // paste path every browser supports
+  // Ctrl+V works anywhere on the page while the scan view is showing — the
+  // one paste path every browser supports. Not while hidden: pasting into
+  // the textarea must never secretly start a scan.
   useEffect(() => {
+    if (!visible) return
     const onPaste = (e: ClipboardEvent) => {
       const item = Array.from(e.clipboardData?.items ?? []).find((i) =>
         i.type.startsWith('image/'),
@@ -195,7 +210,13 @@ export default function OcrPanel({
     }
     window.addEventListener('paste', onPaste)
     return () => window.removeEventListener('paste', onPaste)
-  }, [scan])
+  }, [scan, visible])
+
+  // flipping to the text view closes the viewfinder (its stream must not
+  // keep the camera light on behind a hidden panel)
+  useEffect(() => {
+    if (!visible) setCameraOpen(false)
+  }, [visible])
 
   // the transient "press Ctrl+V instead" hint after a denied clipboard read
   useEffect(() => {
@@ -296,7 +317,8 @@ export default function OcrPanel({
           variant="ghost"
           size="icon-sm"
           onClick={onClose}
-          aria-label="Close image scanning"
+          aria-label="Back to text input"
+          title="back to typing (the scanned image is kept)"
           className="ml-auto"
         >
           <X />
@@ -349,6 +371,46 @@ export default function OcrPanel({
             'This image format couldn’t be read — try a JPEG or PNG (iPhone HEIC photos may need converting).'}
           {status.kind === 'recognize' && 'Text recognition failed — try another image.'}
         </p>
+      )}
+
+      {lastScan && (
+        <div className="border-t pt-2">
+          <button
+            type="button"
+            onClick={() => setReviewOpen((o) => !o)}
+            aria-expanded={reviewOpen}
+            className="flex items-center gap-1 text-xs text-muted-foreground transition-colors duration-100 hover:text-foreground"
+          >
+            <ChevronDown
+              className={cn('size-3.5 transition-transform duration-100', reviewOpen && 'rotate-180')}
+            />
+            Review last scan
+          </button>
+          {reviewOpen && (
+            <div className="mt-2 space-y-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-100">
+              <img
+                src={lastScan.url}
+                alt="The scanned image"
+                className="max-h-56 w-auto max-w-full rounded-md border object-contain"
+              />
+              <div>
+                <p className="text-xs text-muted-foreground">
+                  Raw detected text (before keeping only {langLabel} characters):
+                </p>
+                {lastScan.raw.trim() ? (
+                  <p
+                    lang={dir === 'en' ? 'en' : 'ja'}
+                    className="mt-1 max-h-40 overflow-y-auto rounded-md border bg-muted/30 p-2 text-sm break-words whitespace-pre-wrap"
+                  >
+                    {lastScan.raw}
+                  </p>
+                ) : (
+                  <p className="mt-1 text-xs text-muted-foreground">(nothing was detected)</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       )}
 
       <input

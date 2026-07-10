@@ -1148,6 +1148,22 @@ feedback on many of these — treat them as requirements, not suggestions.
       ease-snap fade+zoom-from-95%, suppressed when the chip was
       keyboard-activated (`event.detail === 0`, decision 48); progress
       bars animate `transform: scaleX` only.
+    - **Scan Image is a VIEW TOGGLE, not an add-on** (owner revision): the
+      chip sits on the direction-tabs row (with the input controls, not
+      among the parse actions — it swaps what the input area IS) and flips
+      between the textarea and the scan surface; never both at once. The
+      panel mounts once and is then only `hidden`-toggled, and the typed
+      text lives in route state — an accidental toggle loses neither the
+      image nor the input. Pastes are ignored while hidden (`visible`
+      prop; pasting an image into the textarea must not secretly scan)
+      and hiding force-closes the viewfinder (camera light). A finished
+      scan flips back to the text view automatically on commit AND
+      over-limit (the text needs to be visible/editable); empty/error
+      keeps the scan surface up with its notice. One image slot: each
+      scan revokes and overwrites the last. A "Review last scan"
+      accordion (collapsed by default) shows the stored image and the
+      RAW detected text before script filtering, so misreads can be
+      spotted.
 
 ## Known limitations / accepted trade-offs
 

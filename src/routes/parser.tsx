@@ -471,6 +471,14 @@ function ParserPage() {
 
   // "Smart Parsing" is a sticky opt-in (~17 MB analyzer download) —
   // confirmed once via the dialog, remembered like Include Full Dictionary
+  // scan-view state lives up here — the textarea auto-grow effect below
+  // needs ocrView as a dependency
+  const [ocrView, setOcrView] = useState(false)
+  const [ocrMounted, setOcrMounted] = useState(false)
+  const [ocrConfirmOpen, setOcrConfirmOpen] = useState(false)
+  // keyboard-summoned surfaces don't animate (decision 48)
+  const ocrByKeyboard = useRef(false)
+
   const [smart, setSmart] = useState(
     () => (localStorage.getItem(SMART_KEY) ?? localStorage.getItem(LEGACY_SMART_KEY)) === '1',
   )
@@ -517,12 +525,14 @@ function ParserPage() {
   // auto-fit the box to its content (paste, typing, ?q= restore). Grow-only:
   // a manually dragged-larger box never snaps back while typing — the drag
   // handle still resizes both ways and double-click resets to the default
+  // ocrView is a dep: a scan can set the text while the textarea is hidden
+  // (zero scrollHeight) — re-measure when it comes back into view
   useLayoutEffect(() => {
     const ta = taRef.current
     if (!ta || ta.scrollHeight <= ta.clientHeight) return
     // style.height is border-box; scrollHeight excludes the borders
     setTaHeight(Math.max(128, ta.scrollHeight + ta.offsetHeight - ta.clientHeight))
-  }, [text, enText, dir])
+  }, [text, enText, dir, ocrView])
   const startResize = (e: ReactPointerEvent<HTMLDivElement>) => {
     const ta = taRef.current
     if (!ta) return
@@ -623,25 +633,29 @@ function ParserPage() {
   }
 
   // "Scan Image" (OCR) mirrors the Smart Parsing gating: a consent dialog
-  // announces the download once, then the sticky key skips straight to the
-  // panel. The panel itself eager-loads the engine + active-tab model.
-  const [ocrOpen, setOcrOpen] = useState(false)
-  const [ocrConfirmOpen, setOcrConfirmOpen] = useState(false)
-  // keyboard-summoned surfaces don't animate (decision 48)
-  const ocrByKeyboard = useRef(false)
+  // announces the download once, then the sticky key skips straight in.
+  // It toggles the INPUT VIEW — the scan surface replaces the textarea
+  // (never both at once), and neither side resets on a toggle: the panel
+  // stays mounted (hidden) so an accidental flip loses no image, and the
+  // typed text lives in route state regardless.
   const toggleOcr = (e: ReactMouseEvent<HTMLButtonElement>) => {
-    if (ocrOpen) {
-      setOcrOpen(false)
+    if (ocrView) {
+      setOcrView(false)
       return
     }
     ocrByKeyboard.current = e.detail === 0
-    if (localStorage.getItem(OCR_KEY) !== null) setOcrOpen(true)
-    else setOcrConfirmOpen(true)
+    if (localStorage.getItem(OCR_KEY) !== null) {
+      setOcrMounted(true)
+      setOcrView(true)
+    } else {
+      setOcrConfirmOpen(true)
+    }
   }
   const confirmOcr = () => {
     localStorage.setItem(OCR_KEY, '1')
     setOcrConfirmOpen(false)
-    setOcrOpen(true)
+    setOcrMounted(true)
+    setOcrView(true)
   }
   // free the OCR worker's wasm heap when leaving the page — no-op unless
   // the lazy chunk actually loaded this visit
@@ -673,6 +687,9 @@ function ParserPage() {
         navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
       }
     }
+    // text landed → flip back to the text view so it's visible/editable;
+    // on empty/error the scan surface stays up with its notice
+    if (outcome !== 'empty') setOcrView(false)
     return outcome
   }
 
@@ -745,33 +762,54 @@ function ParserPage() {
         <div className="space-y-2">
           {/* direction tabs: two independent features — each keeps its own
               input and result; switching never resets or transfers them */}
-          <div
-            role="tablist"
-            aria-label="Translation direction"
-            className="inline-flex rounded-lg border bg-muted/40 p-0.5 text-sm"
-          >
-            {(
-              [
-                ['ja', 'Japanese → English'],
-                ['en', 'English → Japanese'],
-              ] as const
-            ).map(([d, label]) => (
-              <button
-                key={d}
-                role="tab"
-                type="button"
-                aria-selected={dir === d}
-                onClick={() => setDir(d)}
-                className={cn(
-                  'rounded-md px-3 py-1.5 transition-colors duration-100',
-                  dir === d
-                    ? 'bg-background font-medium shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {label}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div
+              role="tablist"
+              aria-label="Translation direction"
+              className="inline-flex rounded-lg border bg-muted/40 p-0.5 text-sm"
+            >
+              {(
+                [
+                  ['ja', 'Japanese → English'],
+                  ['en', 'English → Japanese'],
+                ] as const
+              ).map(([d, label]) => (
+                <button
+                  key={d}
+                  role="tab"
+                  type="button"
+                  aria-selected={dir === d}
+                  onClick={() => setDir(d)}
+                  className={cn(
+                    'rounded-md px-3 py-1.5 transition-colors duration-100',
+                    dir === d
+                      ? 'bg-background font-medium shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {/* input-view toggle: typing ↔ scanning an image — it sits with
+                the input controls, not among the parse actions, because it
+                swaps WHAT the input area is rather than doing anything */}
+            <Chip
+              active={ocrView}
+              onClick={toggleOcr}
+              disabled={!OCR_SUPPORTED}
+              title={
+                OCR_SUPPORTED
+                  ? ocrView
+                    ? 'back to typing (the scanned image is kept)'
+                    : 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
+                  : "this browser can't run the on-device OCR engine (WebAssembly required)"
+              }
+            >
+              <span className="flex items-center gap-1">
+                <ScanText className="size-3" /> Scan Image
+              </span>
+            </Chip>
           </div>
           {dir === 'en' && (
             <p className="text-xs text-muted-foreground">
@@ -779,7 +817,7 @@ function ParserPage() {
               then broken down.
             </p>
           )}
-          <div>
+          <div className={cn(ocrView && 'hidden')}>
             <textarea
               ref={taRef}
               value={activeText}
@@ -807,19 +845,26 @@ function ParserPage() {
               <div className="h-1 w-16 rounded-full bg-border transition-colors duration-100 group-hover:bg-muted-foreground/40" />
             </div>
           </div>
-          {ocrOpen && (
-            <Suspense
-              fallback={<div className="h-24 animate-pulse rounded-lg border bg-muted/30" />}
-            >
-              <OcrPanel
-                dir={dir}
-                onText={applyOcrText}
-                onClose={() => setOcrOpen(false)}
-                animateIn={!ocrByKeyboard.current}
-              />
-            </Suspense>
+          {/* mounted once, then only hidden — a toggle never drops the
+              scanned image, the warm engine, or an in-flight recognition */}
+          {ocrMounted && (
+            <div className={cn(!ocrView && 'hidden')}>
+              <Suspense
+                fallback={<div className="h-24 animate-pulse rounded-lg border bg-muted/30" />}
+              >
+                <OcrPanel
+                  dir={dir}
+                  visible={ocrView}
+                  onText={applyOcrText}
+                  onClose={() => setOcrView(false)}
+                  animateIn={!ocrByKeyboard.current}
+                />
+              </Suspense>
+            </div>
           )}
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div
+            className={cn('flex flex-wrap items-center justify-between gap-3', ocrView && 'hidden')}
+          >
             <p className="text-xs text-muted-foreground">
               {dir === 'ja' && blocked && (
                 <span className="text-destructive">
@@ -845,20 +890,6 @@ function ParserPage() {
               )}
             </p>
             <div className="flex items-center gap-2">
-              <Chip
-                active={ocrOpen}
-                onClick={toggleOcr}
-                disabled={!OCR_SUPPORTED}
-                title={
-                  OCR_SUPPORTED
-                    ? 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
-                    : "this browser can't run the on-device OCR engine (WebAssembly required)"
-                }
-              >
-                <span className="flex items-center gap-1">
-                  <ScanText className="size-3" /> Scan Image
-                </span>
-              </Chip>
               <Chip
                 active={smart}
                 onClick={toggleSmart}

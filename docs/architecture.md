@@ -258,23 +258,30 @@ regardless of host compression config.
   Notice, which covers both tabs. The JP tab's Translation section is
   hidden on the EN tab (the English is the user's own input).
 - **"Scan Image" — opt-in on-device OCR** (`src/lib/ocr/` +
-  `components/parser/OcrPanel.tsx`, decision 68): a chip beside Smart
-  Parsing gates a tesseract-wasm worker behind the same consent-dialog +
-  sticky-key pattern (`nihongo-mono:parser-ocr`). The panel — one lazy
-  chunk holding tesseract-wasm and all OCR code — offers clipboard paste
-  (button where `clipboard.read()` exists, Ctrl+V listener everywhere),
-  file upload, and a live camera viewfinder (native-camera `capture`
-  input fallback, disabled-with-reason last resort). Engine files are
-  copied to `public/ocr/engine/` (gitignored) by
-  `scripts/copy-tesseract.ts`; the jpn/eng tessdata_fast models are
-  pre-gzipped and **committed** under `public/ocr/models/`, fetched per
-  active tab with byte progress. Recognized text is filtered to the
-  active tab's charset (JA additionally drops ALL whitespace —
-  Tesseract's spurious CJK gaps), lands in the textarea, and
-  auto-commits to `?q=`/`?en=` when it fits the cap; over the cap the
-  box holds up to 2,000 chars with Break Down blocked until edited
-  down. The route frees the worker's wasm heap on unmount via the
-  static `lib/ocr/handle.ts` registry, keeping the code split intact.
+  `components/parser/OcrPanel.tsx`, decision 68): a toggle chip on the
+  direction-tabs row gates a tesseract-wasm worker behind the same
+  consent-dialog + sticky-key pattern (`nihongo-mono:parser-ocr`), then
+  **swaps the input view** — the scan surface replaces the textarea
+  (never both; the counter/Break Down row hides with it). The panel —
+  one lazy chunk holding tesseract-wasm and all OCR code — offers
+  clipboard paste (button where `clipboard.read()` exists, Ctrl+V
+  listener while visible), file upload, and a live camera viewfinder
+  (native-camera `capture` input fallback, disabled-with-reason last
+  resort). It mounts once and is then only hidden, so toggling never
+  drops the scanned image or an in-flight recognition; one image slot,
+  overwritten per scan, reviewable (image + raw pre-filter text) via a
+  collapsed "Review last scan" accordion. Engine files are copied to
+  `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
+  jpn/eng tessdata_fast models are pre-gzipped and **committed** under
+  `public/ocr/models/`, fetched per active tab with byte progress.
+  Recognized text is filtered to the active tab's charset (JA
+  additionally drops ALL whitespace — Tesseract's spurious CJK gaps),
+  lands in the textarea, and auto-commits to `?q=`/`?en=` when it fits
+  the cap — flipping back to the text view whenever text landed; over
+  the cap the box holds up to 2,000 chars with Break Down blocked until
+  edited down. The route frees the worker's wasm heap on unmount via
+  the static `lib/ocr/handle.ts` registry, keeping the code split
+  intact.
 - **Breakdown results render as a React transition** (`useBreakdown`
   wraps its `setResult` in `startTransition`): committing dozens of
   ruby+tooltip spans in one blocking render was the page's only >50 ms
