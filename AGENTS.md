@@ -11,7 +11,7 @@ bun install          # ALWAYS bun, never npm
 bun run dev          # dev server :5173
 bun run test         # vitest — must stay green
 bun run lint         # oxlint — must stay clean
-bun run build        # vite build && tsc -b — must pass (type-checks scripts/ too)
+bun run build        # vite build && tsc -b && gen-csp — must pass (type-checks scripts/ too; regenerates the CSP headers from dist/)
 bun run data:pack    # after any hand edit under src/data/
 bun run data:grammar # after any grammar-content edit (regenerates example furigana, then packs)
 bun run data:build   # full dataset regen (needs scripts/.cache/)
@@ -49,9 +49,12 @@ bun run data:build   # full dataset regen (needs scripts/.cache/)
 - Measure, don't guess: CDP `encodedDataLength` per action; event-timing +
   longtask observers at 4× CPU throttle. If already optimal, leave it and
   log why in `decisions-and-caveats.md`.
-- Third-party runtime endpoints (so far only the parser's translation
-  providers) must chain a fallback and degrade to something useful
-  offline; log the provider choice in `decisions-and-caveats.md`.
+- Third-party runtime endpoints (the parser's translation providers,
+  decision 42; the opt-in Google Drive sync, decision 70) must chain a
+  fallback and degrade to something useful offline; log the provider
+  choice in `decisions-and-caveats.md`. Any new external origin also has
+  to be added to the CSP allowlist in `scripts/gen-csp.ts` or the browser
+  will block it in production.
 
 ## Conventions
 

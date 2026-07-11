@@ -5,9 +5,9 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict + tesseract-wasm engine to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search + the grammar data-integrity suite (311 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search, the grammar data-integrity suite, and the Drive-sync engine/merge suites (376 tests)
 bun run lint            # oxlint
-bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b (this order — routeTree.gen.ts must exist before tsc)
+bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b && gen-csp.ts (this order — routeTree.gen.ts must exist before tsc; gen-csp reads dist/ and writes dist/_headers + vercel.json)
 bun run data:download   # sources → scripts/.cache/
 bun run data:build      # regenerate all datasets (see data-pipeline.md)
 bun run data:grammar    # regenerate grammar example furigana + pack (after grammar content edits)
@@ -25,6 +25,12 @@ bunx tsc -b             # type-check only (covers app AND scripts/ project)
   from `bunx playwright install chromium`.
 - PowerShell 5.1 mangles embedded double quotes when passing multi-line args
   to native commands — write commit messages to a file and `git commit -F`.
+- **Env vars**: the only one is `VITE_GOOGLE_CLIENT_ID` (Drive sync,
+  decision 70) — build-time, read by Vite from `.env.local` (gitignored;
+  template `.env.example`). Without it the Cloud sync feature hides
+  itself, which is the correct state for CI and most local work. Deploys
+  built by `wrangler deploy` inherit whatever the local build baked in;
+  dashboard-side variables do nothing for a static-assets Worker.
 
 ## The definition of done used so far
 
@@ -138,6 +144,14 @@ Playwright gotchas learned the hard way:
   panel (its engine-error state explains and retries, but still). The
   committed halves live next to it: `public/ocr/models/*.traineddata.gz`
   and `public/ocr/NOTICE.md`.
+- **The CSP hash is build-generated** (`scripts/gen-csp.ts`, end of the
+  build chain): it hashes index.html's inline FOUC script from the BUILT
+  output and writes `dist/_headers` + rewrites `vercel.json`. Editing the
+  inline script is safe *only* through `bun run build`; hand-copying an
+  old `_headers` next to a new dist (or vice versa) makes the browser
+  refuse the inline script and the page loads unthemed. If `vercel.json`
+  shows a CSP diff after a build, commit it — that's the lockstep
+  working.
 
 ## Deploying
 

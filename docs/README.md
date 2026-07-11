@@ -7,16 +7,17 @@ at the repo root. Read in this order:
 
 | Doc | What it covers |
 | --- | --- |
-| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes, grammar points), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing + auto translation), quiz session rules & UI, progress analytics, kanji pages, app shell/navigation, theming & branding, localStorage keys |
+| [architecture.md](architecture.md) | Stack, routing, the two-tier data model (words, kanji, strokes, grammar points), search/deconjugation/palette, the sentence parser (greedy + kuromoji Smart Parsing + auto translation + opt-in OCR), quiz session rules & UI, progress analytics, the Google Drive sync engine, kanji pages, app shell/navigation, theming & branding, localStorage keys |
 | [data-pipeline.md](data-pipeline.md) | Every data source, the build scripts, file formats, licensing obligations, how to regenerate |
 | [development.md](development.md) | Commands, environment quirks (Bun, Windows, Playwright), testing, the browser-verification workflow |
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
-| [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — plus a 2026-07-09 parser re-audit addendum (micro-benchmarks, transition-rendered results) and a 2026-07-10 Grammar Points network audit (per-level gz sizes, chip gating, ~0 repeats). Re-measure and update after big data or route changes |
+| [google-drive-setup.md](google-drive-setup.md) | Owner-side Google Cloud console steps for the optional Drive sync (OAuth consent screen, drive.file scope, client ID, authorized origins, env wiring per host) + the real-account manual test checklist |
+| [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — plus addenda: 2026-07-09 parser re-audit (micro-benchmarks, transition-rendered results), 2026-07-10 Grammar Points network audit (per-level gz sizes, chip gating, ~0 repeats), and a 2026-07-11 full sweep after OCR/negative-te/Drive sync (clean bill, cheatsheet mount trim, sync's ~1.5 kB main-bundle cost). Re-measure and update after big data or route changes |
 
 ## What this project is
 
-A **lightweight, no-login Japanese learning web app** — a fast dictionary +
-trainer, not a SaaS. The founding spec was the owner's original project
+A **lightweight Japanese learning web app with no account requirement** —
+a fast dictionary + trainer, not a SaaS. The founding spec was the owner's original project
 brief (never committed); scope is captured by the README feature list and
 the decision log. Core ideas:
 
@@ -35,11 +36,15 @@ the decision log. Core ideas:
   wearing verbs,
   counters), and a curated external-resources page.
 - **No backend**: static hosting only (the owner deploys with
-  `bun run start-vps`). All user progress lives in `localStorage` with file
-  export/import. All dictionary data is generated JSON committed to the repo.
-  The one runtime third-party call is the parser's sentence translation
-  (Google gtx → MyMemory, decision 42) — it degrades to an external link
-  when unreachable.
+  `bun run start-vps` / `bunx wrangler deploy`). All user progress lives in
+  `localStorage` with file export/import, plus an **opt-in Google Drive
+  sync** (decision 70: browser ↔ Google directly with the `drive.file`
+  scope; hidden unless `VITE_GOOGLE_CLIENT_ID` is set). All dictionary data
+  is generated JSON committed to the repo. The only other runtime
+  third-party call is the parser's sentence translation (Google gtx →
+  MyMemory, decision 42) — it degrades to an external link when
+  unreachable. A build-generated CSP (`scripts/gen-csp.ts`) pins script
+  execution and network egress to exactly these origins.
 - **Coverage**: JLPT-tagged core + the *entire* JMdict and JMnedict as an
   opt-in extended tier — all served as pre-gzipped static files, fetched on
   demand — see architecture.md, this split is the most important design in
@@ -74,8 +79,9 @@ the decision log. Core ideas:
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz (optional randomized shown form) and vocabulary quiz (three answer modes incl. EN→JA word pick; can include dictionary-form verbs; JLPT levels only, by design). Sessions have furigana/word-info toggles, word-summary popups in feedback (incl. a Details button per unchosen multiple-choice option), an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
 | `/resources` | Hand-picked external learning sites (dictionaries, grammar guides, JLPT practice) — name, description, outbound link per card |
-| `/settings` | Theme, font toggles, font sizes (global / kanji & kana / furigana, Default–Largest each), progress export/import/reset |
-| `/about` | **Required** data-source attribution (EDRDG licence obligation) |
+| `/settings` | Theme, font toggles, font sizes (global / kanji & kana / furigana, Default–Largest each), progress export/import/reset, and the **Cloud sync** section (connect/disconnect Google Drive, sync status, Use-vs-Start-Fresh decision dialogs; hidden when no OAuth client id is configured) |
+| `/cloud-sync` | Cloud Sync — How It Works & Privacy: the user-facing consent/disclaimer page for the Drive sync (folder location + don't-tamper warning, drive.file scope limits, synced-data inventory, user controls, legal notes). Doubles as the OAuth consent screen's privacy-policy URL |
+| `/about` | **Required** data-source attribution (EDRDG licence obligation) + the privacy paragraph linking `/cloud-sync` |
 
 Navigation: desktop header is Home · Dictionary · Kanji · **Language**
 (Linear-style dropdown: Verb Vocabulary / Non-Verb Vocabulary / Antonyms /

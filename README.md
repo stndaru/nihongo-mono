@@ -115,6 +115,17 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   weak/learning/solid status, per-conjugation-form accuracy, and a session
   trend chart. Export/import as JSON (merge or replace) to move between
   browsers.
+- **Cloud sync (optional)** — connect your own Google Drive from Settings
+  and progress syncs automatically after every quiz session, straight from
+  the browser to a visible "Nihongo Mono" folder in your Drive (narrow
+  `drive.file` scope — the app can only see files it created; no app
+  server involved). Multi-device merging, a Use-vs-Start-Fresh choice when
+  a second browser connects, and clear status/fallback states for expired
+  sign-ins, rate limits, offline, and full Drives. The in-app
+  `/cloud-sync` page documents behavior, privacy, and disclaimers.
+  Requires a self-supplied Google OAuth client ID
+  ([docs/google-drive-setup.md](docs/google-drive-setup.md)) — without
+  one, the feature stays hidden.
 
 > **Contributing or taking over?** Start with the handover docs in
 > [`docs/`](docs/README.md) — architecture, data pipeline, development
@@ -135,7 +146,7 @@ bun install
 bun run dev        # dev server (first copies the kuromoji dict into public/)
 bun run test       # unit tests: conjugation, deconjugation, search, quiz rules, progress store, sentence parser, translation providers, grammar data integrity (vitest)
 bun run lint       # oxlint
-bun run build      # production build (vite build && tsc -b)
+bun run build      # production build (vite build && tsc -b && CSP header generation)
 ```
 
 ## Data pipeline

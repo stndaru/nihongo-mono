@@ -523,6 +523,44 @@ regardless of host compression config.
   **deliberately JLPT-only** — drilling 200k rare words isn't useful, and
   quiz config regexes only accept levels 1–5.
 
+### Google Drive sync (`src/lib/sync/`, decision 70)
+
+- **Opt-in, client-only** (browser ↔ Google; no app server involved): a
+  `Nihongo Mono` folder in My Drive root holds one `progress.json`,
+  pull-merge-pushed after every finished quiz session, on app load, and
+  via Settings "Sync Now". The feature hides when `VITE_GOOGLE_CLIENT_ID`
+  is unset (build-time env, `.env.example`; owner steps in
+  `google-drive-setup.md`). `/cloud-sync` is the user-facing
+  explainer/consent/privacy page (also the OAuth consent screen's
+  privacy-policy URL).
+- **Module layout**: `bootstrap.ts` + `status-store.ts` (+ `constants.ts`,
+  `meta.ts`) are the only parts in the main bundle (~1.5 kB); `engine.ts`
+  (state machine), `drive.ts` (REST over injectable fetch),
+  `gis-loader.ts` (Google Identity Services script + memory-only token)
+  load via dynamic import — and Google's script loads only for linked
+  users or on the consent click. `ProgressProvider.recordSession` calls
+  `requestAutoSync()`; merged pulls come back via a window event the
+  provider re-reads from.
+- **Reconciliation is a THREE-WAY merge** (`merge3.ts`) against the
+  last-synced snapshot (`drive-sync:base:v1`): `remote + (local − base)`
+  per counter, sessions by multiset diff, streak by freshest timeline.
+  The additive import merge (`mergeProgress`) would double counters on
+  every sync — it's used only where two independent histories meet
+  (file import; the second-browser "Use Drive Progress" choice, which is
+  gated: existing Drive progress parks the link as `decisionPending` and
+  nothing syncs until the user picks Use or the checkbox-confirmed
+  Start Fresh).
+- **Security invariants**: `drive.file` scope only; token in module
+  memory, never persisted; remote JSON capped at 1 MB and validated by
+  `parseImported` before touching the store; fixed folder/file names
+  escaped in Drive queries; revoke on disconnect; the build emits a CSP
+  (`scripts/gen-csp.ts` → `dist/_headers` + `vercel.json`) pinning
+  script-src/connect-src — the FOUC-script hash regenerates every build.
+- Failure states (401/rate-limit/quota/offline/404/invalid-remote) map to
+  visible statuses via a `useSyncExternalStore` store: full status line
+  in Settings, small pill on `/progress` and both quiz summaries.
+  Multi-tab is last-write-wins by design (documented caveat).
+
 ### Session rules (user requirements, tested in `engine.test.ts`)
 
 - **Vocabulary quiz never repeats a word** in a session; a pool smaller than
