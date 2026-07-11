@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, Flame, ListChecks, Target } from 'lucide-react'
 import { QuickAccess } from '@/components/home/QuickAccess'
+import { SyncNowButton } from '@/components/sync/SyncNowButton'
 import { Button } from '@/components/ui/button'
 import { useProgress } from '@/lib/progress/context'
 import { streakAtRisk, streakBroken } from '@/lib/progress/streak'
@@ -80,39 +81,43 @@ function Dashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-        <StatCard
-          icon={Flame}
-          label="Day streak"
-          value={String(shownStreak)}
-          sub={
-            atRisk
-              ? 'at risk — study today!'
-              : progress.streak.best > 0
-                ? `best: ${progress.streak.best}`
-                : 'do a quiz to start one'
-          }
-          highlight={shownStreak > 0 && !atRisk}
-        />
-        <StatCard
-          icon={Target}
-          label="Accuracy"
-          value={accuracy === null ? '—' : `${accuracy}%`}
-          sub={totalAnswers > 0 ? `${totalCorrect}/${totalAnswers} answers` : undefined}
-          hash=""
-        />
-        <StatCard
-          icon={BookOpen}
-          label="Words practiced"
-          value={String(verbsSeen)}
-          hash="words"
-        />
-        <StatCard
-          icon={ListChecks}
-          label="Sessions"
-          value={String(progress.sessions.length)}
-          hash="sessions"
-        />
+      <div className="space-y-3">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+          <StatCard
+            icon={Flame}
+            label="Day streak"
+            value={String(shownStreak)}
+            sub={
+              atRisk
+                ? 'at risk — study today!'
+                : progress.streak.best > 0
+                  ? `best: ${progress.streak.best}`
+                  : 'do a quiz to start one'
+            }
+            highlight={shownStreak > 0 && !atRisk}
+          />
+          <StatCard
+            icon={Target}
+            label="Accuracy"
+            value={accuracy === null ? '—' : `${accuracy}%`}
+            sub={totalAnswers > 0 ? `${totalCorrect}/${totalAnswers} answers` : undefined}
+            hash=""
+          />
+          <StatCard
+            icon={BookOpen}
+            label="Words practiced"
+            value={String(verbsSeen)}
+            hash="words"
+          />
+          <StatCard
+            icon={ListChecks}
+            label="Sessions"
+            value={String(progress.sessions.length)}
+            hash="sessions"
+          />
+        </div>
+        {/* hidden unless Drive is linked — most visitors never see it */}
+        <SyncNowButton withStatus className="justify-end" />
       </div>
 
       {/* phones: full-width stacked; sm+: inline row */}

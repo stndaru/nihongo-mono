@@ -18,6 +18,7 @@ import { pairFurigana } from '@/lib/data/furigana'
 import { loadVerbLevels } from '@/lib/data/loader'
 import type { VerbEntry } from '@/lib/data/types'
 import { useProgress } from '@/lib/progress/context'
+import { requestAutoSync } from '@/lib/sync/bootstrap'
 import { parseConfig, sanitizeSearch } from '@/lib/quiz/config'
 import { generateSession, type Question } from '@/lib/quiz/engine'
 
@@ -76,6 +77,12 @@ function QuizSessionPage() {
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
   const { progress, recordSession } = useProgress()
   const [display, setDisplay] = useQuizDisplay()
+
+  // quiz start: pull the freshest cross-device progress before answering
+  // begins (silent + fire-and-forget; the session itself is unaffected)
+  useEffect(() => {
+    requestAutoSync()
+  }, [])
 
   // latest progress without re-generating the session when it changes
   const progressRef = useRef(progress)

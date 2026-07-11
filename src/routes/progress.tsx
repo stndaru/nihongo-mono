@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { createFileRoute, Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { toHiragana } from 'wanakana'
 import { STATUS_LABELS, StatusBadge } from '@/components/progress/StatusBadge'
+import { SyncNowButton } from '@/components/sync/SyncNowButton'
 import { SyncStatusInline } from '@/components/sync/SyncStatusInline'
 import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
@@ -13,6 +14,7 @@ import type { VerbEntry, VocabEntry } from '@/lib/data/types'
 import { accuracyOf, formBreakdown, wordStatus, type WordStatus } from '@/lib/progress/analytics'
 import { useProgress } from '@/lib/progress/context'
 import type { VerbStat } from '@/lib/progress/store'
+import { requestAutoSync } from '@/lib/sync/bootstrap'
 import { rowClickGuard } from '@/lib/row-click'
 import { cn } from '@/lib/utils'
 
@@ -87,6 +89,12 @@ function AccuracyBar({ value, className }: { value: number; className?: string }
 function ProgressPage() {
   const { progress } = useProgress()
   const navigate = useNavigate()
+
+  // entering the page reconciles with Drive so the numbers shown are the
+  // freshest across devices (silent, gated off when not linked/undecided)
+  useEffect(() => {
+    requestAutoSync()
+  }, [])
 
   const statIds = useMemo(() => Object.keys(progress.verbs), [progress.verbs])
   const hasStats = statIds.length > 0
@@ -203,6 +211,9 @@ function ProgressPage() {
             <Link to="/quiz/vocab">Vocabulary Quiz</Link>
           </Button>
         </div>
+        {/* linked but empty here (fresh browser): surface the Drive state —
+            a pending decision or a sync in flight is why it's still empty */}
+        <SyncNowButton withStatus className="mt-5 justify-center" />
       </div>
     )
   }
@@ -218,9 +229,12 @@ function ProgressPage() {
           </p>
         </div>
         <div className="flex flex-col items-end gap-1.5">
-          <Button asChild>
-            <Link to="/quiz">Start a Quiz</Link>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <SyncNowButton size="default" />
+            <Button asChild>
+              <Link to="/quiz">Start a Quiz</Link>
+            </Button>
+          </div>
           <SyncStatusInline />
         </div>
       </div>

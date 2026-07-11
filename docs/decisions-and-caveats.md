@@ -1367,6 +1367,17 @@ feedback on many of these — treat them as requirements, not suggestions.
       also shows the folder path + tamper warning whenever linked
       (constants shared from `sync/constants.ts` so the UI doesn't pull
       the lazy Drive layer).
+    - **Sync surfaces beyond Settings** (owner follow-up): a shared
+      `SyncNowButton` (dashboard stat row with the status pill;
+      `/progress` header and its empty state) runs the interactive
+      `manualSync()` on click — null when not linked, disabled while
+      syncing or while the second-browser decision is pending (the
+      decision gate stays authoritative; the pill links to Settings).
+      Auto-sync also fires on quiz-session mount (both quiz routes) and
+      on entering `/progress`, so the numbers shown are reconciled
+      cross-device before a session starts or stats are read — all via
+      `requestAutoSync()` (silent, single-flighted, zero requests when
+      not linked or undecided).
 
 71. **Dialogs are left-aligned on every viewport + export asks first, 2026-07-11.**
     The shadcn `DialogHeader` default (`text-center sm:text-left`) centered

@@ -59,7 +59,7 @@ the decision log. Core ideas:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), plus quick-access shortcut cards — Essentials (Dictionary, Kanji) first, then the navbar's Tools and Language menus |
+| `/` | Dashboard: streak, accuracy, recent sessions (the stat cards deep-link into `/progress` sections), a Drive sync status + Sync Now row under the stats (only when linked), plus quick-access shortcut cards — Essentials (Dictionary, Kanji) first, then the navbar's Tools and Language menus |
 | `/cheatsheet` | In-app cheatsheet list (Resources-style cards) — Japanese Verb Summary, Japanese Counters, Ways to Say "Wear" |
 | `/cheatsheet/verbs` | The verb-type cheatsheet (godan/ichidan/irregular: what they are, how to spot them incl. the る-trap list, key conjugations) plus a per-form "How to Build Each Conjugation" accordion guide (all 23 forms × 4 verb types, rule + example each, from the shared `getRule()` cards) — used to live on the homepage |
 | `/cheatsheet/wearing` | Ways to Say "Wear": the body-part verb system — a ten-row table (着る/履く/被る/かける/羽織る/つける/はめる/締める/巻く/する) with items, kana readings, and one example sentence each, plus "How Wearing Works" cards (を pattern, action vs ている state, する catch-all), take-off verbs (脱ぐ/取る vs 外す), and a 猫を被る trivia box — japanese-expert reviewed; sources credited on the page |
@@ -77,7 +77,7 @@ the decision log. Core ideas:
 | `/kanji` | Kanji table — modern JLPT levels N5–N1 + "Beyond", searchable by character, reading, or meaning |
 | `/kanji/$char` | Kanji detail: readings, meanings, grade/frequency, KanjiVG stroke-order frames, KRADFILE component cards, every JLPT word using the character — plus a "Load All Words" button that extends the list to the full dictionary (Beyond tier) |
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz (optional randomized shown form) and vocabulary quiz (three answer modes incl. EN→JA word pick; can include dictionary-form verbs; JLPT levels only, by design). Sessions have furigana/word-info toggles, word-summary popups in feedback (incl. a Details button per unchosen multiple-choice option), an Exit control, and a leave-confirmation guard |
-| `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table |
+| `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table. When Drive sync is linked: auto-reconciles on entry and offers a Sync Now button beside the status pill |
 | `/resources` | Hand-picked external learning sites (dictionaries, grammar guides, JLPT practice) — name, description, outbound link per card |
 | `/settings` | Theme, font toggles, font sizes (global / kanji & kana / furigana, Default–Largest each), progress export/import/reset, and the **Cloud sync** section (connect/disconnect Google Drive, sync status, Use-vs-Start-Fresh decision dialogs; hidden when no OAuth client id is configured) |
 | `/cloud-sync` | Cloud Sync — How It Works & Privacy: the user-facing consent/disclaimer page for the Drive sync (folder location + don't-tamper warning, drive.file scope limits, synced-data inventory, user controls, legal notes). Doubles as the OAuth consent screen's privacy-policy URL |

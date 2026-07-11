@@ -116,8 +116,11 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   trend chart. Export/import as JSON (merge or replace) to move between
   browsers.
 - **Cloud sync (optional)** — connect your own Google Drive from Settings
-  and progress syncs automatically after every quiz session, straight from
-  the browser to a visible "Nihongo Mono" folder in your Drive (narrow
+  and progress syncs automatically around every quiz session (start and
+  finish), on app load, and when opening the progress page — plus manual
+  Sync Now buttons on the dashboard, progress page, and Settings —
+  straight from the browser to a visible "Nihongo Mono" folder in your
+  Drive (narrow
   `drive.file` scope — the app can only see files it created; no app
   server involved). Multi-device merging, a Use-vs-Start-Fresh choice when
   a second browser connects, and clear status/fallback states for expired

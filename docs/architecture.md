@@ -530,8 +530,12 @@ regardless of host compression config.
 
 - **Opt-in, client-only** (browser ↔ Google; no app server involved): a
   `Nihongo Mono` folder in My Drive root holds one `progress.json`,
-  pull-merge-pushed after every finished quiz session, on app load, and
-  via Settings "Sync Now". The feature hides when `VITE_GOOGLE_CLIENT_ID`
+  pull-merge-pushed after every finished quiz session, on app load, on
+  quiz-session start (both quiz routes), on entering `/progress`, and
+  manually — "Sync Now" in Settings plus the shared `SyncNowButton`
+  (dashboard stat row + `/progress` header; renders nothing when not
+  linked, disabled while the second-browser decision is pending). The
+  feature hides when `VITE_GOOGLE_CLIENT_ID`
   is unset (build-time env, `.env.example`; owner steps in
   `google-drive-setup.md`). `/cloud-sync` is the user-facing
   explainer/consent/privacy page (also the OAuth consent screen's
@@ -561,8 +565,9 @@ regardless of host compression config.
   script-src/connect-src — the FOUC-script hash regenerates every build.
 - Failure states (401/rate-limit/quota/offline/404/invalid-remote) map to
   visible statuses via a `useSyncExternalStore` store: full status line
-  in Settings, small pill on `/progress` and both quiz summaries.
-  Multi-tab is last-write-wins by design (documented caveat).
+  in Settings, small pill on the dashboard, `/progress` (incl. its empty
+  state), and both quiz summaries. Multi-tab is last-write-wins by design
+  (documented caveat).
 
 ### Session rules (user requirements, tested in `engine.test.ts`)
 

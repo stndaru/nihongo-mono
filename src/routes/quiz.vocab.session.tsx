@@ -27,6 +27,7 @@ import {
   type VocabQuestion,
 } from '@/lib/quiz/vocab-engine'
 import { parseVocabConfig, sanitizeVocabSearch } from '@/lib/quiz/vocab-config'
+import { requestAutoSync } from '@/lib/sync/bootstrap'
 
 export const Route = createFileRoute('/quiz/vocab/session')({
   validateSearch: sanitizeVocabSearch,
@@ -90,6 +91,12 @@ function VocabQuizSessionPage() {
   const [state, dispatch] = useReducer(reducer, { phase: 'loading' })
   const { progress, recordSession } = useProgress()
   const [display, setDisplay] = useQuizDisplay()
+
+  // quiz start: pull the freshest cross-device progress before answering
+  // begins (silent + fire-and-forget; the session itself is unaffected)
+  useEffect(() => {
+    requestAutoSync()
+  }, [])
 
   const progressRef = useRef(progress)
   progressRef.current = progress
