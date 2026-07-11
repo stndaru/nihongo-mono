@@ -63,6 +63,13 @@ export type ConnectResult =
   | { outcome: 'connected' }
   | { outcome: 'decision'; remote: RemoteSummary }
 
+// Abuse throttle: a trigger is skipped when the last sync SUCCEEDED this
+// recently AND local data hasn't changed since — spammed triggers (route
+// remounts, click mashing, scripted loops) collapse to zero Google
+// requests, while anything with new data or after a failure always runs.
+export const AUTO_SYNC_COOLDOWN_MS = 30_000
+export const MANUAL_SYNC_COOLDOWN_MS = 5_000
+
 export interface RemoteSummary {
   verbs: number
   sessions: number
@@ -84,6 +91,9 @@ export function createSyncEngine(deps: EngineDeps) {
   let syncing = false
   let rerunQueued = false
   let onlineRetryArmed = false
+  // throttle state: when + what the last successful sync agreed on
+  let lastSuccessAt = 0
+  let lastSuccessSnapshot: string | null = null
   // the remote copy seen during connect(), so the decision dialog doesn't
   // need a second download right after; cleared once the decision is made
   let pendingRemote: ProgressData | null = null
@@ -155,7 +165,16 @@ export function createSyncEngine(deps: EngineDeps) {
     const stamped = { ...meta, lastSyncedAt: deps.now() }
     saveSyncMeta(stamped)
     saveSyncBase(basisSerialized)
+    lastSuccessAt = Date.parse(stamped.lastSyncedAt as string)
+    lastSuccessSnapshot = basisSerialized
     setSyncStatus({ phase: 'synced', lastSyncedAt: stamped.lastSyncedAt })
+  }
+
+  /** True when a fresh success already covers the current local state. */
+  function withinCooldown(ms: number): boolean {
+    if (lastSuccessSnapshot === null) return false
+    if (Date.parse(deps.now()) - lastSuccessAt >= ms) return false
+    return lastSuccessSnapshot === serialize(deps.loadLocal())
   }
 
   /** The stored base snapshot, or null when missing/unreadable. */
@@ -368,13 +387,15 @@ export function createSyncEngine(deps: EngineDeps) {
     }
   }
 
-  /** Quiz-finish / load-time trigger: silent token only, never a popup. */
+  /** Quiz/load/route trigger: silent token only, never a popup. */
   async function autoSync(): Promise<void> {
+    if (withinCooldown(AUTO_SYNC_COOLDOWN_MS)) return
     await runSync(false)
   }
 
-  /** Settings "Sync now" / reauth click: a popup is acceptable. */
+  /** "Sync Now" / reauth click: a popup is acceptable. */
   async function manualSync(): Promise<void> {
+    if (withinCooldown(MANUAL_SYNC_COOLDOWN_MS)) return
     await runSync(true)
   }
 

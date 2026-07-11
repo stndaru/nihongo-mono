@@ -1,6 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { applySession, emptyProgress, type ProgressData } from '@/lib/progress/store'
-import { createSyncEngine, type EngineDeps } from './engine'
+import {
+  AUTO_SYNC_COOLDOWN_MS,
+  createSyncEngine,
+  MANUAL_SYNC_COOLDOWN_MS,
+  type EngineDeps,
+} from './engine'
 import { AuthRequiredError } from './gis-loader'
 import { loadSyncMeta, saveSyncBase, saveSyncMeta } from './meta'
 import { getSyncStatus, setSyncStatus } from './status-store'
@@ -434,6 +439,77 @@ describe('syncNow (pull-merge-push)', () => {
     await Promise.all([first, second, third])
     const downloads = drive.state.requests.filter((r) => r.url.includes('alt=media'))
     expect(downloads).toHaveLength(2) // initial + exactly one rerun
+    expect(getSyncStatus().phase).toBe('synced')
+  })
+})
+
+describe('trigger throttle (abuse guard)', () => {
+  const T0 = Date.parse('2026-07-11T12:00:00.000Z')
+  /** linked + in-sync setup with a mutable clock driving deps.now */
+  function throttledSetup() {
+    const data = someProgress()
+    linkedMeta(false, data)
+    const drive = makeDrive({
+      folder: 'folder-1',
+      file: { id: 'file-1', content: JSON.stringify(data) },
+    })
+    const made = makeDeps(drive)
+    made.local.data = data
+    const clock = { ms: T0 }
+    made.deps.now = () => new Date(clock.ms).toISOString()
+    return { ...made, drive, clock }
+  }
+
+  it('spammed auto triggers after a fresh sync make zero requests', async () => {
+    const { deps, drive, clock } = throttledSetup()
+    const engine = createSyncEngine(deps)
+    await engine.autoSync()
+    const count = drive.state.requests.length
+    clock.ms += 1000
+    for (let i = 0; i < 10; i++) await engine.autoSync()
+    expect(drive.state.requests).toHaveLength(count)
+    // past the cooldown the next trigger syncs for real again
+    clock.ms += AUTO_SYNC_COOLDOWN_MS
+    await engine.autoSync()
+    expect(drive.state.requests.length).toBeGreaterThan(count)
+  })
+
+  it('new local data bypasses the cooldown (quiz results always upload)', async () => {
+    const { deps, drive, local, clock } = throttledSetup()
+    const engine = createSyncEngine(deps)
+    await engine.autoSync()
+    const count = drive.state.requests.length
+    clock.ms += 1000
+    local.data = applySession(local.data, {
+      answers: [{ verbId: '1343950', correct: true, form: 'past' }],
+      forms: ['past'],
+    })
+    await engine.autoSync()
+    expect(drive.state.requests.length).toBeGreaterThan(count)
+    expect(JSON.parse(drive.state.file!.content).verbs['1343950']).toBeTruthy()
+  })
+
+  it('manual Sync Now has its own shorter cooldown', async () => {
+    const { deps, drive, clock } = throttledSetup()
+    const engine = createSyncEngine(deps)
+    await engine.manualSync()
+    const count = drive.state.requests.length
+    clock.ms += 1000
+    await engine.manualSync() // click-mash: within the manual cooldown
+    expect(drive.state.requests).toHaveLength(count)
+    clock.ms += MANUAL_SYNC_COOLDOWN_MS
+    await engine.manualSync() // a deliberate re-click later runs
+    expect(drive.state.requests.length).toBeGreaterThan(count)
+  })
+
+  it('a failure never starts a cooldown — recovery clicks run immediately', async () => {
+    const { deps, drive, clock } = throttledSetup()
+    drive.state.failures.push({ match: (u) => u.includes('alt=media'), status: 401 })
+    const engine = createSyncEngine(deps)
+    await engine.autoSync()
+    expect(getSyncStatus().phase).toBe('needs-reauth')
+    clock.ms += 1000
+    await engine.manualSync()
     expect(getSyncStatus().phase).toBe('synced')
   })
 })

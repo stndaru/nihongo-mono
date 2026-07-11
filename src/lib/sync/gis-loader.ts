@@ -31,10 +31,13 @@ export function syncConfigured(): boolean {
 }
 
 const SILENT_TIMEOUT_MS = 8000
+// renew a token this long before it expires so an open tab never lapses
+const RENEW_BEFORE_MS = 5 * 60_000
 
 let scriptPromise: Promise<void> | null = null
 let tokenClient: GoogleTokenClient | null = null
 let cached: { token: string; expiresAt: number } | null = null
+let renewTimer: ReturnType<typeof setTimeout> | null = null
 let generation = 0
 // GIS delivers results through the two init-time callbacks; the pending
 // request's resolvers live here so requestToken can await them
@@ -108,6 +111,7 @@ function ensureTokenClient(): GoogleTokenClient {
         token: response.access_token,
         expiresAt: Date.now() + (Number.isFinite(expiresIn) ? expiresIn : 0) * 1000,
       }
+      scheduleRenewal(cached.expiresAt)
       p.resolve(response.access_token)
     },
     // popup closed / blocked / origin mismatch land here — closed and
@@ -127,16 +131,42 @@ function ensureTokenClient(): GoogleTokenClient {
 }
 
 /**
+ * Keep an open tab signed in past Google's ~1 h token lifetime: shortly
+ * before expiry, silently mint a replacement. Failure is fine — the old
+ * token keeps working until expiry and the next sync surfaces
+ * needs-reauth if Google really wants the user. The token itself still
+ * never leaves module memory (the security invariant): "staying signed
+ * in" across page loads is the silent path below, not persistence.
+ */
+function scheduleRenewal(expiresAt: number): void {
+  if (renewTimer) clearTimeout(renewTimer)
+  const inMs = expiresAt - Date.now() - RENEW_BEFORE_MS
+  if (inMs <= 0) {
+    renewTimer = null
+    return
+  }
+  renewTimer = setTimeout(() => {
+    renewTimer = null
+    void getToken({ interactive: false, forceRefresh: true }).catch(() => undefined)
+  }, inMs)
+}
+
+/**
  * Get a Drive-scoped access token. The in-memory token survives only the
  * current page, so a fresh load has none — the non-interactive path still
- * ATTEMPTS a GIS token request (with an existing grant and Google session
- * it completes without user interaction — the draw.io behavior), but it's
- * wrapped in a timeout: if Google needs the user (blocked popup, signed
- * out, revoked), the caller lands in needs-reauth instead of hanging, and
- * a click resolves it.
+ * ATTEMPTS a GIS token request with `prompt: ''` (with an existing grant
+ * and a live Google session it completes with no UI at all — the draw.io
+ * behavior), but it's wrapped in a timeout: if Google needs the user
+ * (blocked popup, signed out, revoked), the caller lands in needs-reauth
+ * instead of hanging, and a click resolves it.
  */
-export async function getToken(opts: { interactive: boolean }): Promise<string> {
-  if (cached && Date.now() < cached.expiresAt - TOKEN_SAFETY_MS) return cached.token
+export async function getToken(opts: {
+  interactive: boolean
+  /** skip the cache — used by the pre-expiry renewal */
+  forceRefresh?: boolean
+}): Promise<string> {
+  if (!opts.forceRefresh && cached && Date.now() < cached.expiresAt - TOKEN_SAFETY_MS)
+    return cached.token
   await loadGis()
   const client = ensureTokenClient()
   generation += 1
@@ -162,8 +192,18 @@ export async function getToken(opts: { interactive: boolean }): Promise<string> 
         reject(err)
       },
     }
-    client.requestAccessToken()
+    // silent path: prompt '' tells Google "no UI — fail instead". Without
+    // it Google may decide to require interaction, which (with no user
+    // gesture) means a blocked popup and a spurious needs-reauth.
+    client.requestAccessToken(opts.interactive ? undefined : { prompt: '' })
   })
+}
+
+function cancelRenewal(): void {
+  if (renewTimer) {
+    clearTimeout(renewTimer)
+    renewTimer = null
+  }
 }
 
 /** Best-effort revoke + memory wipe (disconnect). */
@@ -171,6 +211,7 @@ export async function revokeToken(): Promise<void> {
   const token = cached?.token
   cached = null
   pending = null
+  cancelRenewal()
   if (!token || !window.google?.accounts?.oauth2) return
   await new Promise<void>((resolve) => {
     try {
@@ -185,4 +226,5 @@ export async function revokeToken(): Promise<void> {
 /** Drop the in-memory token so the next sync must re-auth (401 handling). */
 export function forgetToken(): void {
   cached = null
+  cancelRenewal()
 }

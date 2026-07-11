@@ -1378,6 +1378,30 @@ feedback on many of these — treat them as requirements, not suggestions.
       cross-device before a session starts or stats are read — all via
       `requestAutoSync()` (silent, single-flighted, zero requests when
       not linked or undecided).
+    - **Sign-in retention (owner follow-up: "it keeps logging me out")**:
+      tokens are ~1 h and memory-only by design (never persisted — the
+      security invariant), so "staying signed in" means the SILENT path
+      must actually work. Two fixes: (1) non-interactive
+      `requestAccessToken` now passes `prompt: ''` — without it Google
+      may decide to require interaction, which with no user gesture
+      means a blocked popup and a spurious needs-reauth on every reload;
+      (2) `gis-loader` schedules a silent renewal 5 min before expiry
+      (`RENEW_BEFORE_MS`), so a tab left open past the hour keeps a live
+      token instead of lapsing mid-study. Prompts remain only when
+      Google genuinely requires the user: signed out of Google, grant
+      revoked, or third-party-cookie/popup blocking — a client-only app
+      cannot hold refresh tokens, so that residual is irreducible.
+    - **Trigger throttle (abuse guard)**: with sync firing on load,
+      quiz start/finish, and route entry, `autoSync`/`manualSync` skip
+      when the last sync SUCCEEDED within a cooldown
+      (`AUTO_SYNC_COOLDOWN_MS` 30 s / `MANUAL_SYNC_COOLDOWN_MS` 5 s)
+      AND local data is unchanged since (compared against the success
+      snapshot). New local data always syncs immediately — quiz results
+      are never delayed — and failures never start a cooldown, so
+      recovery clicks always run. Click-mashing Sync Now or scripted
+      route-remount loops collapse to zero Google requests; the
+      single-flight + rerun-queue handles concurrency, and Drive-side
+      rate limits still get the backoff ladder.
 
 71. **Dialogs are left-aligned on every viewport + export asks first, 2026-07-11.**
     The shadcn `DialogHeader` default (`text-center sm:text-left`) centered

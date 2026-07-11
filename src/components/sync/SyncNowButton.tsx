@@ -28,6 +28,7 @@ export function SyncNowButton({
     <Button
       variant="outline"
       size={size}
+      className={withStatus ? undefined : className}
       // undecided second browser: syncing stays hard-gated until the
       // Use-vs-Start-Fresh choice; the pill links to Settings for it
       disabled={busy || status.phase === 'pending-decision'}

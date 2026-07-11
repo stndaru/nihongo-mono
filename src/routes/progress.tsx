@@ -228,14 +228,16 @@ function ProgressPage() {
             what to review next.
           </p>
         </div>
-        <div className="flex flex-col items-end gap-1.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <SyncNowButton size="default" />
-            <Button asChild>
+        {/* phones: full-width stacked buttons, status centered under them;
+            sm+: inline right-aligned row with the status underneath */}
+        <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:items-end">
+          <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <SyncNowButton size="default" className="w-full sm:w-auto" />
+            <Button asChild className="w-full sm:w-auto">
               <Link to="/quiz">Start a Quiz</Link>
             </Button>
           </div>
-          <SyncStatusInline />
+          <SyncStatusInline className="self-center sm:self-end" />
         </div>
       </div>
 

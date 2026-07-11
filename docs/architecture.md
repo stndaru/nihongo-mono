@@ -557,6 +557,13 @@ regardless of host compression config.
   gated: existing Drive progress parks the link as `decisionPending` and
   nothing syncs until the user picks Use or the checkbox-confirmed
   Start Fresh).
+- **Token lifecycle**: memory-only, ~1 h. Silent requests pass
+  `prompt: ''` (no-UI-or-fail — the reload path); a renewal fires 5 min
+  before expiry so an open tab never lapses; interactive requests (the
+  Sync Now buttons, reauth clicks) may pop up. **Trigger throttle**:
+  auto syncs skip within 30 s of a success (manual: 5 s) when local data
+  is unchanged since that success — spammed triggers cost zero requests,
+  new data and failure recovery always run.
 - **Security invariants**: `drive.file` scope only; token in module
   memory, never persisted; remote JSON capped at 1 MB and validated by
   `parseImported` before touching the store; fixed folder/file names
