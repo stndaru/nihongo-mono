@@ -1378,19 +1378,30 @@ feedback on many of these — treat them as requirements, not suggestions.
       cross-device before a session starts or stats are read — all via
       `requestAutoSync()` (silent, single-flighted, zero requests when
       not linked or undecided).
-    - **Sign-in retention (owner follow-up: "it keeps logging me out")**:
-      tokens are ~1 h and memory-only by design (never persisted — the
-      security invariant), so "staying signed in" means the SILENT path
-      must actually work. Two fixes: (1) non-interactive
-      `requestAccessToken` now passes `prompt: ''` — without it Google
-      may decide to require interaction, which with no user gesture
-      means a blocked popup and a spurious needs-reauth on every reload;
-      (2) `gis-loader` schedules a silent renewal 5 min before expiry
-      (`RENEW_BEFORE_MS`), so a tab left open past the hour keeps a live
-      token instead of lapsing mid-study. Prompts remain only when
-      Google genuinely requires the user: signed out of Google, grant
-      revoked, or third-party-cookie/popup blocking — a client-only app
-      cannot hold refresh tokens, so that residual is irreducible.
+    - **Sign-in retention (owner follow-up: "it keeps logging me out",
+      revised twice)**: tokens are ~1 h; GIS silent re-mint depends on
+      third-party-cookie state, so a reload could not reliably stay
+      signed in from memory alone. The retention stack is now: (1) the
+      token persists **per-tab in sessionStorage**
+      (`nihongo-mono:drive-sync:token:v1`) — a refresh reuses it with
+      zero Google traffic; it dies with the tab, expires within the
+      hour, and NEVER goes to localStorage (owner-approved relaxation of
+      the original memory-only invariant; mitigations: tab scope, short
+      lifetime, hash-pinned CSP bounding script injection and egress,
+      drive.file blast radius — and /cloud-sync's token wording was
+      updated to stay honest); (2) non-interactive `requestAccessToken`
+      passes `prompt: ''` — without it Google may require interaction,
+      which with no gesture means a blocked popup and a spurious
+      needs-reauth; (3) `gis-loader` renews silently 5 min before expiry
+      so an open tab never lapses; (4) **24 h idle sign-out (owner
+      rule)**: `syncInactiveTooLong` in meta.ts — when the last
+      successful sync is >24 h old, auto-sync stands down (bootstrap
+      gates before even loading the engine; the engine double-checks and
+      drops the token) and status goes needs-reauth until an explicit
+      interactive sync. Google-required sign-outs (revoked, signed out,
+      cookie/popup blocking) still land in needs-reauth immediately —
+      that residual is irreducible client-only, since refresh tokens
+      would need a server.
     - **Trigger throttle (abuse guard)**: with sync firing on load,
       quiz start/finish, and route entry, `autoSync`/`manualSync` skip
       when the last sync SUCCEEDED within a cooldown

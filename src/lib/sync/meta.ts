@@ -29,6 +29,16 @@ export function loadSyncMeta(): SyncMeta | null {
   }
 }
 
+/** Owner rule: after this long with no successful sync, the link "signs
+ *  out" — silent auto-sync stands down and an explicit click (interactive
+ *  sync) is required to resume. Google-required sign-outs (revoked grant,
+ *  expired session) are separate and always honored via needs-reauth. */
+export const INACTIVITY_SIGNOUT_MS = 24 * 60 * 60 * 1000
+
+export function syncInactiveTooLong(meta: SyncMeta, nowMs: number): boolean {
+  return meta.lastSyncedAt !== null && nowMs - Date.parse(meta.lastSyncedAt) > INACTIVITY_SIGNOUT_MS
+}
+
 export function saveSyncMeta(meta: SyncMeta): void {
   try {
     localStorage.setItem(META_KEY, JSON.stringify(meta))

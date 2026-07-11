@@ -28,7 +28,14 @@ import {
 } from './drive'
 import * as gisDefault from './gis-loader'
 import { AuthRequiredError } from './gis-loader'
-import { clearSyncMeta, loadSyncBase, loadSyncMeta, saveSyncBase, saveSyncMeta } from './meta'
+import {
+  clearSyncMeta,
+  loadSyncBase,
+  loadSyncMeta,
+  saveSyncBase,
+  saveSyncMeta,
+  syncInactiveTooLong,
+} from './meta'
 import { RemoteInvalidError, validateRemote } from './remote'
 import { setSyncStatus } from './status-store'
 import type { SyncMeta } from './types'
@@ -389,6 +396,13 @@ export function createSyncEngine(deps: EngineDeps) {
 
   /** Quiz/load/route trigger: silent token only, never a popup. */
   async function autoSync(): Promise<void> {
+    // 24h idle sign-out (owner rule): drop the token and require a click
+    const meta = loadSyncMeta()
+    if (meta && !meta.decisionPending && syncInactiveTooLong(meta, Date.parse(deps.now()))) {
+      deps.gis.forgetToken()
+      setSyncStatus({ phase: 'needs-reauth' })
+      return
+    }
     if (withinCooldown(AUTO_SYNC_COOLDOWN_MS)) return
     await runSync(false)
   }

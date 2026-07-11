@@ -4,16 +4,19 @@
  * import — users who never connected pay zero bytes and make zero
  * requests, and Google's script is never loaded on their behalf.
  */
-import { loadSyncMeta } from './meta'
-
-function syncActive(): boolean {
-  const meta = loadSyncMeta()
-  return meta !== null && !meta.decisionPending // undecided = hard-gated off
-}
+import { loadSyncMeta, syncInactiveTooLong } from './meta'
+import { setSyncStatus } from './status-store'
 
 /** Quiz-finish trigger: fire-and-forget; the UI shows status changes. */
 export function requestAutoSync(): void {
-  if (!syncActive()) return
+  const meta = loadSyncMeta()
+  if (meta === null || meta.decisionPending) return // undecided = hard-gated off
+  if (syncInactiveTooLong(meta, Date.now())) {
+    // 24h idle sign-out: surface it without even loading the engine —
+    // the manual Sync Now / sign-in click resumes
+    setSyncStatus({ phase: 'needs-reauth' })
+    return
+  }
   void import('./engine')
     .then((m) => m.getEngine().autoSync())
     .catch(() => undefined) // chunk-load failure: next trigger retries

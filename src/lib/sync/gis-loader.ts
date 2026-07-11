@@ -5,8 +5,12 @@
  * - The script is injected only when this module's functions run, and this
  *   module is only reachable through the lazily-imported sync engine — a
  *   user who never connects Drive never loads Google code.
- * - The access token lives in this module's memory ONLY. It is never
- *   persisted anywhere, so nothing outside a live tab can steal it.
+ * - The access token lives in module memory plus THIS TAB's
+ *   sessionStorage (owner request: staying signed in across reloads —
+ *   GIS can't reliably re-mint silently once browsers block third-party
+ *   cookies). It is tab-scoped, gone when the tab closes, expires within
+ *   the hour, and NEVER goes to localStorage. The CSP's connect-src
+ *   allowlist bounds where a stolen token could even be sent.
  * - The one requested scope is drive.file; the grant is verified with
  *   hasGrantedAllScopes before the token is accepted.
  * - Each token request carries a generation number; callbacks from a
@@ -33,6 +37,37 @@ export function syncConfigured(): boolean {
 const SILENT_TIMEOUT_MS = 8000
 // renew a token this long before it expires so an open tab never lapses
 const RENEW_BEFORE_MS = 5 * 60_000
+// per-tab persistence so a reload keeps the signed-in state (see header)
+const TOKEN_STORE_KEY = 'nihongo-mono:drive-sync:token:v1'
+
+function readStoredToken(): { token: string; expiresAt: number } | null {
+  try {
+    const raw = sessionStorage.getItem(TOKEN_STORE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { token?: unknown; expiresAt?: unknown }
+    if (typeof parsed.token !== 'string' || typeof parsed.expiresAt !== 'number') return null
+    if (Date.now() >= parsed.expiresAt - TOKEN_SAFETY_MS) return null
+    return { token: parsed.token, expiresAt: parsed.expiresAt }
+  } catch {
+    return null
+  }
+}
+
+function writeStoredToken(c: { token: string; expiresAt: number }): void {
+  try {
+    sessionStorage.setItem(TOKEN_STORE_KEY, JSON.stringify(c))
+  } catch {
+    // storage full / blocked: memory-only for this tab, still functional
+  }
+}
+
+function clearStoredToken(): void {
+  try {
+    sessionStorage.removeItem(TOKEN_STORE_KEY)
+  } catch {
+    // nothing to clear
+  }
+}
 
 let scriptPromise: Promise<void> | null = null
 let tokenClient: GoogleTokenClient | null = null
@@ -111,6 +146,7 @@ function ensureTokenClient(): GoogleTokenClient {
         token: response.access_token,
         expiresAt: Date.now() + (Number.isFinite(expiresIn) ? expiresIn : 0) * 1000,
       }
+      writeStoredToken(cached)
       scheduleRenewal(cached.expiresAt)
       p.resolve(response.access_token)
     },
@@ -165,8 +201,15 @@ export async function getToken(opts: {
   /** skip the cache — used by the pre-expiry renewal */
   forceRefresh?: boolean
 }): Promise<string> {
-  if (!opts.forceRefresh && cached && Date.now() < cached.expiresAt - TOKEN_SAFETY_MS)
-    return cached.token
+  if (!opts.forceRefresh) {
+    if (!cached) {
+      // fresh page in a tab that was already signed in: pick the token
+      // back up so a reload never needs Google at all
+      cached = readStoredToken()
+      if (cached) scheduleRenewal(cached.expiresAt)
+    }
+    if (cached && Date.now() < cached.expiresAt - TOKEN_SAFETY_MS) return cached.token
+  }
   await loadGis()
   const client = ensureTokenClient()
   generation += 1
@@ -206,12 +249,13 @@ function cancelRenewal(): void {
   }
 }
 
-/** Best-effort revoke + memory wipe (disconnect). */
+/** Best-effort revoke + full wipe, memory and tab storage (disconnect). */
 export async function revokeToken(): Promise<void> {
-  const token = cached?.token
+  const token = cached?.token ?? readStoredToken()?.token
   cached = null
   pending = null
   cancelRenewal()
+  clearStoredToken()
   if (!token || !window.google?.accounts?.oauth2) return
   await new Promise<void>((resolve) => {
     try {
@@ -223,8 +267,9 @@ export async function revokeToken(): Promise<void> {
   })
 }
 
-/** Drop the in-memory token so the next sync must re-auth (401 handling). */
+/** Drop the token (memory + tab) so the next sync must re-auth (401). */
 export function forgetToken(): void {
   cached = null
   cancelRenewal()
+  clearStoredToken()
 }

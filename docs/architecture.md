@@ -557,15 +557,21 @@ regardless of host compression config.
   gated: existing Drive progress parks the link as `decisionPending` and
   nothing syncs until the user picks Use or the checkbox-confirmed
   Start Fresh).
-- **Token lifecycle**: memory-only, ~1 h. Silent requests pass
-  `prompt: ''` (no-UI-or-fail — the reload path); a renewal fires 5 min
-  before expiry so an open tab never lapses; interactive requests (the
-  Sync Now buttons, reauth clicks) may pop up. **Trigger throttle**:
-  auto syncs skip within 30 s of a success (manual: 5 s) when local data
-  is unchanged since that success — spammed triggers cost zero requests,
-  new data and failure recovery always run.
-- **Security invariants**: `drive.file` scope only; token in module
-  memory, never persisted; remote JSON capped at 1 MB and validated by
+- **Token lifecycle**: ~1 h, held in module memory + THIS TAB's
+  sessionStorage (`nihongo-mono:drive-sync:token:v1`) so a page refresh
+  stays signed in with zero Google traffic; never in localStorage. A
+  silent renewal fires 5 min before expiry so an open tab never lapses;
+  silent requests pass `prompt: ''` (no-UI-or-fail); interactive
+  requests (the Sync Now buttons, reauth clicks) may pop up. After
+  **24 h without a successful sync** the link signs out
+  (`syncInactiveTooLong`): auto-sync stands down and an explicit click
+  resumes. **Trigger throttle**: auto syncs skip within 30 s of a
+  success (manual: 5 s) when local data is unchanged since that
+  success — spammed triggers cost zero requests, new data and failure
+  recovery always run.
+- **Security invariants**: `drive.file` scope only; token tab-scoped as
+  above (wiped on disconnect/401), never in localStorage — the meta
+  test pins that; remote JSON capped at 1 MB and validated by
   `parseImported` before touching the store; fixed folder/file names
   escaped in Drive queries; revoke on disconnect; the build emits a CSP
   (`scripts/gen-csp.ts` → `dist/_headers` + `vercel.json`) pinning
@@ -899,5 +905,8 @@ announced once) · `parser-ocr-crop` (Scan Image "crop before scanning"
 preference; `'0'` skips the crop dialog) · `palette-ext` (sticky
 "Include Full Dictionary" palette opt-in) · `drive-sync:v1` (Google Drive
 link state: folder/file ids, lastSyncedAt, decisionPending — NEVER a
-token; tokens are memory-only) · `drive-sync:base:v1` (the last-synced
-progress snapshot, the three-way merge's common ancestor — decision 70).
+token) · `drive-sync:base:v1` (the last-synced progress snapshot, the
+three-way merge's common ancestor — decision 70). The Drive access token
+lives in **sessionStorage** (`drive-sync:token:v1`, tab-scoped, ≤1 h) —
+the one deliberate exception to "everything is localStorage"; it must
+never move to localStorage.

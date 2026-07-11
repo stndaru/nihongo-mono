@@ -514,6 +514,53 @@ describe('trigger throttle (abuse guard)', () => {
   })
 })
 
+describe('24h inactivity sign-out', () => {
+  // deps.now is fixed at 2026-07-11T12:00:00Z
+  const linkedAt = (lastSyncedAt: string, data: ProgressData) => {
+    saveSyncMeta({
+      enabled: true,
+      folderId: 'folder-1',
+      fileId: 'file-1',
+      lastSyncedAt,
+      decisionPending: false,
+    })
+    saveSyncBase(JSON.stringify(data))
+  }
+
+  it('auto-sync stands down after 24h idle; a manual sync resumes', async () => {
+    const data = someProgress()
+    linkedAt('2026-07-10T11:00:00.000Z', data) // 25h before deps.now
+    const drive = makeDrive({
+      folder: 'folder-1',
+      file: { id: 'file-1', content: JSON.stringify(data) },
+    })
+    const { deps, local, events } = makeDeps(drive)
+    local.data = data
+    const engine = createSyncEngine(deps)
+    await engine.autoSync()
+    expect(drive.state.requests).toHaveLength(0) // signed out: no Google traffic
+    expect(events.forgot).toBe(1) // token dropped — a real sign-out
+    expect(getSyncStatus().phase).toBe('needs-reauth')
+    await engine.manualSync() // the sign-in click
+    expect(getSyncStatus().phase).toBe('synced')
+    expect(loadSyncMeta()?.lastSyncedAt).toBe('2026-07-11T12:00:00.000Z') // fresh again
+  })
+
+  it('under 24h idle auto-sync runs normally', async () => {
+    const data = someProgress()
+    linkedAt('2026-07-10T13:00:00.000Z', data) // 23h before deps.now
+    const drive = makeDrive({
+      folder: 'folder-1',
+      file: { id: 'file-1', content: JSON.stringify(data) },
+    })
+    const { deps, local } = makeDeps(drive)
+    local.data = data
+    await createSyncEngine(deps).autoSync()
+    expect(drive.state.requests.length).toBeGreaterThan(0)
+    expect(getSyncStatus().phase).toBe('synced')
+  })
+})
+
 describe('disconnect', () => {
   it('revokes, clears the link, leaves local data alone', async () => {
     linkedMeta()
