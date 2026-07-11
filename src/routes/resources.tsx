@@ -33,6 +33,11 @@ const RESOURCES: { name: string; href: string; what: string }[] = [
     what: 'A compact, well-structured guide to the verb groups and conjugation forms (the inspiration for this app’s Japanese Verb Summary cheatsheet), with drills to practice them.',
   },
   {
+    name: 'Kotoba',
+    href: 'https://kotoba.meganeko.dev/',
+    what: 'Japanese through interactive readings — dialogues, news pieces, emails, and diary entries built around real-life scenarios like job interviews and making plans. Explanations are in Indonesian.',
+  },
+  {
     name: 'JLPT Sensei',
     href: 'https://jlptsensei.com/',
     what: 'JLPT-focused grammar, vocabulary, and kanji lists for every level N5–N1, each grammar point with meaning, structure, and example sentences.',
@@ -46,6 +51,11 @@ const RESOURCES: { name: string; href: string; what: string }[] = [
     name: 'Japanese Test 4 You',
     href: 'https://japanesetest4you.com/',
     what: 'Free JLPT practice: grammar and vocabulary lists, flashcards, and mock tests for every level, organized N5–N1.',
+  },
+  {
+    name: "Let's Challenge JLPT",
+    href: 'https://challenge-jlpt.com/',
+    what: 'A free, no-signup JLPT question bank — thousands of vocabulary, grammar, and kanji-reading drills across N5–N1, plus a quick level-check placement test.',
   },
 ]
 
