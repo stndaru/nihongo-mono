@@ -62,9 +62,8 @@ export function loadGis(): Promise<void> {
       }, SCRIPT_TIMEOUT_MS)
       script.onload = () => {
         clearTimeout(timer)
-        window.google?.accounts?.oauth2
-          ? resolve()
-          : reject(new Error('Google sign-in script loaded but is unusable.'))
+        if (window.google?.accounts?.oauth2) resolve()
+        else reject(new Error('Google sign-in script loaded but is unusable.'))
       }
       script.onerror = () => {
         clearTimeout(timer)

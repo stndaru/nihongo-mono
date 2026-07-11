@@ -8,10 +8,10 @@
  * created itself. Names are fixed constants and still escaped before
  * being interpolated into a `q` query — user input never reaches one.
  */
+import { FOLDER_NAME, FILE_NAME } from './constants'
 import { MAX_REMOTE_BYTES } from './remote'
 
-export const FOLDER_NAME = 'Nihongo Mono'
-export const FILE_NAME = 'progress.json'
+export { FOLDER_NAME, FILE_NAME }
 
 const API = 'https://www.googleapis.com/drive/v3'
 const UPLOAD = 'https://www.googleapis.com/upload/drive/v3'

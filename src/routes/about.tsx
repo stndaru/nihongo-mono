@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import meta from '@/data/meta.json'
 
 export const Route = createFileRoute('/about')({
@@ -104,8 +104,18 @@ function AboutPage() {
         Settings. Optionally, Settings can connect your own Google Drive to
         sync progress across devices: the app then talks to Google directly
         from your browser using the narrow drive.file permission (it can only
-        see the files it created), and nothing ever passes through a nihongo
-        mono server — there isn&apos;t one.
+        see the files it created), keeps the data in a visible{' '}
+        <span className="text-foreground">My Drive › Nihongo Mono</span> folder
+        that shouldn&apos;t be moved or edited by hand, and nothing ever
+        passes through a nihongo mono server — there isn&apos;t one. Full
+        details, disclaimers, and legal notes:{' '}
+        <Link
+          to="/cloud-sync"
+          className="text-primary underline-offset-2 hover:underline"
+        >
+          Cloud Sync — How It Works &amp; Privacy
+        </Link>
+        .
       </p>
 
       <h2 className="mt-8 text-lg font-semibold">Data sources & licences</h2>

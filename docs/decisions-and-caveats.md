@@ -1352,6 +1352,21 @@ feedback on many of these — treat them as requirements, not suggestions.
       propagation, error classification, meta/token invariant, engine
       transition table via injected deps). Real-account checklist in
       `docs/google-drive-setup.md`.
+    - **/cloud-sync consent & privacy page** (owner follow-up): a
+      dedicated route explaining the sync in plain language — folder
+      location (My Drive › Nihongo Mono › progress.json) with an explicit
+      "don't move/rename/edit/delete it" warning, the drive.file scope
+      limits, what data is synced (stats only, no PII), user controls
+      (disconnect, myaccount revoke, folder deletion, file backups), and
+      the legal notes: as-is/no-warranty + liability limitation, Google
+      ToS/Privacy links + non-affiliation, user's own account/quota
+      responsibility, MIT auditability. Linked from the connect dialog
+      ("by continuing you agree…", new tab so consent context survives),
+      the Settings section, and About; it doubles as the privacy-policy
+      URL the Google consent-screen branding form requires. Settings
+      also shows the folder path + tamper warning whenever linked
+      (constants shared from `sync/constants.ts` so the UI doesn't pull
+      the lazy Drive layer).
 
 ## Known limitations / accepted trade-offs
 

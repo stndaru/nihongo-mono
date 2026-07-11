@@ -12,6 +12,10 @@ itself when none is configured.
 2. **APIs & Services → Library** → enable **Google Drive API**.
 3. **APIs & Services → OAuth consent screen**:
    - User type **External**; fill app name + support email.
+   - For the **privacy policy / homepage URLs** the branding form asks
+     for, use the app's own pages: homepage = the deployed origin,
+     privacy policy = `<origin>/cloud-sync` (the in-app "Cloud Sync — How
+     It Works & Privacy" page, which is the user-facing consent notice).
    - Scopes: add `https://www.googleapis.com/auth/drive.file` only. It is
      a **non-sensitive** scope (the app can touch only files it created),
      so no security assessment is required.

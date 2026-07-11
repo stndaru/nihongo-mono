@@ -5,6 +5,7 @@
  * inside the click handlers — visiting Settings alone fetches nothing.
  */
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { Cloud, RefreshCw, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -16,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { FILE_NAME, FOLDER_NAME } from '@/lib/sync/constants'
 import { loadSyncMeta } from '@/lib/sync/meta'
 import { syncConfigured } from '@/lib/sync/gis-loader'
 import { useSyncStatus } from '@/lib/sync/status-store'
@@ -82,10 +84,26 @@ export function CloudSyncSection() {
       <h2 className="text-sm font-medium">Cloud sync</h2>
       <p className="text-xs text-pretty text-muted-foreground">
         Optionally keep your progress in your own Google Drive and continue on
-        any device. Syncs automatically after each quiz.
+        any device. Syncs automatically after each quiz.{' '}
+        <Link
+          to="/cloud-sync"
+          className="text-primary underline-offset-2 hover:underline"
+        >
+          How it works &amp; privacy
+        </Link>
       </p>
 
       <StatusLine />
+      {linked && (
+        <p className="text-xs text-pretty text-muted-foreground">
+          Stored in{' '}
+          <span className="font-medium text-foreground">
+            My Drive › {FOLDER_NAME} › {FILE_NAME}
+          </span>{' '}
+          — don&apos;t move, rename, or edit that folder or file; tampering
+          with it can interfere with the sync.
+        </p>
+      )}
 
       <div className="flex flex-wrap items-center gap-2 pt-1">
         {!linked && (
@@ -171,6 +189,18 @@ export function CloudSyncSection() {
             <ShieldCheck className="mt-0.5 size-4 shrink-0 text-success" />
             Sign-in happens directly between your browser and Google. nihongo
             mono has no server and never sees your data or your account.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            By continuing you agree to the terms on the{' '}
+            <a
+              href="/cloud-sync"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline-offset-2 hover:underline"
+            >
+              Cloud Sync — How It Works &amp; Privacy
+            </a>{' '}
+            page (opens in a new tab).
           </p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConnectOpen(false)}>
