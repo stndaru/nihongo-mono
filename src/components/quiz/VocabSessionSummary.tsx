@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { SyncStatusInline } from '@/components/sync/SyncStatusInline'
 import { Button } from '@/components/ui/button'
 import { answerGloss, type VocabQuestion } from '@/lib/quiz/vocab-engine'
 
@@ -33,6 +34,8 @@ export function VocabSessionSummary({
         <div className="mt-1 text-sm text-muted-foreground">
           {correct} of {results.length} correct
         </div>
+        {/* the auto-sync fires right when this screen appears — show it */}
+        <SyncStatusInline className="mt-2 justify-center" />
       </div>
 
       {missed.length > 0 && (

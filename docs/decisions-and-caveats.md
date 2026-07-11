@@ -1269,6 +1269,90 @@ feedback on many of these — treat them as requirements, not suggestions.
     - The parser's `identifyVerbForm` iterates the form list, so parsed
       ないで surfaces now label themselves correctly for free.
 
+70. **Google Drive progress sync — client-only, draw.io-style, 2026-07-11**
+    (owner feature request with an explicit security mandate). Settings →
+    Cloud sync links the user's own Google Drive: a `Nihongo Mono` folder
+    in My Drive root holds one `progress.json`, auto-synced after every
+    finished quiz session and on app load, browser ↔ Google directly —
+    the static host is never involved (verified by the CSP allowlist
+    itself). Feature hides entirely when `VITE_GOOGLE_CLIENT_ID` is unset
+    (`.env.example`; owner console steps in `docs/google-drive-setup.md`).
+    - **Auth: GIS token model** (`accounts.google.com/gsi/client`,
+      `initTokenClient`/`requestAccessToken`), scope **`drive.file` only**
+      — the app can touch only files it created; a stolen token could
+      never read the rest of a Drive. The access token lives in
+      **module memory only** (never persisted — a unit test asserts the
+      stored meta stays token-free); tokens last ~1 h and don't survive
+      reloads, so non-interactive syncs still ATTEMPT a silent GIS
+      request (with an existing grant + session Google grants it without
+      UI — the draw.io behavior) under an 8 s timeout; anything needing
+      the user (blocked popup, revoked, signed out) lands in a
+      `needs-reauth` status that one click fixes. First cut threw
+      immediately without attempting — every fresh page session then
+      required a manual click, found by the Playwright round.
+    - **Sync = pull-merge-push with a THREE-WAY merge** (`merge3.ts`).
+      The additive import merge (`mergeProgress`) would double every
+      counter on every sync once local and remote share history — caught
+      while writing the steady-state test. Each successful sync stores
+      the agreed state (`drive-sync:base:v1`); the next computes
+      `remote + (local − base)` per counter, sessions by multiset diff,
+      streak by most-recent timeline with a high-water `best`. Anchoring
+      on remote makes another device's "start fresh" reset propagate
+      instead of resurrecting. `decideUse` is the one place the additive
+      merge is correct (two independent histories meeting once) and it
+      anchors base at the remote it merged from. No base (first sync /
+      storage loss) falls back to the additive merge once.
+    - **Second-browser decision gate** (owner spec): existing Drive
+      progress parks the link as `decisionPending` — persisted, surviving
+      reloads, hard-gating every auto/load sync until the user picks
+      **Use Drive Progress** (merge) or **Start Fresh** (this browser
+      overwrites Drive; requires a checkbox — "I understand… permanently
+      replaced" — before the destructive button enables, per the owner's
+      misclick requirement). Dismissing keeps the gate closed; a failed
+      reset reverts to pending so a later auto-sync can't quietly
+      resurrect what the user chose to discard.
+    - **Failure matrix** → statuses: 401/revoked → needs-reauth (token
+      forgotten); 403 rate limits/429 → in-sync exponential backoff
+      (1–16 s + jitter, 5 attempts) then a retry-on-next-trigger error;
+      `storageQuotaExceeded` → explicit "Drive is out of storage"; fetch
+      failure → offline with a one-shot `online`-event retry; 404 →
+      folder/file recreated (adopting a file another device already
+      recreated instead of clobbering it); unreadable/oversized remote →
+      `remote-invalid` with an explicit "Overwrite Drive copy" recovery.
+      Remote JSON is untrusted input: 1 MB cap before `JSON.parse`, then
+      the import path's `parseImported`/`migrate`.
+    - **Async + visible**: syncs are fire-and-forget behind a
+      single-flight engine (a trigger mid-sync queues exactly one rerun);
+      the engine writes merged data to localStorage and fires an event
+      the ProgressProvider re-reads from (no re-save loop). Status lives
+      in a ~0.5 kB `useSyncExternalStore` store: full status line in
+      Settings, a small pill on the progress header and both quiz
+      summaries. Everything else — engine, Drive REST, Google's script —
+      is behind dynamic imports; the GIS script loads only for linked
+      users or on the consent click. Multi-tab: last-write-wins, no
+      storage listeners (the merge is reload-safe); accepted caveat.
+    - **CSP shipped with the feature** (`scripts/gen-csp.ts` in the build
+      chain): `script-src 'self' 'wasm-unsafe-eval' <FOUC hash>
+      accounts.google.com`, `connect-src` allowlisting only Google +
+      the two translation origins, `frame-src accounts.google.com`,
+      `object-src 'none'`, `frame-ancestors 'self'`. The inline-script
+      hash is recomputed from the BUILT dist/index.html every build, so
+      editing the FOUC script can't silently break the policy; the script
+      writes `dist/_headers` (Cloudflare + Netlify) and keeps
+      `vercel.json` in lockstep. `'wasm-unsafe-eval'` is required or the
+      CSP would break tesseract-wasm OCR (it does not allow JS eval).
+      No default-src/style-src on purpose: Radix inline styles and the
+      self-hosted workers must keep working; scripts and egress are the
+      token-theft vectors.
+    - **Testing**: real OAuth can't run in CI, so browser tests fake
+      Google at the NETWORK layer (Playwright route interception serving
+      a fake gsi/client script + fake Drive API) — the production code
+      path runs unmodified and no test hook ships in the bundle. 15
+      end-to-end checks + 36 unit tests (merge3 idempotence/deltas/reset
+      propagation, error classification, meta/token invariant, engine
+      transition table via injected deps). Real-account checklist in
+      `docs/google-drive-setup.md`.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

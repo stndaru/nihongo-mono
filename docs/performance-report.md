@@ -241,6 +241,14 @@ health — nothing introduced by those changes:**
   23-form OtherConjugationOptions scan), RuleCheatsheet expand
   49–93 ms — all zero long tasks.
 
+Same-day addition — **Google Drive sync (decision 70)**: main bundle grew
+only by the bootstrap + status store (~1.5 kB raw, ≈0.4 kB gz); the sync
+engine, Drive REST layer, and Google's gsi script are all behind dynamic
+imports and load only for users who linked Drive (or on the consent
+click). An unconfigured build (no `VITE_GOOGLE_CLIENT_ID`) hides the
+feature and makes zero Google requests — verified by Playwright request
+capture.
+
 One improvement shipped from the sweep: **`/cheatsheet/verbs` cold
 mount** (the app's heaviest non-opt-in commit; pre-existing) — the
 below-fold `ConjugationGuide` now mounts one frame after first paint via

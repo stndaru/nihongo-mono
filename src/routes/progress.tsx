@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { createFileRoute, Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { toHiragana } from 'wanakana'
 import { STATUS_LABELS, StatusBadge } from '@/components/progress/StatusBadge'
+import { SyncStatusInline } from '@/components/sync/SyncStatusInline'
 import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import { Furigana } from '@/components/verbs/Furigana'
@@ -216,9 +217,12 @@ function ProgressPage() {
             what to review next.
           </p>
         </div>
-        <Button asChild>
-          <Link to="/quiz">Start a Quiz</Link>
-        </Button>
+        <div className="flex flex-col items-end gap-1.5">
+          <Button asChild>
+            <Link to="/quiz">Start a Quiz</Link>
+          </Button>
+          <SyncStatusInline />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">

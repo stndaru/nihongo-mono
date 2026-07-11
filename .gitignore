@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+# per-machine env (VITE_GOOGLE_CLIENT_ID etc.) — .env.example is the template
+.env
 
 # generated
 src/routeTree.gen.ts

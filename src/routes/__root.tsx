@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { Search } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { OPEN_PALETTE_EVENT } from '@/components/search/CommandPalette'
 import { ProgressProvider } from '@/lib/progress/context'
+import { initSyncOnLoad } from '@/lib/sync/bootstrap'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -27,6 +29,9 @@ function RootLayout() {
 }
 
 function RootShell() {
+  // if Google Drive sync is linked, pull-merge once per app load (silent
+  // token only — this never opens a popup; a no-op for everyone else)
+  useEffect(() => initSyncOnLoad(), [])
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />
@@ -44,7 +49,10 @@ function RootShell() {
       </button>
       <footer className="border-t py-3">
         <div className="mx-auto flex max-w-5xl flex-col gap-1.5 px-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-4">
-          <span>nihongo mono — no login, data stays in your browser</span>
+          <span>
+            nihongo mono — no account needed, data stays in your browser
+            (optional Drive sync)
+          </span>
           <span className="flex items-center gap-3">
             <Link to="/about" className="underline-offset-2 hover:underline">
               About & licences

@@ -1,8 +1,9 @@
 # nihongo mono（日本語 mono）
 
 A fast, lightweight Japanese verb dictionary and conjugation trainer.
-No login, no server — your study progress lives in your browser and can be
-exported as a file.
+No account required, no server — your study progress lives in your browser
+and can be exported as a file, or optionally synced to your own Google
+Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
 
 **Features**
 

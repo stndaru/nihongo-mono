@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { CloudSyncSection } from '@/components/sync/CloudSyncSection'
 import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
 import {
@@ -150,8 +151,9 @@ function SettingsPage() {
       <section className="space-y-2">
         <h2 className="text-sm font-medium">Progress data</h2>
         <p className="text-xs text-muted-foreground">
-          Your streak, accuracy, and per-verb stats are stored only in this
-          browser. Export them as a file to move to another browser or device.
+          Your streak, accuracy, and per-verb stats are stored in this
+          browser. Export them as a file to move them by hand, or connect
+          Google Drive below to sync across devices.
         </p>
         <div className="flex flex-wrap gap-2 pt-1">
           <Button variant="outline" onClick={() => downloadProgress(progress)}>
@@ -178,6 +180,8 @@ function SettingsPage() {
           </p>
         )}
       </section>
+
+      <CloudSyncSection />
 
       <section className="space-y-2">
         <h2 className="text-sm font-medium">Danger zone</h2>

@@ -99,8 +99,13 @@ function AboutPage() {
       <h1 className="text-2xl font-semibold">About</h1>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         nihongo mono is a lightweight Japanese verb dictionary and conjugation
-        trainer. There is no login and no server database — your study progress
-        is stored only in this browser and can be exported from Settings.
+        trainer. There is no account requirement and no server database — your
+        study progress is stored in this browser and can be exported from
+        Settings. Optionally, Settings can connect your own Google Drive to
+        sync progress across devices: the app then talks to Google directly
+        from your browser using the narrow drive.file permission (it can only
+        see the files it created), and nothing ever passes through a nihongo
+        mono server — there isn&apos;t one.
       </p>
 
       <h2 className="mt-8 text-lg font-semibold">Data sources & licences</h2>

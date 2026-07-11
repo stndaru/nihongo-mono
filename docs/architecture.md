@@ -844,4 +844,7 @@ toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
 (sticky Scan Image opt-in — non-null means the OCR download was
 announced once) · `parser-ocr-crop` (Scan Image "crop before scanning"
 preference; `'0'` skips the crop dialog) · `palette-ext` (sticky
-"Include Full Dictionary" palette opt-in).
+"Include Full Dictionary" palette opt-in) · `drive-sync:v1` (Google Drive
+link state: folder/file ids, lastSyncedAt, decisionPending — NEVER a
+token; tokens are memory-only) · `drive-sync:base:v1` (the last-synced
+progress snapshot, the three-way merge's common ancestor — decision 70).

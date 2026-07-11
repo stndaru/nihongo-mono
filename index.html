@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="NihongoMono — a fast, no-login Japanese dictionary and trainer. 230,000+ words with conjugations, furigana, and example sentences; 740,000+ proper names; verb and vocabulary quizzes. Your progress stays in your browser."
+      content="NihongoMono — a fast Japanese dictionary and trainer, no account required. 230,000+ words with conjugations, furigana, and example sentences; 740,000+ proper names; verb and vocabulary quizzes. Progress stays in your browser, with optional Google Drive sync."
     />
     <title>NihongoMono - Companion</title>
     <meta name="theme-color" content="#D97757" />
@@ -18,7 +18,7 @@
     <meta property="og:title" content="NihongoMono - Companion" />
     <meta
       property="og:description"
-      content="A fast, no-login Japanese dictionary and trainer — 230,000+ words with conjugations, furigana, and examples, 740,000+ names, and quizzes that track your progress locally."
+      content="A fast Japanese dictionary and trainer, no account required — 230,000+ words with conjugations, furigana, and examples, 740,000+ names, and quizzes that track your progress locally (optional Drive sync)."
     />
     <meta property="og:image" content="/og.png" />
     <meta property="og:image:width" content="1200" />
@@ -27,9 +27,13 @@
     <meta name="twitter:title" content="NihongoMono - Companion" />
     <meta
       name="twitter:description"
-      content="A fast, no-login Japanese dictionary and trainer — 230,000+ words, conjugations, furigana, quizzes."
+      content="A fast Japanese dictionary and trainer, no account required — 230,000+ words, conjugations, furigana, quizzes."
     />
     <meta name="twitter:image" content="/og.png" />
+    <!-- This inline script is allowed through the Content-Security-Policy
+         by its sha256 hash. The hash is recomputed from the BUILT html on
+         every `bun run build` (scripts/gen-csp.ts), so edits here are safe
+         — but a hand-deployed dist without that step will violate CSP. -->
     <script>
       // Theme FOUC guard: must run before first paint.
       ;(function () {

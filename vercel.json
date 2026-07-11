@@ -1,3 +1,19 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "script-src 'self' 'wasm-unsafe-eval' 'sha256-9cEbd1Rc9wyb1ttyue8EB33+Jc4TOYXCgsitw3K7UAk=' https://accounts.google.com; connect-src 'self' https://www.googleapis.com https://accounts.google.com https://translate.googleapis.com https://api.mymemory.translated.net; frame-src https://accounts.google.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+        }
+      ]
+    }
+  ]
 }

@@ -45,7 +45,7 @@ export interface ProgressData {
 }
 
 const STORAGE_KEY = 'nihongo-mono:progress:v1'
-const SESSION_CAP = 100
+export const SESSION_CAP = 100
 
 export function emptyProgress(): ProgressData {
   return {
