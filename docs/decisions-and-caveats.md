@@ -1382,14 +1382,17 @@ feedback on many of these — treat them as requirements, not suggestions.
       revised twice)**: tokens are ~1 h; GIS silent re-mint depends on
       third-party-cookie state, so a reload could not reliably stay
       signed in from memory alone. The retention stack is now: (1) the
-      token persists **per-tab in sessionStorage**
-      (`nihongo-mono:drive-sync:token:v1`) — a refresh reuses it with
-      zero Google traffic; it dies with the tab, expires within the
-      hour, and NEVER goes to localStorage (owner-approved relaxation of
-      the original memory-only invariant; mitigations: tab scope, short
-      lifetime, hash-pinned CSP bounding script injection and egress,
+      token persists in **localStorage**
+      (`nihongo-mono:drive-sync:token:v1`) — reloads AND full browser
+      restarts reuse it with zero Google traffic (owner widened this
+      twice: first sessionStorage for reloads, then localStorage for
+      restarts). This is an owner-approved relaxation of the original
+      memory-only invariant; the exposure envelope: Google's ≤1 h token
+      lifetime, the 24 h idle sign-out, expired blobs self-delete on
+      read, hash-pinned CSP bounding script injection and egress,
       drive.file blast radius — and /cloud-sync's token wording was
-      updated to stay honest); (2) non-interactive `requestAccessToken`
+      updated to stay honest. The link META must still never carry a
+      token (unit-pinned); (2) non-interactive `requestAccessToken`
       passes `prompt: ''` — without it Google may require interaction,
       which with no gesture means a blocked popup and a spurious
       needs-reauth; (3) `gis-loader` renews silently 5 min before expiry

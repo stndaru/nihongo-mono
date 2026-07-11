@@ -102,11 +102,11 @@ function CloudSyncPage() {
           </span>{' '}
           — never your other Drive files, and it does not request your email
           address or profile. The sign-in token stays inside this browser
-          tab only (so a page refresh keeps you signed in): it is never
-          shared between sites or tabs, disappears when the tab closes,
-          expires within an hour, and is revoked when you disconnect. After
-          24 hours without any syncing you are signed out automatically and
-          asked to sign in again.
+          only (so refreshes and restarts keep you signed in): it is never
+          shared with other sites, expires within an hour on Google&apos;s
+          side, and is revoked when you disconnect. After 24 hours without
+          any syncing you are signed out automatically and asked to sign in
+          again.
         </p>
         <p className="flex items-start gap-2">
           <ShieldCheck className="mt-0.5 size-4 shrink-0 text-success" />

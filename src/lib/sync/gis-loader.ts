@@ -5,12 +5,15 @@
  * - The script is injected only when this module's functions run, and this
  *   module is only reachable through the lazily-imported sync engine — a
  *   user who never connects Drive never loads Google code.
- * - The access token lives in module memory plus THIS TAB's
- *   sessionStorage (owner request: staying signed in across reloads —
- *   GIS can't reliably re-mint silently once browsers block third-party
- *   cookies). It is tab-scoped, gone when the tab closes, expires within
- *   the hour, and NEVER goes to localStorage. The CSP's connect-src
- *   allowlist bounds where a stolen token could even be sent.
+ * - The access token lives in module memory plus localStorage (owner
+ *   request, twice widened: staying signed in across reloads AND full
+ *   browser restarts — GIS can't reliably re-mint silently once browsers
+ *   block third-party cookies). Exposure is bounded by Google's ≤1 h
+ *   token lifetime, the 24 h idle sign-out (engine/bootstrap), the
+ *   drive.file scope, and the CSP: hash-pinned script-src blocks
+ *   injected code and the connect-src allowlist bounds where a stolen
+ *   token could even be sent. The link META must still never carry a
+ *   token (meta.ts test pins that).
  * - The one requested scope is drive.file; the grant is verified with
  *   hasGrantedAllScopes before the token is accepted.
  * - Each token request carries a generation number; callbacks from a
@@ -37,16 +40,20 @@ export function syncConfigured(): boolean {
 const SILENT_TIMEOUT_MS = 8000
 // renew a token this long before it expires so an open tab never lapses
 const RENEW_BEFORE_MS = 5 * 60_000
-// per-tab persistence so a reload keeps the signed-in state (see header)
+// persistence so reloads AND browser restarts keep the signed-in state
+// within the token's ≤1 h life (see header for the security envelope)
 const TOKEN_STORE_KEY = 'nihongo-mono:drive-sync:token:v1'
 
 function readStoredToken(): { token: string; expiresAt: number } | null {
   try {
-    const raw = sessionStorage.getItem(TOKEN_STORE_KEY)
+    const raw = localStorage.getItem(TOKEN_STORE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as { token?: unknown; expiresAt?: unknown }
     if (typeof parsed.token !== 'string' || typeof parsed.expiresAt !== 'number') return null
-    if (Date.now() >= parsed.expiresAt - TOKEN_SAFETY_MS) return null
+    if (Date.now() >= parsed.expiresAt - TOKEN_SAFETY_MS) {
+      clearStoredToken() // expired blob: don't leave it on disk
+      return null
+    }
     return { token: parsed.token, expiresAt: parsed.expiresAt }
   } catch {
     return null
@@ -55,7 +62,7 @@ function readStoredToken(): { token: string; expiresAt: number } | null {
 
 function writeStoredToken(c: { token: string; expiresAt: number }): void {
   try {
-    sessionStorage.setItem(TOKEN_STORE_KEY, JSON.stringify(c))
+    localStorage.setItem(TOKEN_STORE_KEY, JSON.stringify(c))
   } catch {
     // storage full / blocked: memory-only for this tab, still functional
   }
@@ -63,7 +70,7 @@ function writeStoredToken(c: { token: string; expiresAt: number }): void {
 
 function clearStoredToken(): void {
   try {
-    sessionStorage.removeItem(TOKEN_STORE_KEY)
+    localStorage.removeItem(TOKEN_STORE_KEY)
   } catch {
     // nothing to clear
   }
@@ -203,8 +210,8 @@ export async function getToken(opts: {
 }): Promise<string> {
   if (!opts.forceRefresh) {
     if (!cached) {
-      // fresh page in a tab that was already signed in: pick the token
-      // back up so a reload never needs Google at all
+      // fresh page in a browser that was already signed in: pick the
+      // token back up so a reload or restart never needs Google at all
       cached = readStoredToken()
       if (cached) scheduleRenewal(cached.expiresAt)
     }
