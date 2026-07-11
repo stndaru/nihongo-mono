@@ -1368,6 +1368,23 @@ feedback on many of these — treat them as requirements, not suggestions.
       (constants shared from `sync/constants.ts` so the UI doesn't pull
       the lazy Drive layer).
 
+71. **Dialogs are left-aligned on every viewport + export asks first, 2026-07-11.**
+    The shadcn `DialogHeader` default (`text-center sm:text-left`) centered
+    every dialog title/description on phones while dialog bodies stayed
+    left-aligned — reported twice (the OCR crop dialog, then the Drive
+    connect dialog). Fixed at the source: the base class in
+    `src/components/ui/dialog.tsx` is now `text-left` unconditionally, and
+    the per-instance `text-left` overrides that patched around it (crop
+    dialog header, the two parser opt-in descriptions) were removed. Don't
+    reintroduce the responsive centering — it guarantees this bug returns
+    in the next dialog. Same round: "Export Progress" no longer downloads
+    on first click; it opens a confirmation dialog showing what's included
+    (word/session counts) and the exact file name
+    (`progressFileName()` in `transfer.ts`), matching the app's rule that
+    anything leaving the browser (Drive connect, OCR/Smart-Parsing
+    downloads, resets) is click-confirmed with the size/consequence
+    visible.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

@@ -673,9 +673,7 @@ function OcrCropDialog({
   return (
     <Dialog open={pending !== null} onOpenChange={(o) => !o && onCancel()}>
       <DialogContent className="max-w-lg">
-        {/* text-left: the title (a flex row) can't center, so the shared
-            header's mobile text-center would misalign the description */}
-        <DialogHeader className="text-left">
+        <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CropIcon className="size-4 text-primary" /> Crop Before Scanning
           </DialogTitle>

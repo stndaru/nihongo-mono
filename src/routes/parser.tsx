@@ -1149,7 +1149,7 @@ function ParserPage() {
                 </div>
                 <DialogTitle>Enable Smart Parsing?</DialogTitle>
               </div>
-              <DialogDescription className="text-left">
+              <DialogDescription>
                 Sentences get segmented by the kuromoji morphological
                 analyzer: better word boundaries, furigana on every word, and
                 clickable entries even beyond the JLPT lists.
@@ -1186,7 +1186,7 @@ function ParserPage() {
                 </div>
                 <DialogTitle>Enable Image Scanning?</DialogTitle>
               </div>
-              <DialogDescription className="text-left">
+              <DialogDescription>
                 Read printed text straight out of images — paste, upload, or
                 photograph it, and the result lands in the input box ready to
                 break down.

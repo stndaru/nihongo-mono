@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { useProgress } from '@/lib/progress/context'
 import { mergeProgress, parseImported, type ProgressData } from '@/lib/progress/store'
-import { downloadProgress, readFileText } from '@/lib/progress/transfer'
+import { downloadProgress, progressFileName, readFileText } from '@/lib/progress/transfer'
 import {
   FONT_SIZES,
   getFontPref,
@@ -37,6 +37,7 @@ function SettingsPage() {
   const [theme, setThemeState] = useState<Theme>(() => getTheme())
   const fileRef = useRef<HTMLInputElement>(null)
   const [pendingImport, setPendingImport] = useState<ProgressData | null>(null)
+  const [confirmExport, setConfirmExport] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
   const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null)
 
@@ -156,8 +157,8 @@ function SettingsPage() {
           Google Drive below to sync across devices.
         </p>
         <div className="flex flex-wrap gap-2 pt-1">
-          <Button variant="outline" onClick={() => downloadProgress(progress)}>
-            Export Progress
+          <Button variant="outline" onClick={() => setConfirmExport(true)}>
+            Export Progress…
           </Button>
           <Button variant="outline" onClick={() => fileRef.current?.click()}>
             Import Progress…
@@ -189,6 +190,35 @@ function SettingsPage() {
           Reset All Progress
         </Button>
       </section>
+
+      {/* export: confirm before the file download starts */}
+      <Dialog open={confirmExport} onOpenChange={setConfirmExport}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Download Progress File?</DialogTitle>
+            <DialogDescription>
+              Saves your streak, accuracy, and per-word stats —{' '}
+              {Object.keys(progress.verbs).length} practiced words across{' '}
+              {progress.sessions.length} sessions — to your device as{' '}
+              <span className="font-medium text-foreground">{progressFileName()}</span>.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmExport(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                downloadProgress(progress)
+                setConfirmExport(false)
+                setMessage({ kind: 'ok', text: 'Progress file downloaded.' })
+              }}
+            >
+              Download File
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* import: replace or merge */}
       <Dialog open={pendingImport !== null} onOpenChange={(o) => !o && setPendingImport(null)}>

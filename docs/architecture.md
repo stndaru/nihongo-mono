@@ -519,6 +519,9 @@ regardless of host compression config.
 - Export/import via `src/lib/progress/transfer.ts` (merge = per-word
   max/sum, keep better streak; form tallies sum; on conflicting kinds the
   merged stat becomes 'both'; `run` keeps the newer timeline's value).
+  Export is confirmation-gated: the Settings button opens a dialog showing
+  the word/session counts and the exact file name (`progressFileName()`)
+  before the download starts (decision 71).
 - Quizzes sample weighted toward least-seen words (1/(1+seen)) and are
   **deliberately JLPT-only** — drilling 200k rare words isn't useful, and
   quiz config regexes only accept levels 1–5.
