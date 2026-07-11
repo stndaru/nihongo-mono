@@ -99,9 +99,18 @@ export function AnswerFeedback({
           {question.verb.gloss.join('; ')}
         </div>
         {(question.form === 'te-negative' || question.form === 'te-negative-naide') && (
-          <TeNegativeContrast verb={question.verb} asked={question.form} />
+          <p className="mt-3 border-t border-border/60 pt-2 text-sm text-muted-foreground">
+            <span lang="ja" className="font-medium text-foreground">
+              {FORM_LABELS[question.form].ja}
+            </span>{' '}
+            — {TE_NEGATIVE_DESC[question.form]}
+          </p>
         )}
       </div>
+
+      {(question.form === 'te-negative' || question.form === 'te-negative-naide') && (
+        <SimilarTeNegative verb={question.verb} asked={question.form} />
+      )}
 
       {question.choices && question.choices.length > 1 && (
         <FeedbackAccordion title="The Other Options">
@@ -120,43 +129,41 @@ export function AnswerFeedback({
   )
 }
 
+const TE_NEGATIVE_DESC = {
+  'te-negative':
+    '"not doing so" — links the negative clause as a cause or contrast (〜なくて、…).',
+  'te-negative-naide':
+    '"without doing so" — the skipped action accompanies the main verb (〜ないで…); also negative requests (〜ないでください).',
+} as const
+
 /**
  * The two negative te connectors are the quiz's most confusable pair, so
- * every negative-te answer spells out which one was asked and how it
- * differs from its sibling — with this verb's own surfaces, not abstract
- * endings. ある never reaches here with ないで (the form is null for it).
+ * every negative-te answer explains the asked type in the answer card and
+ * shows the sibling — with this verb's own surface — in its own headed box
+ * BELOW the card: sitting next to the answer, it read as a second answer
+ * (owner report). ある never has a sibling (ないで is null for it).
  */
-function TeNegativeContrast({
+function SimilarTeNegative({
   verb,
   asked,
 }: {
   verb: Question['verb']
   asked: 'te-negative' | 'te-negative-naide'
 }) {
-  const nakute = conjugate(verb, 'te-negative')
-  const naide = conjugate(verb, 'te-negative-naide')
-  if (!nakute || !naide) return null
-  const row = (form: 'te-negative' | 'te-negative-naide', surface: string, text: string) => (
-    <p className={asked === form ? 'text-foreground' : ''}>
-      <span lang="ja" className={cn('font-medium', asked === form && 'text-primary')}>
-        {surface}
-      </span>{' '}
-      — {text}
-      {asked === form && <span className="text-xs text-muted-foreground"> (asked here)</span>}
-    </p>
-  )
+  const sibling = asked === 'te-negative' ? 'te-negative-naide' : 'te-negative'
+  const c = conjugate(verb, sibling)
+  if (!c) return null
   return (
-    <div className="mt-3 space-y-1 border-t border-border/60 pt-2 text-sm text-muted-foreground">
-      {row(
-        'te-negative',
-        nakute.kanji,
-        '"not doing so" — links the negative clause as a cause or contrast (〜なくて、…).',
-      )}
-      {row(
-        'te-negative-naide',
-        naide.kanji,
-        '"without doing so" — the skipped action accompanies the main verb (〜ないで…); also negative requests (〜ないでください).',
-      )}
+    <div className="rounded-md border border-dashed p-3 text-sm">
+      <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        Similar form — don&apos;t confuse
+      </p>
+      <p className="mt-1.5 text-muted-foreground">
+        <span lang="ja" className="font-medium text-foreground">
+          {c.kanji}
+        </span>{' '}
+        ({FORM_LABELS[sibling].label}) — {TE_NEGATIVE_DESC[sibling]}
+      </p>
     </div>
   )
 }

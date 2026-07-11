@@ -1251,12 +1251,16 @@ feedback on many of these — treat them as requirements, not suggestions.
     - **ある has no ないで form** (`ARU_MISSING`): stative ある takes
       なくて only, so the row hides on its detail page and the quiz never
       asks it (null conjugations are skipped by the session generator).
-    - Quiz answer feedback for either form renders a contrast block with
-      THIS verb's two surfaces (e.g. 書かなくて vs 書かないで), marking
-      which was asked — the pair is the most confusable in the system, so
-      the difference is taught at the moment of answering, not just in
-      the rule card. The なくて rule card's watch-out points to ないで
-      for "without doing so"/requests and vice versa.
+    - Quiz answer feedback for either form teaches the difference at the
+      moment of answering — the pair is the most confusable in the
+      system: the asked type is explained inside the answer card, and
+      the sibling (with THIS verb's surface, e.g. 書かないで under a
+      書かなくて answer) sits in its own dashed box below under a
+      "Similar form — don't confuse" header. The first cut listed both
+      surfaces side by side inside the card, which read as two answers
+      (owner report) — the sibling must be visually separated and
+      labeled. The なくて rule card's watch-out points to ないで for
+      "without doing so"/requests and vice versa.
     - The parser's `identifyVerbForm` iterates the form list, so parsed
       ないで surfaces now label themselves correctly for free.
 
