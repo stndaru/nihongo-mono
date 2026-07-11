@@ -415,7 +415,7 @@ describe('tokensToSegments (accurate mode)', () => {
   })
 
   it('labels unidentified conjugations generically instead of dropping them', () => {
-    // 食べている isn't one of the 22 forms — still one segment, still linked
+    // 食べている isn't one of the 23 forms — still one segment, still linked
     const segs = tokensToSegments(
       [
         tok('食べ', '動詞', '自立', '食べる', 'タベ'),

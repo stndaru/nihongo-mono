@@ -1,3 +1,4 @@
+import { startTransition, useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Eye, Lightbulb, Repeat } from 'lucide-react'
 import { ConjugationGuide } from '@/components/home/ConjugationGuide'
@@ -7,7 +8,7 @@ import { cn } from '@/lib/utils'
  * The homepage verb-type cheatsheet: what the three types are, how to spot
  * them, and how each conjugates — compact enough to recall by skimming.
  * Static content by design (these facts never change with the dataset);
- * the full 22-form tables live on the verb detail pages.
+ * the full 23-form tables live on the verb detail pages.
  */
 
 /** One ruby pair — the cheatsheet is full of them. */
@@ -161,6 +162,16 @@ const TRAPS: [string, string][] = [
 ]
 
 export function VerbCheatsheet() {
+  // The 23-row conjugation guide (its own SVG-heavy accordion) sits well below
+  // the fold, so it needn't be in the first-paint commit. Mount it in a
+  // post-paint transition (decision 59's pattern): the guide lands non-urgently
+  // a frame later — invisible below the fold — trimming the cold mount's worst
+  // task and first paint. The above-fold ruby cards stay in the initial commit.
+  const [showGuide, setShowGuide] = useState(false)
+  useEffect(() => {
+    startTransition(() => setShowGuide(true))
+  }, [])
+
   return (
     <section className="space-y-6">
       <div>
@@ -318,10 +329,10 @@ export function VerbCheatsheet() {
         </table>
       </div>
 
-      <ConjugationGuide />
+      {showGuide && <ConjugationGuide />}
 
       <p className="text-xs text-muted-foreground">
-        Every verb&apos;s detail page has the full 22-form table with
+        Every verb&apos;s detail page has the full 23-form table with
         &ldquo;how it&apos;s built&rdquo; rule cards —{' '}
         <Link to="/verbs" className="text-primary underline-offset-2 hover:underline">
           browse the verbs

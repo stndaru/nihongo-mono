@@ -220,3 +220,39 @@ comparable to enabling all word levels, per-level promise caches
 self-clear on failure (decision 60), and repeats cost ~0. Verified in the
 2026-07-10 full-feature Playwright pass (20/20 checks incl. zero
 pageerrors and 390 px/xxlarge overflow).
+
+## Addendum 2026-07-11 — full sweep after OCR, the negative-te split, and the parser chip row
+
+Full tester → improver → QA pass (same methodology) covering the Scan
+Image OCR feature, the 23rd conjugation form (`te-negative-naide`), the
+parser tabs-row chips, and the resources additions. **Clean bill of
+health — nothing introduced by those changes:**
+
+- Bundle: `index` 390.58 kB (123.79 gz, no growth); parser route chunk
+  ~37 kB unchanged. `react-image-crop` and the tesseract engine appear
+  ONLY in the lazy `OcrPanel` chunk (grep + runtime-fetch verified); the
+  cold parser view never requests it, and the wasm/models download only
+  after the consent dialog.
+- Cold navigation: every measured route (home, parser, quiz, quiz
+  session, verb detail, cheatsheet, resources, progress) 104–156 ms FCP,
+  178–406 kB wire, zero long tasks except the cheatsheet (below).
+- Interactions at 4× CPU throttle: greedy Break Down 79 ms warm, quiz
+  question→feedback 69 ms (incl. the Similar-form box and the
+  23-form OtherConjugationOptions scan), RuleCheatsheet expand
+  49–93 ms — all zero long tasks.
+
+One improvement shipped from the sweep: **`/cheatsheet/verbs` cold
+mount** (the app's heaviest non-opt-in commit; pre-existing) — the
+below-fold `ConjugationGuide` now mounts one frame after first paint via
+`startTransition` in a post-mount effect (the decision-59 idiom). Worst
+long task at 4× throttle 374 → 333 ms, FCP 780 → 740 ms on the measuring
+machine; CLS 0.00000 (the guide is the section's last child — inserting
+it cannot move preceding siblings). Attribution measured before fixing:
+the dominant ~300 ms is the **above-fold ruby-heavy verb cards**, left
+untouched deliberately — deferring above-fold content would trade a
+one-time static-page cost for a visible pop; the comparison table was
+likewise kept in the first commit (borderline-fold, and deferring it
+merely relocated the work into a new long task). QA'd 18/18 browser
+checks (guide completeness, accordion + keyboard behavior, zero CLS,
+390 px/xxlarge overflow, zero pageerrors); 340 unit tests, tsc, lint,
+build green.
