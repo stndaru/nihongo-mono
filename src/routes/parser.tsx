@@ -834,25 +834,37 @@ function ParserPage() {
                 </button>
               ))}
             </div>
-            {/* input-view toggle: typing ↔ scanning an image — it sits with
-                the input controls, not among the parse actions, because it
-                swaps WHAT the input area is rather than doing anything */}
-            <Chip
-              active={ocrView}
-              onClick={toggleOcr}
-              disabled={!OCR_SUPPORTED}
-              title={
-                OCR_SUPPORTED
-                  ? ocrView
-                    ? 'back to typing (the scanned image is kept)'
-                    : 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
-                  : "this browser can't run the on-device OCR engine (WebAssembly required)"
-              }
-            >
-              <span className="flex items-center gap-1">
-                <ScanText className="size-3" /> Scan Image
-              </span>
-            </Chip>
+            {/* the two sticky feature chips live together up here, visible
+                in BOTH input views: Smart Parsing changes how any breakdown
+                parses (scans auto-break-down, so it must stay reachable in
+                scan view too), Scan Image swaps what the input area is */}
+            <div className="flex items-center gap-2">
+              <Chip
+                active={smart}
+                onClick={toggleSmart}
+                title="segment with the kuromoji morphological analyzer (one-time ~17 MB download)"
+              >
+                <span className="flex items-center gap-1">
+                  <Sparkles className="size-3" /> Smart Parsing
+                </span>
+              </Chip>
+              <Chip
+                active={ocrView}
+                onClick={toggleOcr}
+                disabled={!OCR_SUPPORTED}
+                title={
+                  OCR_SUPPORTED
+                    ? ocrView
+                      ? 'back to typing (the scanned image is kept)'
+                      : 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
+                    : "this browser can't run the on-device OCR engine (WebAssembly required)"
+                }
+              >
+                <span className="flex items-center gap-1">
+                  <ScanText className="size-3" /> Scan Image
+                </span>
+              </Chip>
+            </div>
           </div>
           {dir === 'en' && (
             <p className="text-xs text-muted-foreground">
@@ -916,27 +928,16 @@ function ParserPage() {
                 </span>
               )}
             </p>
-            <div className="flex items-center gap-2">
-              <Chip
-                active={smart}
-                onClick={toggleSmart}
-                title="segment with the kuromoji morphological analyzer (one-time ~17 MB download)"
-              >
-                <span className="flex items-center gap-1">
-                  <Sparkles className="size-3" /> Smart Parsing
-                </span>
-              </Chip>
-              <Button
-                onClick={breakDown}
-                disabled={!dicts || !activeText.trim() || overLimit}
-              >
-                {dicts || !dictsWanted
-                  ? dir === 'en'
-                    ? 'Translate & Break Down'
-                    : 'Break Down'
-                  : 'Loading dictionary…'}
-              </Button>
-            </div>
+            <Button
+              onClick={breakDown}
+              disabled={!dicts || !activeText.trim() || overLimit}
+            >
+              {dicts || !dictsWanted
+                ? dir === 'en'
+                  ? 'Translate & Break Down'
+                  : 'Break Down'
+                : 'Loading dictionary…'}
+            </Button>
           </div>
           </div>
           {/* mounted once, then only hidden — a toggle never drops the

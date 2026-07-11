@@ -1207,6 +1207,11 @@ feedback on many of these — treat them as requirements, not suggestions.
       chip sits on the direction-tabs row (with the input controls, not
       among the parse actions — it swaps what the input area IS) and flips
       between the textarea and the scan surface; never both at once. The
+      **Smart Parsing chip later joined it there** (owner report: it was
+      unreachable in scan view, where scans auto-break-down and its
+      engine choice still applies) — the tabs row now groups the two
+      sticky feature chips, and the text view's controls row keeps just
+      the counter + Break Down. The
       panel mounts once and is then only `hidden`-toggled, and the typed
       text lives in route state — an accidental toggle loses neither the
       image nor the input. Pastes are ignored while hidden (`visible`
