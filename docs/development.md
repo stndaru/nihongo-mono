@@ -5,9 +5,9 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict + tesseract-wasm engine to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search, the grammar data-integrity suite, and the Drive-sync engine/merge suites (376 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search, the grammar data-integrity suite, the Drive-sync engine/merge suites, and the offline-access helpers (394 tests)
 bun run lint            # oxlint
-bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b && gen-csp.ts (this order — routeTree.gen.ts must exist before tsc; gen-csp reads dist/ and writes dist/_headers + vercel.json)
+bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b && gen-csp.ts && gen-offline-manifest.ts (this order — routeTree.gen.ts must exist before tsc; gen-csp reads dist/ and writes dist/_headers + vercel.json; gen-offline-manifest writes dist/offline-manifest.json for the opt-in offline download)
 bun run data:download   # sources → scripts/.cache/
 bun run data:build      # regenerate all datasets (see data-pipeline.md)
 bun run data:grammar    # regenerate grammar example furigana + pack (after grammar content edits)
@@ -144,6 +144,17 @@ Playwright gotchas learned the hard way:
   panel (its engine-error state explains and retries, but still). The
   committed halves live next to it: `public/ocr/models/*.traineddata.gz`
   and `public/ocr/NOTICE.md`.
+- **Offline access & the service worker** (decision 72): `public/sw.js`
+  is registered only when a user enables the Settings download — never
+  assume a SW exists. Every `cache.match` there uses
+  `{ ignoreVary: true }`; removing it breaks offline in a maddening way
+  (servers send `Vary: Origin`, Vite's `crossorigin` module scripts send
+  an Origin header, the precache's plain fetches don't → every chunk
+  misses and the shell renders blank). When testing offline in
+  Playwright, enable the download first, then `context.setOffline(true)`
+  — and remember a leftover registration from a previous manual session
+  can make "why is this stale" debugging confusing: contexts are
+  isolated, real browsers are not.
 - **The CSP hash is build-generated** (`scripts/gen-csp.ts`, end of the
   build chain): it hashes index.html's inline FOUC script from the BUILT
   output and writes `dist/_headers` + rewrites `vercel.json`. Editing the

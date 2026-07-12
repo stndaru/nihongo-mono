@@ -591,6 +591,27 @@ regardless of host compression config.
   state), and both quiz summaries. Multi-tab is last-write-wins by design
   (documented caveat).
 
+### Offline access (`src/lib/offline/`, `public/sw.js`, decision 72)
+
+- **Opt-in whole-app precache** from Settings: downloads every
+  same-origin file (~68 MB — app shell, all datasets incl. the Beyond
+  tier and names, kuromoji, OCR engine + models) into Cache Storage and
+  registers the service worker, which then serves the app with no
+  connection across restarts. No opt-in → no worker, no cache, zero
+  change. The build emits `dist/offline-manifest.json`
+  (`scripts/gen-offline-manifest.ts`: file list + sizes + version hash)
+  for the up-front size, byte progress, and staleness detection
+  ("Update Offline Copy" after a deploy; disabled "Available Offline"
+  button when current).
+- **Worker rules**: cross-origin is never intercepted (Drive sync +
+  translation behave identically); hashed `/assets/*` cache-first;
+  everything else network-first with cache fallback + index.html SPA
+  fallback; stable-named data written through, shell/assets only via
+  the explicit update flow (no torn snapshots). All matches use
+  `ignoreVary` (decision 72 explains why removing it breaks offline).
+- Offline quiz sessions record locally and sync on the next online
+  trigger; the browser-cleared-cache case is detected and re-offered.
+
 ### Session rules (user requirements, tested in `engine.test.ts`)
 
 - **Vocabulary quiz never repeats a word** in a session; a pool smaller than
@@ -920,4 +941,7 @@ three-way merge's common ancestor — decision 70) · `drive-sync:token:v1`
 persisted so reloads and restarts stay signed in; wiped on
 disconnect/401/24 h idle, and expired blobs self-delete on read; see
 decision 70's exposure envelope. The token must never appear in any
-OTHER key, especially the meta).
+OTHER key, especially the meta) · `offline:v1` (Offline access
+bookkeeping: manifest version, bytes, file count, completedAt,
+persisted — the ~68 MB of files themselves live in **Cache Storage**
+under `nihongo-mono-offline-v1`, decision 72).

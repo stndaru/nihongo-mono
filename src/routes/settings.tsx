@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { OfflineSection } from '@/components/offline/OfflineSection'
 import { CloudSyncSection } from '@/components/sync/CloudSyncSection'
 import { Button } from '@/components/ui/button'
 import { Chip, ChipGroup } from '@/components/ui/chip'
@@ -183,6 +184,8 @@ function SettingsPage() {
       </section>
 
       <CloudSyncSection />
+
+      <OfflineSection />
 
       <section className="space-y-2">
         <h2 className="text-sm font-medium">Danger zone</h2>

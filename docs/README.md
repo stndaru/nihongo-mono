@@ -44,7 +44,9 @@ the decision log. Core ideas:
   third-party call is the parser's sentence translation (Google gtx →
   MyMemory, decision 42) — it degrades to an external link when
   unreachable. A build-generated CSP (`scripts/gen-csp.ts`) pins script
-  execution and network egress to exactly these origins.
+  execution and network egress to exactly these origins. An opt-in
+  **Offline access** download (decision 72) caches the entire app via a
+  service worker so it runs with no connection at all.
 - **Coverage**: JLPT-tagged core + the *entire* JMdict and JMnedict as an
   opt-in extended tier — all served as pre-gzipped static files, fetched on
   demand — see architecture.md, this split is the most important design in
@@ -79,7 +81,7 @@ the decision log. Core ideas:
 | `/quiz` → `/quiz/session`, `/quiz/vocab` → `/quiz/vocab/session` | Conjugation quiz (optional randomized shown form) and vocabulary quiz (three answer modes incl. EN→JA word pick; can include dictionary-form verbs; JLPT levels only, by design). Sessions have furigana/word-info toggles, word-summary popups in feedback (incl. a Details button per unchosen multiple-choice option), an Exit control, and a leave-confirmation guard |
 | `/progress` | Learning analytics: per-word encounters/accuracy/status (weak → solid), per-conjugation-form accuracy, session accuracy trend, sortable weakest-first word table. When Drive sync is linked: auto-reconciles on entry and offers a Sync Now button beside the status pill |
 | `/resources` | Hand-picked external learning sites (dictionaries, grammar guides, JLPT practice) — name, description, outbound link per card |
-| `/settings` | Theme, font toggles, font sizes (global / kanji & kana / furigana, Default–Largest each), progress export/import/reset, and the **Cloud sync** section (connect/disconnect Google Drive, sync status, Use-vs-Start-Fresh decision dialogs; hidden when no OAuth client id is configured) |
+| `/settings` | Theme, font toggles, font sizes (global / kanji & kana / furigana, Default–Largest each), progress export/import/reset, the **Cloud sync** section (connect/disconnect Google Drive, sync status, Use-vs-Start-Fresh decision dialogs; hidden when no OAuth client id is configured), and the **Offline access** section (opt-in ~68 MB whole-app download + service worker so everything works with no connection; disabled "Available Offline" state, update/remove controls) |
 | `/cloud-sync` | Cloud Sync — How It Works & Privacy: the user-facing consent/disclaimer page for the Drive sync (folder location + don't-tamper warning, drive.file scope limits, synced-data inventory, user controls, legal notes). Doubles as the OAuth consent screen's privacy-policy URL |
 | `/about` | **Required** data-source attribution (EDRDG licence obligation) + the privacy paragraph linking `/cloud-sync` |
 

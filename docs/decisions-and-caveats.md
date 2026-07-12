@@ -1460,6 +1460,55 @@ feedback on many of these — treat them as requirements, not suggestions.
     downloads, resets) is click-confirmed with the size/consequence
     visible.
 
+72. **Offline access — opt-in whole-app precache, 2026-07-12.** Settings
+    gains an "Offline access" section: one click downloads every
+    same-origin file (~68 MB: app shell + all datasets incl. the Beyond
+    tier and names, kuromoji, the OCR engine + models) into Cache
+    Storage, and a service worker (`public/sw.js`) serves the app with
+    no connection across tab closes and browser restarts.
+    - **Opt-in only**: the worker is registered the moment the user
+      clicks download, never before — users who don't enable it get no
+      service worker, no cache, no behavior change at all. "Remove
+      Offline Data" unregisters the worker and deletes the cache.
+    - **Manifest** (`scripts/gen-offline-manifest.ts`, end of the build
+      chain): the full dist file list + byte sizes + a version hash →
+      `dist/offline-manifest.json`. Settings reads it to state the exact
+      size up front, drive byte-accurate progress, and detect a stale
+      copy after a deploy ("Update Offline Copy"; the old copy keeps
+      working until then). Already available → the button is disabled
+      (owner requirement).
+    - **Worker strategy**: cross-origin requests are NEVER intercepted —
+      Google sign-in, the Drive API, and translation keep their exact
+      behavior, and the sync engine's own offline handling stays
+      authoritative. `/assets/*` (content-hashed) are cache-first;
+      everything else same-origin is network-first with cache fallback
+      (online users always see the live version); SPA navigations fall
+      back to the cached index.html. `/data|/kuromoji|/ocr` (stable
+      names) are written through on successful fetches; index.html and
+      the hashed assets are NOT — they only change together via the
+      explicit update flow, so the snapshot can't tear.
+    - **Torn-download safety**: index.html is written LAST
+      (`downloadOrder`); a failed FIRST download rolls everything back,
+      a failed update leaves the previous copy fully working. After a
+      successful update, entries absent from the new manifest are
+      pruned. `navigator.storage.persist()` is requested and its verdict
+      shown honestly ("protected from automatic cleanup" vs the
+      browser-may-evict caveat); a cache the browser cleared is detected
+      on the settings page (`cacheIntact`) and offered for re-download.
+    - **Cache matching gotcha (cost a debugging session)**: every
+      `cache.match` uses `{ ignoreVary: true }`. Servers send
+      `Vary: Origin`, and Vite's `crossorigin` module scripts send an
+      `Origin` header while the precache's plain fetches don't — with
+      default Vary matching every cached chunk MISSES offline and the
+      app renders a blank shell. Each URL has exactly one entry, so
+      Vary matching is pure downside here. Don't remove it.
+    - **Quiz/sync edge cases verified end-to-end**: a full quiz session
+      runs offline (all level data precached) and records to
+      localStorage; the sync pill shows its normal offline/sign-in state
+      without popups or crashes; back online, one Sync Now uploads the
+      offline-made progress. Connecting Drive with the worker active is
+      byte-identical to without (cross-origin passthrough).
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

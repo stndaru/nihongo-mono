@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun scripts/copy-kuromoji.ts && bun scripts/copy-tesseract.ts && vite",
-    "build": "bun scripts/copy-kuromoji.ts && bun scripts/copy-tesseract.ts && vite build && tsc -b && bun scripts/gen-csp.ts",
+    "build": "bun scripts/copy-kuromoji.ts && bun scripts/copy-tesseract.ts && vite build && tsc -b && bun scripts/gen-csp.ts && bun scripts/gen-offline-manifest.ts",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",

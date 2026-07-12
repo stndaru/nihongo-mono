@@ -129,6 +129,15 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   Requires a self-supplied Google OAuth client ID
   ([docs/google-drive-setup.md](docs/google-drive-setup.md)) — without
   one, the feature stays hidden.
+- **Offline access (optional)** — one click in Settings downloads the
+  entire app (~68 MB: every page, the full dictionary including the
+  Beyond tier and proper names, quizzes, grammar, stroke order, Smart
+  Parsing, and image scanning) into the browser via a service worker.
+  Everything then works with no connection, even after closing the
+  browser; quiz progress made offline syncs to Drive when back online.
+  The exact size, storage caveats, and update/remove controls live in
+  the Settings section; users who don't opt in get no service worker at
+  all.
 
 > **Contributing or taking over?** Start with the handover docs in
 > [`docs/`](docs/README.md) — architecture, data pipeline, development

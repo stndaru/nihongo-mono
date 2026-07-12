@@ -11,7 +11,7 @@ bun install          # ALWAYS bun, never npm
 bun run dev          # dev server :5173
 bun run test         # vitest — must stay green
 bun run lint         # oxlint — must stay clean
-bun run build        # vite build && tsc -b && gen-csp — must pass (type-checks scripts/ too; regenerates the CSP headers from dist/)
+bun run build        # vite build && tsc -b && gen-csp && gen-offline-manifest — must pass (type-checks scripts/ too; regenerates the CSP headers + offline manifest from dist/)
 bun run data:pack    # after any hand edit under src/data/
 bun run data:grammar # after any grammar-content edit (regenerates example furigana, then packs)
 bun run data:build   # full dataset regen (needs scripts/.cache/)
