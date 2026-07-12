@@ -1392,11 +1392,20 @@ feedback on many of these — treat them as requirements, not suggestions.
       read, hash-pinned CSP bounding script injection and egress,
       drive.file blast radius — and /cloud-sync's token wording was
       updated to stay honest. The link META must still never carry a
-      token (unit-pinned); (2) non-interactive `requestAccessToken`
-      passes `prompt: ''` — without it Google may require interaction,
-      which with no gesture means a blocked popup and a spurious
-      needs-reauth; (3) `gis-loader` renews silently 5 min before expiry
-      so an open tab never lapses; (4) **24 h idle sign-out (owner
+      token (unit-pinned); (2) **automatic callers never contact Google
+      sign-in at all** (owner rule, added after mobile surprise-popups:
+      GIS's "silent" flow — `requestAccessToken` with `prompt: ''` —
+      opens a REAL login popup whenever Google decides interaction is
+      needed, so every auto-sync trigger was popping login UI on a
+      signed-out phone). Non-interactive `getToken` only reuses the
+      persisted token and otherwise throws AuthRequiredError → the UI
+      shows the "sign in to resume sync" warning; `requestAccessToken`
+      runs ONLY from clicks (Sync Now, Sign in, Connect), where a popup
+      is gesture-sanctioned. Consequence, accepted by the owner: past
+      the token's ~1 h life the app WAITS in the warning state instead
+      of renewing itself — the earlier pre-expiry silent renewal and
+      silent re-mint were removed because they were the popup source;
+      (3) **24 h idle sign-out (owner
       rule)**: `syncInactiveTooLong` in meta.ts — when the last
       successful sync is >24 h old, auto-sync stands down (bootstrap
       gates before even loading the engine; the engine double-checks and

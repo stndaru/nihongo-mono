@@ -559,15 +559,16 @@ regardless of host compression config.
   Start Fresh).
 - **Token lifecycle**: ~1 h (Google-enforced), held in module memory +
   localStorage (`nihongo-mono:drive-sync:token:v1`) so refreshes and
-  full browser restarts stay signed in with zero Google traffic. A
-  silent renewal fires 5 min before expiry so an open tab never lapses;
-  silent requests pass `prompt: ''` (no-UI-or-fail); interactive
-  requests (the Sync Now buttons, reauth clicks) may pop up. Past the
-  1 h token life a silent re-mint is attempted first — a visible prompt
-  only remains where Google requires the user (signed out, revoked,
-  cookie/popup blocking). After **24 h without a successful sync** the
-  link signs out (`syncInactiveTooLong`): auto-sync stands down and an
-  explicit click resumes. **Trigger throttle**: auto syncs skip within 30 s of a
+  full browser restarts stay signed in with zero Google traffic.
+  **Automatic callers never contact Google sign-in**: non-interactive
+  `getToken` reuses the stored token or throws — GIS's "silent" flow
+  can open a real login popup when Google wants interaction, and
+  unprompted popups (worst on mobile) are banned. Past the 1 h life the
+  app waits in needs-reauth ("sign in to resume sync") until a click;
+  only clicks (Sync Now, Sign in, Connect) run `requestAccessToken`.
+  After **24 h without a successful sync** the link signs out
+  (`syncInactiveTooLong`): auto-sync stands down and an explicit click
+  resumes. **Trigger throttle**: auto syncs skip within 30 s of a
   success (manual: 5 s) when local data is unchanged since that
   success — spammed triggers cost zero requests, new data and failure
   recovery always run.
