@@ -22,6 +22,7 @@ import {
   ClipboardPaste,
   Crop as CropIcon,
   ImageUp,
+  RotateCw,
   ScanText,
   TextCursorInput,
 } from 'lucide-react'
@@ -41,7 +42,7 @@ import {
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
-import { cropToBlob, toImageData } from '@/lib/ocr/preprocess'
+import { cropToBlob, rotateToBlob, toImageData, type QuarterTurns } from '@/lib/ocr/preprocess'
 import type { OcrLang } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
@@ -256,13 +257,13 @@ export default function OcrPanel({
     }
   }, [pending])
 
-  const confirmCrop = async (crop: PercentCrop) => {
+  const confirmCrop = async (crop: PercentCrop, turns: QuarterTurns) => {
     if (!pending) return
     const source = pending.blob
     setPending(null)
     let cropped: Blob
     try {
-      cropped = await cropToBlob(source, crop)
+      cropped = await cropToBlob(source, crop, turns)
     } catch {
       setStatus({ phase: 'error', kind: 'decode' })
       return
@@ -649,9 +650,12 @@ const FULL_CROP: PercentCrop = { unit: '%', x: 0, y: 0, width: 100, height: 100 
 
 /**
  * The interstitial between acquiring an image and scanning it: crop away
- * distractions first. The selection defaults to the whole image, so
- * "just scan it" is a single click; a near-full selection skips the
- * re-encode entirely (see cropToBlob).
+ * distractions first, and rotate sideways photos upright. The selection
+ * defaults to the whole image, so "just scan it" is a single click; a
+ * near-full unrotated selection skips the re-encode entirely (see
+ * cropToBlob). Rotation swaps the preview for a canvas-rotated copy —
+ * CSS-transforming the img would desync react-image-crop's overlay,
+ * whose geometry comes from the img's layout box.
  */
 function OcrCropDialog({
   pending,
@@ -661,53 +665,113 @@ function OcrCropDialog({
 }: {
   pending: { blob: Blob; url: string; rescan: boolean } | null
   onCancel: () => void
-  onConfirm: (crop: PercentCrop) => void
+  onConfirm: (crop: PercentCrop, turns: QuarterTurns) => void
   onDecodeError: () => void
 }) {
   const [crop, setCrop] = useState<PercentCrop>(FULL_CROP)
-  // fresh image → fresh full-frame selection
+  const [turns, setTurns] = useState<QuarterTurns>(0)
+  // the rotated preview for the current turns, or null while it renders
+  // (and always at 0 turns — the original URL is shown as-is)
+  const [rotatedUrl, setRotatedUrl] = useState<string | null>(null)
+  // fresh image → fresh full-frame selection, upright
   useEffect(() => {
     setCrop(FULL_CROP)
+    setTurns(0)
   }, [pending?.url])
+
+  const blob = pending?.blob
+  useEffect(() => {
+    if (!blob || turns === 0) {
+      setRotatedUrl(null)
+      return
+    }
+    let url: string | null = null
+    let live = true
+    rotateToBlob(blob, turns)
+      .then((rotated) => {
+        if (!live) return
+        url = URL.createObjectURL(rotated)
+        setRotatedUrl(url)
+      })
+      .catch(() => {
+        if (live) onDecodeError()
+      })
+    return () => {
+      live = false
+      setRotatedUrl(null)
+      if (url) URL.revokeObjectURL(url)
+    }
+    // onDecodeError is stable enough (setState calls) — the effect must
+    // re-run only when the image or angle changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blob, turns])
+
+  const rotating = turns !== 0 && rotatedUrl === null
 
   return (
     <Dialog open={pending !== null} onOpenChange={(o) => !o && onCancel()}>
-      <DialogContent className="max-w-lg">
+      {/* tall images must not push the footer off-screen — cap + scroll */}
+      <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CropIcon className="size-4 text-primary" /> Crop Before Scanning
           </DialogTitle>
           <DialogDescription className="text-pretty">
             Drag the corners to keep just the text — less clutter scans
-            better.
+            better. Rotate sideways photos upright first.
           </DialogDescription>
         </DialogHeader>
+        {/* the height cap lives on ReactCrop's root: its stylesheet gives
+            the child img `max-height: inherit`, overriding any class set
+            on the img itself (this bit with tall images) */}
         {pending && (
-          <div className="flex justify-center">
-            <ReactCrop
-              crop={crop}
-              onChange={(_, percent) => setCrop(percent)}
-              keepSelection
-            >
-              <img
-                src={pending.url}
-                alt="The image about to be scanned"
-                className="max-h-[55vh] w-auto max-w-full rounded-md"
-                onError={onDecodeError}
-              />
-            </ReactCrop>
+          <div className="flex min-h-24 items-center justify-center">
+            {rotating ? (
+              <p className="text-xs text-muted-foreground">Rotating…</p>
+            ) : (
+              <ReactCrop
+                crop={crop}
+                onChange={(_, percent) => setCrop(percent)}
+                keepSelection
+                className="max-h-[50vh]"
+              >
+                <img
+                  src={rotatedUrl ?? pending.url}
+                  alt="The image about to be scanned"
+                  className="w-auto max-w-full rounded-md"
+                  onError={onDecodeError}
+                />
+              </ReactCrop>
+            )}
           </div>
         )}
-        {pending?.rescan && (
-          <p className="text-xs text-pretty text-muted-foreground">
-            Replaces the stored scan.
-          </p>
-        )}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={rotating}
+            onClick={() => {
+              setTurns((t) => ((t + 1) % 4) as QuarterTurns)
+              setCrop(FULL_CROP) // axes swap — the old selection is meaningless
+            }}
+            title="rotate the image 90° clockwise"
+          >
+            <RotateCw /> Rotate
+          </Button>
+          {turns !== 0 && (
+            <span className="text-xs text-muted-foreground">rotated {turns * 90}°</span>
+          )}
+          {pending?.rescan && (
+            <span className="text-xs text-pretty text-muted-foreground">
+              Replaces the stored scan.
+            </span>
+          )}
+        </div>
         <DialogFooter>
           <Button variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button onClick={() => onConfirm(crop)}>
+          <Button disabled={rotating} onClick={() => onConfirm(crop, turns)}>
             <ScanText /> Scan
           </Button>
         </DialogFooter>

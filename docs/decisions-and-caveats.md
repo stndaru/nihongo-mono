@@ -1182,6 +1182,23 @@ feedback on many of these — treat them as requirements, not suggestions.
       carries a discreet "replaces the stored scan" note, and the
       cropped result overwrites the slot; successive crops compound by
       design.
+    - **Rotate in the crop dialog** (owner follow-up): a Rotate button
+      turns the image 90° clockwise per click (cycling to 0° at four).
+      The preview swaps to a canvas-rotated copy (`rotateToBlob`,
+      downscaled to the OCR's 2000 px ceiling so 12 MP photos don't
+      re-encode full-size per click) — CSS-transforming the img is NOT
+      an option: react-image-crop reads its overlay geometry from the
+      img's layout box. The scan bakes rotation + crop from the
+      ORIGINAL blob at full resolution in one canvas pass
+      (`cropToBlob(source, crop, quarterTurns)`); the no-re-encode
+      shortcut applies only at 0°. Each rotate resets the selection to
+      full frame (the axes swap). Found while testing: the img-level
+      `max-h-[55vh]` had NEVER applied — react-image-crop's stylesheet
+      sets `max-height: inherit` on the child img with higher
+      specificity, so tall images overflowed the dialog and pushed the
+      footer off-screen. The cap now lives on ReactCrop's root
+      (inherited down, the library's intended API) and the crop
+      DialogContent got `max-h + overflow-y-auto` as a safety net.
     - **Review accordion "Use as Input"** (owner request): puts the RAW
       detected text through the normal typing filter into the textarea
       and flips to the text view — deliberately NO auto-breakdown

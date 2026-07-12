@@ -270,7 +270,11 @@ regardless of host compression config.
   resort). It mounts once and is then only hidden, so toggling never
   drops the scanned image or an in-flight recognition; one image slot,
   overwritten per scan, reviewable (image + raw pre-filter text) via a
-  collapsed "Review last scan" accordion. Engine files are copied to
+  collapsed "Review last scan" accordion. Every acquired image parks in
+  a **crop dialog** first (skippable via the sticky "Crop before
+  scanning" checkbox) where it can also be **rotated** in 90° steps —
+  rotation + crop are baked from the original blob at full resolution in
+  one canvas pass before the OCR sees it. Engine files are copied to
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
   jpn/eng tessdata_fast models are pre-gzipped and **committed** under
   `public/ocr/models/`, fetched per active tab with byte progress.

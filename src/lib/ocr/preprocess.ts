@@ -34,38 +34,103 @@ export interface CropRect {
   height: number
 }
 
+/** Clockwise 90° steps applied before cropping/scanning. */
+export type QuarterTurns = 0 | 1 | 2 | 3
+
+/** Draw `image` rotated by quarter turns into a canvas of w×h (pre-turn). */
+function drawRotated(
+  image: ImageBitmap | HTMLImageElement,
+  w: number,
+  h: number,
+  turns: QuarterTurns,
+): HTMLCanvasElement {
+  const canvas = document.createElement('canvas')
+  const swap = turns % 2 === 1
+  canvas.width = swap ? h : w
+  canvas.height = swap ? w : h
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('canvas 2d unavailable')
+  ctx.translate(canvas.width / 2, canvas.height / 2)
+  ctx.rotate((turns * Math.PI) / 2)
+  ctx.drawImage(image, -w / 2, -h / 2, w, h)
+  return canvas
+}
+
+function encode(canvas: HTMLCanvasElement, sourceType: string): Promise<Blob> {
+  // PNG keeps screenshot text crisp; photos re-encode as JPEG
+  const type = sourceType === 'image/png' ? 'image/png' : 'image/jpeg'
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('image encode failed'))),
+      type,
+      0.92,
+    )
+  })
+}
+
 /**
- * Cut the crop rectangle (percentages of the displayed, EXIF-oriented
- * image) out of the original blob at full resolution. A near-full
- * selection returns the source untouched — no pointless re-encode.
+ * The crop dialog's rotate preview: the source rotated by quarter turns,
+ * downscaled to the OCR ceiling (MAX_SIDE) so a 12 MP photo doesn't
+ * re-encode at full size on every click. Preview-only — the final scan
+ * bakes rotation from the original via cropToBlob.
  */
-export async function cropToBlob(source: Blob, crop: CropRect): Promise<Blob> {
-  if (crop.width >= 99.5 && crop.height >= 99.5 && crop.x <= 0.5 && crop.y <= 0.5) {
+export async function rotateToBlob(source: Blob, turns: QuarterTurns): Promise<Blob> {
+  const image = await decode(source)
+  try {
+    const srcW = 'naturalWidth' in image ? image.naturalWidth : image.width
+    const srcH = 'naturalHeight' in image ? image.naturalHeight : image.height
+    if (!srcW || !srcH) throw new Error('image decoded to zero size')
+    const scale = Math.min(1, MAX_SIDE / Math.max(srcW, srcH))
+    const canvas = drawRotated(
+      image,
+      Math.max(1, Math.round(srcW * scale)),
+      Math.max(1, Math.round(srcH * scale)),
+      turns,
+    )
+    return await encode(canvas, source.type)
+  } finally {
+    if ('close' in image) image.close()
+  }
+}
+
+/**
+ * Rotate the original blob by quarter turns, then cut the crop rectangle
+ * (percentages of the ROTATED, EXIF-oriented image — matching what the
+ * dialog displayed) out at full resolution. A near-full selection with no
+ * rotation returns the source untouched — no pointless re-encode.
+ */
+export async function cropToBlob(
+  source: Blob,
+  crop: CropRect,
+  turns: QuarterTurns = 0,
+): Promise<Blob> {
+  if (
+    turns === 0 &&
+    crop.width >= 99.5 &&
+    crop.height >= 99.5 &&
+    crop.x <= 0.5 &&
+    crop.y <= 0.5
+  ) {
     return source
   }
   const image = await decode(source)
   try {
     const srcW = 'naturalWidth' in image ? image.naturalWidth : image.width
     const srcH = 'naturalHeight' in image ? image.naturalHeight : image.height
-    const sx = Math.max(0, Math.round((crop.x / 100) * srcW))
-    const sy = Math.max(0, Math.round((crop.y / 100) * srcH))
-    const sw = Math.max(1, Math.min(srcW - sx, Math.round((crop.width / 100) * srcW)))
-    const sh = Math.max(1, Math.min(srcH - sy, Math.round((crop.height / 100) * srcH)))
+    const rotated = drawRotated(image, srcW, srcH, turns)
+    const w = rotated.width
+    const h = rotated.height
+    const sx = Math.max(0, Math.round((crop.x / 100) * w))
+    const sy = Math.max(0, Math.round((crop.y / 100) * h))
+    const sw = Math.max(1, Math.min(w - sx, Math.round((crop.width / 100) * w)))
+    const sh = Math.max(1, Math.min(h - sy, Math.round((crop.height / 100) * h)))
     const canvas = document.createElement('canvas')
     canvas.width = sw
     canvas.height = sh
     const ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('canvas 2d unavailable')
-    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh)
-    // PNG keeps screenshot text crisp; photos re-encode as JPEG
-    const type = source.type === 'image/png' ? 'image/png' : 'image/jpeg'
-    return await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error('crop encode failed'))),
-        type,
-        0.92,
-      )
-    })
+    ctx.drawImage(rotated, sx, sy, sw, sh, 0, 0, sw, sh)
+    return await encode(canvas, source.type)
   } finally {
     if ('close' in image) image.close()
   }
