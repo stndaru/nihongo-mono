@@ -30,8 +30,8 @@ export const MAX_SENTENCE_LEN = 120
 
 // Japanese scripts + Japanese punctuation + digits (both ASCII and
 // full-width — 3人 and ３人 are ordinary Japanese text). Deliberately
-// excludes Latin: this is the breakdown/OCR character set, not the wider
-// Japanese-tab input character set.
+// excludes Latin: this is the Japanese-only extraction/OCR character set,
+// not the wider Japanese-tab input character set.
 // Ranges: CJK punct 3000–303F · hiragana 3040–309F · katakana 30A0–30FF ·
 // katakana ext 31F0–31FF · CJK ext-A 3400–4DBF · CJK 4E00–9FFF.
 const JA_ALLOWED =
@@ -53,8 +53,8 @@ const LATIN_LETTER = /[A-Za-zＡ-Ｚａ-ｚ]/u
 const KATAKANA_ONLY = /^[゠-ヿㇰ-ㇿ]+$/u
 
 /**
- * Keeps only kana/kanji/digits/Japanese punctuation. This is the string
- * sent to either breakdown engine and remains the Japanese OCR cleaner.
+ * Keeps only kana/kanji/digits/Japanese punctuation. This remains the
+ * Japanese OCR cleaner; breakdown preserves Latin as display-only literals.
  */
 export function stripNonJapanese(text: string): string {
   return [...text].filter((ch) => JA_ALLOWED.test(ch)).join('')
@@ -165,12 +165,35 @@ export interface CompoundCandidate {
 
 export interface ParsedSegment {
   text: string
+  /** visible sentence context that neither parser analyzes or links */
+  literal?: 'latin'
   /** present when this run of text matched a dictionary word */
   word?: ParsedWord
   /** kuromoji annotation (absent for punctuation and heuristic-mode parses) */
   token?: TokenInfo
   /** present on the FIRST segment of an unmerged compound span (smart mode) */
   compound?: CompoundCandidate
+}
+
+/**
+ * Preserve Latin runs in their original position without giving them to a
+ * parser. Both engines use this seam, so Latin can never acquire POS/linking
+ * metadata or enter Words Found while the rendered text remains complete.
+ */
+export function segmentMixedSentence(
+  text: string,
+  parseNonLatin: (text: string) => ParsedSegment[],
+): ParsedSegment[] {
+  const segments: ParsedSegment[] = []
+  for (const part of text.split(/([A-Za-zＡ-Ｚａ-ｚ]+)/u)) {
+    if (!part) continue
+    if ([...part].every((ch) => LATIN_LETTER.test(ch))) {
+      segments.push({ text: part, literal: 'latin' })
+    } else {
+      segments.push(...parseNonLatin(part))
+    }
+  }
+  return segments
 }
 
 interface DictHit {
@@ -542,7 +565,7 @@ function matchAt(text: string, i: number, dicts: ParserDicts): ParsedWord | null
   return null
 }
 
-export function parseSentence(text: string, dicts: ParserDicts): ParsedSegment[] {
+function parseJapaneseChunk(text: string, dicts: ParserDicts): ParsedSegment[] {
   const segments: ParsedSegment[] = []
   let plain = ''
   const flush = () => {
@@ -571,6 +594,11 @@ export function parseSentence(text: string, dicts: ParserDicts): ParsedSegment[]
   }
   flush()
   return segments
+}
+
+/** Greedy parser with Latin preserved as display-only, unparsed literals. */
+export function parseSentence(text: string, dicts: ParserDicts): ParsedSegment[] {
+  return segmentMixedSentence(text, (chunk) => parseJapaneseChunk(chunk, dicts))
 }
 
 // --- kuromoji-backed segmentation (the opt-in "Accurate Parsing" mode) ------

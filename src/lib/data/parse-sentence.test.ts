@@ -7,6 +7,7 @@ import {
   isJapaneseInput,
   linkBeyondWords,
   parseSentence,
+  segmentMixedSentence,
   stripNonEnglish,
   stripNonJapanese,
   stripJapaneseInput,
@@ -160,6 +161,24 @@ describe('parseSentence', () => {
     expect(segs[1].word).toBeUndefined()
   })
 
+  it('keeps Latin runs as display-only literals, never words found', () => {
+    const segs = parseSentence('Microsoft旅行AI', DICTS)
+    expect(
+      segs.map((seg) => ({
+        text: seg.text,
+        literal: seg.literal,
+        word: seg.word?.entry.id,
+      })),
+    ).toEqual([
+      { text: 'Microsoft', literal: 'latin', word: undefined },
+      { text: '旅行', literal: undefined, word: 'w1' },
+      { text: 'AI', literal: 'latin', word: undefined },
+    ])
+    expect(segs[0]).toEqual({ text: 'Microsoft', literal: 'latin' })
+    expect(segs[2]).toEqual({ text: 'AI', literal: 'latin' })
+    expect(uniqueWords(segs).map((found) => found.entry.id)).toEqual(['w1'])
+  })
+
   it('kana spellings of dictionary words match too', () => {
     const [seg] = parseSentence('たべた', DICTS)
     expect(seg.word?.entry.id).toBe('v1')
@@ -270,6 +289,23 @@ describe('tokensToSegments (accurate mode)', () => {
   it('links plain tokens found in the JLPT lists', () => {
     const segs = tokensToSegments([tok('旅行', '名詞', '一般', '旅行', 'リョコウ')], SU_DICTS)
     expect(segs[0].word?.entry.id).toBe('w1')
+  })
+
+  it('withholds Latin literals from kuromoji, tagging, Beyond, and Words Found', () => {
+    const tokenizedChunks: string[] = []
+    const segs = segmentMixedSentence('Microsoft旅行ＡＩ', (chunk) => {
+      tokenizedChunks.push(chunk)
+      return tokensToSegments([tok(chunk, '名詞', '一般', chunk, 'リョコウ')], SU_DICTS)
+    })
+
+    expect(tokenizedChunks).toEqual(['旅行'])
+    expect(segs[0]).toEqual({ text: 'Microsoft', literal: 'latin' })
+    expect(segs[1].word?.entry.id).toBe('w1')
+    expect(segs[2]).toEqual({ text: 'ＡＩ', literal: 'latin' })
+    const misses = collectUnlinkedSurfaces(segs)
+    expect([...misses.words]).toEqual([])
+    expect([...misses.verbs]).toEqual([])
+    expect(uniqueWords(segs).map((found) => found.entry.id)).toEqual(['w1'])
   })
 
   it('links variant kanji spellings through the reading (温かい → 暖かい)', () => {

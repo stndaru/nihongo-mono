@@ -56,9 +56,11 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
 - **Sentence parser** — paste a Japanese sentence (kana/kanji, numbers, and
   ASCII/full-width Latin names, up to 120 characters; the input box auto-grows
   to fit) and get a clickable word-by-word breakdown. Latin is preserved for
-  the whole-sentence translation but omitted from the breakdown, so Microsoft
-  IME composition works without treating romaji as Japanese words. A direction
-  toggle adds an independent English → Japanese tab: English text (≤200 chars) is machine-translated
+  the whole-sentence translation and remains visible as untagged gray context
+  in the breakdown, but it is not analyzed or included in Words Found. This
+  lets Microsoft IME composition work without treating romaji as Japanese
+  words. A direction toggle adds an independent English → Japanese tab:
+  English text (≤200 chars) is machine-translated
   to Japanese first, then broken down the same way — with a standing
   warning that incoherent or non-English input yields inaccurate results;
   the two tabs keep separate inputs and results. The breakdown covers: conjugated verbs

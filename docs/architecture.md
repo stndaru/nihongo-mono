@@ -247,10 +247,12 @@ regardless of host compression config.
   whitespace, digits, and ASCII/full-width A–Z survive, so Microsoft IME's
   pre-conversion letters are not erased and Roman names reach translation.
   A commit still requires at least one kana/kanji character. `useTranslation`
-  receives that complete mixed value; `useBreakdown` independently derives
-  `stripNonJapanese(input).trim()` before greedy parsing, kuromoji, or Beyond
-  lookup, so Latin is never rendered or queried as a breakdown token. The
-  total mixed input still shares the 120-character cap. Automatic Japanese
+  receives that complete mixed value; `segmentMixedSentence` withholds each
+  Latin run from the greedy/kuromoji callback, then reinserts it in place as a
+  display-only `literal: 'latin'` segment. Literal segments have no word,
+  token, or compound metadata: they render as untagged gray context with an
+  explanatory tooltip and cannot enter Beyond lookup or Words Found. The total
+  mixed input still shares the 120-character cap. Automatic Japanese
   OCR cleanup deliberately remains Japanese-only (page-label noise stays
   dropped); "Use as Input" sends raw OCR through the wider typing filter.
 - **Direction tabs (JP→EN / EN→JP)**: the default tab is the classic
@@ -259,7 +261,7 @@ regardless of host compression config.
   (`translateToJapanese` — same provider chain, direction-keyed cache),
   shows the generated Japanese with a provenance note, and feeds it to
   the same pipeline. Roman names in generated Japanese remain visible
-  (rendered with `JaText`) but are removed from its derived breakdown input.
+  (rendered with `JaText`) and become the same untagged breakdown literals.
   The pipeline lives in a `useBreakdown` hook
   instantiated once per tab, and each tab has its own URL param
   (`?q=` / `?en=`, active tab in `?dir=`) — inputs and results are fully
@@ -477,9 +479,9 @@ regardless of host compression config.
 - **Single kana characters only match particles/conjunctions** — every
   stray か as a noun would be noise. Single kanji match freely.
 - Input is hard-filtered to the Japanese-tab character set described above
-  and capped at 120 characters. ASCII/full-width Latin is translation-only:
-  romaji is not transliterated or analyzed. The page shows a prominent
-  accuracy caveat (heuristic matching and JLPT-only default coverage).
+  and capped at 120 characters. ASCII/full-width Latin is display-only in the
+  breakdown: romaji is not transliterated, tagged, or analyzed. The page shows
+  a prominent accuracy caveat (heuristic matching and JLPT-only default coverage).
 - The sentence lives in `?q=` (`replace: true`): palette hand-offs
   auto-run, and the breakdown survives clicking through to a word's
   detail page and coming back.
@@ -490,8 +492,8 @@ regardless of host compression config.
   Japanese-tab input, contains at least one kana/kanji character, and is
   ≤120 chars (`MAX_SENTENCE_LEN`), it offers "Break Down as Sentence" →
   `/parser?q=`. Pure Latin/digits/punctuation remain ineligible; accepted
-  Latin names survive the handoff for translation and are filtered only at
-  the breakdown boundary.
+  Latin names survive the handoff for translation and display-only breakdown
+  context.
 - Unit-tested in `parse-sentence.test.ts` (boundaries, single-kana rule,
   form labels, sanitizer).
 

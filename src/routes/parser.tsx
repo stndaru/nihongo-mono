@@ -56,8 +56,8 @@ import {
   hasJapaneseScript,
   linkBeyondWords,
   parseSentence,
+  segmentMixedSentence,
   stripNonEnglish,
-  stripNonJapanese,
   stripJapaneseInput,
   tokensToSegments,
   uniqueWords,
@@ -201,6 +201,29 @@ function TooltipShell({
   )
 }
 
+/** Display-only sentence context: visible and explained, never analyzed. */
+function LatinSpan({ text }: { text: string }) {
+  return (
+    <TooltipShell
+      trigger={
+        <span
+          data-literal="latin"
+          tabIndex={0}
+          aria-label={`${text}. Latin characters, not analyzed`}
+          className="cursor-help rounded-sm text-muted-foreground transition-colors duration-100 hover:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        >
+          {text}
+        </span>
+      }
+    >
+      <p className="font-medium">Latin characters</p>
+      <p className="mt-1 text-xs text-muted-foreground">
+        Shown for sentence context only — not analyzed or included in Words Found.
+      </p>
+    </TooltipShell>
+  )
+}
+
 /** A JLPT-linked word: POS-colored underline, hover tooltip, click → summary popup. */
 function WordSpan({
   word,
@@ -216,6 +239,7 @@ function WordSpan({
       trigger={
         <button
           type="button"
+          lang="ja"
           onClick={() => onSelect(word)}
           className={cn(
             'rounded-sm transition-colors duration-100 hover:bg-primary/15 focus-visible:bg-primary/15',
@@ -268,6 +292,7 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
     <TooltipShell
       trigger={
         <span
+          lang="ja"
           className={cn(
             'rounded-sm transition-colors duration-100 hover:bg-muted',
             contentWord
@@ -322,13 +347,12 @@ function useBreakdown(input: string | undefined, smart: boolean, dicts: ParserDi
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
   const [extLoading, setExtLoading] = useState(false)
-  // Translation needs the complete mixed sentence, but neither parser should
-  // see Latin names or IME composition. Trim only the derived copy so ?q=
-  // keeps the user's exact committed text.
-  const ja = stripNonJapanese(input ?? '').trim()
+  // Keep the complete mixed sentence for rendering. segmentMixedSentence
+  // withholds Latin runs from either engine and reinserts them as literals.
+  const sentence = (input ?? '').trim()
 
   useEffect(() => {
-    if (!ja) {
+    if (!sentence) {
       setResultNow(null)
       setDownload(null)
       setAnalyzerFailed(false)
@@ -338,7 +362,7 @@ function useBreakdown(input: string | undefined, smart: boolean, dicts: ParserDi
     if (!dicts) return
     let alive = true
     if (!smart) {
-      setResult({ segments: parseSentence(ja, dicts), engine: 'basic' })
+      setResult({ segments: parseSentence(sentence, dicts), engine: 'basic' })
       return
     }
     if (!tokenizerReady()) setDownload({ done: 0, total: 12 })
@@ -349,7 +373,9 @@ function useBreakdown(input: string | undefined, smart: boolean, dicts: ParserDi
         if (!alive) return
         setDownload(null)
         setAnalyzerFailed(false)
-        const segments = tokensToSegments(tokenizer.tokenize(ja), dicts)
+        const segments = segmentMixedSentence(sentence, (chunk) =>
+          tokensToSegments(tokenizer.tokenize(chunk), dicts),
+        )
         setResult({ segments, engine: 'accurate' })
         // second pass: content words the JLPT maps missed get looked up in
         // the extended indexes and linked as "Beyond" entries
@@ -391,12 +417,12 @@ function useBreakdown(input: string | undefined, smart: boolean, dicts: ParserDi
         if (!alive) return
         setDownload(null)
         setAnalyzerFailed(true)
-        setResult({ segments: parseSentence(ja, dicts), engine: 'basic' })
+        setResult({ segments: parseSentence(sentence, dicts), engine: 'basic' })
       })
     return () => {
       alive = false
     }
-  }, [ja, dicts, smart])
+  }, [sentence, dicts, smart])
 
   return { result, download, analyzerFailed, extLoading }
 }
@@ -430,8 +456,8 @@ function useEnToJa(sentence: string | undefined, attempt = 0): EnToJaState | nul
       .then((t) => {
         if (!alive) return
         // Generated Japanese can legitimately retain a Roman brand/name.
-        // Display that complete translation; useBreakdown derives the
-        // Japanese-only analyzer input independently.
+        // Display that complete translation; useBreakdown keeps Latin as
+        // display-only literals while withholding it from either engine.
         const clean = stripJapaneseInput(t.text)
         const ja = clean.slice(0, MAX_LEN)
         if (!hasJapaneseScript(ja)) setState({ status: 'error' })
@@ -798,8 +824,9 @@ function ParserPage() {
                 The Japanese tab accepts <span lang="ja">かな</span>,{' '}
                 <span lang="ja">漢字</span>, numbers (<span lang="ja">3人</span>,{' '}
                 <span lang="ja">２０時</span>), and ASCII/full-width Latin letters.
-                Latin names are preserved for translation but omitted from the
-                breakdown; romaji is not transliterated, so type{' '}
+                Latin names are preserved for translation and shown in the
+                breakdown as untagged gray context, but they are not analyzed or
+                included in Words Found. Romaji is not transliterated, so type{' '}
                 <span lang="ja">たべた</span>, not &quot;tabeta&quot;, when you want a
                 Japanese word analyzed.
               </li>
@@ -1054,16 +1081,18 @@ function ParserPage() {
               </div>
               <p className="mb-3 text-xs text-muted-foreground">
                 Dotted words are recognized — hover for a quick look, click for a
-                summary popup.
+                summary popup. Latin text stays visible in gray but is not analyzed.
               </p>
-              <p lang="ja" className="rounded-lg border p-4 text-2xl/loose">
+              <p className="rounded-lg border p-4 text-2xl/loose">
                 {result.segments.map((seg, i) =>
-                  seg.word ? (
+                  seg.literal === 'latin' ? (
+                    <LatinSpan key={i} text={seg.text} />
+                  ) : seg.word ? (
                     <WordSpan key={i} word={seg.word} token={seg.token} onSelect={setSelectedWord} />
                   ) : seg.token ? (
                     <TokenSpan key={i} text={seg.text} token={seg.token} />
                   ) : (
-                    <span key={i} className="text-muted-foreground">
+                    <span key={i} lang="ja" className="text-muted-foreground">
                       {seg.text}
                     </span>
                   ),
