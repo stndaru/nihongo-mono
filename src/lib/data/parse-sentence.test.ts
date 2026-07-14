@@ -3,11 +3,13 @@ import type { VerbEntry, VocabEntry } from './types'
 import {
   buildParserDicts,
   collectUnlinkedSurfaces,
-  isJapaneseOnly,
+  hasJapaneseScript,
+  isJapaneseInput,
   linkBeyondWords,
   parseSentence,
   stripNonEnglish,
   stripNonJapanese,
+  stripJapaneseInput,
   tokensToSegments,
   uniqueWords,
   type JaToken,
@@ -61,26 +63,48 @@ const DICTS = buildParserDicts(
   ],
 )
 
-describe('stripNonJapanese / isJapaneseOnly', () => {
-  it('removes latin and full-width latin, keeps digits', () => {
+describe('Japanese input and breakdown filters', () => {
+  it('removes Latin from breakdown text while keeping digits', () => {
     expect(stripNonJapanese('abc食べるxyz123ＡＢＣ')).toBe('食べる123')
     expect(stripNonJapanese('３人がroom3時に')).toBe('３人が3時に')
   })
-  it('keeps kana, kanji, and Japanese punctuation', () => {
+
+  it('keeps kana, kanji, and Japanese punctuation in breakdown text', () => {
     const s = '旅行の楽しみは、何といっても！'
     expect(stripNonJapanese(s)).toBe(s)
   })
-  it('isJapaneseOnly rejects mixed and empty input', () => {
-    expect(isJapaneseOnly('食べるtabe')).toBe(false)
-    expect(isJapaneseOnly('')).toBe(false)
-    expect(isJapaneseOnly('食べた。')).toBe(true)
+
+  it('preserves ASCII and full-width Latin in Japanese-tab input', () => {
+    const s = 'MicrosoftとＭｉｃｒｏｓｏｆｔの田中さん3人'
+    expect(stripJapaneseInput(s)).toBe(s)
   })
-  it('isJapaneseOnly accepts digits inside a sentence, not alone', () => {
-    expect(isJapaneseOnly('3時に食べた。')).toBe(true)
+
+  it.each(['m', 'mi', 'mic', 'Microsoft'])('preserves IME composition stage %s', (stage) => {
+    expect(stripJapaneseInput(stage)).toBe(stage)
+  })
+
+  it('continues to remove unsupported characters without widening to ASCII punctuation', () => {
+    expect(stripJapaneseInput('Open-AI🙂の本©')).toBe('OpenAIの本')
+  })
+
+  it('accepts mixed Japanese/Latin input and rejects empty or pure Latin input', () => {
+    expect(isJapaneseInput('Microsoftの田中さん')).toBe(true)
+    expect(isJapaneseInput('食べた。')).toBe(true)
+    expect(isJapaneseInput('Microsoft')).toBe(false)
+    expect(isJapaneseInput('')).toBe(false)
+  })
+
+  it('accepts digits inside a sentence, not alone', () => {
+    expect(isJapaneseInput('room3で食べた。')).toBe(true)
     // digits are allowed IN a sentence, but "123" is not a Japanese
     // sentence — the palette must not offer to break it down
-    expect(isJapaneseOnly('123')).toBe(false)
-    expect(isJapaneseOnly('１２３')).toBe(false)
+    expect(isJapaneseInput('123')).toBe(false)
+    expect(isJapaneseInput('１２３')).toBe(false)
+  })
+
+  it('reports whether a committed value has analyzable Japanese script', () => {
+    expect(hasJapaneseScript('Microsoftの田中さん')).toBe(true)
+    expect(hasJapaneseScript('Microsoft123')).toBe(false)
   })
 })
 

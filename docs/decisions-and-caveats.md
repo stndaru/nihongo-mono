@@ -716,11 +716,12 @@ feedback on many of these — treat them as requirements, not suggestions.
     chain (see the "cons of raising the limit" analysis: MyMemory
     breaks first, then URL shareability, then main-thread parse cost).
     (2) Digits allowed in the input — ASCII 0-9 and full-width ０-９
-    (dates, counters: 2026年, ３人). Latin stays rejected. Digits parse
+    (dates, counters: 2026年, ３人). At the time Latin stayed rejected
+    (superseded by decision 73). Digits parse
     as plain/annotated tokens, never link, and are **skipped by the
     Beyond pass** (kuromoji 名詞・数 tokens can't be dictionary entries;
     querying them would force the ext scan to run to the end of its
-    rows for nothing). `isJapaneseOnly` now additionally requires at
+    rows for nothing). The input eligibility gate additionally requires at
     least one kana/kanji so the palette doesn't offer to "break down"
     a pure number like 123 (side effect: pure-punctuation strings no
     longer count as Japanese either — correct, they aren't sentences).
@@ -1508,6 +1509,31 @@ feedback on many of these — treat them as requirements, not suggestions.
       without popups or crashes; back online, one Sync Now uploads the
       offline-made progress. Connecting Drive with the worker active is
       byte-identical to without (cross-origin passthrough).
+
+73. **Sentence parser accepts Latin for IME/names but strips it at the
+    breakdown boundary, 2026-07-14.** The JP textarea previously ran every
+    controlled `onChange` through `stripNonJapanese`. Microsoft IME must first
+    place Roman letters in that controlled value before converting them, so
+    even the first `m` was replaced with an empty string; pasted Roman names
+    were also removed from `?q=` before whole-sentence translation, changing
+    the source sentence and producing inaccurate results. The responsibilities
+    are now separate: `stripJapaneseInput` accepts the existing Japanese set
+    plus ASCII/full-width A–Z for editing, URL state, and translation, while
+    `useBreakdown` derives `stripNonJapanese(input).trim()` before greedy
+    parsing, kuromoji, or Beyond lookup. Thus Latin is never rendered as a
+    breakdown token or used to trigger an extended-index scan. A commit and
+    palette handoff still require at least one kana/kanji character; pure
+    Latin/digits/punctuation remain ineligible, romaji is not transliterated,
+    and the full mixed value counts against the existing 120-character cap.
+    EN→JP results keep Roman names in the displayed translation (`JaText`
+    scopes mixed fonts) but use the same filtered breakdown copy. Automatic
+    Japanese OCR cleaning deliberately keeps dropping Latin page-label noise;
+    restoring raw OCR via "Use as Input" uses the wider input filter. No new
+    data, runtime request, provider, CSP origin, or tokenizer behavior.
+    Verification: 402 unit tests; fresh Node Playwright against the production
+    preview covered sequential IME-style letters, mixed palette/deep links,
+    basic + Smart filtering, EN→JP mixed display, and 390/768 px `xxlarge`
+    layouts with zero overflow, page errors, or console errors.
 
 ## Known limitations / accepted trade-offs
 

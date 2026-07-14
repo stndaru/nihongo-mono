@@ -16,7 +16,7 @@ import {
   loadVocabExtIndex,
   loadVocabLevels,
 } from '@/lib/data/loader'
-import { MAX_SENTENCE_LEN, isJapaneseOnly } from '@/lib/data/parse-sentence'
+import { MAX_SENTENCE_LEN, isJapaneseInput } from '@/lib/data/parse-sentence'
 import { searchWordsScored } from '@/lib/data/search'
 import type {
   GrammarEntry,
@@ -262,10 +262,11 @@ export function CommandPalette() {
             ) : hits.length === 0 ? (
               <div className="px-3 py-8 text-center text-sm text-muted-foreground">
                 <p>No matches{ext ? '' : ' among JLPT words & grammar'}.</p>
-                {/* a whole sentence isn't a dictionary lookup — offer the
-                    parser, but only for pure-Japanese input (romaji or mixed
-                    text would mess with the breakdown) */}
-                {isJapaneseOnly(debounced.trim()) &&
+                {/* A whole sentence isn't a dictionary lookup. Mixed Latin is
+                    safe here: /parser preserves it for translation and derives
+                    a Japanese-only breakdown string. Pure Latin still belongs
+                    to normal word/grammar search, not sentence breakdown. */}
+                {isJapaneseInput(debounced.trim()) &&
                   debounced.trim().length <= MAX_SENTENCE_LEN && (
                   <button
                     type="button"

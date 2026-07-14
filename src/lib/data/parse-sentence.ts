@@ -30,7 +30,8 @@ export const MAX_SENTENCE_LEN = 120
 
 // Japanese scripts + Japanese punctuation + digits (both ASCII and
 // full-width — 3人 and ３人 are ordinary Japanese text). Deliberately
-// excludes latin (ＡＢＣ/abc) — the parser rejects anything roman.
+// excludes Latin: this is the breakdown/OCR character set, not the wider
+// Japanese-tab input character set.
 // Ranges: CJK punct 3000–303F · hiragana 3040–309F · katakana 30A0–30FF ·
 // katakana ext 31F0–31FF · CJK ext-A 3400–4DBF · CJK 4E00–9FFF.
 const JA_ALLOWED =
@@ -45,22 +46,45 @@ const KANJI = /[㐀-䶿一-鿿]/u
 /** Any kana or kanji — what makes text *Japanese* rather than just allowed. */
 const JA_SCRIPT = /[぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-鿿]/u
 
+/** ASCII + full-width Latin letters accepted while editing Japanese text. */
+const LATIN_LETTER = /[A-Za-zＡ-Ｚａ-ｚ]/u
+
 /** Entirely katakana — signals the kana-native word (イチョウ the ginkgo). */
 const KATAKANA_ONLY = /^[゠-ヿㇰ-ㇿ]+$/u
 
-/** Keeps only kana/kanji/digits/Japanese punctuation (input filter). */
+/**
+ * Keeps only kana/kanji/digits/Japanese punctuation. This is the string
+ * sent to either breakdown engine and remains the Japanese OCR cleaner.
+ */
 export function stripNonJapanese(text: string): string {
   return [...text].filter((ch) => JA_ALLOWED.test(ch)).join('')
 }
 
 /**
- * True when the text is entirely allowed characters AND contains at least
- * one kana/kanji — digits alone ("123") are allowed *in* a sentence but are
- * not a Japanese sentence, so the palette must not offer to parse them.
+ * Japanese-tab input filter. Latin is retained so a controlled textarea does
+ * not erase Microsoft IME's pre-conversion composition and Roman names reach
+ * translation; the breakdown derives its own Japanese-only string later.
  */
-export function isJapaneseOnly(text: string): boolean {
+export function stripJapaneseInput(text: string): string {
+  return [...text]
+    .filter((ch) => JA_ALLOWED.test(ch) || LATIN_LETTER.test(ch))
+    .join('')
+}
+
+/** True when text contains at least one kana or kanji character. */
+export function hasJapaneseScript(text: string): boolean {
+  return JA_SCRIPT.test(text)
+}
+
+/**
+ * True when text is valid Japanese-tab input and contains something the
+ * breakdown can analyze. Pure Latin/digits/punctuation remain ineligible.
+ */
+export function isJapaneseInput(text: string): boolean {
   return (
-    text.length > 0 && JA_SCRIPT.test(text) && [...text].every((ch) => JA_ALLOWED.test(ch))
+    text.length > 0 &&
+    hasJapaneseScript(text) &&
+    [...text].every((ch) => JA_ALLOWED.test(ch) || LATIN_LETTER.test(ch))
   )
 }
 

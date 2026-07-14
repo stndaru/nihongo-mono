@@ -34,6 +34,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { JaText } from '@/components/ui/ja-text'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { PosBadge } from '@/components/vocab/PosBadge'
@@ -52,10 +53,12 @@ import {
   MAX_SENTENCE_LEN,
   buildParserDicts,
   collectUnlinkedSurfaces,
+  hasJapaneseScript,
   linkBeyondWords,
   parseSentence,
   stripNonEnglish,
   stripNonJapanese,
+  stripJapaneseInput,
   tokensToSegments,
   uniqueWords,
   type ParsedSegment,
@@ -103,13 +106,13 @@ interface ParserSearch {
 export const Route = createFileRoute('/parser')({
   validateSearch: (search: Record<string, unknown>): ParserSearch => {
     const q =
-      typeof search.q === 'string' ? stripNonJapanese(search.q).slice(0, MAX_LEN) : ''
+      typeof search.q === 'string' ? stripJapaneseInput(search.q).slice(0, MAX_LEN) : ''
     const en =
       typeof search.en === 'string'
         ? stripNonEnglish(search.en).trim().slice(0, EN_MAX_LEN)
         : ''
     const out: ParserSearch = {}
-    if (q) out.q = q
+    if (q && hasJapaneseScript(q)) out.q = q
     if (en) out.en = en
     if (search.dir === 'en') out.dir = 'en'
     return out
@@ -305,7 +308,7 @@ function TokenSpan({ text, token }: { text: string; token: TokenInfo }) {
  * so the JP→EN and EN→JP tabs each own an instance — their results live
  * side by side and switching tabs never recomputes or resets either.
  */
-function useBreakdown(ja: string | undefined, smart: boolean, dicts: ParserDicts | null) {
+function useBreakdown(input: string | undefined, smart: boolean, dicts: ParserDicts | null) {
   const [result, setResultNow] = useState<{
     segments: ParsedSegment[]
     engine: 'accurate' | 'basic'
@@ -319,9 +322,20 @@ function useBreakdown(ja: string | undefined, smart: boolean, dicts: ParserDicts
   const [download, setDownload] = useState<{ done: number; total: number } | null>(null)
   const [analyzerFailed, setAnalyzerFailed] = useState(false)
   const [extLoading, setExtLoading] = useState(false)
+  // Translation needs the complete mixed sentence, but neither parser should
+  // see Latin names or IME composition. Trim only the derived copy so ?q=
+  // keeps the user's exact committed text.
+  const ja = stripNonJapanese(input ?? '').trim()
 
   useEffect(() => {
-    if (!ja || !dicts) return
+    if (!ja) {
+      setResultNow(null)
+      setDownload(null)
+      setAnalyzerFailed(false)
+      setExtLoading(false)
+      return
+    }
+    if (!dicts) return
     let alive = true
     if (!smart) {
       setResult({ segments: parseSentence(ja, dicts), engine: 'basic' })
@@ -415,9 +429,12 @@ function useEnToJa(sentence: string | undefined, attempt = 0): EnToJaState | nul
     translateToJapanese(sentence)
       .then((t) => {
         if (!alive) return
-        const clean = stripNonJapanese(t.text)
+        // Generated Japanese can legitimately retain a Roman brand/name.
+        // Display that complete translation; useBreakdown derives the
+        // Japanese-only analyzer input independently.
+        const clean = stripJapaneseInput(t.text)
         const ja = clean.slice(0, MAX_LEN)
-        if (!ja) setState({ status: 'error' }) // no Japanese came back at all
+        if (!hasJapaneseScript(ja)) setState({ status: 'error' })
         else {
           setState({ status: 'done', ja, provider: t.provider, truncated: clean.length > MAX_LEN })
         }
@@ -591,7 +608,7 @@ function ParserPage() {
       setEnText(clean.slice(0, EDIT_CEILING))
       return
     }
-    const clean = stripNonJapanese(raw)
+    const clean = stripJapaneseInput(raw)
     setBlocked(clean.length !== raw.length)
     setText(clean.slice(0, EDIT_CEILING))
   }
@@ -612,7 +629,7 @@ function ParserPage() {
       return
     }
     const trimmed = text.trim()
-    if (trimmed) {
+    if (trimmed && hasJapaneseScript(trimmed)) {
       if (trimmed === q && translation?.status === 'error') setJpAttempt((a) => a + 1)
       navigate({ search: (prev) => ({ ...prev, q: trimmed }), replace: true })
     }
@@ -779,9 +796,12 @@ function ParserPage() {
               </li>
               <li>
                 The Japanese tab accepts <span lang="ja">かな</span>,{' '}
-                <span lang="ja">漢字</span>, and numbers (<span lang="ja">3人</span>,{' '}
-                <span lang="ja">２０時</span>). Romaji is not accepted — type{' '}
-                <span lang="ja">たべた</span>, not &quot;tabeta&quot;.
+                <span lang="ja">漢字</span>, numbers (<span lang="ja">3人</span>,{' '}
+                <span lang="ja">２０時</span>), and ASCII/full-width Latin letters.
+                Latin names are preserved for translation but omitted from the
+                breakdown; romaji is not transliterated, so type{' '}
+                <span lang="ja">たべた</span>, not &quot;tabeta&quot;, when you want a
+                Japanese word analyzed.
               </li>
               <li>
                 The <span className="font-medium">English → Japanese</span> tab
@@ -907,8 +927,8 @@ function ParserPage() {
             <p className="text-xs text-muted-foreground">
               {dir === 'ja' && blocked && (
                 <span className="text-destructive">
-                  Non-Japanese characters were removed — kana, kanji, and numbers
-                  only.{' '}
+                  Unsupported characters were removed — use kana, kanji, A–Z/Ａ–Ｚ,
+                  and numbers.{' '}
                 </span>
               )}
               {dir === 'en' && enBlocked && (
@@ -930,7 +950,11 @@ function ParserPage() {
             </p>
             <Button
               onClick={breakDown}
-              disabled={!dicts || !activeText.trim() || overLimit}
+              disabled={
+                !dicts ||
+                overLimit ||
+                (dir === 'ja' ? !hasJapaneseScript(activeText) : !activeText.trim())
+              }
             >
               {dicts || !dictsWanted
                 ? dir === 'en'
@@ -1006,8 +1030,8 @@ function ParserPage() {
         {dir === 'en' && enToJa?.status === 'done' && (
           <section>
             <h2 className="mb-2 text-lg font-semibold">Japanese Translation</h2>
-            <p lang="ja" className="rounded-lg border p-4 text-xl/relaxed">
-              {enToJa.ja}
+            <p className="rounded-lg border p-4 text-xl/relaxed">
+              <JaText text={enToJa.ja} />
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               Machine translation via{' '}

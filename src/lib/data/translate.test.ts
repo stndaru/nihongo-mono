@@ -60,6 +60,22 @@ describe('translateSentence', () => {
     expect(urls[0]).toContain(`q=${encodeURIComponent('寿司を食べた')}`)
   })
 
+  it('forwards a mixed Latin/Japanese sentence without dropping the name', async () => {
+    const urls: string[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (...args: unknown[]) => {
+        urls.push(String(args[0]))
+        return jsonResponse(gtxBody('Mr. Tanaka works at Microsoft.'))
+      }),
+    )
+
+    await translateSentence('Microsoftの田中さん')
+
+    expect(urls).toHaveLength(1)
+    expect(urls[0]).toContain(`q=${encodeURIComponent('Microsoftの田中さん')}`)
+  })
+
   it('falls back to mymemory when google rejects', async () => {
     const urls: string[] = []
     const fetchMock = vi.fn(async (...args: unknown[]) => {

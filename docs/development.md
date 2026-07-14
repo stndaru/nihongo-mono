@@ -5,7 +5,7 @@
 ```bash
 bun install             # deps (ALWAYS bun, never npm — user requirement)
 bun run dev             # copies the kuromoji dict + tesseract-wasm engine to public/, then Vite dev server (localhost:5173)
-bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search, the grammar data-integrity suite, the Drive-sync engine/merge suites, and the offline-access helpers (394 tests)
+bun run test            # vitest: conjugation engine, adjective inflection, deconjugation, search normalization, quiz rules, progress store, sentence parser, translation providers, grammar loader/search, the grammar data-integrity suite, the Drive-sync engine/merge suites, and the offline-access helpers (402 tests)
 bun run lint            # oxlint
 bun run build           # copy-kuromoji + copy-tesseract, then vite build && tsc -b && gen-csp.ts && gen-offline-manifest.ts (this order — routeTree.gen.ts must exist before tsc; gen-csp reads dist/ and writes dist/_headers + vercel.json; gen-offline-manifest writes dist/offline-manifest.json for the opt-in offline download)
 bun run data:download   # sources → scripts/.cache/
