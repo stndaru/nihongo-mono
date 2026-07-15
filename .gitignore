@@ -23,6 +23,14 @@ public/kuromoji
 # (public/ocr/models + NOTICE.md stay committed)
 public/ocr/engine
 
+# Generated from pinned PaddleOCR.js / ONNX Runtime packages. The two model
+# archives stay committed beside these files for deterministic builds.
+public/ocr/paddle/v0.4.2/download/worker.js.gz
+public/ocr/paddle/v0.4.2/download/ort-wasm-simd-threaded.jsep.wasm.gz
+public/ocr/paddle/v0.4.2/manifest.json
+public/ocr/paddle/v0.4.2/download/*.pack
+public/ocr/offline-manifest.json
+
 # data pipeline raw sources
 scripts/.cache
 

@@ -120,7 +120,7 @@ export function OfflineSection() {
       <p className="text-xs text-pretty text-muted-foreground">
         Download the entire app — every page, the full dictionary
         (including the Beyond tier and proper names), quizzes, grammar,
-        stroke order, Smart Parsing, and image scanning — into this
+        stroke order, and Smart Parsing — into this
         browser. Everything then keeps working with no connection, even
         after closing the browser.
       </p>
@@ -134,6 +134,7 @@ export function OfflineSection() {
           clear the site&apos;s data. Private/incognito windows don&apos;t
           keep it.
         </li>
+        <li>Image scanning has its own optional offline pack below.</li>
         <li>
           Google Drive sync and sentence translation still need a
           connection — quiz progress made offline is saved in this browser

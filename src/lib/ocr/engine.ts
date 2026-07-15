@@ -27,13 +27,16 @@ const modelBuffers = new Map<OcrLang, () => Promise<ArrayBuffer>>()
 
 function getClient(): Promise<OCRClient> {
   if (!clientPromise) {
-    clientPromise = import('tesseract-wasm').then(({ OCRClient }) => {
+    const clientUrl = `${import.meta.env.BASE_URL}ocr/engine/tesseract-client.js`
+    clientPromise = import(/* @vite-ignore */ clientUrl).then(
+      ({ OCRClient }: { OCRClient: typeof import('tesseract-wasm').OCRClient }) => {
       const client = new OCRClient({
         workerURL: `${import.meta.env.BASE_URL}ocr/engine/tesseract-worker.js`,
       })
       registerOcrDestroy(destroyOcr)
       return client
-    })
+      },
+    )
     clientPromise.catch(() => {
       clientPromise = null // a failed load may be retried
     })

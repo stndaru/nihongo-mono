@@ -3,7 +3,7 @@
  *
  * The manifest is the complete list of same-origin files the app can ever
  * fetch — app shell + route chunks, all datasets (JLPT, extended tier,
- * names, strokes), the kuromoji dictionary, and the OCR engine + models —
+ * names, strokes), and the kuromoji dictionary —
  * with per-file byte sizes. Settings' "Offline access" section reads it to
  * state the exact download size up front and to drive the precache with
  * real byte progress; its `version` (a hash of the file list) is how the
@@ -11,7 +11,8 @@
  *
  * Excluded: _headers (host config, never fetched by the app), sw.js (the
  * worker script itself — the browser manages its lifecycle), source maps,
- * and the manifest itself.
+ * the manifest itself, and `/ocr/` (a separate optional pack so the base
+ * offline copy stays light).
  */
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, statSync, writeFileSync } from 'node:fs'
@@ -38,7 +39,7 @@ function walk(dir: string): string[] {
 const files = walk(DIST)
   .map((f) => f.replaceAll('\\', '/'))
   .map((f) => f.slice(DIST.length)) // '/index.html', '/assets/…'
-  .filter((f) => !SKIP.has(f.slice(1)) && !f.endsWith('.map'))
+  .filter((f) => !SKIP.has(f.slice(1)) && !f.endsWith('.map') && !f.startsWith('/ocr/'))
   .sort()
 
 const entries = files.map((f) => [f, statSync(join(DIST, f)).size] as const)

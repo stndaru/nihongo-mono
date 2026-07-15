@@ -80,14 +80,18 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   (温かい finds the 暖かい entry), and dictionary-validated compound
   merging (参加者 and 非常に link as single words; their summary popup
   lists the parts — 参加 + 者 — each clickable). A separate opt-in **Scan
-  Image** toggle (Tesseract OCR compiled to WebAssembly, ~3.5 MB
-  one-time, confirm-gated) swaps the input box for an on-device image
+  Image** toggle (PaddleOCR PP-OCRv5 mobile, ~26.8 MB one-time and
+  confirm-gated) swaps the input box for an on-device image
   scanner — paste an image from the clipboard, upload a file, or take a
   photo with a live camera viewfinder, then crop away everything but the
-  text — keeps only the active tab's
+  text. It supports printed, vertical, and handwritten Japanese plus
+  English, keeps only the active tab's
   script (Japanese or English), drops the result back into the input
   box, and breaks it down automatically when it fits the length limit
-  (longer scans stay editable until they do). Toggling back and forth
+  (longer scans stay editable until they do). Paddle failures and empty
+  output fall back automatically to Tesseract; low-confidence Paddle text
+  stays in Review for editing or a manual Tesseract comparison instead of
+  being parsed silently. Toggling back and forth
   never loses the typed text or the scanned image (one image is kept at
   a time, reviewable together with the raw detected text under a
   collapsed "Review last scan" section; images never leave the
@@ -134,9 +138,10 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   ([docs/google-drive-setup.md](docs/google-drive-setup.md)) — without
   one, the feature stays hidden.
 - **Offline access (optional)** — one click in Settings downloads the
-  entire app (~68 MB: every page, the full dictionary including the
-  Beyond tier and proper names, quizzes, grammar, stroke order, Smart
-  Parsing, and image scanning) into the browser via a service worker.
+  entire base app (~60 MB: every page, the full dictionary including the
+  Beyond tier and proper names, quizzes, grammar, stroke order, and Smart
+  Parsing) into the browser via a service worker. Image scanning is a
+  separate ~34 MB offline pack, so it never inflates the normal download.
   Everything then works with no connection, even after closing the
   browser; quiz progress made offline syncs to Drive when back online.
   The exact size, storage caveats, and update/remove controls live in

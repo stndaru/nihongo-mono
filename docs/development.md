@@ -138,15 +138,26 @@ Playwright gotchas learned the hard way:
   step breaks Smart Parsing (it degrades to the greedy engine with a
   notice, but still). The deep kuromoji imports are pinned in
   `vite.config.ts` `optimizeDeps.include`.
-- `public/ocr/engine/` is likewise **gitignored** — `scripts/copy-tesseract.ts`
-  (same `dev`/`build` chains) copies the tesseract-wasm worker + wasm from
-  node_modules. A deploy built without it breaks the parser's Scan Image
-  panel (its engine-error state explains and retries, but still). The
-  committed halves live next to it: `public/ocr/models/*.traineddata.gz`
-  and `public/ocr/NOTICE.md`.
-- **Offline access & the service worker** (decision 72): `public/sw.js`
-  is registered only when a user enables the Settings download — never
-  assume a SW exists. Every `cache.match` there uses
+- OCR generated files are **gitignored** and rebuilt by the `dev`/`build`
+  chain: `copy-tesseract.ts` copies its client/worker/WASM, while
+  `copy-paddleocr.ts` creates the pinned worker/ORT `.pack` files and both
+  manifests, verifies the official model hashes, and deploys the third-party
+  license texts. The committed sources of truth are the two PP-OCRv5 mobile
+  gzip archives under `public/ocr/paddle/v0.4.2/download/`, both Tesseract
+  tessdata files, package pins, and their notices. Run `bun run ocr:assets`
+  after changing any Paddle pin; never hand-edit a generated manifest.
+- **OCR release gate**: `bun run ocr:benchmark [report.json]` consumes the
+  local, labeled 70+ image/device report and fails on the agreed CER,
+  vertical/handwriting usability, English-regression, silent-empty,
+  payload/repeat-network, latency, long-task, memory, or fallback gates.
+  A missing report fails deliberately. Results and user images remain local
+  and are never telemetry. The first Paddle release must not merge without
+  a real license-safe corpus report covering all three device tiers, the
+  current plus previous two Chrome/Edge/Firefox/Safari releases, confidence
+  calibration, and memory retained after closing OCR.
+- **Offline access & the service worker** (decisions 72/74): `public/sw.js`
+  is registered when a user enables the base offline download or consents
+  to PaddleOCR. Base and OCR data use separate caches. Every `cache.match` there uses
   `{ ignoreVary: true }`; removing it breaks offline in a maddening way
   (servers send `Vary: Origin`, Vite's `crossorigin` module scripts send
   an Origin header, the precache's plain fetches don't → every chunk

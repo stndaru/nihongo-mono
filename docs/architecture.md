@@ -272,36 +272,30 @@ regardless of host compression config.
   the tool parses and never fixes input — lives in the page's Important
   Notice, which covers both tabs. The JP tab's Translation section is
   hidden on the EN tab (the English is the user's own input).
-- **"Scan Image" — opt-in on-device OCR** (`src/lib/ocr/` +
-  `components/parser/OcrPanel.tsx`, decision 68): a toggle chip on the
-  direction-tabs row gates a tesseract-wasm worker behind the same
-  consent-dialog + sticky-key pattern (`nihongo-mono:parser-ocr`), then
-  **swaps the input view** — the scan surface replaces the textarea
-  (never both; the counter/Break Down row hides with it). The panel —
-  one lazy chunk holding tesseract-wasm and all OCR code — offers
-  clipboard paste (button where `clipboard.read()` exists, Ctrl+V
-  listener while visible), file upload, and a live camera viewfinder
-  (native-camera `capture` input fallback, disabled-with-reason last
-  resort). It mounts once and is then only hidden, so toggling never
-  drops the scanned image or an in-flight recognition; one image slot,
-  overwritten per scan, reviewable (image + raw pre-filter text) via a
-  collapsed "Review last scan" accordion. Every acquired image parks in
-  a **crop dialog** first (skippable via the sticky "Crop before
-  scanning" checkbox) where it can also be **rotated** in 90° steps —
-  rotation + crop are baked from the original blob at full resolution in
-  one canvas pass before the OCR sees it. Engine files are copied to
-  `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
-  jpn/eng tessdata_fast models are pre-gzipped and **committed** under
-  `public/ocr/models/`, fetched per active tab with byte progress.
-  Recognized text is filtered to the active tab's charset (JA
-  additionally drops ALL whitespace — Tesseract's spurious CJK gaps),
-  lands in the textarea, and auto-commits to `?q=`/`?en=` when it fits
-  the cap — the view never swaps by itself: the drop zone shows a
-  transient success state and the breakdown renders below, with Back
-  to Text revealing the inserted text; over the cap the box holds up
-  to 2,000 chars with Break Down blocked until edited down. The route
-  frees the worker's wasm heap on unmount via the static
-  `lib/ocr/handle.ts` registry, keeping the code split intact.
+- **"Scan Image" — opt-in on-device PaddleOCR** (`src/lib/ocr/` +
+  `components/parser/OcrPanel.tsx`, decisions 68/74): the existing view
+  toggle, clipboard/upload/camera acquisition, crop/rotate dialog, raw
+  review, per-tab cleanup, and parser handoff are preserved. PP-OCRv5
+  mobile detection + recognition run in a dedicated module worker;
+  WebGPU is attempted first and a clean worker restarts directly in WASM
+  if initialization fails. `normalizePaddleResult` retains horizontal
+  ordering and orders predominantly tall Japanese columns right-to-left.
+  Paddle errors or empty output automatically use the existing Tesseract
+  worker; output below the corpus-calibrated confidence threshold stays in
+  Review (editable raw text + contextual "Retry With Tesseract") and is
+  never auto-parsed.
+- **OCR asset boundary**: `scripts/copy-paddleocr.ts` pins PaddleOCR.js
+  0.4.2, ONNX Runtime 1.24.3, the PP-OCRv5 mobile archives, checksums, and
+  a compressed manifest. The five neutral `.pack` downloads total about
+  26.8 MiB; neutral extensions prevent static hosts from applying HTTP
+  gzip and causing double decompression. `ensurePaddleAssets` reports exact
+  compressed-byte progress, verifies SHA-256, expands one file at a time
+  into a versioned Cache Storage pack, and stores an installed manifest;
+  repeated initialization reads only that cache. The service worker exposes
+  ordinary worker/model/runtime target URLs to the Paddle worker. No OCR
+  asset is in the normal module graph or fetched before consent. Tesseract's
+  client is also a runtime static import, preventing Vite from duplicating
+  its WASM in the base bundle.
 - **Breakdown results render as a React transition** (`useBreakdown`
   wraps its `setResult` in `startTransition`): committing dozens of
   ruby+tooltip spans in one blocking render was the page's only >50 ms
@@ -607,11 +601,11 @@ regardless of host compression config.
   state), and both quiz summaries. Multi-tab is last-write-wins by design
   (documented caveat).
 
-### Offline access (`src/lib/offline/`, `public/sw.js`, decision 72)
+### Offline access (`src/lib/offline/`, `public/sw.js`, decisions 72/74)
 
-- **Opt-in whole-app precache** from Settings: downloads every
-  same-origin file (~68 MB — app shell, all datasets incl. the Beyond
-  tier and names, kuromoji, OCR engine + models) into Cache Storage and
+- **Opt-in base-app precache** from Settings: downloads every non-OCR
+  same-origin file (~60 MB — app shell, all datasets incl. the Beyond
+  tier and names, and kuromoji) into Cache Storage and
   registers the service worker, which then serves the app with no
   connection across restarts. No opt-in → no worker, no cache, zero
   change. The build emits `dist/offline-manifest.json`
@@ -627,6 +621,13 @@ regardless of host compression config.
   `ignoreVary` (decision 72 explains why removing it breaks offline).
 - Offline quiz sessions record locally and sync on the next online
   trigger; the browser-cleared-cache case is detected and re-offered.
+- **Separate OCR pack** (`src/lib/ocr/offline.ts`): about 34 MB for the
+  Paddle pack plus Tesseract client/worker/WASM and both languages. It
+  reuses files already cached by a scan, has independent progress/meta/
+  remove controls, and shares the worker without unregistering it while
+  either offline cache remains. Its atomic completion marker verifies every
+  OCR target. The base offline pack is still required for the app shell to
+  cold-start after a browser restart with no connection.
 
 ### Session rules (user requirements, tested in `engine.test.ts`)
 

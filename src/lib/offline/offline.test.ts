@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { downloadOrder, formatMB, loadOfflineMeta, parseManifest } from './offline'
+import { downloadOrder, formatMB, hasOcrOfflineCache, loadOfflineMeta, parseManifest } from './offline'
 
 // node has no localStorage — back the meta module with a Map
 const backing = new Map<string, string>()
@@ -91,5 +91,12 @@ describe('formatMB', () => {
     expect(formatMB(1048576)).toBe('1.0 MB')
     expect(formatMB(75 * 1048576)).toBe('75.0 MB')
     expect(formatMB(150 * 1048576)).toBe('150 MB')
+  })
+})
+
+describe('OCR service-worker ownership', () => {
+  it('keeps the worker when a versioned OCR cache exists', () => {
+    expect(hasOcrOfflineCache(['nihongo-mono-ocr-paddle-v0.4.2'])).toBe(true)
+    expect(hasOcrOfflineCache(['nihongo-mono-offline-v1'])).toBe(false)
   })
 })

@@ -1537,6 +1537,55 @@ feedback on many of these — treat them as requirements, not suggestions.
     basic + Smart literal rendering/tag exclusion, EN→JP mixed display, and
     390/768 px `xxlarge` layouts with zero overflow, page errors, or console errors.
 
+74. **PaddleOCR becomes the primary on-device OCR behind a measured release
+    gate, 2026-07-15.** This supersedes decision 68's engine choice without
+    removing its acquisition, crop/rotate, review, parser handoff, camera,
+    language, or cleanup capabilities. The first release pins PaddleOCR.js
+    0.4.2 + ONNX Runtime 1.24.3 + PP-OCRv5 mobile detection/recognition.
+    Five self-hosted compressed assets are SHA-256 verified and expanded into
+    a versioned browser cache only after the existing explicit consent; the
+    measured pack is ~26.8 MiB, repeated setup is zero model/library bytes,
+    and the normal JS graph contains neither Paddle/OpenCV/ORT nor Tesseract
+    WASM. Neutral `.pack` URLs are intentional: `.gz` made Vite/static hosts
+    send `Content-Encoding: gzip`, so browsers expanded the response before
+    the app could verify it, causing a size mismatch and double-decompression.
+    - Paddle runs in a dedicated worker. Backend `auto` attempts WebGPU first;
+      if initialization fails, the worker is discarded and a clean worker
+      starts directly in WASM because ORT can poison an in-worker fallback
+      after a failed WebGPU session. The JSEP `.mjs` loader is an independent
+      runtime asset, not optional merely because the `.wasm` exists. Concurrent
+      panel/scan/offline callers share one in-flight asset transfer, and a
+      stalled worker request times out after 30 seconds so Tesseract fallback
+      can take over instead of leaving the UI busy forever.
+    - Errors and empty Paddle output fall back automatically to Tesseract.
+      Non-empty output below 0.72 confidence remains raw/editable in Review
+      and gets a contextual manual Tesseract retry; it is not auto-parsed.
+      Predominantly tall boxes are ordered as Japanese columns from right to
+      left, enabling vertical text while retaining Paddle's horizontal order.
+    - The ordinary offline snapshot now excludes `/ocr/` and is ~60 MB.
+      Settings offers a separate ~34 MB OCR pack containing Paddle plus the
+      Tesseract client/worker/WASM and both language models. Removing either
+      cache leaves the shared service worker registered while the other is
+      still present. This intentionally revises decision 72's "OCR included
+      in the whole-app cache" scope. The OCR pack alone does not contain the
+      app shell; the base Offline Access pack is also needed for a cold offline
+      restart. An atomic OCR completion marker lists and verifies every target.
+    - `bun run ocr:benchmark` is a hard, local-only release gate: at least 20
+      horizontal Japanese, 15 vertical, 15 genuine handwritten, 10 English,
+      and 10 adverse/empty licence-safe samples; horizontal CER <=5% and >=20%
+      below Tesseract, vertical CER <=15%/90% usable, handwriting CER <=25%/
+      80% usable, English no worse than two CER points, and no silent empties.
+      It also enforces the ~30 MiB first/zero-repeat payload, 2.5/5/10 second
+      desktop/mid/low scan limits, <=8 second mid-phone init, no >200 ms main
+      task at 4x throttle, <250 MiB incremental memory, and crash-free WebGPU
+      fallback. It also requires Chrome, Edge, Firefox, and Safari at current
+      plus previous-two releases, <=25 MiB retained after close, and corpus
+      calibration of the candidate 0.72 confidence threshold at >=95%
+      auto-parse precision and >=80% recall. The feature branch is not
+      releasable until a real 70+ corpus report exists and passes; synthetic
+      unit fixtures cannot waive the vertical/handwriting blockers. Research and source links live in
+      `docs/research/paddleocr-browser-feasibility.md`.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

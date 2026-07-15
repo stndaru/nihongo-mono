@@ -5,13 +5,13 @@
  * so engine.ts registers its destroy function here, and the route calls
  * destroyOcrIfLoaded(), a no-op unless the OCR chunk actually loaded.
  */
-let destroyFn: (() => void) | null = null
+const destroyFns = new Set<() => void>()
 
 export function registerOcrDestroy(fn: () => void): void {
-  destroyFn = fn
+  destroyFns.add(fn)
 }
 
 export function destroyOcrIfLoaded(): void {
-  destroyFn?.()
-  destroyFn = null
+  for (const destroy of destroyFns) destroy()
+  destroyFns.clear()
 }

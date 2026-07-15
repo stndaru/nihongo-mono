@@ -3,9 +3,10 @@
  *
  * Enabling registers the service worker (public/sw.js) and downloads
  * every file in the build's offline-manifest.json into Cache Storage —
- * app shell, all datasets, kuromoji, the OCR engine + models. The worker
+ * app shell, all datasets, and kuromoji. OCR has a separate optional pack.
+ * The worker
  * then serves the app with no connection, across tab closes and browser
- * restarts. Users who never enable this never get a service worker.
+ * restarts. Image scanning also registers the worker after its own opt-in.
  *
  * Everything here runs from the Settings page only; nothing is imported
  * on normal loads. The meta in localStorage is small bookkeeping — the
@@ -17,6 +18,10 @@ export const OFFLINE_CACHE = 'nihongo-mono-offline-v1'
 const META_KEY = 'nihongo-mono:offline:v1'
 export const MANIFEST_URL = '/offline-manifest.json'
 const CONCURRENCY = 6
+
+export function hasOcrOfflineCache(cacheNames: readonly string[]): boolean {
+  return cacheNames.some((name) => name.startsWith('nihongo-mono-ocr-paddle-'))
+}
 
 export interface OfflineMeta {
   /** manifest version the copy was downloaded from */
@@ -180,8 +185,10 @@ export async function enableOffline(
     if (!hadCopy) {
       // first download failed: leave nothing behind
       await caches.delete(OFFLINE_CACHE).catch(() => undefined)
-      const regs = await navigator.serviceWorker.getRegistrations().catch(() => [])
-      await Promise.all(regs.map((r) => r.unregister()))
+      if (!hasOcrOfflineCache(await caches.keys())) {
+        const regs = await navigator.serviceWorker.getRegistrations().catch(() => [])
+        await Promise.all(regs.map((r) => r.unregister()))
+      }
       clearOfflineMeta()
     }
     throw err
@@ -206,9 +213,12 @@ export async function enableOffline(
 
 /** Remove everything: worker, cache, bookkeeping. Local data untouched. */
 export async function removeOffline(): Promise<void> {
-  const regs = await navigator.serviceWorker.getRegistrations().catch(() => [])
-  await Promise.all(regs.map((r) => r.unregister()))
   await caches.delete(OFFLINE_CACHE).catch(() => undefined)
+  const hasOcr = hasOcrOfflineCache(await caches.keys())
+  if (!hasOcr) {
+    const regs = await navigator.serviceWorker.getRegistrations().catch(() => [])
+    await Promise.all(regs.map((r) => r.unregister()))
+  }
   clearOfflineMeta()
 }
 

@@ -903,7 +903,7 @@ function ParserPage() {
                   OCR_SUPPORTED
                     ? ocrView
                       ? 'back to typing (the scanned image is kept)'
-                      : 'scan text out of an image — on-device OCR (one-time ~3.5 MB download)'
+                      : 'scan text out of an image — on-device PaddleOCR (one-time ~27 MB download)'
                     : "this browser can't run the on-device OCR engine (WebAssembly required)"
                 }
               >
@@ -1240,20 +1240,21 @@ function ParserPage() {
                 <DialogTitle>Enable Image Scanning?</DialogTitle>
               </div>
               <DialogDescription>
-                Read printed text straight out of images — paste, upload, or
-                photograph it, and the result lands in the input box ready to
-                break down.
+                Read printed, vertical, or handwritten text from images —
+                paste, upload, or photograph it, then review the result before
+                breaking it down.
               </DialogDescription>
             </DialogHeader>
             <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
               <p className="flex items-center gap-2 text-sm font-semibold">
                 <HardDriveDownload className="size-4 shrink-0 text-primary" />
-                One-time download: ~3.5&nbsp;MB
+                One-time download: ~27&nbsp;MB
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
-                The Tesseract OCR engine (~1.8&nbsp;MB) plus the active
-                tab&apos;s recognition model (Japanese ~1.5&nbsp;MB / English
-                ~2&nbsp;MB), cached by your browser afterwards.
+                PaddleOCR&apos;s mobile Japanese models and browser runtime,
+                stored in this browser afterwards. Repeated scans add no
+                library download. Tesseract remains a smaller automatic
+                fallback and downloads only if needed.
               </p>
             </div>
             <p className="flex items-center gap-2 text-xs text-muted-foreground">

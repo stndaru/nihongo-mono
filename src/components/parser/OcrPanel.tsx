@@ -40,9 +40,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
-import { loadOcr, ocrReady } from '@/lib/ocr/engine'
+import { lastPaddleNetworkBytes } from '@/lib/ocr/assets'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
-import { cropToBlob, rotateToBlob, toImageData, type QuarterTurns } from '@/lib/ocr/preprocess'
+import { cropToBlob, rotateToBlob, type QuarterTurns } from '@/lib/ocr/preprocess'
+import {
+  paddleOcrReady,
+  ocrDevOverride,
+  preparePaddleOcr,
+  recognizeWithFallback,
+  recognizeWithTesseract,
+  type OcrProgress,
+  type OcrRecognitionResult,
+} from '@/lib/ocr/recognize'
 import type { OcrLang } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
@@ -50,11 +59,12 @@ type OcrStatus =
   | { phase: 'idle' }
   | { phase: 'engine' } // wasm+worker init — no byte progress (the worker fetches its own wasm)
   | { phase: 'model'; done: number; total: number }
-  | { phase: 'recognizing'; previewUrl: string; progress: number }
-  | { phase: 'done'; chars: number } // success — shown in the drop zone, then auto-resets
+  | { phase: 'recognizing'; previewUrl: string; engine: 'paddle' | 'tesseract'; progress?: number }
+  | { phase: 'review'; previewUrl: string; confidence: number | null }
+  | { phase: 'done'; chars: number; engine: 'paddle' | 'tesseract' }
   | { phase: 'empty'; previewUrl: string }
   | { phase: 'over-limit'; previewUrl: string; length: number }
-  | { phase: 'error'; kind: 'decode' | 'engine' | 'recognize' }
+  | { phase: 'error'; kind: 'decode' | 'engine' | 'recognize'; detail?: string }
 
 /**
  * How "photo from device" opens: a live in-app viewfinder when getUserMedia
@@ -117,9 +127,9 @@ export default function OcrPanel({
   // the single image slot: each scan overwrites it (blob + image + the raw
   // OCR output before filtering), reviewable via the accordion below — the
   // blob stays so the stored scan can be re-cropped
-  const [lastScan, setLastScan] = useState<{ blob: Blob; url: string; raw: string } | null>(
-    null,
-  )
+  const [lastScan, setLastScan] = useState<
+    ({ blob: Blob; url: string } & OcrRecognitionResult) | null
+  >(null)
   const [reviewOpen, setReviewOpen] = useState(false)
   // every acquired image stops here first: the crop dialog lets the user
   // cut away distractions before the OCR sees it (owner requirement).
@@ -146,26 +156,54 @@ export default function OcrPanel({
     previewUrlRef.current = null
   }
 
-  // eager warm-up on mount and tab switch (mirrors Smart Parsing's
-  // enableSmart): the engine + this tab's model download right away so the
-  // first scan doesn't stack waits
+  const showProgress = useCallback((progress: OcrProgress, previewUrl?: string) => {
+    if (progress.phase === 'assets') {
+      setStatus({ phase: 'model', done: progress.done, total: progress.total })
+    } else if (progress.phase === 'initializing') {
+      setStatus({ phase: 'engine' })
+    } else if (previewUrl) {
+      setStatus({
+        phase: 'recognizing',
+        previewUrl,
+        engine: progress.engine,
+        progress: progress.progress,
+      })
+    }
+  }, [])
+
+  // Opening Scan Image is the explicit opt-in: download and verify the
+  // versioned Paddle pack now so the first actual scan does not stack waits.
   useEffect(() => {
     let live = true
-    if (!ocrReady()) setStatus({ phase: 'engine' })
-    loadOcr(lang, (done, total) => {
-      if (live && !busyRef.current) setStatus({ phase: 'model', done, total })
+    const tesseractOnly = import.meta.env.DEV && ocrDevOverride(window.location.search) === 'tesseract'
+    if (tesseractOnly) {
+      setStatus({ phase: 'idle' })
+      return () => {
+        live = false
+      }
+    }
+    if (!paddleOcrReady()) setStatus({ phase: 'engine' })
+    preparePaddleOcr((progress) => {
+      if (live && !busyRef.current) showProgress(progress)
     })
       .then(() => {
         if (!live) return
         setStatus((s) => (s.phase === 'engine' || s.phase === 'model' ? { phase: 'idle' } : s))
       })
-      .catch(() => {
-        if (live) setStatus({ phase: 'error', kind: 'engine' })
+      .catch((error) => {
+        console.error('[OCR] Paddle initialization failed', error)
+        if (live) {
+          setStatus({
+            phase: 'error',
+            kind: 'engine',
+            detail: error instanceof Error ? error.message : String(error),
+          })
+        }
       })
     return () => {
       live = false
     }
-  }, [lang])
+  }, [showProgress])
 
   // stale-result guard + object-URL cleanup when the panel unmounts
   useEffect(
@@ -174,6 +212,27 @@ export default function OcrPanel({
       dropPreview()
     },
     [],
+  )
+
+  const acceptResult = useCallback(
+    (source: Blob, previewUrl: string, result: OcrRecognitionResult) => {
+      setLastScan({ blob: source, url: previewUrl, ...result })
+      if (result.needsReview) {
+        setReviewOpen(true)
+        setStatus({ phase: 'review', previewUrl, confidence: result.confidence })
+        return
+      }
+      const clean = dir === 'en' ? cleanOcrEnglish(result.raw) : cleanOcrJapanese(result.raw)
+      const outcome = onText(clean)
+      setStatus(
+        outcome === 'commit'
+          ? { phase: 'done', chars: clean.length, engine: result.engine }
+          : outcome === 'empty'
+            ? { phase: 'empty', previewUrl }
+            : { phase: 'over-limit', previewUrl, length: clean.length },
+      )
+    },
+    [dir, onText],
   )
 
   const scan = useCallback(
@@ -188,46 +247,58 @@ export default function OcrPanel({
       const previewUrl = URL.createObjectURL(source)
       previewUrlRef.current = previewUrl
       try {
-        const client = await loadOcr(lang, (done, total) => {
-          if (alive()) setStatus({ phase: 'model', done, total })
-        })
-        let image: ImageData
-        try {
-          image = await toImageData(source)
-        } catch {
-          if (alive()) setStatus({ phase: 'error', kind: 'decode' })
-          return
+        const progress = (value: OcrProgress) => {
+          if (alive()) showProgress(value, previewUrl)
         }
+        const override = import.meta.env.DEV ? ocrDevOverride(window.location.search) : null
+        const result =
+          override === 'tesseract'
+            ? await recognizeWithTesseract(source, lang, progress)
+            : await recognizeWithFallback(source, lang, undefined, progress)
         if (!alive()) return
-        setStatus({ phase: 'recognizing', previewUrl, progress: 0 })
-        await client.loadImage(image)
-        const raw = await client.getText((progress) => {
-          if (alive()) {
-            setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))
-          }
-        })
-        if (!alive()) return // panel unmounted mid-recognition — drop the result
-        setLastScan({ blob: source, url: previewUrl, raw })
-        const clean = dir === 'en' ? cleanOcrEnglish(raw) : cleanOcrJapanese(raw)
-        const outcome = onText(clean)
-        setStatus(
-          outcome === 'commit'
-            ? { phase: 'done', chars: clean.length }
-            : outcome === 'empty'
-              ? { phase: 'empty', previewUrl }
-              : { phase: 'over-limit', previewUrl, length: clean.length },
-        )
-      } catch {
+        acceptResult(source, previewUrl, result)
+      } catch (error) {
+        console.error('[OCR] Recognition failed', error)
         if (alive()) {
-          setStatus({ phase: 'error', kind: ocrReady() ? 'recognize' : 'engine' })
+          setStatus({
+            phase: 'error',
+            kind: 'recognize',
+            detail: error instanceof Error ? error.message : String(error),
+          })
         }
       } finally {
         busyRef.current = false
         if (alive()) setScanning(false)
       }
     },
-    [dir, lang, onText],
+    [acceptResult, lang, showProgress],
   )
+
+  const retryWithTesseract = useCallback(async () => {
+    if (!lastScan || busyRef.current) return
+    busyRef.current = true
+    setScanning(true)
+    const run = ++runRef.current
+    const alive = () => runRef.current === run
+    try {
+      const result = await recognizeWithTesseract(lastScan.blob, lang, (progress) => {
+        if (alive()) showProgress(progress, lastScan.url)
+      })
+      if (alive()) acceptResult(lastScan.blob, lastScan.url, result)
+    } catch (error) {
+      console.error('[OCR] Tesseract retry failed', error)
+      if (alive()) {
+        setStatus({
+          phase: 'error',
+          kind: 'recognize',
+          detail: error instanceof Error ? error.message : String(error),
+        })
+      }
+    } finally {
+      busyRef.current = false
+      if (alive()) setScanning(false)
+    }
+  }, [acceptResult, lang, lastScan, showProgress])
 
   /**
    * Every input path funnels here. With crop-first on (or an explicit
@@ -350,6 +421,7 @@ export default function OcrPanel({
 
   return (
     <div
+      data-ocr-network-bytes={lastPaddleNetworkBytes()}
       onDragOver={(e) => {
         e.preventDefault()
         setDragOver(true)
@@ -426,7 +498,8 @@ export default function OcrPanel({
               Scanned — {status.chars} characters added
             </span>
             <span className="text-xs text-muted-foreground">
-              breaking the sentence down below
+              {status.engine === 'paddle' ? 'Paddle OCR' : 'Tesseract fallback'} · breaking the
+              sentence down below
             </span>
           </span>
         ) : (
@@ -449,8 +522,8 @@ export default function OcrPanel({
 
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
         <p className="text-xs text-pretty text-muted-foreground">
-          Best on clear printed text. Furigana can confuse detection — verify
-          in Review last scan.
+          Supports printed, vertical, and handwritten Japanese. Handwriting
+          and furigana vary — verify them in Review last scan.
         </p>
         <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-muted-foreground">
           <Checkbox checked={cropFirst} onCheckedChange={toggleCropFirst} />
@@ -468,16 +541,32 @@ export default function OcrPanel({
       )}
       {status.phase === 'model' && (
         <StatusRow>
-          {status.total > 0 ? <ProgressBar value={status.done / status.total} /> : <IndeterminateBar />}
-          Downloading the {langLabel} model…
-          {status.total > 0 && ` ${MB(status.done)}/${MB(status.total)} MB`} (one-time, cached
-          afterwards)
+          {status.total > 0 ? (
+            <ProgressBar value={status.done / status.total} />
+          ) : (
+            <IndeterminateBar />
+          )}
+          Downloading recognition files…
+          {status.total > 0 && ` ${MB(status.done)}/${MB(status.total)} MB`} (one-time, cached)
         </StatusRow>
       )}
       {status.phase === 'recognizing' && (
         <StatusRow thumb={preview}>
-          <ProgressBar value={status.progress / 100} />
-          Reading text… {status.progress}%
+          {status.progress === undefined ? (
+            <IndeterminateBar />
+          ) : (
+            <ProgressBar value={status.progress / 100} />
+          )}
+          {status.engine === 'paddle'
+            ? 'Detecting and recognizing text…'
+            : `Reading text with Tesseract… ${status.progress ?? 0}%`}
+        </StatusRow>
+      )}
+      {status.phase === 'review' && (
+        <StatusRow thumb={preview}>
+          Paddle found text with{' '}
+          {status.confidence === null ? 'uncertain' : `${Math.round(status.confidence * 100)}%`}{' '}
+          confidence. Review or edit it before parsing.
         </StatusRow>
       )}
       {status.phase === 'empty' && (
@@ -492,7 +581,7 @@ export default function OcrPanel({
         </StatusRow>
       )}
       {status.phase === 'error' && (
-        <p className="text-xs text-destructive">
+        <p className="text-xs text-destructive" data-ocr-error={status.detail}>
           {status.kind === 'engine' &&
             'The recognizer couldn’t be downloaded — check your connection and try again.'}
           {status.kind === 'decode' &&
@@ -516,6 +605,11 @@ export default function OcrPanel({
           </button>
           {reviewOpen && (
             <div className="mt-2 space-y-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-100">
+              <p className="text-xs text-muted-foreground">
+                {lastScan.engine === 'paddle'
+                  ? `Paddle OCR · ${lastScan.confidence === null ? 'confidence unavailable' : `${Math.round(lastScan.confidence * 100)}% confidence`} · ${lastScan.writingMode}`
+                  : `Tesseract${lastScan.fallbackReason ? ` fallback · Paddle ${lastScan.fallbackReason}` : ''}`}
+              </p>
               <img
                 src={lastScan.url}
                 alt="The scanned image"
@@ -544,6 +638,18 @@ export default function OcrPanel({
                     title="put this raw text into the input box for editing"
                   >
                     <TextCursorInput className="size-3.5" /> Use as Input
+                  </Button>
+                )}
+                {lastScan.engine === 'paddle' && lastScan.needsReview && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    disabled={scanning}
+                    onClick={() => void retryWithTesseract()}
+                    title="compare this uncertain result with the fallback recognizer"
+                  >
+                    Retry With Tesseract
                   </Button>
                 )}
               </div>

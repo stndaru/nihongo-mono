@@ -15,7 +15,12 @@ import { join } from 'node:path'
 const SRC = join(import.meta.dirname, '..', 'node_modules', 'tesseract-wasm', 'dist')
 const OUT = join(import.meta.dirname, '..', 'public', 'ocr', 'engine')
 
-const FILES = ['tesseract-worker.js', 'tesseract-core.wasm', 'tesseract-core-fallback.wasm']
+const FILES = [
+  ['lib.js', 'tesseract-client.js'],
+  ['tesseract-worker.js', 'tesseract-worker.js'],
+  ['tesseract-core.wasm', 'tesseract-core.wasm'],
+  ['tesseract-core-fallback.wasm', 'tesseract-core-fallback.wasm'],
+] as const
 
 if (!existsSync(SRC)) {
   throw new Error('tesseract-wasm is not installed — run `bun install` first')
@@ -23,9 +28,9 @@ if (!existsSync(SRC)) {
 mkdirSync(OUT, { recursive: true })
 
 let copied = 0
-for (const file of FILES) {
-  const from = join(SRC, file)
-  const to = join(OUT, file)
+for (const [source, target] of FILES) {
+  const from = join(SRC, source)
+  const to = join(OUT, target)
   if (existsSync(to) && statSync(to).size === statSync(from).size) continue
   copyFileSync(from, to)
   copied += 1

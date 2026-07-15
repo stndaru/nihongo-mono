@@ -77,11 +77,18 @@ const SOURCES = [
     what: 'Morphological analysis: example-sentence furigana at build time, and the sentence parser’s optional "Smart Parsing" mode (the IPADIC dictionary downloads on first use; its licence notice ships alongside it).',
   },
   {
+    name: 'PaddleOCR.js + PP-OCRv5 mobile models',
+    href: 'https://github.com/PaddlePaddle/PaddleOCR',
+    license: 'Apache-2.0',
+    licenseHref: '/ocr/paddle/NOTICE.md',
+    what: 'Primary on-device image-to-text for the sentence parser, including horizontal, vertical, and handwritten Japanese. The pinned browser runtime and models download only after opt-in.',
+  },
+  {
     name: 'tesseract-wasm + Tesseract tessdata_fast models',
     href: 'https://github.com/robertknight/tesseract-wasm',
     license: 'BSD-2-Clause + Apache-2.0',
     licenseHref: '/ocr/NOTICE.md',
-    what: 'The sentence parser’s optional "Scan Image" mode: on-device image-to-text (engine and Japanese/English models download on first use; images never leave the browser).',
+    what: 'Automatic and manual fallback for the sentence parser’s optional on-device image scanning when Paddle fails, returns no text, or needs a comparison.',
   },
 ] as const
 
