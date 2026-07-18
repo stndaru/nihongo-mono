@@ -1537,6 +1537,38 @@ feedback on many of these — treat them as requirements, not suggestions.
     basic + Smart literal rendering/tag exclusion, EN→JP mixed display, and
     390/768 px `xxlarge` layouts with zero overflow, page errors, or console errors.
 
+74. **PP-OCRv3 Mobile rejected as the browser OCR replacement,
+    2026-07-19** (owner decision after research + grilling). Replacing
+    `tesseract-wasm` is technically possible through PaddleOCR.js/ONNX, but
+    PP-OCRv3 fails the agreed entry bar: its Japanese detector + recognizer
+    archives are 12.27 MiB before the roughly 6.7 MB gzip browser runtime
+    (current Japanese Tesseract first use is ~3.45 MB), and an exploratory
+    paired corpus measured worse Japanese CER (24.324% vs 14.054%) and
+    English CER (3.320% vs 0.830%). Both engines failed furigana; PP-OCRv3
+    also regressed the mixed Japanese/English fixture to 38.5% CER while
+    Tesseract was exact. The full sourced evidence and benchmark limitations
+    live in `docs/ocr-ppocrv3-feasibility.md`.
+    - Tesseract remains the production engine. PP-OCRv3 foundation work must
+      not begin, and its "mobile" label is not evidence of a smaller browser
+      payload.
+    - Any future replacement must recognize mixed Japanese/English and
+      materially improve furigana. Horizontal printed text, screenshots, and
+      ordinary phone photos are in scope; vertical Japanese and handwriting
+      remain out of scope.
+    - Compatibility must preserve iOS Safari and Firefox. Single-threaded
+      WASM is the floor; WebGPU may only be an optional acceleration path.
+    - Default size gates are **≤4 MB first use** and **≤7.3 MB total offline
+      OCR assets**. Exceeding either requires at least a **25% relative
+      held-out CER reduction**, with no mixed-script or furigana regression.
+    - After assets are available, the slowest supported phone must meet
+      **≤3 s first scan** and **≤1 s warm-scan p95**, with inference off the
+      main thread. Peak renderer memory may be at most **50 MB above the
+      Tesseract baseline**, with zero crashes/OOMs across repeated scans and
+      12 MP inputs after the existing 2,000 px downscale.
+    - A disposable benchmark branch may temporarily carry both engines for
+      paired measurement. Production ships only the winner—no duplicate
+      fallback payload—and removes Tesseract only after every gate passes.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

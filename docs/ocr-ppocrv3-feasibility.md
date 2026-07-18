@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 
-Status: research recommendation; no implementation decision
+Status: accepted no-go decision; retain Tesseract
 
 ## Executive conclusion
 
