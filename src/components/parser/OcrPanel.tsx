@@ -716,31 +716,28 @@ function DirectionControl({
   disabled?: boolean
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2">
-      <span className="text-sm font-medium">Text Direction</span>
-      <div
-        role="group"
-        aria-label="Text direction"
-        className="grid min-w-56 grid-cols-2 rounded-lg border bg-muted/30 p-1"
-      >
-        {(['horizontal', 'vertical'] as const).map((option) => (
-          <button
-            key={option}
-            type="button"
-            aria-pressed={value === option}
-            disabled={disabled}
-            onClick={() => onChange(option)}
-            className={cn(
-              'min-h-11 rounded-md px-3 text-sm font-medium capitalize transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
-              value === option
-                ? 'bg-background text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground',
-            )}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
+    <div
+      role="group"
+      aria-label="Text direction"
+      className="inline-grid grid-cols-2 rounded-md border bg-muted/30 p-px"
+    >
+      {(['horizontal', 'vertical'] as const).map((option) => (
+        <button
+          key={option}
+          type="button"
+          aria-pressed={value === option}
+          disabled={disabled}
+          onClick={() => onChange(option)}
+          className={cn(
+            'min-h-8 rounded-sm px-1.5 text-xs font-medium transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+            value === option
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          {option === 'horizontal' ? 'Horizontal Text' : 'Vertical Text'}
+        </button>
+      ))}
     </div>
   )
 }
