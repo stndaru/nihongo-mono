@@ -7,7 +7,7 @@ const segmentedTabsVariants = cva("inline-flex border", {
   variants: {
     size: {
       default: "rounded-lg bg-muted/40 p-0.5",
-      compact: "rounded-md bg-muted/30 p-px",
+      compact: "h-12 rounded-md bg-muted/30 p-px sm:h-6",
     },
   },
   defaultVariants: {
@@ -21,7 +21,7 @@ const segmentedTabVariants = cva(
     variants: {
       size: {
         default: "rounded-md px-3 py-1.5 text-sm",
-        compact: "h-7 rounded-sm px-1.5 text-[11px]",
+        compact: "h-full rounded-sm px-1.5 text-[11px]",
       },
       active: {
         true: "bg-background font-medium text-foreground shadow-sm",

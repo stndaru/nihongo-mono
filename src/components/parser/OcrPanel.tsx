@@ -408,25 +408,26 @@ export default function OcrPanel({
       onDrop={onDrop}
       className="space-y-3 rounded-lg border p-3"
     >
-      {/* Keep image-source actions and direction together as one compact
-          toolbar; labels collapse to icons where the full row would overflow. */}
-      <div className="flex items-center gap-1.5">
+      {/* Desktop keeps every control in one compact toolbar. On mobile the
+          source buttons share a full-width row and direction gets the next. */}
+      <div className="space-y-2 sm:flex sm:items-center sm:gap-1.5 sm:space-y-0">
         <Button
           variant="ghost"
           size="icon-xs"
           onClick={onClose}
           aria-label="Back to Text"
           title="Back to typing (the scanned image is kept)"
-          className="text-muted-foreground"
+          className="size-12 text-muted-foreground sm:size-6"
         >
           <ArrowLeft />
         </Button>
-        <div className="ml-auto flex min-w-0 items-center gap-1.5">
+        <div className="grid min-w-0 grid-cols-2 gap-2 sm:ml-auto sm:flex sm:items-center sm:gap-1.5">
           {dir === 'ja' && (
             <DirectionControl
               value={effectiveDirection}
               onChange={chooseDirection}
               disabled={scanning}
+              className="order-last col-span-2 w-full sm:order-first sm:w-auto"
             />
           )}
           <Button
@@ -435,13 +436,14 @@ export default function OcrPanel({
             onClick={pasteFromClipboard}
             aria-label="Paste Image"
             disabled={scanning || !CAN_READ_CLIPBOARD}
+            className="h-12 w-full sm:h-6 sm:w-auto"
             title={
               CAN_READ_CLIPBOARD
                 ? 'read an image from the clipboard'
                 : "this browser doesn't allow reading images from a script — press Ctrl+V instead"
             }
           >
-            <ClipboardPaste /> <span className="hidden sm:inline">Paste Image</span>
+            <ClipboardPaste /> Paste Image
           </Button>
           <Button
             variant="outline"
@@ -449,6 +451,7 @@ export default function OcrPanel({
             onClick={openCamera}
             aria-label="Open Camera"
             disabled={scanning || CAMERA === 'none'}
+            className="h-12 w-full sm:h-6 sm:w-auto"
             title={
               CAMERA !== 'none'
                 ? 'take a photo of the text'
@@ -457,7 +460,7 @@ export default function OcrPanel({
                   : 'no camera access available in this browser'
             }
           >
-            <Camera /> <span className="hidden sm:inline">Open Camera</span>
+            <Camera /> Open Camera
           </Button>
         </div>
       </div>
@@ -713,19 +716,22 @@ function DirectionControl({
   value,
   onChange,
   disabled = false,
+  className,
 }: {
   value: OcrDirection
   onChange: (direction: OcrDirection) => void
   disabled?: boolean
+  className?: string
 }) {
   return (
-    <SegmentedTabs aria-label="Text direction" size="compact">
+    <SegmentedTabs aria-label="Text direction" size="compact" className={className}>
       {(['horizontal', 'vertical'] as const).map((option) => (
         <SegmentedTab
           key={option}
           active={value === option}
           disabled={disabled}
           onClick={() => onChange(option)}
+          className="flex-1"
         >
           {option === 'horizontal' ? 'Horizontal Text' : 'Vertical Text'}
         </SegmentedTab>
