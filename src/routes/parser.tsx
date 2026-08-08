@@ -1253,7 +1253,9 @@ function ParserPage() {
               <p className="mt-1 text-xs text-muted-foreground">
                 The Tesseract OCR engine (~1.8&nbsp;MB) plus the active
                 tab&apos;s recognition model (Japanese ~1.5&nbsp;MB / English
-                ~2&nbsp;MB), cached by your browser afterwards.
+                ~2&nbsp;MB), cached by your browser afterwards. Vertical
+                Japanese is an optional separate ~1.9&nbsp;MB model, confirmed
+                only when selected.
               </p>
             </div>
             <p className="flex items-center gap-2 text-xs text-muted-foreground">

@@ -6,10 +6,10 @@
  * gzip (magic bytes), pass through when the server already decoded it via
  * Content-Encoding.
  */
-import type { OcrLang } from './types'
+import type { OcrModel } from './types'
 
 export async function fetchModel(
-  lang: OcrLang,
+  lang: OcrModel,
   onProgress?: (done: number, total: number) => void,
 ): Promise<ArrayBuffer> {
   const url = `${import.meta.env.BASE_URL}ocr/models/${lang}.traineddata.gz`

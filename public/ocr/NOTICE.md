@@ -23,8 +23,9 @@ The engine embeds:
 
 ## Recognition models (`models/`)
 
-`jpn.traineddata.gz` and `eng.traineddata.gz` are the Japanese and English
-fast integer LSTM models from the Tesseract project's **tessdata_fast**
+`jpn.traineddata.gz`, `jpn_vert.traineddata.gz`, and `eng.traineddata.gz`
+are the horizontal Japanese, vertical Japanese, and English fast integer
+LSTM models from the Tesseract project's **tessdata_fast**
 repository — <https://github.com/tesseract-ocr/tessdata_fast> — licensed
 under the **Apache License 2.0**
 (<https://www.apache.org/licenses/LICENSE-2.0>). They are redistributed

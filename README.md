@@ -84,7 +84,12 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   one-time, confirm-gated) swaps the input box for an on-device image
   scanner — paste an image from the clipboard, upload a file, or take a
   photo with a live camera viewfinder, then crop away everything but the
-  text — keeps only the active tab's
+  text. Japanese scans can switch between Horizontal and Vertical; Vertical
+  lazy-loads a separate ~1.9 MB model and is intended for one tightly cropped
+  manga balloon or narration box, including multiple right-to-left columns.
+  It does not detect whole-page manga regions, stylized sound effects remain
+  out of scope, furigana removal is heuristic, and recognition quality varies
+  substantially with font, screentone, and crop size. The scanner keeps only the active tab's
   script (Japanese or English), drops the result back into the input
   box, and breaks it down automatically when it fits the length limit
   (longer scans stay editable until they do). Toggling back and forth

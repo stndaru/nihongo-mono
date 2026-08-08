@@ -130,7 +130,7 @@ function NavDropdown({
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
-      <div className="mx-auto flex h-12 max-w-5xl items-center gap-1 px-6 sm:px-4">
+      <div className="mx-auto flex h-12 max-w-5xl items-center gap-1 px-4">
         <MobileNav />
         <Link
           to="/"

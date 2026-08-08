@@ -22,12 +22,11 @@ export default defineConfig({
   optimizeDeps: {
     // deep CJS imports, loaded lazily on the parser's "Accurate Parsing"
     // opt-in — pre-bundle them so the first use doesn't trigger a dev-server
-    // re-optimization reload. tesseract-wasm is likewise only ever reached
-    // via dynamic import (the parser's "Scan Image" opt-in).
+    // re-optimization reload. OCR loads its pinned prebuilt runtime directly
+    // inside the app-owned worker, so it does not enter this module graph.
     include: [
       'kuromoji/src/dict/DynamicDictionaries.js',
       'kuromoji/src/Tokenizer.js',
-      'tesseract-wasm',
       'react-image-crop',
     ],
   },

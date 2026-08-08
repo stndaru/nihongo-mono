@@ -139,11 +139,19 @@ Playwright gotchas learned the hard way:
   notice, but still). The deep kuromoji imports are pinned in
   `vite.config.ts` `optimizeDeps.include`.
 - `public/ocr/engine/` is likewise **gitignored** — `scripts/copy-tesseract.ts`
-  (same `dev`/`build` chains) copies the tesseract-wasm worker + wasm from
-  node_modules. A deploy built without it breaks the parser's Scan Image
+  (same `dev`/`build` chains) copies the pinned tesseract-wasm `lib.js` runtime
+  plus SIMD/fallback wasm from node_modules. The app-owned TypeScript module
+  worker is bundled normally; the old package worker must not be copied or the
+  build silently carries an unused ~93 KB asset. A deploy built without the
+  copied runtime breaks the parser's Scan Image
   panel (its engine-error state explains and retries, but still). The
   committed halves live next to it: `public/ocr/models/*.traineddata.gz`
-  and `public/ocr/NOTICE.md`.
+  (`jpn`, `jpn_vert`, `eng`) and `public/ocr/NOTICE.md`. Keep models gzip
+  compressed, sourced from the pinned official tessdata_fast repository, and
+  update the notice whenever the set changes.
+  Keep OCR `ImageData` structured-cloned into the app worker: explicitly
+  transferring its backing buffer produced valid-looking dimensions but
+  corrupted recognition in Chromium (decision 75).
 - **Offline access & the service worker** (decision 72): `public/sw.js`
   is registered only when a user enables the Settings download — never
   assume a SW exists. Every `cache.match` there uses

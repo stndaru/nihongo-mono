@@ -1553,8 +1553,8 @@ feedback on many of these — treat them as requirements, not suggestions.
       payload.
     - Any future replacement must recognize mixed Japanese/English and
       materially improve furigana. Horizontal printed text, screenshots, and
-      ordinary phone photos are in scope; vertical Japanese and handwriting
-      remain out of scope.
+      ordinary phone photos are in scope; whole-page vertical manga and
+      handwriting remain out of scope for an engine-replacement benchmark.
     - Compatibility must preserve iOS Safari and Firefox. Single-threaded
       WASM is the floor; WebGPU may only be an optional acceleration path.
     - Default size gates are **≤4 MB first use** and **≤7.3 MB total offline
@@ -1568,6 +1568,60 @@ feedback on many of these — treat them as requirements, not suggestions.
     - A disposable benchmark branch may temporarily carry both engines for
       paired measurement. Production ships only the winner—no duplicate
       fallback payload—and removes Tesseract only after every gate passes.
+
+75. **Cropped vertical Japanese OCR uses explicit direction, rotated `jpn_vert`,
+    and an app-owned worker, 2026-08-09** (owner feature request and ship decision after research +
+    grilling). This is one user-selected logical region per scan—a speech
+    balloon or narration box—not automatic whole-page manga OCR. Multiple
+    columns inside that crop are ordered right-to-left/top-to-bottom. Stylized
+    sound effects, page/panel detection, and handwriting remain out of scope.
+    - Japanese Scan Image now has a persistent Horizontal/Vertical selector on
+      both the main surface and crop dialog. English remains horizontal-only.
+      First use of Vertical has its own measured-download confirmation and
+      lazily fetches official tessdata_fast `jpn_vert`; horizontal users pay no
+      model cost. The 2,033,120-byte gzip is 1.94 MiB, 64,032 bytes below the
+      agreed 2 MiB first-use ceiling, and adds 1.94 MiB to offline assets versus
+      the 3 MiB ceiling. No OCR dependency or external endpoint was added.
+    - The high-level `OCRClient` could not configure page segmentation. An
+      app-owned module worker now wraps low-level `OCREngine`, loads the same
+      pinned runtime/WASM, and sets `tessedit_pageseg_mode` after every
+      `loadImage` because that call resets it. Cropped Text Block (the default)
+      maps to PSM 6. Upright vertical crops are internally rotated
+      counter-clockwise into the horizontal line orientation used to train
+      `jpn_vert`; Automatic maps to PSM 3 after the same rotation.
+      Those curated Advanced Settings persist only for the current image and
+      its rescans. Direction remains outside the disclosure and persists across
+      restarts.
+    - Vertical parser input uses returned line boxes to order columns and drops
+      only small adjacent overlapping lines that look like furigana. Raw engine
+      text remains available under Review last scan. These are heuristics, not
+      a manga layout engine; the README carries the limitation instead of adding
+      recurring UI warnings.
+    - `ImageData` must be structured-cloned into the worker, matching the old
+      client. An attempted transferable backing buffer preserved dimensions but
+      corrupted pixels in Chromium: clean horizontal text and manga text both
+      became plausible-looking nonsense. That false path also produced a 3.33 s
+      benchmark and triggered the pre-agreed performance pause; the owner chose
+      to ship, then final regression verification found and removed the transfer.
+      Do not "optimize" this copy without a paired exact-recognition fixture.
+    - The corrected functional/accuracy floor passed: the official model loads,
+      worker scans do not crash, the original clean two-column fixture produced
+      exact parser text (`今日は良い天気漫画を読みます`), the owner's tightly
+      cropped narration box produced its expected two columns in order, and the
+      horizontal fixture remained exact. The copyrighted supplied page remains
+      local and uncommitted; the tiny synthetic corpus is not evidence of broad
+      manga accuracy, hence the README limitation remains.
+    - Corrected production-preview timing on the clean two-column fixture was
+      0.435 s cold and 0.339 s warm on the desktop browser, both below the 3 s / 1 s
+      ceilings. The slowest supported phone and 4× CPU p95 were not available in
+      this browser harness, so mobile certification is not claimed. Treat the
+      small corpus and variable real-world OCR accuracy as accepted limitations,
+      not evidence that whole-page manga OCR is supported.
+    - Final 390 px verification with all three font-size settings at Largest
+      exposed a pre-existing 4 px header overflow: rem-scaled phone padding plus
+      the icon controls exceeded the scrollbar-adjusted viewport. The phone
+      header now uses the existing `px-4` spacing at every breakpoint; 390 and
+      768 px checks report document width no greater than viewport width.
 
 ## Known limitations / accepted trade-offs
 

@@ -114,6 +114,7 @@ session or across visits (verified: repeat `/dictionary` = 3.2 KB total).
   parser route chunk stays ~37 kB raw). Recognition runs in a Web Worker,
   so the main thread never blocks; images are downscaled to ≤2000 px
   before OCR, and crop dragging is CSS-transform only.
+
 - **Maximum non-opt-in action**: the antonyms page (1.03 MB — it needs
   adjectives from every level to build pairs). Second place: names kanji
   search 田中 (3.19 MB) — names *is* opt-in-shaped (a dedicated page for a
@@ -126,6 +127,26 @@ session or across visits (verified: repeat `/dictionary` = 3.2 KB total).
   535 MB renderer — comparable to a typical news-site tab — and only
   reachable by enabling every opt-in in one sitting. Close the tab and
   it's gone; nothing persists but localStorage preferences (< 10 KB).
+
+### Vertical OCR addendum — 2026-08-09
+
+Decision 75 adds no new OCR runtime: the app-owned worker uses the existing
+`tesseract-wasm` engine and now loads the pinned `lib.js` + one supported WASM
+directly, avoiding the package's unused high-level worker/default-WASM assets in
+the Vite graph. Horizontal users keep the existing `jpn`/`eng` model requests.
+Selecting Vertical lazily adds `jpn_vert.traineddata.gz`: 2,033,120 bytes
+(1.94 MiB), 64,032 bytes below the 2 MiB per-action gate; offline precaching
+grows by the same 1.94 MiB, below the 3 MiB gate.
+
+Corrected production-preview browser measurement on the original clean
+two-column fixture recorded 0.435 s from Scan to the first result and 0.339 s on
+a repeat, below the 3.0 s / 1.0 s desktop ceilings. The fixture and the owner's
+local narration-box crop both produced their expected parser text, while the
+horizontal fixture remained exact. An earlier 3.33 s result was invalid: an
+attempted transferable `ImageData` buffer corrupted recognition and was removed
+during final regression verification. No 4×-CPU/slow-phone certification was
+available, so the mobile target is not claimed. Recognition remains in a worker,
+and the UI stayed responsive during scans.
 
 ## Methodology / reproducing
 
