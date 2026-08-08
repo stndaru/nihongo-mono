@@ -39,6 +39,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { SegmentedTab, SegmentedTabs } from '@/components/ui/segmented-tabs'
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
 import { verticalTextForParsing } from '@/lib/ocr/layout'
@@ -407,23 +408,32 @@ export default function OcrPanel({
       onDrop={onDrop}
       className="space-y-3 rounded-lg border p-3"
     >
-      {/* on narrow screens the action pair becomes two equal columns under
-          Back to Text — free-wrapping left ragged holes at 390 px */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      {/* Keep image-source actions and direction together as one compact
+          toolbar; labels collapse to icons where the full row would overflow. */}
+      <div className="flex items-center gap-1.5">
         <Button
           variant="ghost"
-          size="sm"
+          size="icon-xs"
           onClick={onClose}
-          title="back to typing (the scanned image is kept)"
+          aria-label="Back to Text"
+          title="Back to typing (the scanned image is kept)"
           className="text-muted-foreground"
         >
-          <ArrowLeft /> Back to Text
+          <ArrowLeft />
         </Button>
-        <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center">
+        <div className="ml-auto flex min-w-0 items-center gap-1.5">
+          {dir === 'ja' && (
+            <DirectionControl
+              value={effectiveDirection}
+              onChange={chooseDirection}
+              disabled={scanning}
+            />
+          )}
           <Button
             variant="outline"
-            size="sm"
+            size="xs"
             onClick={pasteFromClipboard}
+            aria-label="Paste Image"
             disabled={scanning || !CAN_READ_CLIPBOARD}
             title={
               CAN_READ_CLIPBOARD
@@ -431,12 +441,13 @@ export default function OcrPanel({
                 : "this browser doesn't allow reading images from a script — press Ctrl+V instead"
             }
           >
-            <ClipboardPaste /> Paste Image
+            <ClipboardPaste /> <span className="hidden sm:inline">Paste Image</span>
           </Button>
           <Button
             variant="outline"
-            size="sm"
+            size="xs"
             onClick={openCamera}
+            aria-label="Open Camera"
             disabled={scanning || CAMERA === 'none'}
             title={
               CAMERA !== 'none'
@@ -446,7 +457,7 @@ export default function OcrPanel({
                   : 'no camera access available in this browser'
             }
           >
-            <Camera /> Open Camera
+            <Camera /> <span className="hidden sm:inline">Open Camera</span>
           </Button>
         </div>
       </div>
@@ -454,14 +465,6 @@ export default function OcrPanel({
       {/* the drop zone is the primary affordance — big target, click to
           browse, highlighted while a drag hovers anywhere over the panel;
           it doubles as the success surface when a scan lands */}
-      {dir === 'ja' && (
-        <DirectionControl
-          value={effectiveDirection}
-          onChange={chooseDirection}
-          disabled={scanning}
-        />
-      )}
-
       <button
         type="button"
         onClick={() => uploadRef.current?.click()}
@@ -716,29 +719,18 @@ function DirectionControl({
   disabled?: boolean
 }) {
   return (
-    <div
-      role="group"
-      aria-label="Text direction"
-      className="inline-grid grid-cols-2 rounded-md border bg-muted/30 p-px"
-    >
+    <SegmentedTabs aria-label="Text direction" size="compact">
       {(['horizontal', 'vertical'] as const).map((option) => (
-        <button
+        <SegmentedTab
           key={option}
-          type="button"
-          aria-pressed={value === option}
+          active={value === option}
           disabled={disabled}
           onClick={() => onChange(option)}
-          className={cn(
-            'min-h-8 rounded-sm px-1.5 text-xs font-medium transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
-            value === option
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground',
-          )}
         >
           {option === 'horizontal' ? 'Horizontal Text' : 'Vertical Text'}
-        </button>
+        </SegmentedTab>
       ))}
-    </div>
+    </SegmentedTabs>
   )
 }
 

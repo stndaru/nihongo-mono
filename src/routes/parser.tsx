@@ -35,6 +35,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { JaText } from '@/components/ui/ja-text'
+import { SegmentedTab, SegmentedTabs } from '@/components/ui/segmented-tabs'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { PosBadge } from '@/components/vocab/PosBadge'
@@ -853,34 +854,22 @@ function ParserPage() {
           {/* direction tabs: two independent features — each keeps its own
               input and result; switching never resets or transfers them */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div
-              role="tablist"
-              aria-label="Translation direction"
-              className="inline-flex rounded-lg border bg-muted/40 p-0.5 text-sm"
-            >
+            <SegmentedTabs aria-label="Translation direction">
               {(
                 [
                   ['ja', 'Japanese → English'],
                   ['en', 'English → Japanese'],
                 ] as const
               ).map(([d, label]) => (
-                <button
+                <SegmentedTab
                   key={d}
-                  role="tab"
-                  type="button"
-                  aria-selected={dir === d}
+                  active={dir === d}
                   onClick={() => setDir(d)}
-                  className={cn(
-                    'rounded-md px-3 py-1.5 transition-colors duration-100',
-                    dir === d
-                      ? 'bg-background font-medium shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
                 >
                   {label}
-                </button>
+                </SegmentedTab>
               ))}
-            </div>
+            </SegmentedTabs>
             {/* the two sticky feature chips live together up here, visible
                 in BOTH input views: Smart Parsing changes how any breakdown
                 parses (scans auto-break-down, so it must stay reachable in
