@@ -39,7 +39,7 @@ export type QuarterTurns = 0 | 1 | 2 | 3
 
 /** Draw `image` rotated by quarter turns into a canvas of w×h (pre-turn). */
 function drawRotated(
-  image: ImageBitmap | HTMLImageElement,
+  image: CanvasImageSource,
   w: number,
   h: number,
   turns: QuarterTurns,
@@ -155,4 +155,20 @@ export async function toImageData(source: Blob): Promise<ImageData> {
   } finally {
     if ('close' in image) image.close() // free the decoded pixels immediately
   }
+}
+
+/** Rotate already-downscaled OCR pixels without another decode/re-encode pass. */
+export function rotateImageData(source: ImageData, turns: QuarterTurns): ImageData {
+  if (turns === 0) return source
+  const input = document.createElement('canvas')
+  input.width = source.width
+  input.height = source.height
+  const inputContext = input.getContext('2d')
+  if (!inputContext) throw new Error('canvas 2d unavailable')
+  inputContext.putImageData(source, 0, 0)
+
+  const output = drawRotated(input, source.width, source.height, turns)
+  const outputContext = output.getContext('2d', { willReadFrequently: true })
+  if (!outputContext) throw new Error('canvas 2d unavailable')
+  return outputContext.getImageData(0, 0, output.width, output.height)
 }

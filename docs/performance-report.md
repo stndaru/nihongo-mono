@@ -148,6 +148,13 @@ during final regression verification. No 4×-CPU/slow-phone certification was
 available, so the mobile target is not claimed. Recognition remains in a worker,
 and the UI stayed responsive during scans.
 
+A follow-up isolated-column accuracy fix keeps narrow `jpn_vert` crops upright
+with PSM 5 and rotates only wider regions. The exact reported crop completed in
+0.570 s in a fresh desktop production-preview context, below the 1 s warm-scan
+ceiling. Wider crops now rotate their already-downscaled `ImageData` in memory,
+removing the previous blob encode/decode pass. Payload and network bytes are
+unchanged.
+
 ## Methodology / reproducing
 
 Production build served with `bunx vite preview --port 4173`; headless

@@ -293,10 +293,13 @@ regardless of host compression config.
   Horizontal/Vertical selector both on the scan surface and in the crop
   dialog. Vertical is separately confirm-gated and lazy-loads `jpn_vert`;
   English stays horizontal-only. The crop dialog also has a collapsed,
-  curated Advanced Settings disclosure: Cropped Text Block maps to PSM 6;
-  upright vertical crops are first rotated counter-clockwise into the line
-  orientation expected by `jpn_vert`. Automatic maps to PSM 3 after the same
-  internal rotation. Advanced
+  curated Advanced Settings disclosure. Cropped Text Block adapts to crop
+  geometry: very tall single-column regions (height at least 4Ã— width) stay
+  upright for native `jpn_vert` PSM 5, while wider/multi-column regions rotate
+  counter-clockwise for PSM 6 and the established reading-order heuristic.
+  Automatic maps to PSM 3 after the same counter-clockwise rotation. The
+  downscaled pixels rotate in memory rather than through a blob re-encode.
+  Advanced
   settings survive rescans of the current image but reset for a new image.
   Engine runtime + SIMD/fallback wasm files are copied to
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
@@ -306,9 +309,10 @@ regardless of host compression config.
   `tessedit_pageseg_mode` after every `loadImage` (which resets it), and
   returns line boxes plus raw text. The `ImageData` is structured-cloned into
   the worker; transferring its backing buffer corrupted pixels in Chromium and
-  must not be reintroduced. Vertical parser input maps the rotated line boxes
-  back to right-to-left/top-to-bottom order and heuristically removes small adjacent
-  furigana runs; Review last scan deliberately retains unfiltered engine text.
+  must not be reintroduced. Vertical parser input maps multi-column rotated line
+  boxes back to right-to-left/top-to-bottom order (single native columns retain
+  their sole engine line) and heuristically removes small adjacent furigana runs;
+  Review last scan deliberately retains unfiltered engine text.
   Recognized text is filtered to the active tab's charset (JA
   additionally drops ALL whitespace — Tesseract's spurious CJK gaps),
   lands in the textarea, and auto-commits to `?q=`/`?en=` when it fits

@@ -152,6 +152,10 @@ Playwright gotchas learned the hard way:
   Keep OCR `ImageData` structured-cloned into the app worker: explicitly
   transferring its backing buffer produced valid-looking dimensions but
   corrupted recognition in Chromium (decision 75).
+  Do not force every `jpn_vert` crop through one orientation/page mode:
+  `lib/ocr/scan-plan.ts` keeps very tall single columns upright with PSM 5 and
+  rotates wider multi-column crops for PSM 6. Keep its geometry tests and pair
+  changes with both narrow-column and multi-column production-preview OCR checks.
 - **Offline access & the service worker** (decision 72): `public/sw.js`
   is registered only when a user enables the Settings download — never
   assume a SW exists. Every `cache.match` there uses

@@ -1569,8 +1569,8 @@ feedback on many of these — treat them as requirements, not suggestions.
       paired measurement. Production ships only the winner—no duplicate
       fallback payload—and removes Tesseract only after every gate passes.
 
-75. **Cropped vertical Japanese OCR uses explicit direction, rotated `jpn_vert`,
-    and an app-owned worker, 2026-08-09** (owner feature request and ship decision after research +
+75. **Cropped vertical Japanese OCR uses explicit direction, geometry-aware
+    `jpn_vert`, and an app-owned worker, 2026-08-09** (owner feature request and ship decision after research +
     grilling). This is one user-selected logical region per scan—a speech
     balloon or narration box—not automatic whole-page manga OCR. Multiple
     columns inside that crop are ordered right-to-left/top-to-bottom. Stylized
@@ -1586,9 +1586,10 @@ feedback on many of these — treat them as requirements, not suggestions.
       app-owned module worker now wraps low-level `OCREngine`, loads the same
       pinned runtime/WASM, and sets `tessedit_pageseg_mode` after every
       `loadImage` because that call resets it. Cropped Text Block (the default)
-      maps to PSM 6. Upright vertical crops are internally rotated
-      counter-clockwise into the horizontal line orientation used to train
-      `jpn_vert`; Automatic maps to PSM 3 after the same rotation.
+      is geometry-aware: a very tall single column (height at least 4Ã— width)
+      remains upright with native vertical-block PSM 5, while wider regions
+      rotate counter-clockwise for PSM 6. Automatic maps to PSM 3 after the
+      same rotation used by the wider path.
       Those curated Advanced Settings persist only for the current image and
       its rescans. Direction remains outside the disclosure and persists across
       restarts.
@@ -1617,6 +1618,17 @@ feedback on many of these — treat them as requirements, not suggestions.
       this browser harness, so mobile certification is not claimed. Treat the
       small corpus and variable real-world OCR accuracy as accepted limitations,
       not evidence that whole-page manga OCR is supported.
+    - A reported isolated-column failure returned plausible but unrelated text
+      even though the preview was clear. A deterministic production-preview
+      repro found that blanket rotation + PSM 6 was the cause: padding,
+      automatic layout, 2Ã—/3Ã— scaling, and rotated single-line PSM 7 did not
+      recover the crop. Native upright PSM 5 read the reported column exactly,
+      but applying it globally regressed one character in the wider two-column
+      narration. `getOcrScanPlan` therefore selects the native path only for the
+      narrow geometry and preserves the established rotated path elsewhere.
+      The reported column, full narration, and synthetic two-column fixture all
+      then produced exact raw and parser text. The narrow fresh-context scan was
+      0.570 s in the desktop production preview; no asset or dependency changed.
     - Final 390 px verification with all three font-size settings at Largest
       exposed a pre-existing 4 px header overflow: rem-scaled phone padding plus
       the icon controls exceeded the scrollbar-adjusted viewport. The phone

@@ -24,8 +24,8 @@ export interface OcrRecognitionResult {
 }
 
 export interface OcrRecognitionOptions {
-  /** Tesseract PSM 3 = automatic, 6 = one uniform block. */
-  pageSegmentationMode: 3 | 6
+  /** Tesseract PSM 3 = automatic, 5 = vertical block, 6 = uniform block. */
+  pageSegmentationMode: 3 | 5 | 6
 }
 
 export interface OcrClient {

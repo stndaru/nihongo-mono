@@ -44,7 +44,14 @@ import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
 import { verticalTextForParsing } from '@/lib/ocr/layout'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
-import { cropToBlob, rotateToBlob, toImageData, type QuarterTurns } from '@/lib/ocr/preprocess'
+import {
+  cropToBlob,
+  rotateImageData,
+  rotateToBlob,
+  toImageData,
+  type QuarterTurns,
+} from '@/lib/ocr/preprocess'
+import { getOcrScanPlan } from '@/lib/ocr/scan-plan'
 import type { OcrDirection, OcrLayout, OcrModel } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
@@ -233,18 +240,23 @@ export default function OcrPanel({
           if (alive()) setStatus({ phase: 'model', done, total })
         })
         let image: ImageData
+        let pageSegmentationMode: 3 | 5 | 6
         try {
-          const recognitionSource =
-            options.direction === 'vertical' ? await rotateToBlob(source, 3) : source
-          image = await toImageData(recognitionSource)
+          const upright = await toImageData(source)
+          const plan = getOcrScanPlan(
+            options.direction,
+            options.layout,
+            upright.width,
+            upright.height,
+          )
+          image = rotateImageData(upright, plan.turns)
+          pageSegmentationMode = plan.pageSegmentationMode
         } catch {
           if (alive()) setStatus({ phase: 'error', kind: 'decode' })
           return
         }
         if (!alive()) return
         setStatus({ phase: 'recognizing', previewUrl, progress: 0 })
-        const pageSegmentationMode =
-          options.layout === 'auto' ? 3 : 6
         const result = await client.recognize(image, { pageSegmentationMode }, (progress) => {
           if (alive()) {
             setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))

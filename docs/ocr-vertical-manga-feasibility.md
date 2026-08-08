@@ -5,12 +5,13 @@ Date: 2026-08-09
 Status: implemented for one user-cropped region; whole-page manga OCR remains out of scope
 
 Implementation outcome: the app-owned low-level worker was required as
-anticipated, but this wrapper's reliable `jpn_vert` path rotates an upright crop
-counter-clockwise and recognizes the resulting rows with PSM 6. PSM 5 on the
-upright crop produced poor text in the paired fixtures. Final production-preview
-verification returned exact parser text for the original clean two-column
-fixture and the supplied tightly cropped narration box; this small result does
-not establish general manga accuracy.
+anticipated. The reliable `jpn_vert` path is geometry-aware: very tall isolated
+columns stay upright with PSM 5, while wider/multi-column crops rotate
+counter-clockwise and use PSM 6. Applying either path universally regressed the
+other crop shape. Final production-preview verification returned exact raw and
+parser text for the reported narrow column, the wider supplied narration box,
+and the clean two-column fixture; this small result does not establish general
+manga accuracy.
 
 ## Executive conclusion
 
