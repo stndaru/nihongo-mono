@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { excludeVerticalFurigana, verticalTextForParsing } from './layout'
+import {
+  excludeVerticalFurigana,
+  horizontalTextForParsing,
+  verticalTextForParsing,
+} from './layout'
 import type { OcrTextItem } from './types'
 
 const line = (text: string, left: number, top: number, right: number, bottom: number): OcrTextItem => ({
@@ -34,5 +38,27 @@ describe('vertical OCR layout', () => {
 
   it('falls back when no Japanese line boxes survive', () => {
     expect(verticalTextForParsing([line('123', 0, 0, 10, 20)], 'それは')).toBe('それは')
+  })
+})
+
+describe('horizontal OCR layout', () => {
+  it('drops a zero-confidence badge glyph between sentence punctuation and a Latin label', () => {
+    const sentence = line('日本語です。', 10, 10, 100, 30)
+    const badgeGlyph = { ...line('価', 110, 10, 125, 30), confidence: 0 }
+    const badgeLabel = { ...line('Wikipedia', 130, 12, 190, 28), confidence: 0.36 }
+
+    expect(horizontalTextForParsing([sentence, badgeGlyph, badgeLabel], '')).toBe(
+      '日本語です。Wikipedia',
+    )
+  })
+
+  it('keeps an uncertain Japanese word without adjacent badge evidence', () => {
+    const uncertain = { ...line('日本語', 10, 10, 70, 30), confidence: 0 }
+
+    expect(horizontalTextForParsing([uncertain], '')).toBe('日本語')
+  })
+
+  it('falls back when no word boxes are available', () => {
+    expect(horizontalTextForParsing([], '日本語です。')).toBe('日本語です。')
   })
 })

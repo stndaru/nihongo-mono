@@ -15,12 +15,91 @@ const MINIMUM_CENTER_LIGHT_SHARE = 0.55
 const MINIMUM_INK_COMPONENT_AREA = 30
 const MAXIMUM_INK_COMPONENT_AREA = 100_000
 const CONTENT_PADDING = 8
+const MINIMUM_DARK_BACKGROUND_SHARE = 0.6
+const MAXIMUM_LIGHT_FOREGROUND_SHARE = 0.35
+const MINIMUM_LIGHT_FOREGROUND_SHARE = 0.005
+const MAXIMUM_DARK_MEAN = 110
+const MINIMUM_LIGHT_MEAN = 135
+const MINIMUM_DARK_LIGHT_CONTRAST = 60
 
 const compositedLuminance = (data: Uint8ClampedArray, offset: number) => {
   const luminance =
     (data[offset] * 299 + data[offset + 1] * 587 + data[offset + 2] * 114) / 1000
   const alpha = data[offset + 3] / 255
   return 255 - alpha * (255 - luminance)
+}
+
+/**
+ * Convert minority light lettering on a predominantly dark surface into the
+ * black-on-white polarity expected by the Japanese model. Otsu's threshold is
+ * derived from the crop itself, which keeps coloured link text without a fixed
+ * colour assumption. Conventional light crops and balanced photos are returned
+ * by identity so their established OCR path is unchanged.
+ */
+export function normalizeDarkText(source: ImageData): ImageData {
+  const { data, width, height } = source
+  const pixelCount = width * height
+  if (pixelCount < 16) return source
+
+  const histogram = new Uint32Array(256)
+  let weightedTotal = 0
+  for (let offset = 0; offset < data.length; offset += 4) {
+    const luminance = Math.round(compositedLuminance(data, offset))
+    histogram[luminance] += 1
+    weightedTotal += luminance
+  }
+
+  let darkCount = 0
+  let darkWeighted = 0
+  let bestVariance = -1
+  let threshold = 0
+  for (let value = 0; value < histogram.length; value += 1) {
+    darkCount += histogram[value]
+    darkWeighted += value * histogram[value]
+    const lightCount = pixelCount - darkCount
+    if (darkCount === 0 || lightCount === 0) continue
+    const darkMean = darkWeighted / darkCount
+    const lightMean = (weightedTotal - darkWeighted) / lightCount
+    const variance = darkCount * lightCount * (darkMean - lightMean) ** 2
+    if (variance > bestVariance) {
+      bestVariance = variance
+      threshold = value
+    }
+  }
+
+  darkCount = 0
+  darkWeighted = 0
+  for (let value = 0; value <= threshold; value += 1) {
+    darkCount += histogram[value]
+    darkWeighted += value * histogram[value]
+  }
+  const lightCount = pixelCount - darkCount
+  if (darkCount === 0 || lightCount === 0) return source
+  const darkShare = darkCount / pixelCount
+  const lightShare = lightCount / pixelCount
+  const darkMean = darkWeighted / darkCount
+  const lightMean = (weightedTotal - darkWeighted) / lightCount
+  if (
+    darkShare < MINIMUM_DARK_BACKGROUND_SHARE ||
+    lightShare < MINIMUM_LIGHT_FOREGROUND_SHARE ||
+    lightShare > MAXIMUM_LIGHT_FOREGROUND_SHARE ||
+    darkMean > MAXIMUM_DARK_MEAN ||
+    lightMean < MINIMUM_LIGHT_MEAN ||
+    lightMean - darkMean < MINIMUM_DARK_LIGHT_CONTRAST
+  ) {
+    return source
+  }
+
+  const output = new Uint8ClampedArray(data.length)
+  for (let offset = 0; offset < data.length; offset += 4) {
+    const value = compositedLuminance(data, offset) > threshold ? 0 : 255
+    output[offset] = value
+    output[offset + 1] = value
+    output[offset + 2] = value
+    output[offset + 3] = 255
+  }
+  if (typeof ImageData === 'function') return new ImageData(output, width, height)
+  return { data: output, width, height, colorSpace: source.colorSpace } as ImageData
 }
 
 /**

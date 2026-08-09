@@ -21,6 +21,14 @@ const horizontalOverlap = (a: OcrTextItem, b: OcrTextItem) => {
 const verticalGap = (a: OcrTextItem, b: OcrTextItem) =>
   Math.max(0, Math.max(a.rect.top, b.rect.top) - Math.min(a.rect.bottom, b.rect.bottom))
 
+const verticalOverlap = (a: OcrTextItem, b: OcrTextItem) => {
+  const overlap = Math.max(0, Math.min(a.rect.bottom, b.rect.bottom) - Math.max(a.rect.top, b.rect.top))
+  return overlap / Math.min(height(a), height(b))
+}
+
+const horizontalGap = (left: OcrTextItem, right: OcrTextItem) =>
+  Math.max(0, right.rect.left - left.rect.right)
+
 /**
  * The worker rotates upright vertical text counter-clockwise before recognition,
  * making columns horizontal rows and furigana a smaller adjacent row. Only
@@ -45,4 +53,32 @@ export function verticalTextForParsing(lines: OcrTextItem[], fallback: string): 
     .map((line) => line.text.trim())
     .filter(Boolean)
   return ordered.length > 0 ? ordered.join('') : fallback
+}
+
+const isBadgeGlyph = (words: OcrTextItem[], index: number) => {
+  const candidate = words[index]
+  const previous = words[index - 1]
+  const next = words[index + 1]
+  if (!previous || !next) return false
+  return (
+    candidate.confidence <= 0.05 &&
+    japaneseCharacters(candidate.text) === 1 &&
+    /[。！？!?]\s*$/u.test(previous.text) &&
+    japaneseCharacters(next.text) === 0 &&
+    next.confidence < 0.7 &&
+    horizontalGap(previous, candidate) <= height(candidate) * 1.5 &&
+    horizontalGap(candidate, next) <= height(candidate) &&
+    verticalOverlap(previous, candidate) >= 0.5 &&
+    verticalOverlap(candidate, next) >= 0.5
+  )
+}
+
+/** Rebuild horizontal text while excluding a tiny icon fused to a trailing brand badge. */
+export function horizontalTextForParsing(words: OcrTextItem[], fallback: string): string {
+  const text = words
+    .filter((_, index) => !isBadgeGlyph(words, index))
+    .map((word) => word.text.trim())
+    .filter(Boolean)
+    .join('')
+  return text || fallback
 }

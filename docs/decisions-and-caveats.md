@@ -1660,6 +1660,33 @@ feedback on many of these — treat them as requirements, not suggestions.
       header now uses the existing `px-4` spacing at every breakpoint; 390 and
       768 px checks report document width no greater than viewport width.
 
+76. **Horizontal OCR normalizes proven dark-background text without changing
+    the light-image path, 2026-08-09** (owner-reported accuracy regression).
+    The reported crop was a dark app card with white and blue Japanese text plus
+    a small Wikipedia badge. Two deterministic production-preview runs produced
+    the same corrupt opening clause at 0.613-0.651 s. Polarity inversion did not
+    recover it; 2x scaling was less accurate and exceeded the 1 s warm target;
+    automatic PSM was both inaccurate and slower. A grayscale cutoff recovered
+    the sentence, identifying contrast segmentation—not the `jpn` model or the
+    vertical feature—as the failing boundary.
+    - Horizontal crops now use a per-image Otsu threshold only when histogram
+      checks prove a dominant dark background, minority light foreground, and
+      sufficient separation. The light foreground is converted to black ink on
+      white. Conventional light images and balanced photos return by identity,
+      preserving the prior pixel path.
+    - The badge icon was recognized as a zero-confidence kanji fused into the
+      real second line. Horizontal Japanese scans therefore request cached word
+      boxes after recognition and exclude that glyph only when punctuation,
+      confidence, adjacency, vertical overlap, and a following low-confidence
+      Latin label all corroborate badge geometry. Raw Review text remains the
+      unfiltered engine output; uncertain Japanese without that evidence stays.
+      Vertical and English scans do not request word boxes.
+    - The exact reported sentence passed twice at 0.640 s and 0.771 s, the clean
+      light horizontal fixture passed at 0.582 s, and the established vertical
+      fixture passed at 0.671 s. All remain below the 1 s warm-scan ceiling.
+      No model, dependency, request, or OCR asset changed; the lazy UI and worker
+      together grew approximately 0.5 kB gzip.
+
 ## Known limitations / accepted trade-offs
 
 - **Beyond browsing is capped**: only the top 1,000 extended matches render

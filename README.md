@@ -84,7 +84,9 @@ Drive (browser ↔ Google directly; see `docs/google-drive-setup.md`).
   one-time, confirm-gated) swaps the input box for an on-device image
   scanner — paste an image from the clipboard, upload a file, or take a
   photo with a live camera viewfinder, then crop away everything but the
-  text. Japanese scans can switch between Horizontal and Vertical; Vertical
+  text. Horizontal scans automatically normalize clear light text on dark
+  app/site screenshots while leaving conventional light backgrounds unchanged.
+  Japanese scans can switch between Horizontal and Vertical; Vertical
   lazy-loads a separate ~1.9 MB model and is intended for one tightly cropped
   manga balloon or narration box, including multiple right-to-left columns.
   It does not detect whole-page manga regions, stylized sound effects remain

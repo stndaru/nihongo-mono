@@ -317,13 +317,19 @@ regardless of host compression config.
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
   jpn/jpn_vert/eng tessdata_fast models are pre-gzipped and **committed** under
   `public/ocr/models/`, fetched per active mode with byte progress.
+  Horizontal crops whose luminance histogram proves a dominant dark background
+  with minority light lettering are Otsu-binarized to black-on-white before the
+  worker; ordinary light crops and balanced photos keep their original pixels.
   An app-owned module worker wraps low-level `OCREngine`, sets
   `tessedit_pageseg_mode` after every `loadImage` (which resets it), and
-  returns line boxes plus raw text. The `ImageData` is structured-cloned into
+  returns line boxes plus raw text, and returns word boxes only for horizontal
+  Japanese scans that need badge-noise filtering. The `ImageData` is structured-cloned into
   the worker; transferring its backing buffer corrupted pixels in Chromium and
   must not be reintroduced. Vertical parser input maps multi-column rotated line
   boxes back to right-to-left/top-to-bottom order (single native columns retain
   their sole engine line) and heuristically removes small adjacent furigana runs;
+  horizontal parser input uses word geometry to remove only a zero-confidence
+  icon fused between terminal punctuation and a low-confidence Latin badge;
   Review last scan deliberately retains unfiltered engine text.
   Recognized text is filtered to the active tab's charset (JA
   additionally drops ALL whitespace — Tesseract's spurious CJK gaps),

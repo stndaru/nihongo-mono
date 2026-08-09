@@ -21,11 +21,14 @@ export interface OcrTextItem {
 export interface OcrRecognitionResult {
   raw: string
   lines: OcrTextItem[]
+  words: OcrTextItem[]
 }
 
 export interface OcrRecognitionOptions {
   /** Tesseract PSM 3 = automatic, 5 = vertical block, 6 = uniform block. */
   pageSegmentationMode: 3 | 5 | 6
+  /** Word boxes are optional because vertical parsing only needs line boxes. */
+  includeWordBoxes?: boolean
 }
 
 export interface OcrClient {

@@ -42,10 +42,11 @@ import {
 import { SegmentedTab, SegmentedTabs } from '@/components/ui/segmented-tabs'
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
-import { verticalTextForParsing } from '@/lib/ocr/layout'
+import { horizontalTextForParsing, verticalTextForParsing } from '@/lib/ocr/layout'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
 import {
   cropToBlob,
+  normalizeDarkText,
   rotateImageData,
   rotateToBlob,
   trimLightMargins,
@@ -258,7 +259,9 @@ export default function OcrPanel({
             upright.width,
             upright.height,
           )
-          image = rotateImageData(upright, plan.turns)
+          const normalized =
+            options.direction === 'horizontal' ? normalizeDarkText(upright) : upright
+          image = rotateImageData(normalized, plan.turns)
           pageSegmentationMode = plan.pageSegmentationMode
         } catch {
           if (alive()) setStatus({ phase: 'error', kind: 'decode' })
@@ -266,17 +269,26 @@ export default function OcrPanel({
         }
         if (!alive()) return
         setStatus({ phase: 'recognizing', previewUrl, progress: 0 })
-        const result = await client.recognize(image, { pageSegmentationMode }, (progress) => {
-          if (alive()) {
-            setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))
-          }
-        })
+        const result = await client.recognize(
+          image,
+          {
+            pageSegmentationMode,
+            includeWordBoxes: dir === 'ja' && options.direction === 'horizontal',
+          },
+          (progress) => {
+            if (alive()) {
+              setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))
+            }
+          },
+        )
         const raw = result.raw
         if (!alive()) return // panel unmounted mid-recognition — drop the result
         setLastScan({ blob: source, url: previewUrl, raw, options })
         const parserText =
-          dir === 'ja' && options.direction === 'vertical'
-            ? verticalTextForParsing(result.lines, raw)
+          dir === 'ja'
+            ? options.direction === 'vertical'
+              ? verticalTextForParsing(result.lines, raw)
+              : horizontalTextForParsing(result.words, raw)
             : raw
         const clean = dir === 'en' ? cleanOcrEnglish(parserText) : cleanOcrJapanese(parserText)
         const outcome = onText(clean)

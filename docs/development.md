@@ -159,9 +159,17 @@ Playwright gotchas learned the hard way:
   The same plan gates light-margin preprocessing to vertical block crops at
   least 2.5 times as tall as wide: `trimLightMargins` ignores edge-connected
   bubble outlines and small screentone/dust components, but deliberately leaves
-  wider, dark-centered, automatic-layout, and horizontal inputs untouched. Always
+  wider, dark-centered, and automatic-layout vertical inputs untouched.
+  Horizontal crops separately run `normalizeDarkText`, which must return the
+  original object for conventional light backgrounds and only binarize proven
+  dark-background/light-lettering crops. Always pair threshold changes with the
+  clean light horizontal fixture and a dark screenshot containing coloured text. Always
   retain exact checks for the reported two-column speech bubble, a tall isolated
   column, and a clean wider two-column fixture when adjusting these thresholds.
+  Horizontal Japanese recognition conditionally returns word boxes; do not make
+  that payload unconditional. Its badge-noise filter requires punctuation,
+  confidence, adjacency, overlap, and a following Latin token so uncertain real
+  Japanese text is preserved.
   Keep the OCR action controls on the shared 28 px/`text-xs` visual contract:
   compact direction tabs, Paste/Open, and crop Rotate match the parser's Smart
   Parsing/Scan Image chips. The main mobile source row still fills its two

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { trimLightMargins } from './preprocess'
+import { normalizeDarkText, trimLightMargins } from './preprocess'
 
 const image = (width: number, height: number, fill: number): ImageData => {
   const data = new Uint8ClampedArray(width * height * 4)
@@ -81,5 +81,27 @@ describe('trimLightMargins', () => {
     fillRect(source, 50, 100, 51, 101, 0)
 
     expect(trimLightMargins(source)).toBe(source)
+  })
+})
+
+describe('normalizeDarkText', () => {
+  it('turns minority light lettering on a dark background into dark ink on white', () => {
+    const source = image(20, 10, 36)
+    fillRect(source, 4, 2, 6, 8, 245)
+    fillRect(source, 10, 2, 12, 8, 150)
+
+    const normalized = normalizeDarkText(source)
+
+    expect(normalized).not.toBe(source)
+    expect(normalized.data[0]).toBe(255)
+    expect(normalized.data[(2 * normalized.width + 4) * 4]).toBe(0)
+    expect(normalized.data[(2 * normalized.width + 10) * 4]).toBe(0)
+  })
+
+  it('leaves conventional dark text on a light background unchanged', () => {
+    const source = image(20, 10, 250)
+    fillRect(source, 4, 2, 6, 8, 20)
+
+    expect(normalizeDarkText(source)).toBe(source)
   })
 })

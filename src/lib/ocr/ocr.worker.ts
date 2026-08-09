@@ -77,8 +77,9 @@ async function handle(request: OcrWorkerRequest): Promise<void> {
     const progress = (value: number) =>
       send({ id: request.id, type: 'progress', progress: value })
     const lines = engine.getTextBoxes('line', progress)
+    const words = request.options.includeWordBoxes ? engine.getTextBoxes('word') : []
     const raw = engine.getText()
-    send({ id: request.id, type: 'result', result: { raw, lines } })
+    send({ id: request.id, type: 'result', result: { raw, lines, words } })
   } finally {
     engine.clearImage()
   }
