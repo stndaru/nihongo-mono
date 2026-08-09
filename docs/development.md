@@ -156,6 +156,12 @@ Playwright gotchas learned the hard way:
   `lib/ocr/scan-plan.ts` keeps very tall single columns upright with PSM 5 and
   rotates wider multi-column crops for PSM 6. Keep its geometry tests and pair
   changes with both narrow-column and multi-column production-preview OCR checks.
+  The same plan gates light-margin preprocessing to vertical block crops at
+  least 2.5 times as tall as wide: `trimLightMargins` ignores edge-connected
+  bubble outlines and small screentone/dust components, but deliberately leaves
+  wider, dark-centered, automatic-layout, and horizontal inputs untouched. Always
+  retain exact checks for the reported two-column speech bubble, a tall isolated
+  column, and a clean wider two-column fixture when adjusting these thresholds.
 - **Offline access & the service worker** (decision 72): `public/sw.js`
   is registered only when a user enables the Settings download — never
   assume a SW exists. Every `cache.match` there uses

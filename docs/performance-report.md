@@ -155,6 +155,18 @@ ceiling. Wider crops now rotate their already-downscaled `ImageData` in memory,
 removing the previous blob encode/decode pass. Payload and network bytes are
 unchanged.
 
+A second reported two-column speech-bubble crop exposed a different failure:
+the high-resolution crop's white interior, edge-connected outline, and
+screentone corners made PSM 6 discard most text. Narrow vertical block crops now
+derive padded text bounds before the existing rotation, while wider/noisy/dark
+inputs bypass the pass. Strict production-preview checks recorded 0.620-0.649 s
+for the reported bubble, isolated column, and clean synthetic two-column cases,
+all exact and below the 1 s desktop warm-scan ceiling. The pass adds no request,
+model, dependency, or offline asset; the already-lazy OcrPanel chunk increased
+from 12.98 to 13.76 kB gzip (+0.78 kB), while the initial app chunk and the
+1.94 MiB `jpn_vert` download remain effectively unchanged and within their
+existing gates.
+
 ## Methodology / reproducing
 
 Production build served with `bunx vite preview --port 4173`; headless

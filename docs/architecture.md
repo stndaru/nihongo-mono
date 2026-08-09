@@ -294,13 +294,21 @@ regardless of host compression config.
   dialog. Vertical is separately confirm-gated and lazy-loads `jpn_vert`;
   English stays horizontal-only. The crop dialog also has a collapsed,
   curated Advanced Settings disclosure. Cropped Text Block adapts to crop
-  geometry: very tall single-column regions (height at least 4Ã— width) stay
-  upright for native `jpn_vert` PSM 5, while wider/multi-column regions rotate
+  geometry. Tall/narrow block crops (height at least 2.5 times width) with a
+  predominantly light center first derive padded text bounds from substantial
+  dark components; components connected to the crop edge (speech-bubble
+  outlines) and small screentone/dust components do not define those bounds.
+  Wider blocks, Automatic layout, dark-centered crops, and ambiguous images
+  keep their original pixels. Very tall single-column regions (height at least
+  4 times width) stay upright for native `jpn_vert` PSM 5, while
+  wider/multi-column regions rotate
   counter-clockwise for PSM 6 and the established reading-order heuristic.
   Automatic maps to PSM 3 after the same counter-clockwise rotation. The
   downscaled pixels rotate in memory rather than through a blob re-encode.
-  Advanced
-  settings survive rescans of the current image but reset for a new image.
+  Advanced settings survive rescans of the current image but reset for a new
+  image. The compact direction tabs use the shared segmented-tab component but
+  keep intrinsic, non-wrapping labels on desktop; on phones the source buttons
+  share one full-width row and the direction tabs fill the following row.
   Engine runtime + SIMD/fallback wasm files are copied to
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
   jpn/jpn_vert/eng tessdata_fast models are pre-gzipped and **committed** under

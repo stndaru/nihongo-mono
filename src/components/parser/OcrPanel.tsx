@@ -48,10 +48,11 @@ import {
   cropToBlob,
   rotateImageData,
   rotateToBlob,
+  trimLightMargins,
   toImageData,
   type QuarterTurns,
 } from '@/lib/ocr/preprocess'
-import { getOcrScanPlan } from '@/lib/ocr/scan-plan'
+import { getOcrScanPlan, shouldTrimLightMargins } from '@/lib/ocr/scan-plan'
 import type { OcrDirection, OcrLayout, OcrModel } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
@@ -242,7 +243,15 @@ export default function OcrPanel({
         let image: ImageData
         let pageSegmentationMode: 3 | 5 | 6
         try {
-          const upright = await toImageData(source)
+          const decoded = await toImageData(source)
+          const upright = shouldTrimLightMargins(
+            options.direction,
+            options.layout,
+            decoded.width,
+            decoded.height,
+          )
+            ? trimLightMargins(decoded)
+            : decoded
           const plan = getOcrScanPlan(
             options.direction,
             options.layout,
@@ -439,7 +448,7 @@ export default function OcrPanel({
               value={effectiveDirection}
               onChange={chooseDirection}
               disabled={scanning}
-              className="order-last col-span-2 w-full sm:order-first sm:w-auto"
+              className="order-last col-span-2 w-full sm:order-first sm:w-fit sm:shrink-0"
             />
           )}
           <Button

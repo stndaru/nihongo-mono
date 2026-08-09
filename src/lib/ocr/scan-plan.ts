@@ -2,10 +2,25 @@ import type { OcrDirection, OcrLayout, OcrRecognitionOptions } from './types'
 import type { QuarterTurns } from './preprocess'
 
 const SINGLE_VERTICAL_COLUMN_RATIO = 4
+const NARROW_VERTICAL_MARGIN_TRIM_RATIO = 2.5
 
 export interface OcrScanPlan {
   turns: QuarterTurns
   pageSegmentationMode: OcrRecognitionOptions['pageSegmentationMode']
+}
+
+/** Only narrow vertical blocks benefit from removing speech-bubble whitespace. */
+export function shouldTrimLightMargins(
+  direction: OcrDirection,
+  layout: OcrLayout,
+  width: number,
+  height: number,
+): boolean {
+  return (
+    direction === 'vertical' &&
+    layout === 'block' &&
+    height / Math.max(1, width) >= NARROW_VERTICAL_MARGIN_TRIM_RATIO
+  )
 }
 
 /**

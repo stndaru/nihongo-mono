@@ -1629,6 +1629,22 @@ feedback on many of these — treat them as requirements, not suggestions.
       The reported column, full narration, and synthetic two-column fixture all
       then produced exact raw and parser text. The narrow fresh-context scan was
       0.570 s in the desktop production preview; no asset or dependency changed.
+    - A later reported two-column speech-bubble crop failed for a separate
+      reason: the higher-resolution input included generous white space, a
+      bubble outline connected to the crop edge, and small screentone clusters.
+      The existing rotated PSM 6 returned only a fragment; forcing native PSM 5
+      returned nothing. Tightening the same source crop recovered the complete
+      `君のことが好きみたいなんだ`, proving margin segmentation, not the
+      `jpn_vert` model or reading-order filter, was the failing boundary.
+      Vertical Cropped Text Blocks at least 2.5 times as tall as wide now derive
+      padded bounds from substantial dark components when the center is
+      predominantly light; edge-connected outlines and tiny screentone/dust
+      components are ignored.
+      Wider blocks and dark/ambiguous regions bypass preprocessing so the known
+      wider path is not changed. Two exact runs of the reported bubble plus the
+      isolated-column and clean synthetic two-column fixtures passed at
+      0.620-0.649 s. There is no new request/model/dependency; the lazy OcrPanel
+      grew 0.78 kB gzip, within the existing payload gates.
     - Final 390 px verification with all three font-size settings at Largest
       exposed a pre-existing 4 px header overflow: rem-scaled phone padding plus
       the icon controls exceeded the scrollbar-adjusted viewport. The phone

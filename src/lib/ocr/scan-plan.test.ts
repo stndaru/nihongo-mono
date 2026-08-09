@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getOcrScanPlan } from './scan-plan'
+import { getOcrScanPlan, shouldTrimLightMargins } from './scan-plan'
 
 describe('getOcrScanPlan', () => {
   it('keeps a tall isolated vertical column upright with vertical-block segmentation', () => {
@@ -28,5 +28,20 @@ describe('getOcrScanPlan', () => {
       turns: 0,
       pageSegmentationMode: 6,
     })
+  })
+})
+
+describe('shouldTrimLightMargins', () => {
+  it('trims a tall narrow speech-bubble crop', () => {
+    expect(shouldTrimLightMargins('vertical', 'block', 145, 390)).toBe(true)
+  })
+
+  it('preserves a wider multi-column narration crop', () => {
+    expect(shouldTrimLightMargins('vertical', 'block', 234, 510)).toBe(false)
+  })
+
+  it('does not alter automatic or horizontal scans', () => {
+    expect(shouldTrimLightMargins('vertical', 'auto', 145, 390)).toBe(false)
+    expect(shouldTrimLightMargins('horizontal', 'block', 145, 390)).toBe(false)
   })
 })

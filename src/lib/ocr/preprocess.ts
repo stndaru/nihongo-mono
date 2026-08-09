@@ -9,6 +9,121 @@
  * caller maps that to its decode-error state.
  */
 const MAX_SIDE = 2000
+const LIGHT_BACKGROUND_THRESHOLD = 240
+const DARK_INK_THRESHOLD = 200
+const MINIMUM_CENTER_LIGHT_SHARE = 0.55
+const MINIMUM_INK_COMPONENT_AREA = 30
+const MAXIMUM_INK_COMPONENT_AREA = 100_000
+const CONTENT_PADDING = 8
+
+const compositedLuminance = (data: Uint8ClampedArray, offset: number) => {
+  const luminance =
+    (data[offset] * 299 + data[offset + 1] * 587 + data[offset + 2] * 114) / 1000
+  const alpha = data[offset + 3] / 255
+  return 255 - alpha * (255 - luminance)
+}
+
+/**
+ * Remove generous white/near-white margins around a cropped text block.
+ * Tesseract's block segmentation can discard a small two-column region when
+ * whitespace dominates the crop. We only trim light-centered regions, so
+ * photos and dark balloons keep their pixels unchanged. Dark components that
+ * touch the crop edge (speech-bubble outlines) and tiny components (screentone
+ * dots or dust) do not define the text bounds. Padding leaves Tesseract
+ * breathing room around the detected ink.
+ */
+export function trimLightMargins(source: ImageData): ImageData {
+  const { data, width, height } = source
+  if (width < 3 || height < 3) return source
+
+  const centerLeft = Math.floor(width * 0.2)
+  const centerRight = Math.ceil(width * 0.8)
+  const centerTop = Math.floor(height * 0.2)
+  const centerBottom = Math.ceil(height * 0.8)
+  let centerPixels = 0
+  let lightCenterPixels = 0
+  for (let y = centerTop; y < centerBottom; y += 1) {
+    for (let x = centerLeft; x < centerRight; x += 1) {
+      centerPixels += 1
+      if (compositedLuminance(data, (y * width + x) * 4) >= LIGHT_BACKGROUND_THRESHOLD) {
+        lightCenterPixels += 1
+      }
+    }
+  }
+  if (lightCenterPixels / centerPixels < MINIMUM_CENTER_LIGHT_SHARE) return source
+
+  const rowInk = new Uint32Array(height)
+  const columnInk = new Uint32Array(width)
+  const dark = new Uint8Array(width * height)
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (compositedLuminance(data, (y * width + x) * 4) <= DARK_INK_THRESHOLD) {
+        dark[y * width + x] = 1
+      }
+    }
+  }
+
+  const visited = new Uint8Array(dark.length)
+  const neighbours = [-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1]
+  for (let start = 0; start < dark.length; start += 1) {
+    if (dark[start] === 0 || visited[start] === 1) continue
+    const component = [start]
+    visited[start] = 1
+    let touchesEdge = false
+    for (let cursor = 0; cursor < component.length; cursor += 1) {
+      if (component.length > MAXIMUM_INK_COMPONENT_AREA) return source
+      const index = component[cursor]
+      const x = index % width
+      const y = Math.floor(index / width)
+      if (x === 0 || x === width - 1 || y === 0 || y === height - 1) touchesEdge = true
+      for (const delta of neighbours) {
+        const next = index + delta
+        if (next < 0 || next >= dark.length || dark[next] === 0 || visited[next] === 1) continue
+        const nextX = next % width
+        if (Math.abs(nextX - x) > 1) continue
+        visited[next] = 1
+        component.push(next)
+      }
+    }
+    if (touchesEdge || component.length < MINIMUM_INK_COMPONENT_AREA) continue
+    for (const index of component) {
+      const x = index % width
+      const y = Math.floor(index / width)
+      rowInk[y] += 1
+      columnInk[x] += 1
+    }
+  }
+
+  const minimumRowInk = Math.max(2, Math.ceil(width * 0.015))
+  const minimumColumnInk = Math.max(2, Math.ceil(height * 0.005))
+  const firstRow = rowInk.findIndex((count) => count >= minimumRowInk)
+  const firstColumn = columnInk.findIndex((count) => count >= minimumColumnInk)
+  if (firstRow < 0 || firstColumn < 0) return source
+
+  let lastRow = height - 1
+  while (lastRow > firstRow && rowInk[lastRow] < minimumRowInk) lastRow -= 1
+  let lastColumn = width - 1
+  while (lastColumn > firstColumn && columnInk[lastColumn] < minimumColumnInk) lastColumn -= 1
+
+  const top = Math.max(0, firstRow - CONTENT_PADDING)
+  const bottom = Math.min(height, lastRow + CONTENT_PADDING + 1)
+  const left = Math.max(0, firstColumn - CONTENT_PADDING)
+  const right = Math.min(width, lastColumn + CONTENT_PADDING + 1)
+  const outputWidth = right - left
+  const outputHeight = bottom - top
+  if (outputWidth >= width - 2 && outputHeight >= height - 2) return source
+
+  const output = new Uint8ClampedArray(outputWidth * outputHeight * 4)
+  for (let y = 0; y < outputHeight; y += 1) {
+    const sourceOffset = ((top + y) * width + left) * 4
+    const targetOffset = y * outputWidth * 4
+    output.set(data.subarray(sourceOffset, sourceOffset + outputWidth * 4), targetOffset)
+  }
+  if (typeof ImageData === 'function') {
+    return new ImageData(output, outputWidth, outputHeight)
+  }
+  return { data: output, width: outputWidth, height: outputHeight, colorSpace: source.colorSpace } as ImageData
+}
 
 async function decode(source: Blob): Promise<ImageBitmap | HTMLImageElement> {
   if (typeof createImageBitmap === 'function') {
