@@ -278,7 +278,7 @@ regardless of host compression config.
   consent-dialog + sticky-key pattern (`nihongo-mono:parser-ocr`), then
   **swaps the input view** — the scan surface replaces the textarea
   (never both; the counter/Break Down row hides with it). The panel —
-  one lazy chunk holding tesseract-wasm and all OCR code — offers
+  one lazy chunk holding the OCR UI and bridge code — offers
   clipboard paste (button where `clipboard.read()` exists, Ctrl+V
   listener while visible), file upload, and a live camera viewfinder
   (native-camera `capture` input fallback, disabled-with-reason last
@@ -289,10 +289,42 @@ regardless of host compression config.
   a **crop dialog** first (skippable via the sticky "Crop before
   scanning" checkbox) where it can also be **rotated** in 90° steps —
   rotation + crop are baked from the original blob at full resolution in
-  one canvas pass before the OCR sees it. Engine files are copied to
+  one canvas pass before the OCR sees it. Japanese mode exposes a persistent
+  Horizontal/Vertical selector both on the scan surface and in the crop
+  dialog. Vertical is separately confirm-gated and lazy-loads `jpn_vert`;
+  English stays horizontal-only. The crop dialog also has a collapsed,
+  curated Advanced Settings disclosure. Cropped Text Block adapts to crop
+  geometry. Tall/narrow block crops (height at least 2.5 times width) with a
+  predominantly light center first derive padded text bounds from substantial
+  dark components; components connected to the crop edge (speech-bubble
+  outlines) and small screentone/dust components do not define those bounds.
+  Wider blocks, Automatic layout, dark-centered crops, and ambiguous images
+  keep their original pixels. Very tall single-column regions (height at least
+  4 times width) stay upright for native `jpn_vert` PSM 5, while
+  wider/multi-column regions rotate
+  counter-clockwise for PSM 6 and the established reading-order heuristic.
+  Automatic maps to PSM 3 after the same counter-clockwise rotation. The
+  downscaled pixels rotate in memory rather than through a blob re-encode.
+  Advanced settings survive rescans of the current image but reset for a new
+  image. The compact direction tabs use the shared segmented-tab component but
+  use the same 28 px height, `text-xs`, and medium weight as the Smart Parsing,
+  Scan Image, Paste Image, and Open Camera actions. They keep intrinsic,
+  non-wrapping labels on desktop; on phones the source buttons share one
+  full-width row and the direction tabs fill the following row. In the crop
+  dialog the direction tabs remain fit-content beside the same-height Rotate
+  action rather than occupying a separate full-width row.
+  Engine runtime + SIMD/fallback wasm files are copied to
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
-  jpn/eng tessdata_fast models are pre-gzipped and **committed** under
-  `public/ocr/models/`, fetched per active tab with byte progress.
+  jpn/jpn_vert/eng tessdata_fast models are pre-gzipped and **committed** under
+  `public/ocr/models/`, fetched per active mode with byte progress.
+  An app-owned module worker wraps low-level `OCREngine`, sets
+  `tessedit_pageseg_mode` after every `loadImage` (which resets it), and
+  returns line boxes plus raw text. The `ImageData` is structured-cloned into
+  the worker; transferring its backing buffer corrupted pixels in Chromium and
+  must not be reintroduced. Vertical parser input maps multi-column rotated line
+  boxes back to right-to-left/top-to-bottom order (single native columns retain
+  their sole engine line) and heuristically removes small adjacent furigana runs;
+  Review last scan deliberately retains unfiltered engine text.
   Recognized text is filtered to the active tab's charset (JA
   additionally drops ALL whitespace — Tesseract's spurious CJK gaps),
   lands in the textarea, and auto-commits to `?q=`/`?en=` when it fits
@@ -948,7 +980,10 @@ toggles) · `parser-smart` (sticky Smart Parsing opt-in; the pre-rename
 `parser-accurate` key is still read as a fallback) · `parser-ocr`
 (sticky Scan Image opt-in — non-null means the OCR download was
 announced once) · `parser-ocr-crop` (Scan Image "crop before scanning"
-preference; `'0'` skips the crop dialog) · `palette-ext` (sticky
+preference; `'0'` skips the crop dialog) · `parser-ocr-direction`
+(last Japanese Horizontal/Vertical choice) · `parser-ocr-vertical`
+(non-null means the separate vertical-model download was announced) ·
+`palette-ext` (sticky
 "Include Full Dictionary" palette opt-in) · `drive-sync:v1` (Google Drive
 link state: folder/file ids, lastSyncedAt, decisionPending — NEVER a
 token) · `drive-sync:base:v1` (the last-synced progress snapshot, the

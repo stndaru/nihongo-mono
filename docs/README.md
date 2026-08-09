@@ -13,6 +13,8 @@ at the repo root. Read in this order:
 | [decisions-and-caveats.md](decisions-and-caveats.md) | Why things are the way they are: user-set conventions, bugs already fixed once (don't reintroduce them), known limitations, planned work |
 | [google-drive-setup.md](google-drive-setup.md) | Owner-side Google Cloud console steps for the optional Drive sync (OAuth consent screen, drive.file scope, client ID, authorized origins, env wiring per host) + the real-account manual test checklist |
 | [performance-report.md](performance-report.md) | Dated, measured proof of lightweightness: per-action wire bytes across a 38-action full-feature tour, worst-case spikes, heap/RAM, long tasks — plus addenda: 2026-07-09 parser re-audit (micro-benchmarks, transition-rendered results), 2026-07-10 Grammar Points network audit (per-level gz sizes, chip gating, ~0 repeats), and a 2026-07-11 full sweep after OCR/negative-te/Drive sync (clean bill, cheatsheet mount trim, sync's ~1.5 kB main-bundle cost). Re-measure and update after big data or route changes |
+| [ocr-ppocrv3-feasibility.md](ocr-ppocrv3-feasibility.md) | 2026-07-19 research and exploratory paired benchmark for a possible Tesseract-to-PP-OCRv3 browser migration: exact model/runtime bytes, Japanese/English accuracy evidence, PaddleOCR.js/ONNX feasibility, licensing, risks, and decision gates |
+| [ocr-vertical-manga-feasibility.md](ocr-vertical-manga-feasibility.md) | 2026-08-09 research behind cropped vertical Japanese OCR: current Tesseract constraints, `jpn_vert`/PSM feasibility, manga-specific and cloud alternatives, payload/privacy trade-offs, and the boundary between one-region scanning and whole-page manga OCR |
 
 ## What this project is
 

@@ -35,6 +35,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { JaText } from '@/components/ui/ja-text'
+import { SegmentedTab, SegmentedTabs } from '@/components/ui/segmented-tabs'
 import { Furigana } from '@/components/verbs/Furigana'
 import { LevelBadge } from '@/components/verbs/VerbBadges'
 import { PosBadge } from '@/components/vocab/PosBadge'
@@ -787,11 +788,7 @@ function ParserPage() {
         <div>
           <h1 className="text-2xl font-semibold">Sentence Parser</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Paste a Japanese sentence — or, on the English tab, English text to
-            machine-translate first — and break it down into the words it&apos;s
-            built from — verbs (conjugated ones included), nouns, adjectives,
-            adverbs, and more. Hover a highlighted word for a quick summary;
-            click it for the full detail page.
+            Paste a Japanese sentence, or English text to translate, and see it broken down word by word. Hover for a quick explanation, or click a word for more details.
           </p>
         </div>
 
@@ -853,34 +850,22 @@ function ParserPage() {
           {/* direction tabs: two independent features — each keeps its own
               input and result; switching never resets or transfers them */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div
-              role="tablist"
-              aria-label="Translation direction"
-              className="inline-flex rounded-lg border bg-muted/40 p-0.5 text-sm"
-            >
+            <SegmentedTabs aria-label="Translation direction">
               {(
                 [
                   ['ja', 'Japanese → English'],
                   ['en', 'English → Japanese'],
                 ] as const
               ).map(([d, label]) => (
-                <button
+                <SegmentedTab
                   key={d}
-                  role="tab"
-                  type="button"
-                  aria-selected={dir === d}
+                  active={dir === d}
                   onClick={() => setDir(d)}
-                  className={cn(
-                    'rounded-md px-3 py-1.5 transition-colors duration-100',
-                    dir === d
-                      ? 'bg-background font-medium shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
                 >
                   {label}
-                </button>
+                </SegmentedTab>
               ))}
-            </div>
+            </SegmentedTabs>
             {/* the two sticky feature chips live together up here, visible
                 in BOTH input views: Smart Parsing changes how any breakdown
                 parses (scans auto-break-down, so it must stay reachable in
@@ -915,7 +900,7 @@ function ParserPage() {
           </div>
           {dir === 'en' && (
             <p className="text-xs text-muted-foreground">
-              English input only — the sentence is machine-translated to Japanese,
+              English input only. The sentence is machine-translated to Japanese,
               then broken down.
             </p>
           )}
@@ -960,7 +945,7 @@ function ParserPage() {
               )}
               {dir === 'en' && enBlocked && (
                 <span className="text-destructive">
-                  Non-English characters were removed — this side accepts English
+                  Non-English characters were removed. This mode accepts English
                   only.{' '}
                 </span>
               )}
@@ -1080,7 +1065,7 @@ function ParserPage() {
                 />
               </div>
               <p className="mb-3 text-xs text-muted-foreground">
-                Dotted words are recognized — hover for a quick look, click for a
+                Dotted words are recognized. Hover for a quick look, click for a
                 summary popup. Latin text stays visible in gray but is not analyzed.
               </p>
               <p className="rounded-lg border p-4 text-2xl/loose">
@@ -1133,7 +1118,7 @@ function ParserPage() {
               </h2>
               {words.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  Nothing recognized — the sentence may use words outside the JLPT
+                  Nothing recognized. The sentence may use words outside the JLPT
                   lists, or an unusual spelling.
                 </p>
               ) : (
@@ -1253,7 +1238,9 @@ function ParserPage() {
               <p className="mt-1 text-xs text-muted-foreground">
                 The Tesseract OCR engine (~1.8&nbsp;MB) plus the active
                 tab&apos;s recognition model (Japanese ~1.5&nbsp;MB / English
-                ~2&nbsp;MB), cached by your browser afterwards.
+                ~2&nbsp;MB), cached by your browser afterwards. Vertical
+                Japanese is an optional separate ~1.9&nbsp;MB model, confirmed
+                only when selected.
               </p>
             </div>
             <p className="flex items-center gap-2 text-xs text-muted-foreground">

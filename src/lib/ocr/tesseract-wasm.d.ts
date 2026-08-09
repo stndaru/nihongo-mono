@@ -24,4 +24,34 @@ declare module 'tesseract-wasm' {
     clearImage(): Promise<void>
     getText(onProgress?: ProgressListener): Promise<string>
   }
+
+  export interface OcrRect {
+    left: number
+    top: number
+    right: number
+    bottom: number
+  }
+
+  export interface TextItem {
+    rect: OcrRect
+    flags: number
+    confidence: number
+    text: string
+  }
+
+  export class OCREngine {
+    destroy(): void
+    setVariable(name: string, value: string): void
+    loadModel(model: Uint8Array | ArrayBuffer): void
+    loadImage(image: ImageBitmap | ImageData): void
+    clearImage(): void
+    getTextBoxes(unit: 'line' | 'word', onProgress?: ProgressListener): TextItem[]
+    getText(onProgress?: ProgressListener): string
+  }
+
+  export function supportsFastBuild(): boolean
+  export function createOCREngine(options?: {
+    wasmBinary?: Uint8Array | ArrayBuffer
+    progressChannel?: MessagePort
+  }): Promise<OCREngine>
 }

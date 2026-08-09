@@ -139,11 +139,33 @@ Playwright gotchas learned the hard way:
   notice, but still). The deep kuromoji imports are pinned in
   `vite.config.ts` `optimizeDeps.include`.
 - `public/ocr/engine/` is likewise **gitignored** — `scripts/copy-tesseract.ts`
-  (same `dev`/`build` chains) copies the tesseract-wasm worker + wasm from
-  node_modules. A deploy built without it breaks the parser's Scan Image
+  (same `dev`/`build` chains) copies the pinned tesseract-wasm `lib.js` runtime
+  plus SIMD/fallback wasm from node_modules. The app-owned TypeScript module
+  worker is bundled normally; the old package worker must not be copied or the
+  build silently carries an unused ~93 KB asset. A deploy built without the
+  copied runtime breaks the parser's Scan Image
   panel (its engine-error state explains and retries, but still). The
   committed halves live next to it: `public/ocr/models/*.traineddata.gz`
-  and `public/ocr/NOTICE.md`.
+  (`jpn`, `jpn_vert`, `eng`) and `public/ocr/NOTICE.md`. Keep models gzip
+  compressed, sourced from the pinned official tessdata_fast repository, and
+  update the notice whenever the set changes.
+  Keep OCR `ImageData` structured-cloned into the app worker: explicitly
+  transferring its backing buffer produced valid-looking dimensions but
+  corrupted recognition in Chromium (decision 75).
+  Do not force every `jpn_vert` crop through one orientation/page mode:
+  `lib/ocr/scan-plan.ts` keeps very tall single columns upright with PSM 5 and
+  rotates wider multi-column crops for PSM 6. Keep its geometry tests and pair
+  changes with both narrow-column and multi-column production-preview OCR checks.
+  The same plan gates light-margin preprocessing to vertical block crops at
+  least 2.5 times as tall as wide: `trimLightMargins` ignores edge-connected
+  bubble outlines and small screentone/dust components, but deliberately leaves
+  wider, dark-centered, automatic-layout, and horizontal inputs untouched. Always
+  retain exact checks for the reported two-column speech bubble, a tall isolated
+  column, and a clean wider two-column fixture when adjusting these thresholds.
+  Keep the OCR action controls on the shared 28 px/`text-xs` visual contract:
+  compact direction tabs, Paste/Open, and crop Rotate match the parser's Smart
+  Parsing/Scan Image chips. The main mobile source row still fills its two
+  columns, while the crop dialog's direction tabs stay fit-content beside Rotate.
 - **Offline access & the service worker** (decision 72): `public/sw.js`
   is registered only when a user enables the Settings download — never
   assume a SW exists. Every `cache.match` there uses

@@ -76,8 +76,7 @@ function Dashboard() {
           mono
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          A fast little verb dictionary and conjugation trainer. No login — your
-          progress lives in this browser.
+          A fast and serverless Japanese learning companion.
         </p>
       </div>
 

@@ -1,6 +1,6 @@
 /**
- * The parser's "Scan Image" surface — lazy-loaded (with tesseract-wasm and
- * the whole OCR pipeline) only after the user opts in. Three ways in: paste
+ * The parser's "Scan Image" surface — lazy-loaded with the OCR bridge and
+ * crop UI only after the user opts in. Three ways in: paste
  * an image (button or Ctrl+V anywhere while open), upload a file, or a live
  * camera viewfinder (falling back to the native camera app, then to a
  * deliberate disabled state). The recognized text is cleaned for the active
@@ -39,11 +39,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { SegmentedTab, SegmentedTabs } from '@/components/ui/segmented-tabs'
 import { MAX_EN_SENTENCE_LEN, MAX_SENTENCE_LEN } from '@/lib/data/parse-sentence'
 import { loadOcr, ocrReady } from '@/lib/ocr/engine'
+import { verticalTextForParsing } from '@/lib/ocr/layout'
 import { cleanOcrEnglish, cleanOcrJapanese, type OcrOutcome } from '@/lib/ocr/postprocess'
-import { cropToBlob, rotateToBlob, toImageData, type QuarterTurns } from '@/lib/ocr/preprocess'
-import type { OcrLang } from '@/lib/ocr/types'
+import {
+  cropToBlob,
+  rotateImageData,
+  rotateToBlob,
+  trimLightMargins,
+  toImageData,
+  type QuarterTurns,
+} from '@/lib/ocr/preprocess'
+import { getOcrScanPlan, shouldTrimLightMargins } from '@/lib/ocr/scan-plan'
+import type { OcrDirection, OcrLayout, OcrModel } from '@/lib/ocr/types'
 import { cn } from '@/lib/utils'
 
 type OcrStatus =
@@ -82,6 +92,14 @@ let cameraDeniedThisSession = false
 
 /** sticky "crop before scanning" preference — '0' skips the crop dialog */
 const CROP_KEY = 'nihongo-mono:parser-ocr-crop'
+const DIRECTION_KEY = 'nihongo-mono:parser-ocr-direction'
+const VERTICAL_CONSENT_KEY = 'nihongo-mono:parser-ocr-vertical'
+const VERTICAL_MODEL_BYTES = 2_033_120
+
+interface ScanOptions {
+  direction: OcrDirection
+  layout: OcrLayout
+}
 
 const MB = (bytes: number) => (bytes / 1048576).toFixed(1)
 
@@ -105,9 +123,16 @@ export default function OcrPanel({
   onUseRaw: (raw: string) => void
   onClose: () => void
 }) {
-  const lang: OcrLang = dir === 'en' ? 'eng' : 'jpn'
+  const [direction, setDirection] = useState<OcrDirection>(() =>
+    localStorage.getItem(DIRECTION_KEY) === 'vertical' ? 'vertical' : 'horizontal',
+  )
+  const [verticalConfirmOpen, setVerticalConfirmOpen] = useState(false)
+  const effectiveDirection: OcrDirection = dir === 'en' ? 'horizontal' : direction
+  const model: OcrModel =
+    dir === 'en' ? 'eng' : effectiveDirection === 'vertical' ? 'jpn_vert' : 'jpn'
   const maxLen = dir === 'en' ? MAX_EN_SENTENCE_LEN : MAX_SENTENCE_LEN
   const langLabel = dir === 'en' ? 'English' : 'Japanese'
+  const modelLabel = model === 'jpn_vert' ? 'Vertical Japanese' : langLabel
 
   const [status, setStatus] = useState<OcrStatus>({ phase: 'idle' })
   const [scanning, setScanning] = useState(false)
@@ -117,16 +142,22 @@ export default function OcrPanel({
   // the single image slot: each scan overwrites it (blob + image + the raw
   // OCR output before filtering), reviewable via the accordion below — the
   // blob stays so the stored scan can be re-cropped
-  const [lastScan, setLastScan] = useState<{ blob: Blob; url: string; raw: string } | null>(
-    null,
-  )
+  const [lastScan, setLastScan] = useState<{
+    blob: Blob
+    url: string
+    raw: string
+    options: ScanOptions
+  } | null>(null)
   const [reviewOpen, setReviewOpen] = useState(false)
   // every acquired image stops here first: the crop dialog lets the user
   // cut away distractions before the OCR sees it (owner requirement).
   // `rescan` marks a re-crop of the stored scan — it overwrites the slot.
-  const [pending, setPending] = useState<{ blob: Blob; url: string; rescan: boolean } | null>(
-    null,
-  )
+  const [pending, setPending] = useState<{
+    blob: Blob
+    url: string
+    rescan: boolean
+    layout: OcrLayout
+  } | null>(null)
   // sticky preference: skip the crop dialog entirely when unchecked
   const [cropFirst, setCropFirst] = useState(() => localStorage.getItem(CROP_KEY) !== '0')
   const toggleCropFirst = () =>
@@ -141,6 +172,22 @@ export default function OcrPanel({
   const uploadRef = useRef<HTMLInputElement>(null)
   const captureRef = useRef<HTMLInputElement>(null)
 
+  const chooseDirection = (next: OcrDirection) => {
+    if (next === 'vertical' && localStorage.getItem(VERTICAL_CONSENT_KEY) === null) {
+      setVerticalConfirmOpen(true)
+      return
+    }
+    localStorage.setItem(DIRECTION_KEY, next)
+    setDirection(next)
+  }
+
+  const confirmVertical = () => {
+    localStorage.setItem(VERTICAL_CONSENT_KEY, '1')
+    localStorage.setItem(DIRECTION_KEY, 'vertical')
+    setDirection('vertical')
+    setVerticalConfirmOpen(false)
+  }
+
   const dropPreview = () => {
     if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
     previewUrlRef.current = null
@@ -151,8 +198,8 @@ export default function OcrPanel({
   // first scan doesn't stack waits
   useEffect(() => {
     let live = true
-    if (!ocrReady()) setStatus({ phase: 'engine' })
-    loadOcr(lang, (done, total) => {
+    if (!ocrReady(model)) setStatus({ phase: 'engine' })
+    loadOcr(model, (done, total) => {
       if (live && !busyRef.current) setStatus({ phase: 'model', done, total })
     })
       .then(() => {
@@ -165,7 +212,7 @@ export default function OcrPanel({
     return () => {
       live = false
     }
-  }, [lang])
+  }, [model])
 
   // stale-result guard + object-URL cleanup when the panel unmounts
   useEffect(
@@ -177,7 +224,7 @@ export default function OcrPanel({
   )
 
   const scan = useCallback(
-    async (source: Blob) => {
+    async (source: Blob, options: ScanOptions) => {
       if (busyRef.current) return
       busyRef.current = true
       setScanning(true)
@@ -187,28 +234,51 @@ export default function OcrPanel({
       setLastScan(null)
       const previewUrl = URL.createObjectURL(source)
       previewUrlRef.current = previewUrl
+      const activeModel: OcrModel =
+        dir === 'en' ? 'eng' : options.direction === 'vertical' ? 'jpn_vert' : 'jpn'
       try {
-        const client = await loadOcr(lang, (done, total) => {
+        const client = await loadOcr(activeModel, (done, total) => {
           if (alive()) setStatus({ phase: 'model', done, total })
         })
         let image: ImageData
+        let pageSegmentationMode: 3 | 5 | 6
         try {
-          image = await toImageData(source)
+          const decoded = await toImageData(source)
+          const upright = shouldTrimLightMargins(
+            options.direction,
+            options.layout,
+            decoded.width,
+            decoded.height,
+          )
+            ? trimLightMargins(decoded)
+            : decoded
+          const plan = getOcrScanPlan(
+            options.direction,
+            options.layout,
+            upright.width,
+            upright.height,
+          )
+          image = rotateImageData(upright, plan.turns)
+          pageSegmentationMode = plan.pageSegmentationMode
         } catch {
           if (alive()) setStatus({ phase: 'error', kind: 'decode' })
           return
         }
         if (!alive()) return
         setStatus({ phase: 'recognizing', previewUrl, progress: 0 })
-        await client.loadImage(image)
-        const raw = await client.getText((progress) => {
+        const result = await client.recognize(image, { pageSegmentationMode }, (progress) => {
           if (alive()) {
             setStatus((s) => (s.phase === 'recognizing' ? { ...s, progress } : s))
           }
         })
+        const raw = result.raw
         if (!alive()) return // panel unmounted mid-recognition — drop the result
-        setLastScan({ blob: source, url: previewUrl, raw })
-        const clean = dir === 'en' ? cleanOcrEnglish(raw) : cleanOcrJapanese(raw)
+        setLastScan({ blob: source, url: previewUrl, raw, options })
+        const parserText =
+          dir === 'ja' && options.direction === 'vertical'
+            ? verticalTextForParsing(result.lines, raw)
+            : raw
+        const clean = dir === 'en' ? cleanOcrEnglish(parserText) : cleanOcrJapanese(parserText)
         const outcome = onText(clean)
         setStatus(
           outcome === 'commit'
@@ -219,14 +289,14 @@ export default function OcrPanel({
         )
       } catch {
         if (alive()) {
-          setStatus({ phase: 'error', kind: ocrReady() ? 'recognize' : 'engine' })
+          setStatus({ phase: 'error', kind: ocrReady(activeModel) ? 'recognize' : 'engine' })
         }
       } finally {
         busyRef.current = false
         if (alive()) setScanning(false)
       }
     },
-    [dir, lang, onText],
+    [dir, onText],
   )
 
   /**
@@ -237,16 +307,17 @@ export default function OcrPanel({
    * is revoked by the effect below.
    */
   const beginCrop = useCallback(
-    (blob: Blob, opts?: { rescan?: boolean }) => {
+    (blob: Blob, opts?: { rescan?: boolean; layout?: OcrLayout }) => {
       if (busyRef.current) return
       const rescan = opts?.rescan ?? false
+      const layout = opts?.layout ?? 'block'
       if (!rescan && !cropFirst) {
-        void scan(blob)
+        void scan(blob, { direction: effectiveDirection, layout })
         return
       }
-      setPending({ blob, url: URL.createObjectURL(blob), rescan })
+      setPending({ blob, url: URL.createObjectURL(blob), rescan, layout })
     },
-    [cropFirst, scan],
+    [cropFirst, effectiveDirection, scan],
   )
 
   // revoke each parked image's URL when it's replaced or on unmount
@@ -257,7 +328,7 @@ export default function OcrPanel({
     }
   }, [pending])
 
-  const confirmCrop = async (crop: PercentCrop, turns: QuarterTurns) => {
+  const confirmCrop = async (crop: PercentCrop, turns: QuarterTurns, layout: OcrLayout) => {
     if (!pending) return
     const source = pending.blob
     setPending(null)
@@ -268,7 +339,7 @@ export default function OcrPanel({
       setStatus({ phase: 'error', kind: 'decode' })
       return
     }
-    void scan(cropped)
+    void scan(cropped, { direction: effectiveDirection, layout })
   }
 
   // Ctrl+V works anywhere on the page while the scan view is showing — the
@@ -358,24 +429,35 @@ export default function OcrPanel({
       onDrop={onDrop}
       className="space-y-3 rounded-lg border p-3"
     >
-      {/* on narrow screens the action pair becomes two equal columns under
-          Back to Text — free-wrapping left ragged holes at 390 px */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      {/* Desktop keeps every control in one compact toolbar. On mobile the
+          source buttons share a full-width row and direction gets the next. */}
+      <div className="space-y-2 sm:flex sm:items-center sm:gap-1.5 sm:space-y-0">
         <Button
           variant="ghost"
-          size="sm"
+          size="icon-xs"
           onClick={onClose}
-          title="back to typing (the scanned image is kept)"
-          className="text-muted-foreground"
+          aria-label="Back to Text"
+          title="Back to typing (the scanned image is kept)"
+          className="size-12 text-muted-foreground sm:size-6"
         >
-          <ArrowLeft /> Back to Text
+          <ArrowLeft />
         </Button>
-        <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center">
+        <div className="grid min-w-0 grid-cols-2 gap-2 sm:ml-auto sm:flex sm:items-center sm:gap-1.5">
+          {dir === 'ja' && (
+            <DirectionControl
+              value={effectiveDirection}
+              onChange={chooseDirection}
+              disabled={scanning}
+              className="order-last col-span-2 w-full sm:order-first sm:w-fit sm:shrink-0"
+            />
+          )}
           <Button
             variant="outline"
-            size="sm"
+            size="xs"
             onClick={pasteFromClipboard}
+            aria-label="Paste Image"
             disabled={scanning || !CAN_READ_CLIPBOARD}
+            className="h-7 w-full sm:w-auto"
             title={
               CAN_READ_CLIPBOARD
                 ? 'read an image from the clipboard'
@@ -386,9 +468,11 @@ export default function OcrPanel({
           </Button>
           <Button
             variant="outline"
-            size="sm"
+            size="xs"
             onClick={openCamera}
+            aria-label="Open Camera"
             disabled={scanning || CAMERA === 'none'}
+            className="h-7 w-full sm:w-auto"
             title={
               CAMERA !== 'none'
                 ? 'take a photo of the text'
@@ -441,7 +525,7 @@ export default function OcrPanel({
               {dragOver ? 'Drop to scan' : 'Drop an image here'}
             </span>
             <span className="text-xs text-pretty text-muted-foreground">
-              click to browse · Ctrl+V pastes · {langLabel} text only
+              Click to browse · Ctrl+V pastes · {langLabel} text only
             </span>
           </>
         )}
@@ -449,12 +533,11 @@ export default function OcrPanel({
 
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
         <p className="text-xs text-pretty text-muted-foreground">
-          Best on clear printed text. Furigana can confuse detection — verify
-          in Review last scan.
+          Best on clear printed text. Furigana should be excluded.
         </p>
         <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-muted-foreground">
           <Checkbox checked={cropFirst} onCheckedChange={toggleCropFirst} />
-          Crop before scanning
+          Crop Confirmation
         </label>
       </div>
 
@@ -469,7 +552,7 @@ export default function OcrPanel({
       {status.phase === 'model' && (
         <StatusRow>
           {status.total > 0 ? <ProgressBar value={status.done / status.total} /> : <IndeterminateBar />}
-          Downloading the {langLabel} model…
+          Downloading the {modelLabel} model…
           {status.total > 0 && ` ${MB(status.done)}/${MB(status.total)} MB`} (one-time, cached
           afterwards)
         </StatusRow>
@@ -530,7 +613,12 @@ export default function OcrPanel({
                   size="sm"
                   className="h-6 px-2 text-xs"
                   disabled={scanning}
-                  onClick={() => beginCrop(lastScan.blob, { rescan: true })}
+                  onClick={() =>
+                    beginCrop(lastScan.blob, {
+                      rescan: true,
+                      layout: lastScan.options.layout,
+                    })
+                  }
                   title="crop this image further and scan it again"
                 >
                   <CropIcon className="size-3.5" /> Crop &amp; Rescan
@@ -604,6 +692,9 @@ export default function OcrPanel({
 
       <OcrCropDialog
         pending={pending}
+        direction={effectiveDirection}
+        showDirection={dir === 'ja'}
+        onDirectionChange={chooseDirection}
         onCancel={() => setPending(null)}
         onConfirm={confirmCrop}
         onDecodeError={() => {
@@ -611,7 +702,61 @@ export default function OcrPanel({
           setStatus({ phase: 'error', kind: 'decode' })
         }}
       />
+
+      <Dialog open={verticalConfirmOpen} onOpenChange={setVerticalConfirmOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Enable Vertical Scanning?</DialogTitle>
+            <DialogDescription className="text-pretty">
+              Vertical Japanese uses a separate on-device recognition model.
+              It downloads only after you enable this direction.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="rounded-md border bg-muted/30 p-3">
+            <p className="text-sm font-medium">
+              One-time download: {MB(VERTICAL_MODEL_BYTES)}&nbsp;MB
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Cached by your browser for later scans. Images remain on this device.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setVerticalConfirmOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmVertical}>Download &amp; Enable</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+  )
+}
+
+function DirectionControl({
+  value,
+  onChange,
+  disabled = false,
+  className,
+}: {
+  value: OcrDirection
+  onChange: (direction: OcrDirection) => void
+  disabled?: boolean
+  className?: string
+}) {
+  return (
+    <SegmentedTabs aria-label="Text direction" size="compact" className={className}>
+      {(['horizontal', 'vertical'] as const).map((option) => (
+        <SegmentedTab
+          key={option}
+          active={value === option}
+          disabled={disabled}
+          onClick={() => onChange(option)}
+          className="flex-1"
+        >
+          {option === 'horizontal' ? 'Horizontal Text' : 'Vertical Text'}
+        </SegmentedTab>
+      ))}
+    </SegmentedTabs>
   )
 }
 
@@ -659,17 +804,25 @@ const FULL_CROP: PercentCrop = { unit: '%', x: 0, y: 0, width: 100, height: 100 
  */
 function OcrCropDialog({
   pending,
+  direction,
+  showDirection,
+  onDirectionChange,
   onCancel,
   onConfirm,
   onDecodeError,
 }: {
-  pending: { blob: Blob; url: string; rescan: boolean } | null
+  pending: { blob: Blob; url: string; rescan: boolean; layout: OcrLayout } | null
+  direction: OcrDirection
+  showDirection: boolean
+  onDirectionChange: (direction: OcrDirection) => void
   onCancel: () => void
-  onConfirm: (crop: PercentCrop, turns: QuarterTurns) => void
+  onConfirm: (crop: PercentCrop, turns: QuarterTurns, layout: OcrLayout) => void
   onDecodeError: () => void
 }) {
   const [crop, setCrop] = useState<PercentCrop>(FULL_CROP)
   const [turns, setTurns] = useState<QuarterTurns>(0)
+  const [advancedOpen, setAdvancedOpen] = useState(false)
+  const [layout, setLayout] = useState<OcrLayout>('block')
   // the rotated preview for the current turns, or null while it renders
   // (and always at 0 turns — the original URL is shown as-is)
   const [rotatedUrl, setRotatedUrl] = useState<string | null>(null)
@@ -677,7 +830,9 @@ function OcrCropDialog({
   useEffect(() => {
     setCrop(FULL_CROP)
     setTurns(0)
-  }, [pending?.url])
+    setAdvancedOpen(false)
+    setLayout(pending?.layout ?? 'block')
+  }, [pending?.url, pending?.layout])
 
   const blob = pending?.blob
   useEffect(() => {
@@ -714,11 +869,11 @@ function OcrCropDialog({
       <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CropIcon className="size-4 text-primary" /> Crop Before Scanning
+            <CropIcon className="size-4 text-primary" />{' '}
+            {pending?.rescan ? 'Crop Before Rescan' : 'Crop Before Scanning'}
           </DialogTitle>
           <DialogDescription className="text-pretty">
-            Drag the corners to keep just the text — less clutter scans
-            better. Rotate sideways photos upright first.
+            Drag the corners to crop. Rotate sideways photos upright first.
           </DialogDescription>
         </DialogHeader>
         {/* the height cap lives on ReactCrop's root: its stylesheet gives
@@ -746,18 +901,29 @@ function OcrCropDialog({
           </div>
         )}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={rotating}
-            onClick={() => {
-              setTurns((t) => ((t + 1) % 4) as QuarterTurns)
-              setCrop(FULL_CROP) // axes swap — the old selection is meaningless
-            }}
-            title="rotate the image 90° clockwise"
-          >
-            <RotateCw /> Rotate
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="xs"
+              disabled={rotating}
+              onClick={() => {
+                setTurns((t) => ((t + 1) % 4) as QuarterTurns)
+                setCrop(FULL_CROP) // axes swap — the old selection is meaningless
+              }}
+              className="h-7"
+              title="rotate the image 90° clockwise"
+            >
+              <RotateCw /> Rotate
+            </Button>
+            {showDirection && (
+              <DirectionControl
+                value={direction}
+                onChange={onDirectionChange}
+                disabled={rotating}
+                className="w-fit"
+              />
+            )}
+          </div>
           {turns !== 0 && (
             <span className="text-xs text-muted-foreground">rotated {turns * 90}°</span>
           )}
@@ -767,16 +933,81 @@ function OcrCropDialog({
             </span>
           )}
         </div>
+        <div className="rounded-lg border">
+          <button
+            type="button"
+            aria-expanded={advancedOpen}
+            aria-controls="ocr-advanced-settings"
+            onClick={() => setAdvancedOpen((open) => !open)}
+            className="flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 text-left text-sm font-medium transition-colors duration-100 hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Advanced Settings
+            <ChevronDown
+              className={cn(
+                'size-4 text-muted-foreground transition-transform duration-100',
+                advancedOpen && 'rotate-180',
+              )}
+            />
+          </button>
+          {advancedOpen && (
+            <fieldset id="ocr-advanced-settings" className="space-y-2 border-t p-3">
+              <legend className="sr-only">Advanced OCR settings</legend>
+              <p className="text-sm font-medium">Layout Analysis</p>
+              <div role="radiogroup" aria-label="Layout analysis" className="grid gap-2 sm:grid-cols-2">
+                <LayoutOption
+                  checked={layout === 'block'}
+                  title="Cropped Text Block"
+                  description="Recommended for one text box."
+                  onSelect={() => setLayout('block')}
+                />
+                <LayoutOption
+                  checked={layout === 'auto'}
+                  title="Automatic"
+                  description="Lets the recognizer infer the layout."
+                  onSelect={() => setLayout('auto')}
+                />
+              </div>
+            </fieldset>
+          )}
+        </div>
         <DialogFooter>
           <Button variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button disabled={rotating} onClick={() => onConfirm(crop, turns)}>
+          <Button disabled={rotating} onClick={() => onConfirm(crop, turns, layout)}>
             <ScanText /> Scan
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function LayoutOption({
+  checked,
+  title,
+  description,
+  onSelect,
+}: {
+  checked: boolean
+  title: string
+  description: string
+  onSelect: () => void
+}) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      onClick={onSelect}
+      className={cn(
+        'min-h-16 rounded-md border p-3 text-left transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        checked ? 'border-primary bg-primary/5' : 'hover:bg-muted/40',
+      )}
+    >
+      <span className="block text-sm font-medium">{title}</span>
+      <span className="mt-0.5 block text-xs text-pretty text-muted-foreground">{description}</span>
+    </button>
   )
 }
 
