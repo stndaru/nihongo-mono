@@ -68,7 +68,7 @@ export function TranslationSection({
         <>
           <p className="rounded-lg border p-4 text-base/relaxed">{state.text}</p>
           <p className="mt-2 text-xs text-muted-foreground">
-            Machine translation via {PROVIDER_LABELS[state.provider]} — may be imperfect.
+            Translated using {PROVIDER_LABELS[state.provider]}. Result may be inaccurate.
           </p>
         </>
       )}

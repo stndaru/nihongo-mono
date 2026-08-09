@@ -788,11 +788,7 @@ function ParserPage() {
         <div>
           <h1 className="text-2xl font-semibold">Sentence Parser</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Paste a Japanese sentence — or, on the English tab, English text to
-            machine-translate first — and break it down into the words it&apos;s
-            built from — verbs (conjugated ones included), nouns, adjectives,
-            adverbs, and more. Hover a highlighted word for a quick summary;
-            click it for the full detail page.
+            Paste a Japanese sentence, or English text to translate, and see it broken down word by word. Hover for a quick explanation, or click a word for more details.
           </p>
         </div>
 
@@ -904,7 +900,7 @@ function ParserPage() {
           </div>
           {dir === 'en' && (
             <p className="text-xs text-muted-foreground">
-              English input only — the sentence is machine-translated to Japanese,
+              English input only. The sentence is machine-translated to Japanese,
               then broken down.
             </p>
           )}
@@ -949,7 +945,7 @@ function ParserPage() {
               )}
               {dir === 'en' && enBlocked && (
                 <span className="text-destructive">
-                  Non-English characters were removed — this side accepts English
+                  Non-English characters were removed. This mode accepts English
                   only.{' '}
                 </span>
               )}
@@ -1069,7 +1065,7 @@ function ParserPage() {
                 />
               </div>
               <p className="mb-3 text-xs text-muted-foreground">
-                Dotted words are recognized — hover for a quick look, click for a
+                Dotted words are recognized. Hover for a quick look, click for a
                 summary popup. Latin text stays visible in gray but is not analyzed.
               </p>
               <p className="rounded-lg border p-4 text-2xl/loose">
@@ -1122,7 +1118,7 @@ function ParserPage() {
               </h2>
               {words.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  Nothing recognized — the sentence may use words outside the JLPT
+                  Nothing recognized. The sentence may use words outside the JLPT
                   lists, or an unusual spelling.
                 </p>
               ) : (

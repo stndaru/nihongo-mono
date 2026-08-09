@@ -525,7 +525,7 @@ export default function OcrPanel({
               {dragOver ? 'Drop to scan' : 'Drop an image here'}
             </span>
             <span className="text-xs text-pretty text-muted-foreground">
-              click to browse · Ctrl+V pastes · {langLabel} text only
+              Click to browse · Ctrl+V pastes · {langLabel} text only
             </span>
           </>
         )}
@@ -533,12 +533,11 @@ export default function OcrPanel({
 
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
         <p className="text-xs text-pretty text-muted-foreground">
-          Best on clear printed text. Furigana can confuse detection — verify
-          in Review last scan.
+          Best on clear printed text. Furigana should be excluded.
         </p>
         <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-muted-foreground">
           <Checkbox checked={cropFirst} onCheckedChange={toggleCropFirst} />
-          Crop before scanning
+          Crop Confirmation
         </label>
       </div>
 
@@ -874,8 +873,7 @@ function OcrCropDialog({
             {pending?.rescan ? 'Crop Before Rescan' : 'Crop Before Scanning'}
           </DialogTitle>
           <DialogDescription className="text-pretty">
-            Drag the corners to keep just the text — less clutter scans
-            better. Rotate sideways photos upright first.
+            Drag the corners to crop. Rotate sideways photos upright first.
           </DialogDescription>
         </DialogHeader>
         {/* the height cap lives on ReactCrop's root: its stylesheet gives
@@ -959,7 +957,7 @@ function OcrCropDialog({
                 <LayoutOption
                   checked={layout === 'block'}
                   title="Cropped Text Block"
-                  description="Recommended for one bubble or narration box."
+                  description="Recommended for one text box."
                   onSelect={() => setLayout('block')}
                 />
                 <LayoutOption

@@ -50,12 +50,11 @@ function RootShell() {
       <footer className="border-t py-3">
         <div className="mx-auto flex max-w-5xl flex-col gap-1.5 px-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-4">
           <span>
-            nihongo mono — no account needed, data stays in your browser
-            (optional Drive sync)
+            Nihongo Mono
           </span>
           <span className="flex items-center gap-3">
             <Link to="/about" className="underline-offset-2 hover:underline">
-              About & licences
+              About & Licences
             </Link>
             <a
               href="https://github.com/stndaru/nihongo-mono/"
