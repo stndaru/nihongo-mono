@@ -162,6 +162,10 @@ Playwright gotchas learned the hard way:
   wider, dark-centered, automatic-layout, and horizontal inputs untouched. Always
   retain exact checks for the reported two-column speech bubble, a tall isolated
   column, and a clean wider two-column fixture when adjusting these thresholds.
+  Keep the OCR action controls on the shared 28 px/`text-xs` visual contract:
+  compact direction tabs, Paste/Open, and crop Rotate match the parser's Smart
+  Parsing/Scan Image chips. The main mobile source row still fills its two
+  columns, while the crop dialog's direction tabs stay fit-content beside Rotate.
 - **Offline access & the service worker** (decision 72): `public/sw.js`
   is registered only when a user enables the Settings download — never
   assume a SW exists. Every `cache.match` there uses

@@ -1645,6 +1645,15 @@ feedback on many of these — treat them as requirements, not suggestions.
       isolated-column and clean synthetic two-column fixtures passed at
       0.620-0.649 s. There is no new request/model/dependency; the lazy OcrPanel
       grew 0.78 kB gzip, within the existing payload gates.
+    - OCR control sizing was normalized after another owner visual review. The
+      shared compact segmented-tab variant, Paste Image, Open Camera, and crop
+      Rotate now match the existing Smart Parsing/Scan Image chips at 28 px,
+      `text-xs`, medium weight. Phone source buttons remain equal-width on one
+      row with a full-width direction row below; desktop stays fit-content. In
+      the crop dialog, Rotate and the fit-content direction tabs are an
+      unbreakable same-height group, with status notes free to wrap after them.
+      Largest-font production-preview checks at 390 and 768 px confirmed equal
+      computed heights/typography, zero overflow, and zero browser errors.
     - Final 390 px verification with all three font-size settings at Largest
       exposed a pre-existing 4 px header overflow: rem-scaled phone padding plus
       the icon controls exceeded the scrollbar-adjusted viewport. The phone

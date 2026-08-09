@@ -457,7 +457,7 @@ export default function OcrPanel({
             onClick={pasteFromClipboard}
             aria-label="Paste Image"
             disabled={scanning || !CAN_READ_CLIPBOARD}
-            className="h-12 w-full sm:h-6 sm:w-auto"
+            className="h-7 w-full sm:w-auto"
             title={
               CAN_READ_CLIPBOARD
                 ? 'read an image from the clipboard'
@@ -472,7 +472,7 @@ export default function OcrPanel({
             onClick={openCamera}
             aria-label="Open Camera"
             disabled={scanning || CAMERA === 'none'}
-            className="h-12 w-full sm:h-6 sm:w-auto"
+            className="h-7 w-full sm:w-auto"
             title={
               CAMERA !== 'none'
                 ? 'take a photo of the text'
@@ -903,18 +903,29 @@ function OcrCropDialog({
           </div>
         )}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={rotating}
-            onClick={() => {
-              setTurns((t) => ((t + 1) % 4) as QuarterTurns)
-              setCrop(FULL_CROP) // axes swap — the old selection is meaningless
-            }}
-            title="rotate the image 90° clockwise"
-          >
-            <RotateCw /> Rotate
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="xs"
+              disabled={rotating}
+              onClick={() => {
+                setTurns((t) => ((t + 1) % 4) as QuarterTurns)
+                setCrop(FULL_CROP) // axes swap — the old selection is meaningless
+              }}
+              className="h-7"
+              title="rotate the image 90° clockwise"
+            >
+              <RotateCw /> Rotate
+            </Button>
+            {showDirection && (
+              <DirectionControl
+                value={direction}
+                onChange={onDirectionChange}
+                disabled={rotating}
+                className="w-fit"
+              />
+            )}
+          </div>
           {turns !== 0 && (
             <span className="text-xs text-muted-foreground">rotated {turns * 90}°</span>
           )}
@@ -924,9 +935,6 @@ function OcrCropDialog({
             </span>
           )}
         </div>
-        {showDirection && (
-          <DirectionControl value={direction} onChange={onDirectionChange} disabled={rotating} />
-        )}
         <div className="rounded-lg border">
           <button
             type="button"

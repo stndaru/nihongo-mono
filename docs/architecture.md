@@ -307,8 +307,12 @@ regardless of host compression config.
   downscaled pixels rotate in memory rather than through a blob re-encode.
   Advanced settings survive rescans of the current image but reset for a new
   image. The compact direction tabs use the shared segmented-tab component but
-  keep intrinsic, non-wrapping labels on desktop; on phones the source buttons
-  share one full-width row and the direction tabs fill the following row.
+  use the same 28 px height, `text-xs`, and medium weight as the Smart Parsing,
+  Scan Image, Paste Image, and Open Camera actions. They keep intrinsic,
+  non-wrapping labels on desktop; on phones the source buttons share one
+  full-width row and the direction tabs fill the following row. In the crop
+  dialog the direction tabs remain fit-content beside the same-height Rotate
+  action rather than occupying a separate full-width row.
   Engine runtime + SIMD/fallback wasm files are copied to
   `public/ocr/engine/` (gitignored) by `scripts/copy-tesseract.ts`; the
   jpn/jpn_vert/eng tessdata_fast models are pre-gzipped and **committed** under
